@@ -2,7 +2,7 @@
 
 ## Description
 
-This repository contains app names Sports SAAS
+This repository contains web app named Sports SAAS
 
 ## Usage
 
