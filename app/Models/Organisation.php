@@ -47,7 +47,7 @@ class Organisation extends Model implements HasMedia
         'twilio_secret_id',
         'sms_from',
         'twilio_auth_token',
-
+        'primary_user',
     ];
 
     public function getPhotoAttribute()
