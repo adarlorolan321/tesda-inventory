@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\V1\Admin as Admin;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('v1')->name('api.')->group(function () {
+    Route::post('/login', [Admin\AuthController::class, 'login'])->name('login');
+    Route::post('/register', [Admin\AuthController::class, 'register'])->name('customer.register');
+    Route::apiResources([]);
+});
+
+Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function () {
+    Route::apiResources([
+        'organisation' => Admin\OrganisationController::class,
+    ]);
 });
