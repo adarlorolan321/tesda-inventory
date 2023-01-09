@@ -69,9 +69,10 @@ class VenueController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Venue $venue)
     {
-        //
+        \abort_if(!\auth()->user()->can('show venue'), Response::HTTP_FORBIDDEN, 'Unauthorized');
+        return new VenueResource($venue->load(['organisation']));
     }
 
     /**

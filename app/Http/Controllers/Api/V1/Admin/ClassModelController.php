@@ -94,9 +94,10 @@ class ClassModelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ClassModel $class)
     {
-        //
+        \abort_if(!\auth()->user()->can('show class'), Response::HTTP_FORBIDDEN, 'Unauthorized');
+        return new ClassModelResource($class->load(['organisation', 'service', 'venue', 'coach',]));
     }
 
     /**
