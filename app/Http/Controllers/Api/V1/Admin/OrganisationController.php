@@ -95,6 +95,7 @@ class OrganisationController extends Controller
         $organisation = Organisation::with([])->findOrFail($id);
         return new OrganisationResource($organisation);
     }
+
     public function update(UpdateorganisationRequest $request, $id)
     {
         $organisation = Organisation::findOrFail($id);

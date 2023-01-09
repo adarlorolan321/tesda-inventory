@@ -70,4 +70,14 @@ class Organisation extends Model implements HasMedia
             ->width(1000)
             ->height(250);
     }
+
+    public function services()
+    {
+        return $this->hasMany(Service::class);
+    }
+
+    public function venues()
+    {
+        return $this->hasMany(Venue::class);
+    }
 }
