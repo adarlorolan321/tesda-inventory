@@ -50,6 +50,14 @@ class RolePermissionSeeder extends Seeder
                 'update class',
                 'destroy class',
                 'show class',
+
+                'access session',
+                'create session',
+                'store session',
+                'edit session',
+                'update session',
+                'destroy session',
+                'show session',
             ],
             'OrgAdmin' => [
                 'access organisation',
@@ -60,7 +68,39 @@ class RolePermissionSeeder extends Seeder
                 'delete organisation',
                 'view organisation',
 
-                'legal_edit'
+                'legal_edit',
+
+                'access service',
+                'create service',
+                'store service',
+                'edit service',
+                'update service',
+                'destroy service',
+                'show service',
+
+                'access venue',
+                'create venue',
+                'store venue',
+                'edit venue',
+                'update venue',
+                'destroy venue',
+                'show venue',
+
+                'access class',
+                'create class',
+                'store class',
+                'edit class',
+                'update class',
+                'destroy class',
+                'show class',
+
+                'access session',
+                'create session',
+                'store session',
+                'edit session',
+                'update session',
+                'destroy session',
+                'show session',
             ],
 
             'Coach' => [],

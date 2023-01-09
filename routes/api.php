@@ -26,5 +26,6 @@ Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function ()
         'services' => Admin\ServiceController::class,
         'classes' => Admin\ClassModelController::class,
         'venues' => Admin\VenueController::class,
+        'sessions' => Admin\SessionController::class,
     ]);
 });
