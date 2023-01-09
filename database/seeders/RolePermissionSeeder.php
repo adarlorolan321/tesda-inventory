@@ -42,6 +42,14 @@ class RolePermissionSeeder extends Seeder
                 'update venue',
                 'destroy venue',
                 'show venue',
+
+                'access class',
+                'create class',
+                'store class',
+                'edit class',
+                'update class',
+                'destroy class',
+                'show class',
             ],
             'OrgAdmin' => [
                 'access organisation',

@@ -34,4 +34,24 @@ class ClassModel extends Model
         'enrolments',
         'tags',
     ];
+
+    public function organisation()
+    {
+        return $this->belongsTo(Organisation::class);
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
+
+    public function venue()
+    {
+        return $this->belongsTo(Venue::class);
+    }
+
+    public function coach()
+    {
+        return $this->belongsTo(User::class)->role(['coach', 'Coach']);
+    }
 }
