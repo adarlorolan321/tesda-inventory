@@ -54,4 +54,9 @@ class ClassModel extends Model
     {
         return $this->belongsTo(User::class)->role(['coach', 'Coach']);
     }
+
+    public function sessions()
+    {
+        return $this->hasMany(Session::class);
+    }
 }
