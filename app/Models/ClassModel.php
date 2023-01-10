@@ -35,6 +35,10 @@ class ClassModel extends Model
         'tags',
     ];
 
+    protected $casts = [
+        'days' => 'array',
+    ];
+
     public function organisation()
     {
         return $this->belongsTo(Organisation::class);

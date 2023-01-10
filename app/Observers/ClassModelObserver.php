@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\ClassModel;
 use App\Models\Session;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Support\Str;
 
 class ClassModelObserver
@@ -32,7 +33,7 @@ class ClassModelObserver
             Session::create([
                 'class_id' => $class->id,
                 'date' => $class->start_date,
-                // 'type' => ,
+                'type' => 'course',
                 'start_time' => $class->start_time,
                 'end_time' => $class->end_time,
                 'coach_id' => $class->coach_id,
@@ -41,6 +42,26 @@ class ClassModelObserver
             ]);
         } else {
             $next_date = Carbon::parse($class->start_date)->addWeek();
+
+            $period = CarbonPeriod::create($class->start_date, $class->end_date)->toArray();
+
+            foreach ($period as $carbonDate) {
+                foreach ($class->days as $day) {
+                    $dayFormatted = 'is' . ucfirst($day);
+                    if ($carbonDate->{$dayFormatted}()) {
+                        Session::create([
+                            'class_id' => $class->id,
+                            'date' => $carbonDate->format('Y-m-d'),
+                            'type' => 'course',
+                            'start_time' => $class->start_time,
+                            'end_time' => $class->end_time,
+                            'coach_id' => $class->coach_id,
+                            'additional_coaches' => $class->additional_coach,
+                            'status' => 'active',
+                        ]);
+                    }
+                }
+            }
         }
     }
 

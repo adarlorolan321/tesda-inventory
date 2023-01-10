@@ -28,7 +28,7 @@ class ClassModelFactory extends Factory
             'end_date' => now()->addDays(rand(31, 62))->toDateString(),
             'start_time' => (string) $this->faker->numberBetween(0, 13) . ':' . (string) $this->faker->numberBetween(0, 61),
             'end_time' => (string) $this->faker->numberBetween(0, 13) . ':' . (string) $this->faker->numberBetween(0, 61),
-            'days' => $this->faker->randomElement(['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']),
+            'days' => $this->faker->randomElement(['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']),
             'repeat' => $this->faker->boolean(),
             'capacity' => $this->faker->numberBetween(0, 100),
             'price_type' => $this->faker->randomElement(['full', 'monthly']),
