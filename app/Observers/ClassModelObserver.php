@@ -41,8 +41,6 @@ class ClassModelObserver
                 'status' => 'active',
             ]);
         } else {
-            $next_date = Carbon::parse($class->start_date)->addWeek();
-
             $period = CarbonPeriod::create($class->start_date, $class->end_date)->toArray();
 
             foreach ($period as $carbonDate) {
