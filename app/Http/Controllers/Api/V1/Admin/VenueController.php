@@ -57,10 +57,9 @@ class VenueController extends Controller
 
         $venue = Venue::create($request->validated());
 
-        return new response(
-            new VenueResource($venue),
-            201
-        );
+        return (new VenueResource($venue))
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -88,10 +87,9 @@ class VenueController extends Controller
 
         $venue->update($request->validated());
 
-        return new response(
-            new VenueResource($venue),
-            202
-        );
+        return (new VenueResource($venue))
+            ->response()
+            ->setStatusCode(202);
     }
 
     /**
@@ -106,6 +104,6 @@ class VenueController extends Controller
 
         Venue::destroy($id);
 
-        return new response('venue deleted', 204);
+        return response('venue deleted', 204);
     }
 }

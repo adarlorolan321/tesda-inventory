@@ -82,10 +82,9 @@ class ClassModelController extends Controller
 
         $class = ClassModel::create($request->validated());
 
-        return new response(
-            new ClassModelResource($class),
-            201
-        );
+        return (new ClassModelResource($class))
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -113,10 +112,9 @@ class ClassModelController extends Controller
 
         $class->update($request->validated());
 
-        return new response(
-            new ClassModelResource($class),
-            202
-        );
+        return (new ClassModelResource($class))
+            ->response()
+            ->setStatusCode(202);
     }
 
     /**

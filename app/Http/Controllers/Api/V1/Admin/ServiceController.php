@@ -52,10 +52,9 @@ class ServiceController extends Controller
 
         $service = Service::create($request->validated());
 
-        return new response(
-            new ServiceResource($service),
-            201
-        );
+        return (new ServiceResource($service))
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -83,10 +82,9 @@ class ServiceController extends Controller
 
         $service->update($request->validated());
 
-        return new response(
-            new ServiceResource($service),
-            202
-        );
+        return (new ServiceResource($service))
+            ->response()
+            ->setStatusCode(202);
     }
 
     /**
@@ -101,6 +99,6 @@ class ServiceController extends Controller
 
         Service::destroy($id);
 
-        return new response('Service deleted', 204);
+        return response('Service deleted', 204);
     }
 }
