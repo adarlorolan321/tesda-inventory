@@ -54,11 +54,11 @@ class OrganisationController extends Controller
         //     ->setStatusCode(201);
     }
 
-    public function destroy($id)
+    public function destroy(Organisation $organisation)
     {
         if (!auth()->user()->can('delete organisation')) return abort(401);
 
-        Organisation::findOrFail($id)->delete();
+        $organisation->delete();
 
         return response('Organisation Deleted', 204);
     }
@@ -87,18 +87,17 @@ class OrganisationController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function show($id)
+    public function show(Organisation $organisation)
     {
         if (!auth()->user()->can('view organisation')) {
             return abort(401);
         }
-        $organisation = Organisation::with([])->findOrFail($id);
+
         return new OrganisationResource($organisation);
     }
 
-    public function update(UpdateorganisationRequest $request, $id)
+    public function update(UpdateorganisationRequest $request, Organisation $organisation)
     {
-        $organisation = Organisation::findOrFail($id);
         $organisation->update($request->validated());
 
         if ($request->hasFile('image')) {

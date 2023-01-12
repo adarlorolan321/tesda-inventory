@@ -98,11 +98,11 @@ class VenueController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Venue $venue)
     {
         \abort_if(!\auth()->user()->can('destroy venue'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
-        Venue::destroy($id);
+        $venue->delete();
 
         return response('venue deleted', 204);
     }

@@ -58,6 +58,14 @@ class RolePermissionSeeder extends Seeder
                 'update session',
                 'destroy session',
                 'show session',
+
+                'access student',
+                'create student',
+                'store student',
+                'edit student',
+                'update student',
+                'destroy student',
+                'show student',
             ],
             'OrgAdmin' => [
                 'access organisation',
@@ -101,11 +109,20 @@ class RolePermissionSeeder extends Seeder
                 'update session',
                 'destroy session',
                 'show session',
+
+                'access student',
+                'create student',
+                'store student',
+                'edit student',
+                'update student',
+                'destroy student',
+                'show student',
             ],
 
             'Coach' => [],
-
             'Client' => [],
+            'Parent' => [],
+            'Student' => [],
         ];
 
         foreach ($roles as $role => $permissions) {

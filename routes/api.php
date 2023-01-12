@@ -20,6 +20,8 @@ Route::prefix('v1')->name('api.')->group(function () {
     Route::apiResources([]);
 });
 
+// when adding routes with CRUD functionality, that uses both id and uuid column for fetching
+// register the model in RouteServiceProvider.php, under boot() method
 Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function () {
     Route::apiResources([
         'organisations' => Admin\OrganisationController::class,
@@ -27,5 +29,6 @@ Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function ()
         'classes' => Admin\ClassModelController::class,
         'venues' => Admin\VenueController::class,
         'sessions' => Admin\SessionController::class,
+        'students' => Admin\StudentController::class,
     ]);
 });

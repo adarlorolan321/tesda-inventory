@@ -123,11 +123,11 @@ class ClassModelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ClassModel $class)
     {
         \abort_if(!\auth()->user()->can('update class'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
-        ClassModel::destroy($id);
+        $class->delete();
 
         return response('class deleted', 204);
     }

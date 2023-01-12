@@ -93,11 +93,11 @@ class ServiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Service $service)
     {
         \abort_if(!\auth()->user()->can('destroy service'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
-        Service::destroy($id);
+        $service->delete();
 
         return response('Service deleted', 204);
     }

@@ -35,7 +35,7 @@ class UpdateorganisationRequest extends FormRequest
             'state' => 'required',
             'country' => 'required',
             'phone' => 'required',
-            'email' => 'required',
+            'email' => 'required|email|unique:students,email,' . $this->id,
             'privacy_link' => 'required',
             'terms_link' => 'required',
             'image' => 'nullable',

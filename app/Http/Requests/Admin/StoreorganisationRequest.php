@@ -35,7 +35,7 @@ class StoreorganisationRequest extends FormRequest
             'state' => 'required',
             'country' => 'required',
             'phone' => 'required',
-            'email' => 'required',
+            'email' => 'required|email|unique:organisations,email',
             'privacy_link' => 'required',
             'terms_link' => 'required',
             'image' => 'nullable',

@@ -6,11 +6,13 @@ use App\Models\ClassModel;
 use App\Models\Organisation;
 use App\Models\Service;
 use App\Models\Session;
+use App\Models\Student;
 use App\Models\Venue;
 use App\Observers\ClassModelObserver;
 use App\Observers\OrganisationObserver;
 use App\Observers\ServiceObserver;
 use App\Observers\SessionObserver;
+use App\Observers\StudentObserver;
 use App\Observers\VenueObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -42,6 +44,7 @@ class EventServiceProvider extends ServiceProvider
         Venue::observe(VenueObserver::class);
         ClassModel::observe(ClassModelObserver::class);
         Session::observe(SessionObserver::class);
+        Student::observe(StudentObserver::class);
     }
 
     /**

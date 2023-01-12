@@ -103,11 +103,11 @@ class SessionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Session $session)
     {
         \abort_if(!\auth()->user()->can('destroy session'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
-        Session::destroy($id);
+        $session->delete();
 
         return response(
             'session deleted',

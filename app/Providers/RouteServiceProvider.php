@@ -36,6 +36,23 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
+
+        // bind both id and slug into urls
+        $models = [
+            'Organisation' => 'organisation',
+            'Service' => 'service',
+            'ClassModel' => 'class',
+            'Venue' => 'venue',
+            'Session' => 'session',
+            'Student' => 'student',
+        ];
+
+        foreach ($models as $modelName => $routeBindName) {
+            Route::bind($routeBindName, function ($value) use ($modelName) {
+                $modelName =  'App\Models\\' . $modelName;
+                return $modelName::where('id', $value)->orWhere('uuid', $value)->firstOrFail();
+            });
+        }
     }
 
     /**
