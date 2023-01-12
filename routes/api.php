@@ -22,7 +22,7 @@ Route::prefix('v1')->name('api.')->group(function () {
 
 Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function () {
     Route::apiResources([
-        'organisation' => Admin\OrganisationController::class,
+        'organisations' => Admin\OrganisationController::class,
         'services' => Admin\ServiceController::class,
         'classes' => Admin\ClassModelController::class,
         'venues' => Admin\VenueController::class,

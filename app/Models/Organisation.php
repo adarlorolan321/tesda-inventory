@@ -50,6 +50,10 @@ class Organisation extends Model implements HasMedia
         'primary_user',
     ];
 
+    protected $casts = [
+        'is_stmp' => 'boolean'
+    ];
+
     public function getPhotoAttribute()
     {
         $media = $this->getFirstMedia('photo');

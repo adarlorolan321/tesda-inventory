@@ -53,7 +53,8 @@ class StoreorganisationRequest extends FormRequest
             'smtp_security'  => 'nullable',
             'twilio_secret_id'  => 'nullable',
             'sms_from'  => 'nullable',
-            'twilio_auth_token'  => 'nullable'
+            'twilio_auth_token'  => 'nullable',
+            'primary_user'  => 'nullable',
         ];
     }
 }
