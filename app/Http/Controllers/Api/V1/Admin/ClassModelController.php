@@ -88,10 +88,10 @@ class ClassModelController extends Controller
                     ->orWhere('users.name', 'like', '%' . $s . '%');
             });
         })
-            ->leftJoin(app(Organisation::class)->getTable(), 'classes.organisation_id', '=', 'organisations.id')
-            ->leftJoin(app(Service::class)->getTable(), 'classes.service_id', '=', 'services.id')
-            ->leftJoin(app(Venue::class)->getTable(), 'classes.venue_id', '=', 'venues.id')
-            ->leftJoin(app(User::class)->getTable(), 'classes.coach_id', '=', 'users.id')
+            ->leftJoin($organisationTableName, 'classes.organisation_id', '=', 'organisations.id')
+            ->leftJoin($serviceTableName, 'classes.service_id', '=', 'services.id')
+            ->leftJoin($venueTableName, 'classes.venue_id', '=', 'venues.id')
+            ->leftJoin('users', 'classes.coach_id', '=', 'users.id')
             ->select([
                 $classTableName . '.*',
                 $organisationTableName . '.name as organisation',
