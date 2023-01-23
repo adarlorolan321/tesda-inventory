@@ -30,5 +30,6 @@ Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function ()
         'venues' => Admin\VenueController::class,
         'sessions' => Admin\SessionController::class,
         'students' => Admin\StudentController::class,
+        'enrolments' => Admin\EnrolmentController::class,
     ]);
 });

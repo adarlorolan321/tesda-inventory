@@ -100,7 +100,7 @@ class OrganisationTest extends TestCase
             ->delete(route('api.organisations.destroy', $data->id))
             ->assertStatus(204);
 
-        $this->assertDatabaseMissing('venues', [
+        $this->assertDatabaseMissing('organisations', [
             'id' => $data->id,
             'name' => $data->name,
         ]);

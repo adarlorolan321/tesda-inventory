@@ -66,6 +66,14 @@ class RolePermissionSeeder extends Seeder
                 'update student',
                 'destroy student',
                 'show student',
+
+                'access enrolment',
+                'create enrolment',
+                'store enrolment',
+                'edit enrolment',
+                'update enrolment',
+                'destroy enrolment',
+                'show enrolment',
             ],
             'OrgAdmin' => [
                 'access organisation',
@@ -117,11 +125,27 @@ class RolePermissionSeeder extends Seeder
                 'update student',
                 'destroy student',
                 'show student',
+
+                'access enrolment',
+                'create enrolment',
+                'store enrolment',
+                'edit enrolment',
+                'update enrolment',
+                'destroy enrolment',
+                'show enrolment',
             ],
 
             'Coach' => [],
             'Client' => [],
-            'Parent' => [],
+            'Parent' => [
+                'access enrolment',
+                'create enrolment',
+                'store enrolment',
+                'edit enrolment',
+                'update enrolment',
+                'destroy enrolment',
+                'show enrolment',
+            ],
             'Student' => [],
         ];
 

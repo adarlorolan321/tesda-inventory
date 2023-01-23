@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,13 @@ class StudentFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'parent_id' => User::count() > 0 ?  User::pluck('id')->random() : User::factory()->create()->pluck('id')->random(),
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'dob' => now()->subDecades(rand(1, 3))->subDays(rand(1, 365))->toDateString(),
+            'email' => $this->faker->email(),
+            'phone' => $this->faker->phoneNumber(),
+            'gender' => $this->faker->randomElement(['male', 'female', 'gay']),
         ];
     }
 }

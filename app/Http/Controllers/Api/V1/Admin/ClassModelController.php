@@ -33,61 +33,61 @@ class ClassModelController extends Controller
         $serviceTableName = app(Service::class)->getTable();
         $venueTableName = app(Venue::class)->getTable();
 
-        $classes = ClassModel::query()
-        ->where(function ($query) use (
-            $request,
-            $classTableName,
-            $organisationTableName,
-            $serviceTableName,
-            $venueTableName
-        ) {
-            $s = $request->input('query');
-            $query->when($request->has('query'), function ($query) use (
-                $s,
+        return DB::table('classes')
+            ->where(function ($query) use (
+                $request,
                 $classTableName,
                 $organisationTableName,
                 $serviceTableName,
                 $venueTableName
             ) {
-                $query->where($classTableName . '.name', 'like', '%' . $s . '%')
-                ->orWhere(
-                    DB::raw('DATE_FORMAT(' . $classTableName  . '.start_date, "%d/%c/%Y")'),
-                    'LIKE',
-                    '%' . $s . '%'
-                )
-                    ->orWhere(
-                        DB::raw('DATE_FORMAT(' . $classTableName  . '.end_date, "%d/%c/%Y")'),
-                        'LIKE',
-                        '%' . $s . '%'
-                    )
-                    ->orWhere(
-                        DB::raw('DATE_FORMAT(' . $classTableName  . '.start_time, "%h:%i")'),
-                        'LIKE',
-                        '%' . $s . '%'
-                    )
-                    ->orWhere(
-                        DB::raw('DATE_FORMAT(' . $classTableName  . '.end_time, "%h:%i")'),
-                        'LIKE',
-                        '%' . $s . '%'
-                    )
-                    ->orWhere($classTableName . '.days', 'like', '%' . $s . '%')
-                    ->orWhere($classTableName . '.repeat', 'like', '%' . $s . '%')
-                    ->orWhere($classTableName . '.capacity', 'like', '%' . $s . '%')
-                    ->orWhere($classTableName . '.price_type', 'like', '%' . $s . '%')
-                    ->orWhere($classTableName . '.price', 'like', '%' . $s . '%')
-                    ->orWhere($classTableName . '.status', $s)
-                    ->orWhere($classTableName . '.additional_coach', 'like', '%' . $s . '%')
-                    ->orWhere($classTableName . '.default_email', 'like', '%' . $s . '%')
-                    ->orWhere($classTableName . '.custom_email_text', 'like', '%' . $s . '%')
-                    ->orWhere($classTableName . '.custom_email_subject', 'like', '%' . $s . '%')
-                    ->orWhere($classTableName . '.enrolments', 'like', '%' . $s . '%')
-                    ->orWhere($classTableName . '.tags', 'like', '%' . $s . '%')
-                    ->orWhere($organisationTableName . '.name', 'like', '%' . $s . '%')
-                    ->orWhere($serviceTableName . '.name', 'like', '%' . $s . '%')
-                    ->orWhere($venueTableName . '.name', 'like', '%' . $s . '%')
-                    ->orWhere('users.name', 'like', '%' . $s . '%');
-            });
-        })
+                $s = $request->input('query');
+                $query->when($request->has('query'), function ($query) use (
+                    $s,
+                    $classTableName,
+                    $organisationTableName,
+                    $serviceTableName,
+                    $venueTableName
+                ) {
+                    $query->where($classTableName . '.name', 'like', '%' . $s . '%')
+                        ->orWhere(
+                            DB::raw('DATE_FORMAT(' . $classTableName  . '.start_date, "%d/%c/%Y")'),
+                            'LIKE',
+                            '%' . $s . '%'
+                        )
+                        ->orWhere(
+                            DB::raw('DATE_FORMAT(' . $classTableName  . '.end_date, "%d/%c/%Y")'),
+                            'LIKE',
+                            '%' . $s . '%'
+                        )
+                        ->orWhere(
+                            DB::raw('DATE_FORMAT(' . $classTableName  . '.start_time, "%h:%i")'),
+                            'LIKE',
+                            '%' . $s . '%'
+                        )
+                        ->orWhere(
+                            DB::raw('DATE_FORMAT(' . $classTableName  . '.end_time, "%h:%i")'),
+                            'LIKE',
+                            '%' . $s . '%'
+                        )
+                        ->orWhere($classTableName . '.days', 'like', '%' . $s . '%')
+                        ->orWhere($classTableName . '.repeat', 'like', '%' . $s . '%')
+                        ->orWhere($classTableName . '.capacity', 'like', '%' . $s . '%')
+                        ->orWhere($classTableName . '.price_type', 'like', '%' . $s . '%')
+                        ->orWhere($classTableName . '.price', 'like', '%' . $s . '%')
+                        ->orWhere($classTableName . '.status', $s)
+                        ->orWhere($classTableName . '.additional_coach', 'like', '%' . $s . '%')
+                        ->orWhere($classTableName . '.default_email', 'like', '%' . $s . '%')
+                        ->orWhere($classTableName . '.custom_email_text', 'like', '%' . $s . '%')
+                        ->orWhere($classTableName . '.custom_email_subject', 'like', '%' . $s . '%')
+                        ->orWhere($classTableName . '.enrolments', 'like', '%' . $s . '%')
+                        ->orWhere($classTableName . '.tags', 'like', '%' . $s . '%')
+                        ->orWhere($organisationTableName . '.name', 'like', '%' . $s . '%')
+                        ->orWhere($serviceTableName . '.name', 'like', '%' . $s . '%')
+                        ->orWhere($venueTableName . '.name', 'like', '%' . $s . '%')
+                        ->orWhere('users.name', 'like', '%' . $s . '%');
+                });
+            })
             ->leftJoin($organisationTableName, 'classes.organisation_id', '=', 'organisations.id')
             ->leftJoin($serviceTableName, 'classes.service_id', '=', 'services.id')
             ->leftJoin($venueTableName, 'classes.venue_id', '=', 'venues.id')
@@ -99,9 +99,9 @@ class ClassModelController extends Controller
                 $venueTableName . '.name as venue',
                 'users.name as coach',
             ])
-        ->paginate($perPage);
+            ->paginate($perPage);
 
-        return ClassModelResource::collection($classes);
+        // return ClassModelResource::collection($classes);
     }
 
     /**
