@@ -29,12 +29,12 @@ class UpdateServiceRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                Rule::unique('services')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))
+                Rule::unique('services')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))->ignore($this->id)
             ],
             'code' => [
                 'required',
                 'string',
-                Rule::unique('services')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))
+                Rule::unique('services')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))->ignore($this->id)
             ],
         ];
     }
