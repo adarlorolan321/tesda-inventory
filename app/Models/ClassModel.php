@@ -37,6 +37,8 @@ class ClassModel extends Model
 
     protected $casts = [
         'days' => 'array',
+        'repeat' => 'boolean',
+        'default_email' => 'boolean',
     ];
 
     public function organisation()
