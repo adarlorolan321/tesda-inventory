@@ -85,20 +85,21 @@ class ClassModelController extends Controller
                         ->orWhere($organisationTableName . '.name', 'like', '%' . $s . '%')
                         ->orWhere($serviceTableName . '.name', 'like', '%' . $s . '%')
                         ->orWhere($venueTableName . '.name', 'like', '%' . $s . '%')
-                        ->orWhere('users.name', 'like', '%' . $s . '%');
+                        ->orWhere(DB::raw('concat(coach.first_name, " ", coach.last_name) as full_name'), 'like', '%' . $s . '%');
                 });
             })
             ->leftJoin($organisationTableName, 'classes.organisation_id', '=', 'organisations.id')
             ->leftJoin($serviceTableName, 'classes.service_id', '=', 'services.id')
             ->leftJoin($venueTableName, 'classes.venue_id', '=', 'venues.id')
-            ->leftJoin('users', 'classes.coach_id', '=', 'users.id')
+            ->leftJoin('users as coach', 'classes.coach_id', '=', 'coach.id')
             ->select([
                 $classTableName . '.*',
                 $organisationTableName . '.name as organisation',
                 $serviceTableName . '.name as service',
                 $venueTableName . '.name as venue',
-                'users.name as coach',
+                DB::raw('concat(coach.first_name, " ", coach.last_name)') . ' as coach',
             ])
+            ->orderBy($classTableName . '.name', 'ASC')
             ->paginate($perPage);
 
         // return ClassModelResource::collection($classes);

@@ -29,6 +29,7 @@ class OrganisationController extends Controller
                     // ->orWhere('description', 'like', '%' . $query_string . '%');
                 }
             })
+            ->orderBy('name', 'ASC')
             ->paginate($perPage);
 
         return new OrganisationResource($ogranisations);

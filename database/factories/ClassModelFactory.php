@@ -40,7 +40,7 @@ class ClassModelFactory extends Factory
             'price_type' => $this->faker->randomElement(['full', 'monthly']),
             'price' => $this->faker->randomFloat(2, 0, 10000),
             'venue_id' => Venue::count() > 0 ?  Venue::pluck('id')->random() : Venue::factory()->create()->pluck('id')->random(),
-            'status' => $this->faker->randomElement(['active', 'in-active']),
+            'status' => $this->faker->randomElement(['active', 'inactive']),
             'coach_id' => User::role('coach')->count() > 0 ?  User::role('coach')->pluck('id')->random() : User::factory()->create()->each(fn ($user) => $user->assignRole('coach'))->pluck('id')->random(),
             'additional_coach' => $this->faker->word(),
             'default_email' => $this->faker->boolean(),

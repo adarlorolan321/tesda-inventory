@@ -97,6 +97,7 @@ class EnrolmentController extends Controller
                 $classTableName . '.name as class',
                 DB::raw('concat(' . $studentTableName . '.first_name, " ", ' . $studentTableName . '.last_name) as student'),
             ])
+            ->orderBy($enrolmentTableName . '.name', 'ASC')
             ->paginate($perPage);
 
         // return new EnrolmentCollection($enrolments);

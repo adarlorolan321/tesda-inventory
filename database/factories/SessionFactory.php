@@ -26,7 +26,7 @@ class SessionFactory extends Factory
             'end_time' => (string) $this->faker->numberBetween(0, 13) . ':' . (string) $this->faker->numberBetween(0, 61),
             'coach_id' => User::role('coach')->count() > 0 ?  User::role('coach')->pluck('id')->random() : User::factory()->create()->each(fn ($user) => $user->assignRole('coach'))->pluck('id')->random(),
             'additional_coaches' => $this->faker->randomElement(['none', 'yes']),
-            'status' => $this->faker->randomElement(['active', 'in-active']),
+            'status' => $this->faker->randomElement(['active', 'inactive']),
         ];
     }
 }

@@ -34,7 +34,7 @@ class VenueController extends Controller
                         ->orWhere('contact_last_name', 'like', '%' . $s . '%')
                         ->orWhere('contact_email', 'like', '%' . $s . '%')
                         ->orWhere('contact_phone', 'like', '%' . $s . '%')
-                        ->orWhere(DB::raw("CASE WHEN status = 1 THEN 'active' WHEN status = 0 THEN 'in-active' END"), 'like', '%' . $s . '%')
+                        ->orWhere(DB::raw("CASE WHEN status = 1 THEN 'active' WHEN status = 0 THEN 'inactive' END"), 'like', '%' . $s . '%')
                         ->orWhereHas('organisation', function ($query) use ($s) {
                             $query->where('name', 'like', '%' . $s . '%');
                         });

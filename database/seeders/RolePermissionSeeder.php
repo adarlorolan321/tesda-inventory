@@ -18,7 +18,7 @@ class RolePermissionSeeder extends Seeder
     {
 
         $roles = [
-            'Admin' => [
+            'admin' => [
                 'access organisation',
                 'create organisation',
                 'store organisation',
@@ -74,18 +74,40 @@ class RolePermissionSeeder extends Seeder
                 'update enrolment',
                 'destroy enrolment',
                 'show enrolment',
+
+                'access orgadmin',
+                'create orgadmin',
+                'store orgadmin',
+                'edit orgadmin',
+                'update orgadmin',
+                'destroy orgadmin',
+                'show orgadmin',
+
+                'access coach',
+                'create coach',
+                'store coach',
+                'edit coach',
+                'update coach',
+                'destroy coach',
+                'show coach',
+
+                'access user',
+                'create user',
+                'store user',
+                'edit user',
+                'update user',
+                'destroy user',
+                'show user',
+
+                'access client',
+                'create client',
+                'store client',
+                'edit client',
+                'update client',
+                'destroy client',
+                'show client',
             ],
-            'OrgAdmin' => [
-                'access organisation',
-                'create organisation',
-                'store organisation',
-                'edit organisation',
-                'update organisation',
-                'delete organisation',
-                'view organisation',
-
-                'legal_edit',
-
+            'orgadmin' => [
                 'access service',
                 'create service',
                 'store service',
@@ -133,11 +155,28 @@ class RolePermissionSeeder extends Seeder
                 'update enrolment',
                 'destroy enrolment',
                 'show enrolment',
-            ],
 
-            'Coach' => [],
-            'Client' => [],
-            'Parent' => [
+                'access orgadmin',
+                'create orgadmin',
+                'store orgadmin',
+                'edit orgadmin',
+                'update orgadmin',
+                'destroy orgadmin',
+                'show orgadmin',
+
+                'access coach',
+                'create coach',
+                'store coach',
+                'edit coach',
+                'update coach',
+                'destroy coach',
+                'show coach',
+
+
+            ],
+            'coach' => [],
+            'client' => [],
+            'parent' => [
                 'access enrolment',
                 'create enrolment',
                 'store enrolment',
@@ -146,7 +185,7 @@ class RolePermissionSeeder extends Seeder
                 'destroy enrolment',
                 'show enrolment',
             ],
-            'Student' => [],
+            'student' => [],
         ];
 
         foreach ($roles as $role => $permissions) {
@@ -170,18 +209,18 @@ class RolePermissionSeeder extends Seeder
         }
         // ASSIGN SUPER ADMIN ROLE
         $user = User::findOrFail(1);
-        $user->assignRole('Admin'); // SUPER ADMIN
+        $user->assignRole('admin'); // SUPER ADMIN
 
-        // ASSIGN SUPER OrgAdmin ROLE
+        // ASSIGN OrgAdmin ROLE
         $user = User::findOrFail(2);
-        $user->assignRole('OrgAdmin'); //  OrgAdmin
+        $user->assignRole('orgadmin'); //  OrgAdmin
 
-        // ASSIGN SUPER Coach ROLE
+        // ASSIGN Coach ROLE
         $user = User::findOrFail(3);
-        $user->assignRole('Coach'); //  Coach
+        $user->assignRole('coach'); //  Coach
 
-        // ASSIGN SUPER Client ROLE
+        // ASSIGN Client ROLE
         $user = User::findOrFail(4);
-        $user->assignRole('Client'); //  Client
+        $user->assignRole('client'); //  Client
     }
 }

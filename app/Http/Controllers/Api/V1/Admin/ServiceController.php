@@ -35,6 +35,7 @@ class ServiceController extends Controller
                         });
                 }
             })
+            ->orderBy('name', 'ASC')
             ->paginate($perPage);
 
         return ServiceResource::collection($services);

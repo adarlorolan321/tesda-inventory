@@ -27,7 +27,7 @@ class EnrolmentFactory extends Factory
             'student_id' => Student::count() > 0 ?  Student::pluck('id')->random() : Student::factory()->create()->pluck('id')->random(),
             'organisation_id' => Organisation::count() > 0 ?  Organisation::pluck('id')->random() : Organisation::factory()->create()->pluck('id')->random(),
             'payment_status' => $this->faker->randomElement(['paid', 'pending', 'due']),
-            'status' => $this->faker->randomElement(['active', 'in-active']),
+            'status' => $this->faker->randomElement(['active', 'inactive']),
             'lessons' => $this->faker->realText(rand(25, 150)),
             'cancel_date' => now()->subDays(rand(1, 31))->toDateString(),
             'cancel_on' => now()->subDays(rand(1, 31))->toDateString(),
