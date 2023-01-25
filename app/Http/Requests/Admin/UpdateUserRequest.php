@@ -24,6 +24,9 @@ class UpdateUserRequest extends FormRequest
             case 'parent':
                 return auth()->user()->can('store parent');
                 break;
+            case 'client':
+                return auth()->user()->can('store client');
+                break;
             default:
                 return true;
                 break;

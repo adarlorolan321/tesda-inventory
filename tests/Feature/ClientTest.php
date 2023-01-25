@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
-class CoachTest extends TestCase
+class ClientTest extends TestCase
 {
     use WithFaker;
 
@@ -23,7 +23,7 @@ class CoachTest extends TestCase
 
         $response = $this->actingAs($user)
             ->get(route('api.users.index'), [
-                'role' => 'coach',
+                'role' => 'client',
             ])
             ->assertStatus(200);
     }
@@ -42,10 +42,7 @@ class CoachTest extends TestCase
             'last_name' => $this->faker->lastName(),
             'email' => $this->faker->email(),
             'phone' => $this->faker->phoneNumber(),
-            // 'role' => $this->faker->randomElement(['orgadmin', 'coach', 'client', 'parent']),
-            'role' => 'coach',
-            'status' => $this->faker->randomElement(['active', 'inactive']),
-            'photo' => UploadedFile::fake()->create('fake-photo', 2048, 'image/png'),
+            'role' => 'client',
         ];
 
         $response = $this->actingAs($user)
@@ -54,20 +51,16 @@ class CoachTest extends TestCase
 
         $mostRecentData = User::get()
             ->makeHidden([
+                'status',
                 'email_verified_at',
                 'current_team_id',
                 'profile_photo_path',
-            ])->last();
+            ])->last()->toArray();
         $responseData = $response['data'];
 
         $this->assertEquals(
-            $mostRecentData->toArray(),
+            $mostRecentData,
             $responseData
-        );
-
-        $this->assertEquals(
-            $mostRecentData->role_name,
-            'client'
         );
     }
 
@@ -80,7 +73,7 @@ class CoachTest extends TestCase
     {
         $user = User::role('orgadmin')->first();
 
-        $data = User::role('coach')->get()->last()->toArray();
+        $data = User::role('client')->get()->last()->toArray();
 
         if ($data['status'] == 'active') {
             $data['status'] = 'inactive';
@@ -92,7 +85,7 @@ class CoachTest extends TestCase
             ->patch(route('api.users.update', $data['id']), $data)
             ->assertStatus(202);
 
-        $mostRecentData = User::role('coach')->get()->last()->toArray();
+        $mostRecentData = User::role('client')->get()->last()->toArray();
         $responseData = $response['data'];
 
         $this->assertEquals($mostRecentData['status'], $responseData['status']);
@@ -107,7 +100,7 @@ class CoachTest extends TestCase
     {
         $user = User::role('orgadmin')->first();
 
-        $data = User::role('coach')->get()->last();
+        $data = User::role('client')->get()->last();
 
         $response = $this->actingAs($user)
             ->delete(route('api.users.destroy', $data->id))

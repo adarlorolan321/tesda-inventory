@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreUserRequest extends FormRequest
 {
@@ -22,6 +23,9 @@ class StoreUserRequest extends FormRequest
                 break;
             case 'parent':
                 return auth()->user()->can('store parent');
+                break;
+            case 'client':
+                return auth()->user()->can('store client');
                 break;
             default:
                 return true;
@@ -43,7 +47,11 @@ class StoreUserRequest extends FormRequest
             'phone' => 'nullable|string',
             'role' => 'required|in:coach,orgadmin,client,parent',
             'photo' => 'nullable|image|max:2048',
-            'status' => 'required|in:active,inactive',
+            'status' => [
+                Rule::requiredIf($this->role != 'client'),
+                'nullable',
+                'in:active,inactive',
+            ],
         ];
     }
 }

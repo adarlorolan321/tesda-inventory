@@ -187,6 +187,14 @@ class RolePermissionSeeder extends Seeder
                 'update waitlist',
                 'destroy waitlist',
                 'show waitlist',
+
+                'access client',
+                'create client',
+                'store client',
+                'edit client',
+                'update client',
+                'destroy client',
+                'show client',
             ],
             'coach' => [],
             'client' => [],
@@ -228,13 +236,5 @@ class RolePermissionSeeder extends Seeder
         // ASSIGN OrgAdmin ROLE
         $user = User::findOrFail(2);
         $user->assignRole('orgadmin'); //  OrgAdmin
-
-        // ASSIGN Coach ROLE
-        $user = User::findOrFail(3);
-        $user->assignRole('coach'); //  Coach
-
-        // ASSIGN Client ROLE
-        $user = User::findOrFail(4);
-        $user->assignRole('client'); //  Client
     }
 }
