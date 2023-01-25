@@ -27,6 +27,8 @@ Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function ()
          * when adding routes with CRUD functionality, that uses both id and uuid column for fetching
          * register the model in RouteServiceProvider.php, under boot() method
          */
+
+        /** registered in RouteServiceProvider */
         'users' => Admin\UserController::class,
         'organisations' => Admin\OrganisationController::class,
         'services' => Admin\ServiceController::class,
@@ -35,5 +37,8 @@ Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function ()
         'sessions' => Admin\SessionController::class,
         'students' => Admin\StudentController::class,
         'enrolments' => Admin\EnrolmentController::class,
+
+        /** not registered in RouteServiceProvider */
+        'waitlists' => Admin\WaitlistController::class,
     ]);
 });

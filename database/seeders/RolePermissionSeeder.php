@@ -106,6 +106,14 @@ class RolePermissionSeeder extends Seeder
                 'update client',
                 'destroy client',
                 'show client',
+
+                'access waitlist',
+                'create waitlist',
+                'store waitlist',
+                'edit waitlist',
+                'update waitlist',
+                'destroy waitlist',
+                'show waitlist',
             ],
             'orgadmin' => [
                 'access service',
@@ -172,7 +180,13 @@ class RolePermissionSeeder extends Seeder
                 'destroy coach',
                 'show coach',
 
-
+                'access waitlist',
+                'create waitlist',
+                'store waitlist',
+                'edit waitlist',
+                'update waitlist',
+                'destroy waitlist',
+                'show waitlist',
             ],
             'coach' => [],
             'client' => [],
