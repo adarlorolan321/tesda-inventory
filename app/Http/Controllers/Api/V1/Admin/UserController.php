@@ -14,6 +14,39 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
+    private $permissions = [];
+
+    private function fillPermissions($type)
+    {
+        switch (auth()->user()->role_name) {
+            case 'admin':
+                $this->permissions = [
+                    $type . ' user',
+                    $type . ' orgadmin',
+                    $type . ' coach',
+                    $type . ' client'
+                ];
+                break;
+            case 'orgadmin':
+                $this->permissions = [
+                    $type . ' orgadmin',
+                    $type . ' coach',
+                    $type . ' client'
+                ];
+                break;
+            case 'coach':
+                $this->permissions = [
+                    $type . ' client'
+                ];
+                break;
+            default:
+                $this->permissions = [
+                    $type . ' client',
+                ];
+                break;
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -21,22 +54,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        // $permissions = [];
-        // switch (auth()->user()->role_name) {
-        //     case 'admin':
-        //         $permissions = ['access user', 'access orgadmin', 'access coach', 'access client'];
-        //         break;
-        //     case 'orgadmin':
-        //         $permissions = ['access orgadmin', 'access coach', 'access client'];
-        //         break;
-        //     case 'coach':
-        //         $permissions = ['access client'];
-        //         break;
-        //     default:
-        //         $permissions = ['access client'];
-        //         break;
-        // }
-        // \abort_if(!\auth()->user()->can($permissions), Response::HTTP_FORBIDDEN, 'Unauthorized');
+        $this->fillPermissions('access');
+
+        \abort_if(!\auth()->user()->canAny($this->permissions), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
         $perPage = $request->has('perPage') ? $request->input('perPage') : 10;
 
@@ -83,6 +103,9 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
+        $this->fillPermissions('store');
+        \abort_if(!\auth()->user()->canAny($this->permissions), Response::HTTP_FORBIDDEN, 'Unauthorized');
+
         $user = User::create($request->validated());
 
         $user->assignRole($request->role ?? 'client');
@@ -104,6 +127,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $this->fillPermissions('show');
+        \abort_if(!\auth()->user()->canAny($this->permissions), Response::HTTP_FORBIDDEN, 'Unauthorized');
         return new UserResource($user->load(['organisation']));
     }
 
@@ -116,6 +141,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
+        $this->fillPermissions('update');
+        \abort_if(!\auth()->user()->canAny($this->permissions), Response::HTTP_FORBIDDEN, 'Unauthorized');
         $user->update($request->validated());
         $user->syncRoles($request->role ?? 'client');
 
@@ -138,26 +165,9 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $permissions = [];
-        switch (auth()->user()->role_name) {
-            case 'admin':
-                $permissions = ['destroy user', 'destroy orgadmin', 'destroy coach', 'destroy client'];
-                break;
-            case 'orgadmin':
-                $permissions = ['destroy user', 'destroy orgadmin', 'destroy coach', 'destroy client'];
-                break;
-            case 'coach':
-                $permissions = ['destroy user', 'destroy client'];
-                break;
-            default:
-                $permissions = ['destroy user', 'destroy client'];
-                break;
-        }
-
-        \abort_if(!\auth()->user()->can($permissions), Response::HTTP_FORBIDDEN, 'Unauthorized');
-
+        $this->fillPermissions('destroy');
+        \abort_if(!\auth()->user()->canAny($this->permissions), Response::HTTP_FORBIDDEN, 'Unauthorized');
         $user->delete();
-
         return response('user deleted')
             ->setStatusCode(204);
     }
