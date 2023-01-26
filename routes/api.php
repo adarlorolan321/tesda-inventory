@@ -38,6 +38,7 @@ Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function ()
         'students' => Admin\StudentController::class,
         'enrolments' => Admin\EnrolmentController::class,
         'payments' => Admin\PaymentController::class,
+        'failed-payments' => Admin\FailedPaymentController::class,
 
         /** not registered in RouteServiceProvider */
         'waitlists' => Admin\WaitlistController::class,

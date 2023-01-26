@@ -2,46 +2,46 @@
 
 namespace Tests\Feature;
 
-use App\Models\Enrolment;
+use App\Models\FailedPayment;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class EnrolmentTest extends TestCase
+class FailedPaymentTest extends TestCase
 {
     use WithFaker;
 
     /**
-     * API GET Enrolment Resource
+     * API GET FailedPayment Resource
      *
      * @return void
      */
-    public function test_api_get_enrolment()
+    public function test_api_get_failed_payment()
     {
         $user = User::role('Admin')->first();
 
         $response = $this->actingAs($user)
-            ->get(route('api.enrolments.index'))
+            ->get(route('api.failed-payments.index'))
             ->assertStatus(200);
     }
 
     /**
-     * API POST Enrolment Resource
+     * API POST FailedPayment Resource
      *
      * @return void
      */
-    public function test_api_store_enrolment()
+    public function test_api_store_failed_payment()
     {
         $user = User::role('Admin')->first();
 
-        $data = Enrolment::factory()->make()->toArray();
+        $data = FailedPayment::factory()->make()->toArray();
 
         $response = $this->actingAs($user)
-            ->post(route('api.enrolments.store'), $data)
+            ->post(route('api.failed-payments.store'), $data)
             ->assertStatus(201);
 
-        $mostRecentData = Enrolment::get()
+        $mostRecentData = FailedPayment::get()
             ->last()->toArray();
         $responseData = $response['data'];
 
@@ -52,34 +52,30 @@ class EnrolmentTest extends TestCase
     }
 
     /**
-     * API PATCH Enrolment Resource
+     * API PATCH FailedPayment Resource
      *
      * @return void
      */
-    public function test_api_update_enrolment()
+    public function test_api_update_failed_payment()
     {
         $user = User::role('Admin')->first();
 
-        $data = Enrolment::get()->last()->toArray();
+        $data = FailedPayment::get()->last()->toArray();
 
-        if ($data['status'] == 'active') {
-            $data['status'] = 'inactive';
-        } else {
-            $data['status'] = 'active';
-        }
+        $data['amount'] == $this->faker->randomFloat(2, 25, 450);
 
         $response = $this->actingAs($user)
-            ->patch(route('api.enrolments.update', $data['id']), $data)
+            ->patch(route('api.failed-payments.update', $data['id']), $data)
             ->assertStatus(202);
 
-        $mostRecentData = Enrolment::get()->last()->toArray();
+        $mostRecentData = FailedPayment::get()->last()->toArray();
         $responseData = $response['data'];
 
-        $this->assertEquals($mostRecentData['status'], $responseData['status']);
+        $this->assertEquals($mostRecentData['amount'], $responseData['amount']);
     }
 
     /**
-     * API PATCH Enrolment Resource
+     * API PATCH FailedPayment Resource
      *
      * @return void
      */
@@ -87,13 +83,13 @@ class EnrolmentTest extends TestCase
     {
         $user = User::role('Admin')->first();
 
-        $data = Enrolment::get()->last();
+        $data = FailedPayment::get()->last();
 
         $response = $this->actingAs($user)
-            ->delete(route('api.enrolments.destroy', $data->id))
+            ->delete(route('api.failed-payments.destroy', $data->id))
             ->assertStatus(204);
 
-        $this->assertDatabaseMissing('enrolments', [
+        $this->assertDatabaseMissing('failed_payments', [
             'id' => $data->id,
             'uuid' => $data->uuid,
         ]);

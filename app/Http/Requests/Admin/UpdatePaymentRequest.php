@@ -28,7 +28,7 @@ class UpdatePaymentRequest extends FormRequest
             'user_id' => 'required|integer|exists:users,id',
             'organisation_id' => 'required|integer|exists:organisations,id',
             'refund_by' => 'required|integer|exists:users,id',
-            'status' => 'required|string|in:paid,due,payment', // clarify specific values 
+            'status' => 'required|string|in:paid,due,pending', // clarify specific values 
             'amount' => 'required|numeric',
             'description' => 'required|string',
             'date' => 'required|date_format:Y-m-d',

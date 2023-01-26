@@ -48,6 +48,7 @@ class RouteServiceProvider extends ServiceProvider
             'Enrolment' => 'enrolment',
             'User' => 'user',
             'Payment' => 'payment',
+            'FailedPayment' => 'failed_payment',
         ];
 
         foreach ($models as $modelName => $routeBindName) {

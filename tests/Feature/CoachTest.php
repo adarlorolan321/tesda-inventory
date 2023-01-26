@@ -67,7 +67,7 @@ class CoachTest extends TestCase
 
         $this->assertEquals(
             $mostRecentData->role_name,
-            'client'
+            'coach'
         );
     }
 
