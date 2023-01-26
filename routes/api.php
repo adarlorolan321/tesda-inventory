@@ -37,6 +37,7 @@ Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function ()
         'sessions' => Admin\SessionController::class,
         'students' => Admin\StudentController::class,
         'enrolments' => Admin\EnrolmentController::class,
+        'payments' => Admin\PaymentController::class,
 
         /** not registered in RouteServiceProvider */
         'waitlists' => Admin\WaitlistController::class,

@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\ClassModel;
 use App\Models\Enrolment;
 use App\Models\Organisation;
+use App\Models\Payment;
 use App\Models\Service;
 use App\Models\Session;
 use App\Models\Student;
@@ -13,6 +14,7 @@ use App\Models\Venue;
 use App\Observers\ClassModelObserver;
 use App\Observers\EnrolmentObserver;
 use App\Observers\OrganisationObserver;
+use App\Observers\PaymentObserver;
 use App\Observers\ServiceObserver;
 use App\Observers\SessionObserver;
 use App\Observers\StudentObserver;
@@ -43,14 +45,15 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Organisation::observe(OrganisationObserver::class);
-        Service::observe(ServiceObserver::class);
-        Venue::observe(VenueObserver::class);
         ClassModel::observe(ClassModelObserver::class);
+        Enrolment::observe(EnrolmentObserver::class);
+        Organisation::observe(OrganisationObserver::class);
+        Payment::observe(PaymentObserver::class);
+        Service::observe(ServiceObserver::class);
         Session::observe(SessionObserver::class);
         Student::observe(StudentObserver::class);
-        Enrolment::observe(EnrolmentObserver::class);
         User::observe(UserObserver::class);
+        Venue::observe(VenueObserver::class);
     }
 
     /**
