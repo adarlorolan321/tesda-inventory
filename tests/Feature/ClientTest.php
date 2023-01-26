@@ -13,7 +13,7 @@ class ClientTest extends TestCase
     use WithFaker;
 
     /**
-     * API GET User Resource, filtered by Coach role
+     * API GET User Resource, filtered by client role
      *
      * @return void
      */

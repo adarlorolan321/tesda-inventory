@@ -24,7 +24,7 @@ class StudentFactory extends Factory
             'dob' => now()->subDecades(rand(1, 3))->subDays(rand(1, 365))->toDateString(),
             'email' => $this->faker->email(),
             'phone' => $this->faker->phoneNumber(),
-            'gender' => $this->faker->randomElement(['male', 'female', 'gay']),
+            'gender' => $this->faker->randomElement(['boy', 'girl', 'pns']),
         ];
     }
 }

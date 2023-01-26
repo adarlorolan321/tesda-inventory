@@ -24,13 +24,13 @@ class StoreStudentRequest extends FormRequest
     public function rules()
     {
         return [
-            'parent_id' => 'required|exists:users,id',
+            'parent_id' => 'required|integer|exists:users,id',
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'dob' => 'nullable|date_format:Y-m-d',
             'email' => 'nullable|email|unique:students,email',
             'phone' => 'nullable|string',
-            'gender' => 'nullable|string',
+            'gender' => 'nullable|string|in:boy,girl,pns',
         ];
     }
 }
