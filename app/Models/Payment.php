@@ -23,7 +23,7 @@ class Payment extends Model
         'refund_amount',
         'refund_reason',
         'credits_used',
-        'transaction_id',
+        // 'transaction_id',
     ];
 
     protected $casts = [
