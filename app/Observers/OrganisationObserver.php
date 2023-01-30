@@ -26,6 +26,50 @@ class OrganisationObserver
      */
     public function created(Organisation $organisation)
     {
+        $default_templates = [
+            [
+                'name' => 'Customer Account Created',
+                'subject' => 'Welcome to ' . $organisation->name,
+                'body' => 'text to go here...',
+            ],
+            [
+                'name' => 'Enrolment Confirmation',
+                'subject' => 'Enrolment confirmed',
+                'body' => 'text to go here...',
+            ],
+            [
+                'name' => 'Payment Receipt',
+                'subject' => 'Payment Receipt',
+                'body' => 'text to go here...',
+            ],
+            [
+                'name' => 'Waitlist Confirmation',
+                'subject' => 'Waitlist Confirmation',
+                'body' => 'text to go here...',
+            ],
+            [
+                'name' => 'Trial Confirmation',
+                'subject' => 'Trial Confirmation',
+                'body' => 'text to go here...',
+            ],
+            [
+                'name' => 'Payment Reminder',
+                'subject' => 'Payment Reminder',
+                'body' => 'text to go here...',
+            ],
+            [
+                'name' => 'Failed Payment',
+                'subject' => 'Failed Payment',
+                'body' => 'text to go here...',
+            ],
+            [
+                'name' => 'Enrolment Cancelled',
+                'subject' => 'Enrolment Cancelled',
+                'body' => 'text to go here...',
+            ],
+        ];
+
+        $organisation->email_templates()->createMany($default_templates);
     }
 
     /**

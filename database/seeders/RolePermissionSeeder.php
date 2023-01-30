@@ -24,7 +24,7 @@ class RolePermissionSeeder extends Seeder
                 'store organisation',
                 'edit organisation',
                 'update organisation',
-                'delete organisation',
+                'destroy organisation',
                 'view organisation',
 
                 'access service',
@@ -130,6 +130,14 @@ class RolePermissionSeeder extends Seeder
                 'update failed_payment',
                 'destroy failed_payment',
                 'show failed_payment',
+
+                'access email_template',
+                'create email_template',
+                'store email_template',
+                'edit email_template',
+                'update email_template',
+                'destroy email_template',
+                'show email_template',
             ],
             'orgadmin' => [
                 'access service',
@@ -227,6 +235,14 @@ class RolePermissionSeeder extends Seeder
                 'update failed_payment',
                 'destroy failed_payment',
                 'show failed_payment',
+
+                'access email_template',
+                'create email_template',
+                'store email_template',
+                'edit email_template',
+                'update email_template',
+                'destroy email_template',
+                'show email_template',
             ],
             'coach' => [],
             'client' => [],

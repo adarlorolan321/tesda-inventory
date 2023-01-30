@@ -89,4 +89,9 @@ class Organisation extends Model implements HasMedia
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function email_templates()
+    {
+        return $this->hasMany(EmailTemplate::class);
+    }
 }
