@@ -94,4 +94,9 @@ class Organisation extends Model implements HasMedia
     {
         return $this->hasMany(EmailTemplate::class);
     }
+
+    public function merchandises()
+    {
+        return $this->hasMany(Merchandise::class);
+    }
 }

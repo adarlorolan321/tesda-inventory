@@ -61,6 +61,7 @@ class EmailTemplateController extends Controller
                 $emailTemplateTableName . '.*',
                 'organisation.name as organisation'
             ])
+            ->orderBy($emailTemplateTableName . '.subject', 'ASC')
             ->paginate($perPage);
     }
 

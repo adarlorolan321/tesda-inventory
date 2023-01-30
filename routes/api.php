@@ -40,6 +40,7 @@ Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function ()
         'payments' => Admin\PaymentController::class,
         'failed-payments' => Admin\FailedPaymentController::class,
         'email-templates' => Admin\EmailTemplateController::class,
+        'merchandises' => Admin\MerchandiseController::class,
 
         /** not registered in RouteServiceProvider */
         'waitlists' => Admin\WaitlistController::class,

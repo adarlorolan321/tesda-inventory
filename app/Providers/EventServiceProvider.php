@@ -6,6 +6,7 @@ use App\Models\ClassModel;
 use App\Models\EmailTemplate;
 use App\Models\Enrolment;
 use App\Models\FailedPayment;
+use App\Models\Merchandise;
 use App\Models\Organisation;
 use App\Models\Payment;
 use App\Models\Service;
@@ -17,6 +18,7 @@ use App\Observers\ClassModelObserver;
 use App\Observers\EmailTemplateObserver;
 use App\Observers\EnrolmentObserver;
 use App\Observers\FailedPaymentObserver;
+use App\Observers\MerchandiseObserver;
 use App\Observers\OrganisationObserver;
 use App\Observers\PaymentObserver;
 use App\Observers\ServiceObserver;
@@ -60,6 +62,7 @@ class EventServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
         Venue::observe(VenueObserver::class);
         EmailTemplate::observe(EmailTemplateObserver::class);
+        Merchandise::observe(MerchandiseObserver::class);
     }
 
     /**
