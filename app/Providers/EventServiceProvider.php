@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\ClassModel;
+use App\Models\EmailTemplate;
 use App\Models\Enrolment;
 use App\Models\FailedPayment;
 use App\Models\Organisation;
@@ -13,6 +14,7 @@ use App\Models\Student;
 use App\Models\User;
 use App\Models\Venue;
 use App\Observers\ClassModelObserver;
+use App\Observers\EmailTemplateObserver;
 use App\Observers\EnrolmentObserver;
 use App\Observers\FailedPaymentObserver;
 use App\Observers\OrganisationObserver;
@@ -57,6 +59,7 @@ class EventServiceProvider extends ServiceProvider
         Student::observe(StudentObserver::class);
         User::observe(UserObserver::class);
         Venue::observe(VenueObserver::class);
+        EmailTemplate::observe(EmailTemplateObserver::class);
     }
 
     /**
