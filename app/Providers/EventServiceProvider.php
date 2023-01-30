@@ -12,6 +12,7 @@ use App\Models\Payment;
 use App\Models\Service;
 use App\Models\Session;
 use App\Models\Student;
+use App\Models\Trial;
 use App\Models\User;
 use App\Models\Venue;
 use App\Observers\ClassModelObserver;
@@ -24,6 +25,7 @@ use App\Observers\PaymentObserver;
 use App\Observers\ServiceObserver;
 use App\Observers\SessionObserver;
 use App\Observers\StudentObserver;
+use App\Observers\TrialObserver;
 use App\Observers\UserObserver;
 use App\Observers\VenueObserver;
 use Illuminate\Auth\Events\Registered;
@@ -63,6 +65,7 @@ class EventServiceProvider extends ServiceProvider
         Venue::observe(VenueObserver::class);
         EmailTemplate::observe(EmailTemplateObserver::class);
         Merchandise::observe(MerchandiseObserver::class);
+        Trial::observe(TrialObserver::class);
     }
 
     /**

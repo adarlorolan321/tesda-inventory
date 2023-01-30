@@ -13,7 +13,7 @@ class StoreTrialRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->user()->can('store trial');
     }
 
     /**
@@ -24,7 +24,12 @@ class StoreTrialRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'class_id' => 'required|integer|exists:classes,id',
+            'user_id' => 'required|integer|exists:users,id',
+            'student_id' => 'nullable|integer|exists:students,id',
+            'organisation_id' => 'required|integer|exists:organisations,id',
+            'status' => 'required|string|in:active,inactive',
+            'lesson_id' => 'nullable|integer|exists:session_model,id',
         ];
     }
 }

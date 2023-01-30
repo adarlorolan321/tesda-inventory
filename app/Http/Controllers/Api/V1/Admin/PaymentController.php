@@ -31,17 +31,17 @@ class PaymentController extends Controller
         return DB::table('payments')
             ->where(function ($query) use ($request, $organisationTableName, $paymentTableName) {
                 $s = $request->input('query');
-                $query->when($request->has('query'), function ($query) use ($s) {
-                    $query->where('payments.status', '=', $s)
-                        ->orWhere('payments.amount', 'LIKE', '%' . $s . '%')
-                        ->orWhere('payments.description', 'LIKE', '%' . $s . '%')
-                        ->orWhere(DB::raw('date_format(payments.amount, "%d/%c/%Y")'), 'LIKE', '%' . $s . '%')
-                        ->orWhere(DB::raw('date_format(payments.process_date, "%d/%c/%Y")'), 'LIKE', '%' . $s . '%')
-                        ->orWhere(DB::raw('case when payments.refund = 0 then "false" else "true" end'), 'LIKE', '%' . $s . '%') // might change as requirements gets clear
-                        ->orWhere('payments.refund_amount', 'LIKE', '%' . $s . '%')
-                        ->orWhere('payments.refund_reason', 'LIKE', '%' . $s . '%')
-                        ->orWhere('payments.credits_used', 'LIKE', '%' . $s . '%')
-                        ->orWhere('payments.transaction_id', 'LIKE', '%' . $s . '%')
+                $query->when($request->has('query'), function ($query) use ($s, $paymentTableName) {
+                    $query->where($paymentTableName . '.status', '=', $s)
+                        ->orWhere($paymentTableName . '.amount', 'LIKE', '%' . $s . '%')
+                        ->orWhere($paymentTableName . '.description', 'LIKE', '%' . $s . '%')
+                        ->orWhere(DB::raw('date_format' . $paymentTableName . '.amount, "%d/%c/%Y")'), 'LIKE', '%' . $s . '%')
+                        ->orWhere(DB::raw('date_format' . $paymentTableName . '.process_date, "%d/%c/%Y")'), 'LIKE', '%' . $s . '%')
+                        ->orWhere(DB::raw('case when' . $paymentTableName .  '.refund = 0 then "false" else "true" end'), 'LIKE', '%' . $s . '%') // might change as requirements gets clear
+                        ->orWhere($paymentTableName . '.refund_amount', 'LIKE', '%' . $s . '%')
+                        ->orWhere($paymentTableName . '.refund_reason', 'LIKE', '%' . $s . '%')
+                        ->orWhere($paymentTableName . '.credits_used', 'LIKE', '%' . $s . '%')
+                        ->orWhere($paymentTableName . '.transaction_id', 'LIKE', '%' . $s . '%')
 
                         ->orWhere(DB::raw('concat(processor.first_name, " ", processor.last_name)'), 'like', '%' . $s . '%')
                         ->orWhere(DB::raw('concat(user.first_name, " ", user.last_name)'), 'like', '%' . $s . '%')

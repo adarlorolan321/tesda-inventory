@@ -41,6 +41,7 @@ Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function ()
         'failed-payments' => Admin\FailedPaymentController::class,
         'email-templates' => Admin\EmailTemplateController::class,
         'merchandises' => Admin\MerchandiseController::class,
+        'trials' => Admin\TrialController::class,
 
         /** not registered in RouteServiceProvider */
         'waitlists' => Admin\WaitlistController::class,
