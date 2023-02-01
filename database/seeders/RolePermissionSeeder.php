@@ -277,8 +277,7 @@ class RolePermissionSeeder extends Seeder
                 'show trial',
             ],
             'coach' => [],
-            'client' => [],
-            'parent' => [
+            'client' => [
                 'access enrolment',
                 'create enrolment',
                 'store enrolment',
@@ -286,6 +285,9 @@ class RolePermissionSeeder extends Seeder
                 'update enrolment',
                 'destroy enrolment',
                 'show enrolment',
+            ],
+            'parent' => [
+
             ],
             'student' => [],
         ];
@@ -309,12 +311,20 @@ class RolePermissionSeeder extends Seeder
                 }
             }
         }
-        // ASSIGN SUPER ADMIN ROLE
-        $user = User::findOrFail(1);
-        $user->assignRole('admin'); // SUPER ADMIN
+        // ASSIGN admin ROLE
+        $user = User::where('email', 'admin@admin.com')->first();
+        $user->assignRole('admin');
 
-        // ASSIGN OrgAdmin ROLE
-        $user = User::findOrFail(2);
-        $user->assignRole('orgadmin'); //  OrgAdmin
+        // ASSIGN orgadmin ROLE
+        $user = User::where('email', 'orgadmin@admin.com')->first();
+        $user->assignRole('orgadmin');
+
+        // ASSIGN coach ROLE
+        $user = User::where('email', 'coach@email.com')->first();
+        $user->assignRole('coach');
+
+        // ASSIGN client ROLE
+        $user = User::where('email', 'client@email.com')->first();
+        $user->assignRole('client');
     }
 }

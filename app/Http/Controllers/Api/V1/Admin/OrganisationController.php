@@ -26,22 +26,22 @@ class OrganisationController extends Controller
 
         // $organisationTableName = app(Organisation::class)->getTable();
         // $serviceTableName = app(Service::class)->getTable();
-        // $venueTableName = app(Venue::class)->getTable();        
+        // $venueTableName = app(Venue::class)->getTable();
         // $emailTemplateTableName = app(EmailTemplate::class)->getTable();
 
         // return DB::table($organisationTableName)
         // ->where(function($query) use(
-        //     $request, 
+        //     $request,
         //     $serviceTableName,
-        //     $venueTableName,            
+        //     $venueTableName,
         //     $emailTemplateTableName,
         // ){
         //     $s = $request->input('query');
 
         //     $query->when($request->has('query'), function($query) use(
-        //         $s,                
+        //         $s,
         //         $serviceTableName,
-        //         $venueTableName,                
+        //         $venueTableName,
         //         $emailTemplateTableName,
         //     ){
         //         $query->where($organisationTableName . '.name', 'like', '%' . $s . '%')
@@ -86,12 +86,15 @@ class OrganisationController extends Controller
             $organisation->addMedia($request->file('image'))->toMediaCollection('images');
         }
 
-        return (new OrganisationResource($organisation->load([
-            'services',
-            'venues',
-            'users',
-            'email_templates',
-        ])))
+        return (new OrganisationResource(
+            $organisation
+            // ->load([
+            //     'services',
+            //     'venues',
+            //     'users',
+            //     'email_templates',
+            // ])
+        ))
             ->response()
             ->setStatusCode(201);
     }

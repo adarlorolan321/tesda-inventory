@@ -17,7 +17,7 @@ class ClientTest extends TestCase
      *
      * @return void
      */
-    public function test_api_get_waitlist()
+    public function test_api_get_client()
     {
         $user = User::role('orgadmin')->first();
 
@@ -29,11 +29,11 @@ class ClientTest extends TestCase
     }
 
     /**
-     * API POST Waitlist store
+     * API POST User with role 'client' store
      *
      * @return void
      */
-    public function test_api_store_waitlist()
+    public function test_api_store_client()
     {
         $user = User::role('orgadmin')->first();
 
@@ -65,11 +65,11 @@ class ClientTest extends TestCase
     }
 
     /**
-     * API PATCH Waitlist resource
+     * API PATCH User with role 'client' resource
      *
      * @return void
      */
-    public function test_api_update_waitlist()
+    public function test_api_update_client()
     {
         $user = User::role('orgadmin')->first();
 
@@ -92,11 +92,11 @@ class ClientTest extends TestCase
     }
 
     /**
-     * API PATCH Waitlist store
+     * API PATCH User with role 'client' store
      *
      * @return void
      */
-    public function test_api_destroy_waitlist()
+    public function test_api_destroy_client()
     {
         $user = User::role('orgadmin')->first();
 
