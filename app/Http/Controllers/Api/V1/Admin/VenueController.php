@@ -34,7 +34,7 @@ class VenueController extends Controller
                         ->orWhere('contact_last_name', 'like', '%' . $s . '%')
                         ->orWhere('contact_email', 'like', '%' . $s . '%')
                         ->orWhere('contact_phone', 'like', '%' . $s . '%')
-                        ->orWhere(DB::raw("CASE WHEN status = 1 THEN 'active' WHEN status = 0 THEN 'in-active' END"), 'like', '%' . $s . '%')
+                        ->orWhere(DB::raw("CASE WHEN status = 1 THEN 'active' WHEN status = 0 THEN 'inactive' END"), 'like', '%' . $s . '%')
                         ->orWhereHas('organisation', function ($query) use ($s) {
                             $query->where('name', 'like', '%' . $s . '%');
                         });
@@ -57,10 +57,9 @@ class VenueController extends Controller
 
         $venue = Venue::create($request->validated());
 
-        return new response(
-            new VenueResource($venue),
-            201
-        );
+        return (new VenueResource($venue))
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -88,10 +87,9 @@ class VenueController extends Controller
 
         $venue->update($request->validated());
 
-        return new response(
-            new VenueResource($venue),
-            202
-        );
+        return (new VenueResource($venue))
+            ->response()
+            ->setStatusCode(202);
     }
 
     /**
@@ -100,12 +98,12 @@ class VenueController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Venue $venue)
     {
         \abort_if(!\auth()->user()->can('destroy venue'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
-        Venue::destroy($id);
+        $venue->delete();
 
-        return new response('venue deleted', 204);
+        return response('venue deleted', 204);
     }
 }

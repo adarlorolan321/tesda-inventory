@@ -89,7 +89,7 @@ class AuthController extends Controller
             'password' => bcrypt($request->input('password')),
         ]);
 
-        $user->assignRole('Customer');
+        $user->assignRole('client');
 
         $token = $user->createToken('wyac_mobile_token');
         $user->token = $token->plainTextToken;

@@ -58,12 +58,11 @@ class SessionController extends Controller
     {
         \abort_if(!\auth()->user()->can('store session'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
-        $service = Session::create($request->validated());
+        $session = Session::create($request->validated());
 
-        return new response(
-            new SessionResource($service),
-            201
-        );
+        return (new SessionResource($session))
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -91,10 +90,11 @@ class SessionController extends Controller
 
         $session->update($request->validated());
 
-        return new response(
-            new SessionResource($session),
-            201
-        );
+        $session = Session::create($request->validated());
+
+        return (new SessionResource($session))
+            ->response()
+            ->setStatusCode(202);
     }
 
     /**
@@ -103,13 +103,13 @@ class SessionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Session $session)
     {
         \abort_if(!\auth()->user()->can('destroy session'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
-        Session::destroy($id);
+        $session->delete();
 
-        return new response(
+        return response(
             'session deleted',
             204
         );

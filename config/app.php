@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://sport-saas.test'),
+    'url' => env('APP_URL', 'http://sports-saas-backend.test'),
 
     'asset_url' => env('ASSET_URL'),
 

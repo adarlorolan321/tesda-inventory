@@ -47,7 +47,12 @@ class Organisation extends Model implements HasMedia
         'twilio_secret_id',
         'sms_from',
         'twilio_auth_token',
-        'primary_user',
+        'primary_user_id',
+        'logo',
+    ];
+
+    protected $casts = [
+        'is_stmp' => 'boolean'
     ];
 
     public function getPhotoAttribute()
@@ -79,5 +84,20 @@ class Organisation extends Model implements HasMedia
     public function venues()
     {
         return $this->hasMany(Venue::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function email_templates()
+    {
+        return $this->hasMany(EmailTemplate::class);
+    }
+
+    public function merchandises()
+    {
+        return $this->hasMany(Merchandise::class);
     }
 }

@@ -5,23 +5,27 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 // use Laravel\Fortify\TwoFactorAuthenticatable;
 // use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
+    use InteractsWithMedia;
+    use Notifiable;
+    use HasRoles;
     // use HasProfilePhoto;
     // use TwoFactorAuthenticatable;
 
     protected $dates = ['created_at'];
-    use HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -32,9 +36,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        "mobile_number",
         'first_name',
         'last_name',
+        'phone',
+        'status',
     ];
 
     /**
@@ -82,5 +87,10 @@ class User extends Authenticatable
     public function organisation()
     {
         return $this->belongsTo(Organisation::class);
+    }
+
+    public function organisations()
+    {
+        return $this->belongsToMany(Organisation::class);
     }
 }

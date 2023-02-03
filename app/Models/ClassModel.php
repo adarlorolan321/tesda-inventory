@@ -35,6 +35,12 @@ class ClassModel extends Model
         'tags',
     ];
 
+    protected $casts = [
+        'days' => 'array',
+        'repeat' => 'boolean',
+        'default_email' => 'boolean',
+    ];
+
     public function organisation()
     {
         return $this->belongsTo(Organisation::class);
@@ -53,5 +59,10 @@ class ClassModel extends Model
     public function coach()
     {
         return $this->belongsTo(User::class)->role(['coach', 'Coach']);
+    }
+
+    public function sessions()
+    {
+        return $this->hasMany(Session::class);
     }
 }

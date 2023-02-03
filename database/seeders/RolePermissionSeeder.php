@@ -18,13 +18,13 @@ class RolePermissionSeeder extends Seeder
     {
 
         $roles = [
-            'Admin' => [
+            'admin' => [
                 'access organisation',
                 'create organisation',
                 'store organisation',
                 'edit organisation',
                 'update organisation',
-                'delete organisation',
+                'destroy organisation',
                 'view organisation',
 
                 'access service',
@@ -58,18 +58,104 @@ class RolePermissionSeeder extends Seeder
                 'update session',
                 'destroy session',
                 'show session',
+
+                'access student',
+                'create student',
+                'store student',
+                'edit student',
+                'update student',
+                'destroy student',
+                'show student',
+
+                'access enrolment',
+                'create enrolment',
+                'store enrolment',
+                'edit enrolment',
+                'update enrolment',
+                'destroy enrolment',
+                'show enrolment',
+
+                'access orgadmin',
+                'create orgadmin',
+                'store orgadmin',
+                'edit orgadmin',
+                'update orgadmin',
+                'destroy orgadmin',
+                'show orgadmin',
+
+                'access coach',
+                'create coach',
+                'store coach',
+                'edit coach',
+                'update coach',
+                'destroy coach',
+                'show coach',
+
+                'access user',
+                'create user',
+                'store user',
+                'edit user',
+                'update user',
+                'destroy user',
+                'show user',
+
+                'access client',
+                'create client',
+                'store client',
+                'edit client',
+                'update client',
+                'destroy client',
+                'show client',
+
+                'access waitlist',
+                'create waitlist',
+                'store waitlist',
+                'edit waitlist',
+                'update waitlist',
+                'destroy waitlist',
+                'show waitlist',
+
+                'access payment',
+                'create payment',
+                'store payment',
+                'edit payment',
+                'update payment',
+                'destroy payment',
+                'show payment',
+
+                'access failed_payment',
+                'create failed_payment',
+                'store failed_payment',
+                'edit failed_payment',
+                'update failed_payment',
+                'destroy failed_payment',
+                'show failed_payment',
+
+                'access email_template',
+                'create email_template',
+                'store email_template',
+                'edit email_template',
+                'update email_template',
+                'destroy email_template',
+                'show email_template',
+
+                'access merchandise',
+                'create merchandise',
+                'store merchandise',
+                'edit merchandise',
+                'update merchandise',
+                'destroy merchandise',
+                'show merchandise',
+
+                'access trial',
+                'create trial',
+                'store trial',
+                'edit trial',
+                'update trial',
+                'destroy trial',
+                'show trial',
             ],
-            'OrgAdmin' => [
-                'access organisation',
-                'create organisation',
-                'store organisation',
-                'edit organisation',
-                'update organisation',
-                'delete organisation',
-                'view organisation',
-
-                'legal_edit',
-
+            'orgadmin' => [
                 'access service',
                 'create service',
                 'store service',
@@ -101,11 +187,109 @@ class RolePermissionSeeder extends Seeder
                 'update session',
                 'destroy session',
                 'show session',
+
+                'access student',
+                'create student',
+                'store student',
+                'edit student',
+                'update student',
+                'destroy student',
+                'show student',
+
+                'access enrolment',
+                'create enrolment',
+                'store enrolment',
+                'edit enrolment',
+                'update enrolment',
+                'destroy enrolment',
+                'show enrolment',
+
+                'access orgadmin',
+                'create orgadmin',
+                'store orgadmin',
+                'edit orgadmin',
+                'update orgadmin',
+                'destroy orgadmin',
+                'show orgadmin',
+
+                'access coach',
+                'create coach',
+                'store coach',
+                'edit coach',
+                'update coach',
+                'destroy coach',
+                'show coach',
+
+                'access waitlist',
+                'create waitlist',
+                'store waitlist',
+                'edit waitlist',
+                'update waitlist',
+                'destroy waitlist',
+                'show waitlist',
+
+                'access client',
+                'create client',
+                'store client',
+                'edit client',
+                'update client',
+                'destroy client',
+                'show client',
+
+                'access payment',
+                'create payment',
+                'store payment',
+                'edit payment',
+                'update payment',
+                'destroy payment',
+                'show payment',
+
+                'access failed_payment',
+                'create failed_payment',
+                'store failed_payment',
+                'edit failed_payment',
+                'update failed_payment',
+                'destroy failed_payment',
+                'show failed_payment',
+
+                'access email_template',
+                'create email_template',
+                'store email_template',
+                'edit email_template',
+                'update email_template',
+                'destroy email_template',
+                'show email_template',
+
+                'access merchandise',
+                'create merchandise',
+                'store merchandise',
+                'edit merchandise',
+                'update merchandise',
+                'destroy merchandise',
+                'show merchandise',
+
+                'access trial',
+                'create trial',
+                'store trial',
+                'edit trial',
+                'update trial',
+                'destroy trial',
+                'show trial',
             ],
+            'coach' => [],
+            'client' => [
+                'access enrolment',
+                'create enrolment',
+                'store enrolment',
+                'edit enrolment',
+                'update enrolment',
+                'destroy enrolment',
+                'show enrolment',
+            ],
+            'parent' => [
 
-            'Coach' => [],
-
-            'Client' => [],
+            ],
+            'student' => [],
         ];
 
         foreach ($roles as $role => $permissions) {
@@ -127,20 +311,20 @@ class RolePermissionSeeder extends Seeder
                 }
             }
         }
-        // ASSIGN SUPER ADMIN ROLE
-        $user = User::findOrFail(1);
-        $user->assignRole('Admin'); // SUPER ADMIN
+        // ASSIGN admin ROLE
+        $user = User::where('email', 'admin@admin.com')->first();
+        $user->assignRole('admin');
 
-        // ASSIGN SUPER OrgAdmin ROLE
-        $user = User::findOrFail(2);
-        $user->assignRole('OrgAdmin'); //  OrgAdmin
+        // ASSIGN orgadmin ROLE
+        $user = User::where('email', 'orgadmin@admin.com')->first();
+        $user->assignRole('orgadmin');
 
-        // ASSIGN SUPER Coach ROLE
-        $user = User::findOrFail(3);
-        $user->assignRole('Coach'); //  Coach
+        // ASSIGN coach ROLE
+        $user = User::where('email', 'coach@email.com')->first();
+        $user->assignRole('coach');
 
-        // ASSIGN SUPER Client ROLE
-        $user = User::findOrFail(4);
-        $user->assignRole('Client'); //  Client
+        // ASSIGN client ROLE
+        $user = User::where('email', 'client@email.com')->first();
+        $user->assignRole('client');
     }
 }

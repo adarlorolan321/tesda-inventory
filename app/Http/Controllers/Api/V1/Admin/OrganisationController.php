@@ -8,57 +8,137 @@ use App\Http\Resources\Organisation as OrganisationResource;
 use App\Models\Organisation;
 use App\Http\Requests\Admin\StoreorganisationRequest;
 use App\Http\Requests\Admin\UpdateorganisationRequest;
+use App\Models\EmailTemplate;
+use App\Models\Service;
+use App\Models\User;
+use App\Models\Venue;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class OrganisationController extends Controller
 {
     public function index(Request $request)
     {
-        if (!auth()->user()->can('access organisation')) return abort(401);
+        \abort_if(!auth()->user()->can('access organisation'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
         $perPage = $request->has('perPage') ? $request->input('perPage') : 10;
 
-        $ogranisations = Organisation::with([])
+        // $organisationTableName = app(Organisation::class)->getTable();
+        // $serviceTableName = app(Service::class)->getTable();
+        // $venueTableName = app(Venue::class)->getTable();
+        // $emailTemplateTableName = app(EmailTemplate::class)->getTable();
+
+        // return DB::table($organisationTableName)
+        // ->where(function($query) use(
+        //     $request,
+        //     $serviceTableName,
+        //     $venueTableName,
+        //     $emailTemplateTableName,
+        // ){
+        //     $s = $request->input('query');
+
+        //     $query->when($request->has('query'), function($query) use(
+        //         $s,
+        //         $serviceTableName,
+        //         $venueTableName,
+        //         $emailTemplateTableName,
+        //     ){
+        //         $query->where($organisationTableName . '.name', 'like', '%' . $s . '%')
+        //         ->orWhere($organisationTableName . '.primary_user', 'like', '%' . $s . '%')
+        //         ->orWhere($organisationTableName . '.abn', 'like', '%' . $s . '%')
+        //         ->orWhere($organisationTableName . '.street_address', 'like', '%' . $s . '%')
+        //         ->orWhere($organisationTableName . '.street_address_2', 'like', '%' . $s . '%')
+        //         ->orWhere($organisationTableName . '.suburb', 'like', '%' . $s . '%')
+        //         ->orWhere($organisationTableName . '.postcode', 'like', '%' . $s . '%')
+        //         ->orWhere($organisationTableName . '.state', 'like', '%' . $s . '%');
+        //     });
+        // })
+        // ->leftJoin($serviceTableName . ' as service')
+
+        $organisations = Organisation::with([])
             ->where(function ($query) use ($request) {
                 if ($request->has('query')) {
                     $query_string = $request->input('query');
-                    $query->where('abn', 'like', '%' . $query_string . '%');
-                    // ->orWhere('size', 'like', '%' . $query_string . '%')
-                    // ->orWhere('gender', 'like', '%' . $query_string . '%')
-                    // ->orWhere('weeks_to_go', 'like', '%' . $query_string . '%')
-                    // ->orWhere('description', 'like', '%' . $query_string . '%');
+                    $query->where('abn', 'like', '%' . $query_string . '%')
+                        ->orWhere('primary_user', 'like', '%' . $query_string . '%')
+                        ->orWhere('abn', 'like', '%' . $query_string . '%')
+                        ->orWhere('street_address', 'like', '%' . $query_string . '%')
+                        ->orWhere('street_address_2', 'like', '%' . $query_string . '%')
+                        ->orWhere('suburb', 'like', '%' . $query_string . '%')
+                        ->orWhere('postcode', 'like', '%' . $query_string . '%')
+                        ->orWhere('state', 'like', '%' . $query_string . '%');
                 }
             })
+            ->orderBy('name', 'ASC')
             ->paginate($perPage);
 
-        return new OrganisationResource($ogranisations);
+        return new OrganisationResource($organisations);
     }
 
-    public function store(StoreorganisationRequest $request)
+    public function store(StoreOrganisationRequest $request)
     {
+        \abort_if(!auth()->user()->can('store organisation'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
-        if (!auth()->user()->can('create organisation')) {
+        $organisation = Organisation::create($request->validated());
+
+        if ($request->hasFile('image')) {
+            $organisation->addMedia($request->file('image'))->toMediaCollection('images');
+        }
+
+        return (new OrganisationResource(
+            $organisation
+            // ->load([
+            //     'services',
+            //     'venues',
+            //     'users',
+            //     'email_templates',
+            // ])
+        ))
+            ->response()
+            ->setStatusCode(201);
+    }
+
+    public function show(Organisation $organisation)
+    {
+        if (!auth()->user()->can('view organisation')) {
             return abort(401);
         }
-        $validated = $request->validated();
-        $Organisation = Organisation::create($validated);
 
-        if ($request->hasFile('image'))
-            $Organisation->addMedia($request->file('image'))->toMediaCollection('photo');
-
-        return (new OrganisationResource($Organisation))->response()->setStatusCode(201);
-
-        // $store = Organisation::create($request->validated());
-        // return (new OrganisationResource($store))
-        //     ->response()
-        //     ->setStatusCode(201);
+        return new OrganisationResource($organisation->load([
+            'services',
+            'venues',
+            'users',
+            'email_templates',
+        ]));
     }
 
-    public function destroy($id)
+    public function update(UpdateorganisationRequest $request, Organisation $organisation)
     {
-        if (!auth()->user()->can('delete organisation')) return abort(401);
+        \abort_if(!auth()->user()->can('update organisation'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
-        Organisation::findOrFail($id)->delete();
+        $organisation->update($request->validated());
+
+        if ($request->hasFile('logo')) {
+            $organisation->clearMediaCollection('logos');
+            $organisation->addMedia(request()->file('logo'))->toMediaCollection('logos');
+        }
+
+        return (new OrganisationResource($organisation->load([
+            'services',
+            'venues',
+            'users',
+            'email_templates',
+        ])))
+            ->response()
+            ->setStatusCode(202);
+    }
+
+    public function destroy(Organisation $organisation)
+    {
+        \abort_if(!auth()->user()->can('destroy organisation'), Response::HTTP_FORBIDDEN, 'Unauthorized');
+
+        $organisation->delete();
 
         return response('Organisation Deleted', 204);
     }
@@ -85,27 +165,5 @@ class OrganisationController extends Controller
         return (new OrganisationResource($organisation))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
-    }
-
-    public function show($id)
-    {
-        if (!auth()->user()->can('view organisation')) {
-            return abort(401);
-        }
-        $organisation = Organisation::with([])->findOrFail($id);
-        return new OrganisationResource($organisation);
-    }
-
-    public function update(UpdateorganisationRequest $request, $id)
-    {
-        $organisation = Organisation::findOrFail($id);
-        $organisation->update($request->validated());
-
-        if ($request->hasFile('image')) {
-            $organisation->clearMediaCollection('photo');
-            $organisation->addMedia($request->file('image'))->toMediaCollection('photo');
-        }
-
-        return (new OrganisationResource($organisation))->response()->setStatusCode(202);
     }
 }

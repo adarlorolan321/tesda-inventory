@@ -20,12 +20,30 @@ Route::prefix('v1')->name('api.')->group(function () {
     Route::apiResources([]);
 });
 
+
 Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function () {
     Route::apiResources([
-        'organisation' => Admin\OrganisationController::class,
+        /**
+         * when adding routes with CRUD functionality, that uses both id and uuid column for fetching
+         * register the model in RouteServiceProvider.php, under boot() method
+         */
+
+        /** registered in RouteServiceProvider */
+        'users' => Admin\UserController::class,
+        'organisations' => Admin\OrganisationController::class,
         'services' => Admin\ServiceController::class,
         'classes' => Admin\ClassModelController::class,
         'venues' => Admin\VenueController::class,
         'sessions' => Admin\SessionController::class,
+        'students' => Admin\StudentController::class,
+        'enrolments' => Admin\EnrolmentController::class,
+        'payments' => Admin\PaymentController::class,
+        'failed-payments' => Admin\FailedPaymentController::class,
+        'email-templates' => Admin\EmailTemplateController::class,
+        'merchandises' => Admin\MerchandiseController::class,
+        'trials' => Admin\TrialController::class,
+
+        /** not registered in RouteServiceProvider */
+        'waitlists' => Admin\WaitlistController::class,
     ]);
 });
