@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -40,11 +41,11 @@ class OrganisationFactory extends Factory
             'smtp_username' => strtoupper($this->faker->word()),
             'smtp_password' => $this->faker->password(),
             'smtp_port' => $this->faker->bothify('????'),
-            'smtp_security' => $this->faker->password(),
+            'smtp_security' => $this->faker->randomElement(['ssl', 'tls', null]),
             'twilio_secret_id' => $this->faker->uuid(),
             'sms_from' => strtoupper($this->faker->word()),
             'twilio_auth_token' => $this->faker->uuid(),
-            'primary_user'  => $this->faker->name(),
+            'primary_user_id'  => User::count() > 0 ?  User::pluck('id')->random() : User::factory()->create()->pluck('id')->random(),
         ];
     }
 }
