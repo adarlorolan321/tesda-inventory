@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreServiceRequest;
 use App\Http\Requests\Admin\UpdateServiceRequest;
 use App\Http\Resources\ServiceResource;
+use App\Models\Organisation;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ServiceController extends Controller
 {
@@ -19,26 +22,42 @@ class ServiceController extends Controller
      */
     public function index(Request $request)
     {
-        \abort_if(!\auth()->user()->can('access service'), Response::HTTP_FORBIDDEN, 'Unauthorized');
+        $user = Auth::user();
+
+        \abort_if(!$user->can('access service'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
         $perPage = $request->has('perPage') ? $request->input('perPage') : 10;
 
-        $services = Service::with(['organisation'])
-            ->where(function ($query) use ($request) {
-                if ($request->has('query')) {
-                    $s = $request->input('query');
+        $serviceTableName = app(Service::class)->getTable();
+        $organisationTableName = app(Organisation::class)->getTable();
 
-                    $query->where('name', 'like', '%' . $s . '%')
-                        ->orWhere('code', 'like', '%' . $s . '%')
-                        ->orWhereHas('organisation', function ($query) use ($s) {
-                            $query->where('name', 'like', '%' . $s . '%');
-                        });
-                }
+        return DB::table('services')
+            ->where(function ($query) use ($request, $serviceTableName) {
+                $s = $request->input('query');
+                $query->when($request->has('query'), function ($query) use (
+                    $s,
+                    $serviceTableName,
+                ) {
+                    $query->where($serviceTableName . '.name', 'like', '%' . $s . '%')
+                        ->orWhere($serviceTableName . '.code', 'like', '%' . $s . '%')
+                        ->orWhere('organisation.name', 'like', '%' . $s . '%');
+                });
             })
-            ->orderBy('name', 'ASC')
+            ->when($user->hasRole('orgadmin'), function ($query) use ($user) {
+                $query->where('organisation_id', $user->organisation_id);
+            })
+            ->leftJoin(
+                $organisationTableName . ' as organisation',
+                $serviceTableName . '.organisation_id',
+                '=',
+                'organisation.id',
+            )
+            ->select(
+                $serviceTableName . '.*',
+                'organisation.name as organisation'
+            )
+            ->orderBy($serviceTableName . '.name', 'ASC')
             ->paginate($perPage);
-
-        return ServiceResource::collection($services);
     }
 
     /**

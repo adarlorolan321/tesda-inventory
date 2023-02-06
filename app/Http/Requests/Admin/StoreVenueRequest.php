@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class StoreVenueRequest extends FormRequest
@@ -28,7 +29,13 @@ class StoreVenueRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                Rule::unique('venues')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))
+                Rule::unique('venues')->where(function ($query) {
+                    return $query->where(
+                        'organisation_id',
+                        empty($this->organisation_id) ??
+                            Auth::user()->organisation_id
+                    );
+                })
             ],
             'organisation_id' => 'nullable|integer|exists:organisations,id',
             'contact_first_name' => 'string|nullable',

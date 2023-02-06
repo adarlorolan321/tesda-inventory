@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Service;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ServiceObserver
@@ -16,6 +17,12 @@ class ServiceObserver
     public function creating(Service $service)
     {
         $service->uuid = Str::uuid();
+
+        if (Auth::user()->hasRole('orgadmin')) {
+            if (!is_null(Auth::user()->organisation_id)) {
+                $service->organisation_id = Auth::user()->organisation_id;
+            }
+        }
     }
 
     /**
@@ -26,6 +33,21 @@ class ServiceObserver
      */
     public function created(Service $service)
     {
+    }
+
+    /**
+     * Handle the Service "updating" event.
+     *
+     * @param  \App\Models\Service  $service
+     * @return void
+     */
+    public function updating(Service $service)
+    {
+        if (Auth::user()->hasRole('orgadmin')) {
+            if (!is_null(Auth::user()->organisation_id)) {
+                $service->organisation_id = Auth::user()->organisation_id;
+            }
+        }
     }
 
     /**

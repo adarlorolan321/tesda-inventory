@@ -25,16 +25,16 @@ class UpdateServiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'organisation_id' => 'required|integer|exists:organisations,id',
+            'organisation_id' => 'nullable|integer|exists:organisations,id',
             'name' => [
                 'required',
                 'string',
-                Rule::unique('services')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))->ignore($this->id)
+                Rule::unique('services')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))->ignore($this->route('service')->id)
             ],
             'code' => [
                 'required',
                 'string',
-                Rule::unique('services')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))->ignore($this->id)
+                Rule::unique('services')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))->ignore($this->route('service')->id)
             ],
         ];
     }

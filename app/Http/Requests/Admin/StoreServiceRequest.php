@@ -25,7 +25,7 @@ class StoreServiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'organisation_id' => 'required|integer|exists:organisations,id',
+            'organisation_id' => 'nullable|integer|exists:organisations,id',
             'name' => [
                 'required',
                 'string',
