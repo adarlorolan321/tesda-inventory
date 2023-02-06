@@ -15,20 +15,20 @@ class StoreUserRequest extends FormRequest
     public function authorize()
     {
         switch ($this->role) {
-            case 'coach':
-                return auth()->user()->can('store coach');
+            case 'admin':
+                return auth()->user()->can('store orgadmin');
                 break;
             case 'orgadmin':
                 return auth()->user()->can('store orgadmin');
                 break;
-            case 'parent':
-                return auth()->user()->can('store parent');
+            case 'coach':
+                return auth()->user()->can('store coach');
                 break;
             case 'client':
                 return auth()->user()->can('store client');
                 break;
             default:
-                return true;
+                return false;
                 break;
         }
     }
@@ -45,7 +45,7 @@ class StoreUserRequest extends FormRequest
             'last_name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'phone' => 'nullable|string',
-            'role' => 'required|in:coach,orgadmin,client,parent',
+            'role' => 'required|in:coach,orgadmin,client',
             'photo' => 'nullable|image|max:2048',
             'status' => [
                 Rule::requiredIf($this->role != 'client'),
