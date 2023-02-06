@@ -8,6 +8,14 @@ use Illuminate\Validation\Rule;
 
 class StoreVenueRequest extends FormRequest
 {
+    private $user;
+
+    public function __construct()
+    {
+        $this->user = Auth::user();
+    }
+
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -15,7 +23,7 @@ class StoreVenueRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('store venue');
+        return $this->user->can('store venue');
     }
 
     /**
@@ -32,8 +40,9 @@ class StoreVenueRequest extends FormRequest
                 Rule::unique('venues')->where(function ($query) {
                     return $query->where(
                         'organisation_id',
-                        empty($this->organisation_id) ??
-                            Auth::user()->organisation_id
+                        $this->user->hasRole('orgadmin') ?
+                            $this->user->organisation_id :
+                            $this->organisation_id
                     );
                 })
             ],
