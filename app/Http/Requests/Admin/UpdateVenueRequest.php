@@ -28,7 +28,7 @@ class UpdateVenueRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                Rule::unique('venues')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))
+                Rule::unique('venues')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))->ignore($this->route('venue')->id)
             ],
             'organisation_id' => 'required|integer|exists:organisations,id',
             'contact_first_name' => 'string|nullable',
