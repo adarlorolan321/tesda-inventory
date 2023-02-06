@@ -51,7 +51,7 @@ class UpdateServiceRequest extends FormRequest
             'code' => [
                 'required',
                 'string',
-                'unique:services,code,' . $this->id
+                'unique:services,code,' . $this->route('service')->id
             ],
         ];
     }

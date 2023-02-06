@@ -115,7 +115,12 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
-        \abort_if(!\auth()->user()->can('destroy service'), Response::HTTP_FORBIDDEN, 'Unauthorized');
+        \abort_if(
+            !\auth()->user()->can('destroy service') ||
+                auth()->user()->organisation_id != $service->organisation_id,
+            Response::HTTP_FORBIDDEN,
+            'Unauthorized'
+        );
 
         $service->delete();
 

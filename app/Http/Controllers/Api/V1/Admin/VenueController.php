@@ -126,7 +126,12 @@ class VenueController extends Controller
      */
     public function destroy(Venue $venue)
     {
-        \abort_if(!\auth()->user()->can('destroy venue'), Response::HTTP_FORBIDDEN, 'Unauthorized');
+        \abort_if(
+            !\auth()->user()->can('destroy service') ||
+                auth()->user()->organisation_id != $venue->organisation_id,
+            Response::HTTP_FORBIDDEN,
+            'Unauthorized'
+        );
 
         $venue->delete();
 
