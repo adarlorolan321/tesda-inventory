@@ -3,10 +3,18 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class UpdateVenueRequest extends FormRequest
 {
+    private $user;
+
+    public function __construct()
+    {
+        $this->user = Auth::user();
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -14,7 +22,16 @@ class UpdateVenueRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('update venue');
+        switch ($this->user->role) {
+            case 'admin':
+                return $this->user->can('update venue');
+                break;
+            case 'orgadmin':
+                return $this->user->can('update venue') && $this->user->organisation_id == $this->route('venue')->organisation_id;
+                break;
+            default:
+                return false;
+        }
     }
 
     /**
