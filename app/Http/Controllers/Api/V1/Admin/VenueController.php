@@ -96,7 +96,17 @@ class VenueController extends Controller
      */
     public function show(Venue $venue)
     {
-        \abort_if(!\auth()->user()->can('show venue'), Response::HTTP_FORBIDDEN, 'Unauthorized');
+        $otherOrganisation = auth()->user()->hasRole('orgadmin') ?
+            auth()->user()->organisation_id == $venue->organisation_id
+            : true;
+
+        \abort_if(
+            !auth()->user()->can('show venue') ||
+                !$otherOrganisation,
+            Response::HTTP_FORBIDDEN,
+            'Unauthorized'
+        );
+
         return new VenueResource($venue->load(['organisation']));
     }
 
@@ -126,9 +136,13 @@ class VenueController extends Controller
      */
     public function destroy(Venue $venue)
     {
+        $otherOrganisation = auth()->user()->hasRole('orgadmin') ?
+            auth()->user()->organisation_id == $venue->organisation_id
+            : true;
+
         \abort_if(
-            !\auth()->user()->can('destroy service') ||
-                auth()->user()->organisation_id != $venue->organisation_id,
+            !auth()->user()->can('destroy venue') ||
+                !$otherOrganisation,
             Response::HTTP_FORBIDDEN,
             'Unauthorized'
         );

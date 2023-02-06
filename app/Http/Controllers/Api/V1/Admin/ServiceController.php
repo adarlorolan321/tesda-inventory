@@ -85,7 +85,17 @@ class ServiceController extends Controller
      */
     public function show(Service $service)
     {
-        \abort_if(!\auth()->user()->can('show class'), Response::HTTP_FORBIDDEN, 'Unauthorized');
+        $otherOrganisation = auth()->user()->hasRole('orgadmin') ?
+            auth()->user()->organisation_id == $service->organisation_id
+            : true;
+
+        \abort_if(
+            !auth()->user()->can('show service') ||
+                !$otherOrganisation,
+            Response::HTTP_FORBIDDEN,
+            'Unauthorized'
+        );
+
         return new ServiceResource($service->load(['organisation']));
     }
 
@@ -115,9 +125,13 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
+        $otherOrganisation = auth()->user()->hasRole('orgadmin') ?
+            auth()->user()->organisation_id == $service->organisation_id
+            : true;
+
         \abort_if(
-            !\auth()->user()->can('destroy service') ||
-                auth()->user()->organisation_id != $service->organisation_id,
+            !auth()->user()->can('destroy service') ||
+                !$otherOrganisation,
             Response::HTTP_FORBIDDEN,
             'Unauthorized'
         );
