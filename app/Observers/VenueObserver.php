@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Venue;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class VenueObserver
@@ -16,6 +17,12 @@ class VenueObserver
     public function creating(Venue $venue)
     {
         $venue->uuid = Str::uuid();
+
+        if (Auth::user()->hasRole('orgadmin')) {
+            if (!is_null(Auth::user()->organisation_id)) {
+                $venue->organisation_id = Auth::user()->organisation_id;
+            }
+        }
     }
 
     /**
@@ -26,6 +33,21 @@ class VenueObserver
      */
     public function created(Venue $venue)
     {
+    }
+
+    /**
+     * Handle the Venue "updating" event.
+     *
+     * @param  \App\Models\Venue  $venue
+     * @return void
+     */
+    public function updating(Venue $venue)
+    {
+        if (Auth::user()->hasRole('orgadmin')) {
+            if (!is_null(Auth::user()->organisation_id)) {
+                $venue->organisation_id = Auth::user()->organisation_id;
+            }
+        }
     }
 
     /**

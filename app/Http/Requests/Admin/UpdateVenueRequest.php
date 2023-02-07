@@ -3,10 +3,18 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class UpdateVenueRequest extends FormRequest
 {
+    private $user;
+
+    public function __construct()
+    {
+        $this->user = Auth::user();
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -14,7 +22,16 @@ class UpdateVenueRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('update venue');
+        switch ($this->user->role) {
+            case 'admin':
+                return $this->user->can('update venue');
+                break;
+            case 'orgadmin':
+                return $this->user->can('update venue') && $this->user->organisation_id == $this->route('venue')->organisation_id;
+                break;
+            default:
+                return false;
+        }
     }
 
     /**
@@ -28,9 +45,9 @@ class UpdateVenueRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                Rule::unique('venues')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))
+                Rule::unique('venues')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))->ignore($this->route('venue')->id)
             ],
-            'organisation_id' => 'required|integer|exists:organisations,id',
+            'organisation_id' => 'nullable|integer|exists:organisations,id',
             'contact_first_name' => 'string|nullable',
             'contact_last_name' => 'string|nullable',
             'contact_email' => 'nullable|email',
