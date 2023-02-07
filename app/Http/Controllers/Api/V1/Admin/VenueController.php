@@ -79,6 +79,7 @@ class VenueController extends Controller
      */
     public function store(StoreVenueRequest $request)
     {
+
         \abort_if(!\auth()->user()->can('store venue'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
         $venue = Venue::create($request->validated());
@@ -106,6 +107,7 @@ class VenueController extends Controller
             Response::HTTP_FORBIDDEN,
             'Unauthorized'
         );
+
 
         return new VenueResource($venue->load(['organisation']));
     }

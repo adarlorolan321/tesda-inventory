@@ -72,6 +72,7 @@ class VenueObserver
         //
     }
 
+
     /**
      * Handle the Venue "restored" event.
      *
