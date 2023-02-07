@@ -81,9 +81,9 @@ class UserController extends Controller
                         });
                 });
             })
-            ->when($request->has('role'), function ($query) use ($request) {
+            ->when($request->has('roles') && count($request->input('roles')), function ($query) use ($request) {
                 $query->whereHas('roles', function ($query) use ($request) {
-                    $query->where('name', '=', $request->input('role'));
+                    $query->whereIn('name', $request->input('roles'));
                 });
             })
             ->when(!auth()->user()->hasRole('admin'), function ($query) use ($request) {
