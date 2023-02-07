@@ -313,18 +313,20 @@ class RolePermissionSeeder extends Seeder
         }
         // ASSIGN admin ROLE
         $user = User::where('email', 'admin@admin.com')->first();
-        $user->assignRole('admin');
+        $user->syncRoles('admin');
 
         // ASSIGN orgadmin ROLE
         $user = User::where('email', 'orgadmin@admin.com')->first();
-        $user->assignRole('orgadmin');
+        $user->syncRoles('orgadmin');
 
         // ASSIGN coach ROLE
         $user = User::where('email', 'coach@email.com')->first();
-        $user->assignRole('coach');
+        $user->syncRoles('coach');
 
         // ASSIGN client ROLE
         $user = User::where('email', 'client@email.com')->first();
-        $user->assignRole('client');
+        $user->syncRoles('client');
+
+
     }
 }

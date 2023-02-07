@@ -21,8 +21,8 @@ class UserObserver
     {
         $user->name = $user->first_name . ' ' . $user->last_name;
         $user->uuid = Str::uuid();
-        $user->organisation_id = auth()->user()->organisation_id ?? null;
-        $user->organisations()->attach(auth()->user()->organisation_id ?? []);
+
+        $user->organisation_id = auth()->user()->organisation_id;
 
         if (!$user->password) {
             $password = Str::random(8);
@@ -39,6 +39,8 @@ class UserObserver
      */
     public function created(User $user)
     {
+        $user->organisations()->attach(auth()->user()->organisation_id);
+
     }
 
     /**

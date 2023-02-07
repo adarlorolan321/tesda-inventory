@@ -76,9 +76,9 @@ class UserController extends Controller
                         });
                 });
             })
-            ->when($request->has('role'), function ($query) use ($request) {
+            ->when($request->has('roles') && count($request->input('roles')), function ($query) use ($request) {
                 $query->whereHas('roles', function ($query) use ($request) {
-                    $query->where('name', '=', $request->input('role'));
+                    $query->whereIn('name', $request->input('roles'));
                 });
             })
             ->when(!auth()->user()->hasRole('admin'), function ($query) use ($request) {
@@ -103,7 +103,7 @@ class UserController extends Controller
 
         $user = User::create($request->validated());
 
-        $user->assignRole($request->role ?? 'client');
+        $user->syncRoles($request->role ?? 'client');
 
         if ($request->hasFile('photo')) {
             $user->addMedia($request->file('photo'))->toMediaCollection('photos');
@@ -123,7 +123,20 @@ class UserController extends Controller
     public function show(User $user)
     {
         $this->fillPermissions('show');
-        \abort_if(!\auth()->user()->canAny($this->permissions), Response::HTTP_FORBIDDEN, 'Unauthorized');
+
+        $otherOrganisation = auth()->user()->hasRole('orgadmin') ?
+        auth()->user()->organisation_id == $user->organisation_id
+            : true;
+
+        \abort_if(
+            !\auth()->user()->canAny($this->permissions) ||
+            !$otherOrganisation,
+            Response::HTTP_FORBIDDEN,
+            'Unauthorized'
+        );
+
+        // \abort_if(!\auth()->user()->canAny($this->permissions), Response::HTTP_FORBIDDEN, 'Unauthorized');
+
         return new UserResource($user->load(['organisation']));
     }
 

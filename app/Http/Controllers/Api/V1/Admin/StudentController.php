@@ -24,25 +24,32 @@ class StudentController extends Controller
 
         $perPage = $request->has('perPage') ? $request->input('perPage') : 10;
 
-        $students = Student::with(['parents'])
-            ->where(function ($query) use ($request) {
+        $studentTableName = app(Student::class)->getTable();
+
+        return DB::table('students')
+            ->where(function ($query) use ($request, $studentTableName) {
                 if ($request->has('query')) {
                     $s = $request->input('query');
 
-                    $query->where('first_name', 'like', '%' . $s . '%')
-                        ->orWhere('last_name', 'like', '%' . $s . '%')
-                        ->orWhere('email', 'like', '%' . $s . '%')
-                        ->orWhere('phone', 'like', '%' . $s . '%')
-                        ->orWhere('gender', 'like', '%' . $s . '%')
-                        ->orWhere(DB::raw('DATE_FORMAT(students.dob, "%d/%m/Y")'), 'like', '%' . $s . '%')
-                        ->orWhereHas('parents', function ($query) use ($s) {
-                            $query->where('name', 'like', '%' . $s . '%');
-                        });
+                    $query->where($studentTableName . '.first_name', 'like', '%' . $s . '%')
+                        ->orWhere($studentTableName . '.last_name', 'like', '%' . $s . '%')
+                        ->orWhere($studentTableName . '.email', 'like', '%' . $s . '%')
+                        ->orWhere($studentTableName . '.phone', 'like', '%' . $s . '%')
+                        ->orWhere($studentTableName . '.gender', 'like', '%' . $s . '%')
+                        ->orWhere(DB::raw('DATE_FORMAT('. $studentTableName . '.dob, "%d/%m/Y")'), 'like', '%' . $s . '%')
+                        ->orWhere(DB::raw('concat(parent.first_name, " ", parent.last_name)'), 'like', '%' . $s . '%');
                 }
             })
+            ->leftJoin('users as parent', $studentTableName . '.parent_id', '=', 'parent.id')
+            ->select([
+                $studentTableName . '.*',
+                DB::raw('concat(parent.first_name, " ", parent.last_name) as parent_name'),
+            ])
+            ->orderBy(
+                DB::raw('concat('. $studentTableName . '.first_name, " ", '. $studentTableName . '.last_name)'), 'ASC'
+            )
             ->paginate($perPage);
 
-        return StudentResource::collection($students);
     }
 
     /**

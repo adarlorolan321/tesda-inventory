@@ -58,8 +58,13 @@ class RouteServiceProvider extends ServiceProvider
         foreach ($models as $modelName => $routeBindName) {
             Route::bind($routeBindName, function ($value) use ($modelName) {
                 $modelName =  'App\Models\\' . $modelName;
+                // $fillable_columns = (new $modelName)->getFillable();
+
                 return $modelName::where('id', $value)
                     ->orWhere('uuid', $value)
+                    // ->when(!Auth::user()->hasRole('admin') && in_array('organisation_id', $fillable_columns), function($query) use($fillable_columns){
+                    //     $query->where('organisation_id', '=', Auth::user()->organisation_id);
+                    // })
                     ->firstOrFail();
             });
         }
