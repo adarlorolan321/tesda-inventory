@@ -3,10 +3,19 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class StoreServiceRequest extends FormRequest
 {
+
+    private $user;
+
+    public function __construct()
+    {
+        $this->user = Auth::user();
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -14,7 +23,7 @@ class StoreServiceRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('store service');
+        return $this->user->can('store service');
     }
 
     /**
@@ -25,16 +34,23 @@ class StoreServiceRequest extends FormRequest
     public function rules()
     {
         return [
-            'organisation_id' => 'required|integer|exists:organisations,id',
+            'organisation_id' => 'nullable|integer|exists:organisations,id',
             'name' => [
                 'required',
                 'string',
-                Rule::unique('services')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))
+                Rule::unique('services')->where(function ($query) {
+                    return $query->where(
+                        'organisation_id',
+                        $this->user->hasRole('orgadmin') ?
+                            $this->user->organisation_id :
+                            $this->organisation_id
+                    );
+                })
             ],
             'code' => [
                 'required',
                 'string',
-                Rule::unique('services')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))
+                'unique:services,code'
             ],
         ];
     }

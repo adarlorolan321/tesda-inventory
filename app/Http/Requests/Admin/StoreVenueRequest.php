@@ -3,10 +3,19 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class StoreVenueRequest extends FormRequest
 {
+    private $user;
+
+    public function __construct()
+    {
+        $this->user = Auth::user();
+    }
+
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -14,7 +23,7 @@ class StoreVenueRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('store venue');
+        return $this->user->can('store venue');
     }
 
     /**
@@ -28,9 +37,16 @@ class StoreVenueRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                Rule::unique('venues')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))
+                Rule::unique('venues')->where(function ($query) {
+                    return $query->where(
+                        'organisation_id',
+                        $this->user->hasRole('orgadmin') ?
+                            $this->user->organisation_id :
+                            $this->organisation_id
+                    );
+                })
             ],
-            'organisation_id' => 'required|integer|exists:organisations,id',
+            'organisation_id' => 'nullable|integer|exists:organisations,id',
             'contact_first_name' => 'string|nullable',
             'contact_last_name' => 'string|nullable',
             'contact_email' => 'nullable|email',

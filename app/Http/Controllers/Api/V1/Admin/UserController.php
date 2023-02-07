@@ -34,11 +34,6 @@ class UserController extends Controller
                     $type . ' client'
                 ];
                 break;
-            case 'coach':
-                $this->permissions = [
-                    $type . ' client'
-                ];
-                break;
             default:
                 $this->permissions = [
                     $type . ' client',

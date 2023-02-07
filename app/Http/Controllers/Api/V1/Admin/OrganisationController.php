@@ -119,9 +119,9 @@ class OrganisationController extends Controller
 
         $organisation->update($request->validated());
 
-        if ($request->hasFile('image')) {
-            $organisation->clearMediaCollection('images');
-            $organisation->addMedia(request()->file('image'))->toMediaCollection('images');
+        if ($request->hasFile('logo')) {
+            $organisation->clearMediaCollection('logos');
+            $organisation->addMedia(request()->file('logo'))->toMediaCollection('logos');
         }
 
         return (new OrganisationResource($organisation->load([

@@ -21,9 +21,6 @@ class UpdateUserRequest extends FormRequest
             case 'orgadmin':
                 return auth()->user()->can('store orgadmin');
                 break;
-            case 'parent':
-                return auth()->user()->can('store parent');
-                break;
             case 'client':
                 return auth()->user()->can('store client');
                 break;
@@ -49,7 +46,7 @@ class UpdateUserRequest extends FormRequest
                 Rule::unique('users')->ignore($this->route('user')->id)
             ],
             'phone' => 'nullable|string',
-            'role' => 'required|in:coach,orgadmin,client,parent',
+            'role' => 'required|in:coach,orgadmin,client',
             'photo' => 'nullable|image|max:2048',
             'status' => 'required|in:active,inactive',
         ];
