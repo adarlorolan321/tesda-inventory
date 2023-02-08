@@ -324,31 +324,39 @@ class RolePermissionSeeder extends Seeder
         // ASSIGN admin ROLE
         $user = User::where('email', 'admin@admin.com')->first();
         $user->syncRoles('admin');
-        $user->update([
+        if (is_null($user->organisation_id)) {
+            $user->update([
             'organisation_id' => Organisation::count() > 0 ?  Organisation::pluck('id')->random() : Organisation::factory()->create()->pluck('id')->random(),
         ]);
+        }
 
 
         // ASSIGN orgadmin ROLE
         $user = User::where('email', 'orgadmin@admin.com')->first();
         $user->syncRoles('orgadmin');
-        $user->update([
+        if (is_null($user->organisation_id)) {
+            $user->update([
             'organisation_id' => Organisation::count() > 0 ?  Organisation::pluck('id')->random() : Organisation::factory()->create()->pluck('id')->random(),
         ]);
+        }
 
         // ASSIGN coach ROLE
         $user = User::where('email', 'coach@email.com')->first();
         $user->syncRoles('coach');
-        $user->update([
+        if (is_null($user->organisation_id)) {
+            $user->update([
             'organisation_id' => Organisation::count() > 0 ?  Organisation::pluck('id')->random() : Organisation::factory()->create()->pluck('id')->random(),
         ]);
+        }
 
         // ASSIGN client ROLE
         $user = User::where('email', 'client@email.com')->first();
         $user->syncRoles('client');
-        $user->update([
+        if (is_null($user->organisation_id)) {
+            $user->update([
             'organisation_id' => Organisation::count() > 0 ?  Organisation::pluck('id')->random() : Organisation::factory()->create()->pluck('id')->random(),
         ]);
+        }
 
 
     }
