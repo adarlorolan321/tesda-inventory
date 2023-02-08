@@ -43,6 +43,34 @@ class UserController extends Controller
     }
 
     /**
+     * Display a listing of the resource formatted
+     * by name and id only
+     */
+
+    public function getUserList(Request $request)
+    {
+        return User::query()
+            ->when(!auth()->user()->hasRole('admin'), function ($query) {
+                $query->where('organisation_id', auth()->user()->organisation_id);
+            })
+            ->when(
+                $request->has('roles') && count($request->input('roles')),
+                function ($query) use ($request) {
+                    $query->whereHas('roles', function ($query) use ($request) {
+                        $query->whereIn('name', $request->input('roles'));
+                    });
+                }
+            )
+            ->select(
+                'uuid',
+                'id',
+                DB::raw('concat(users.first_name, " ", users.last_name) as name'),
+            )
+            ->get()
+            ->makeHidden('role_name');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -68,7 +96,8 @@ class UserController extends Controller
                             '%' . $s . '%'
                         )
                         ->orWhere('email', 'like', '%' . $s . '%')
-                        ->orWhere('first_name', 'like', '%' . $s . '%')
+                ->orWhere(DB::raw('concat(users.first_name, " ", users.last_name)'), 'like', '%' . $s . '%')
+                ->orWhere('last_name', 'like', '%' . $s . '%')
                         ->orWhere('name', 'like', '%' . $s . '%')
                         ->orWhere('status', '=', '%' . $s . '%')
                         ->orWhereHas('organisation', function ($query) use ($s) {
@@ -85,6 +114,7 @@ class UserController extends Controller
                 $query->where('organisation_id', auth()->user()->organisation_id);
             })
             ->orderBy('first_name', 'ASC')
+
             ->paginate($perPage);
 
         return UserResource::collection($users);

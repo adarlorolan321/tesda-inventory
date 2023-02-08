@@ -22,6 +22,11 @@ Route::prefix('v1')->name('api.')->group(function () {
 
 
 Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function () {
+    /**
+     * for fetching
+     * */
+    Route::get('user-list', [Admin\UserController::class, 'getUserList'])->name('.user-list');
+
     Route::apiResources([
         /**
          * when adding routes with CRUD functionality, that uses both id and uuid column for fetching
