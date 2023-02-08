@@ -196,6 +196,15 @@ class RolePermissionSeeder extends Seeder
                 'update student',
                 'destroy student',
                 'show student',
+                
+
+                'access user',
+                'create user',
+                'store user',
+                'edit user',
+                'update user',
+                'destroy user',
+                'show user',
 
                 'access enrolment',
                 'create enrolment',
