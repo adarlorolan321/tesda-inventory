@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\User;
 use App\Notifications\UserCreated;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class UserObserver
@@ -22,7 +23,12 @@ class UserObserver
         $user->name = $user->first_name . ' ' . $user->last_name;
         $user->uuid = Str::uuid();
 
-        $user->organisation_id = auth()->user()->organisation_id;
+
+        if (Auth::check()) {
+            if (!is_null(Auth::user()->organisation_id)) {
+                $user->organisation_id = Auth::user()->organisation_id;
+            }
+        }
 
         if (!$user->password) {
             $password = Str::random(8);
@@ -39,7 +45,11 @@ class UserObserver
      */
     public function created(User $user)
     {
-        $user->organisations()->attach(auth()->user()->organisation_id);
+        if (Auth::check()) {
+            if (!is_null(Auth::user()->organisation_id)) {
+                $user->organisations()->attach(auth()->user()->organisation_id);
+            }
+        }
 
     }
 
