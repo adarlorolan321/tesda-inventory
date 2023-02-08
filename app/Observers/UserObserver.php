@@ -40,8 +40,10 @@ class UserObserver
      */
     public function created(User $user)
     {
-        $user->organisations()->attach(auth()->user()->organisation_id);
-
+        if(auth()->user())
+        {
+            $user->organisations()->attach(auth()->user()->organisation_id);
+        }
     }
 
     /**
