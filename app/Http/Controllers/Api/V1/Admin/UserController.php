@@ -29,6 +29,7 @@ class UserController extends Controller
                 break;
             case 'orgadmin':
                 $this->permissions = [
+                    $type . ' user',
                     $type . ' orgadmin',
                     $type . ' coach',
                     $type . ' client'
