@@ -50,7 +50,6 @@ class UserObserver
                 $user->organisations()->attach(auth()->user()->organisation_id);
             }
         }
-
     }
 
     /**
