@@ -21,13 +21,16 @@ class UserObserver
     {
         $user->name = $user->first_name . ' ' . $user->last_name;
         $user->uuid = Str::uuid();
+        if(auth())
+        {
 
-        $user->organisation_id = auth()->user()->organisation_id;
-
-        if (!$user->password) {
-            $password = Str::random(8);
-            $user->notify(new UserCreated($password));
-            $user->password = bcrypt($password);
+            $user->organisation_id = auth()->user()->organisation_id;
+            
+            if (!$user->password) {
+                $password = Str::random(8);
+                $user->notify(new UserCreated($password));
+                $user->password = bcrypt($password);
+            }
         }
     }
 
