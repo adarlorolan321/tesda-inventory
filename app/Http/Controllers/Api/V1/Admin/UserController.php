@@ -50,7 +50,7 @@ class UserController extends Controller
     public function getUserList(Request $request)
     {
         return User::query()
-            ->when(!auth()->user()->hasRole('admin'), function ($query) {
+            ->when(auth()->user()->hasRole('orgadmin'), function ($query) {
                 $query->where('organisation_id', auth()->user()->organisation_id);
             })
             ->when(
