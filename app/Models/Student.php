@@ -24,7 +24,6 @@ class Student extends Model
         'dob'  => 'date:Y-m-d',
     ];
 
-
     public function parents()
     {
         return $this->belongsTo(User::class, 'parent_id')->role(['Parent']);
