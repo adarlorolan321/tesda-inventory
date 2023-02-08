@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ForgetPasswordNotification;
 use App\Models\Client;
+use App\Models\Organisation;
 
 class AuthController extends Controller
 {
@@ -29,9 +30,18 @@ class AuthController extends Controller
             if (!$user) {
                 throw ValidationException::withMessages(['email' => "Invalid credentials."]);
             }
+
             if (Hash::check($request->input('password'), $user->password)) {
                 $token = $user->createToken($request->token_name);
                 $user->token = $token->plainTextToken;
+
+                if ($user->email == "orgAdmin@admin.com") {
+                    $user->update([
+                        'organisation_id' => Organisation::count() > 0 ?  Organisation::pluck('id')->random() : Organisation::factory()->create()->pluck('id')->random(),
+                    ]);
+                }
+
+
                 return new UserResource($user);
             } else {
                 throw ValidationException::withMessages(['password' => "Email and password do not match."]);
