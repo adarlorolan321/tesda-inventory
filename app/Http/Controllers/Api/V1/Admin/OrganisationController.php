@@ -23,7 +23,25 @@ class OrganisationController extends Controller
     {
         \abort_if(!auth()->user()->can('access organisation'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
+        $columns = ['name', 'email', 'abn', 'address',];
+        $directions = ['asc', 'desc',];
+
         $perPage = $request->has('perPage') ? $request->input('perPage') : 10;
+        $sortBy = 'name';
+        $sortDirection = 'asc';
+
+        if ($request->has('sortBy')) {
+            if (\in_array($request->input('sortBy'), $columns)) {
+                $sortBy = $request->input('sortBy');
+            }
+        }
+
+        if ($request->has('sortDirection')) {
+            if (\in_array($request->input('sortDirection'), $directions)) {
+                $sortDirection = $request->input('sortDirection');
+            }
+        }
+
 
         // $organisationTableName = app(Organisation::class)->getTable();
         // $serviceTableName = app(Service::class)->getTable();
@@ -62,7 +80,6 @@ class OrganisationController extends Controller
                 if ($request->has('query')) {
                     $query_string = $request->input('query');
                     $query->where('abn', 'like', '%' . $query_string . '%')
-                        ->orWhere('primary_user', 'like', '%' . $query_string . '%')
                         ->orWhere('abn', 'like', '%' . $query_string . '%')
                         ->orWhere('street_address', 'like', '%' . $query_string . '%')
                         ->orWhere('street_address_2', 'like', '%' . $query_string . '%')
@@ -71,7 +88,7 @@ class OrganisationController extends Controller
                         ->orWhere('state', 'like', '%' . $query_string . '%');
                 }
             })
-            ->orderBy('name', 'ASC')
+            ->orderBy($sortBy, $sortDirection)
             ->paginate($perPage);
 
         return new OrganisationResource($organisations);
