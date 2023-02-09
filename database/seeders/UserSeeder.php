@@ -15,31 +15,32 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
+        User::factory([
             'name' => 'Administrator',
             'email' => 'admin@admin.com',
             'password' => bcrypt('password'),
             'organisation_id' => Organisation::count() > 0 ?  Organisation::pluck('id')->random() : Organisation::factory()->create()->pluck('id')->random(),
-        ]);
+        ])->createQuietly();
 
-        User::create([
+        User::factory([
             'name' => 'OrgAdmin',
             'email' => 'orgadmin@admin.com',
             'password' => bcrypt('password'),
             'organisation_id' => Organisation::count() > 0 ?  Organisation::pluck('id')->random() : Organisation::factory()->create()->pluck('id')->random(),
-        ]);
+        ])->createQuietly();
 
-        User::create([
+        User::factory([
             'name' => 'Coach',
             'email' => 'coach@email.com',
             'password' => bcrypt('password'),
             'organisation_id' => Organisation::count() > 0 ?  Organisation::pluck('id')->random() : Organisation::factory()->create()->pluck('id')->random(),
-        ]);
-        User::create([
+        ])->createQuietly();
+
+        User::factory([
             'name' => 'client',
             'email' => 'client@email.com',
             'password' => bcrypt('password'),
             'organisation_id' => Organisation::count() > 0 ?  Organisation::pluck('id')->random() : Organisation::factory()->create()->pluck('id')->random(),
-        ]);
+        ])->createQuietly();
     }
 }

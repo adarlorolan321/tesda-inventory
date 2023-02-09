@@ -54,4 +54,11 @@ class StoreUserRequest extends FormRequest
             ],
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'email.unique' => 'This email already exist, please use a different email address'
+        ];
+    }
 }

@@ -9,9 +9,6 @@ use Illuminate\Support\Str;
 
 class UserObserver
 {
-
-    private $password;
-
     /**
      * Handle the User "creating" event.
      *
@@ -24,7 +21,10 @@ class UserObserver
         $user->uuid = Str::uuid();
 
 
-        if (Auth::check()) {
+        if (Auth::user()->hasAnyRole([
+            'admin',
+            'orgadmin',
+        ])) {
             if (!is_null(Auth::user()->organisation_id)) {
                 $user->organisation_id = Auth::user()->organisation_id;
             }
@@ -45,9 +45,12 @@ class UserObserver
      */
     public function created(User $user)
     {
-        if (Auth::check()) {
+        if (Auth::user()->hasAnyRole([
+            'admin',
+            'orgadmin',
+        ])) {
             if (!is_null(Auth::user()->organisation_id)) {
-                $user->organisations()->attach(auth()->user()->organisation_id);
+                $user->organisation_id = Auth::user()->organisation_id;
             }
         }
     }
