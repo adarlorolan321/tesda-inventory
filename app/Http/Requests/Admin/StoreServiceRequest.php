@@ -48,7 +48,6 @@ class StoreServiceRequest extends FormRequest
                 })
             ],
             'code' => [
-                'required',
                 'string',
                 'unique:services,code'
             ],

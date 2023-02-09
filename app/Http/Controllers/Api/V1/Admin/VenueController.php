@@ -26,10 +26,37 @@ class VenueController extends Controller
 
         \abort_if(!$user->can('access venue'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
-        $perPage = $request->has('perPage') ? $request->input('perPage') : 10;
-
         $venueTableName = app(Venue::class)->getTable();
         $organisationTableName = app(Organisation::class)->getTable();
+
+        $columns = ['name', 'code',];
+        $directions = ['asc', 'desc',];
+
+        $perPage = $request->has('perPage') ? $request->input('perPage') : 10;
+        $sortBy = 'name';
+        $sortDirection = 'asc';
+
+        if ($request->has('sortBy')) {
+            $sortBy = explode('.', $request->input('sortBy'));
+
+            if (count($sortBy) > 1) {
+                if ($sortBy[0] == 'organisation') {
+                    if (\in_array($sortBy[1], $columns)) {
+                        $sortBy = $request->input('sortBy');
+                    }
+                } else {
+                    $sortBy = $venueTableName . '.' . $sortBy[1];
+                }
+            } else {
+                $sortBy = $request->input('sortBy');
+            }
+        }
+
+        if ($request->has('sortDirection')) {
+            if (\in_array($request->input('sortDirection'), $directions)) {
+                $sortDirection = $request->input('sortDirection');
+            }
+        }
 
         return DB::table('venues')
             ->where(function ($query) use ($request, $venueTableName, $organisationTableName) {
@@ -67,7 +94,7 @@ class VenueController extends Controller
                 $venueTableName . '.*',
                 'organisation.name as organisation'
             )
-            ->orderBy($venueTableName . '.name', 'ASC')
+            ->orderBy($sortBy, $sortDirection)
             ->paginate($perPage);
     }
 

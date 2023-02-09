@@ -49,7 +49,6 @@ class UpdateServiceRequest extends FormRequest
                 Rule::unique('services')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))->ignore($this->route('service')->id)
             ],
             'code' => [
-                'required',
                 'string',
                 'unique:services,code,' . $this->route('service')->id
             ],
