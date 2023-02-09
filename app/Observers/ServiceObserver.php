@@ -18,7 +18,10 @@ class ServiceObserver
     {
         $service->uuid = Str::uuid();
 
-        if (Auth::user()->hasRole('orgadmin')) {
+        if (Auth::user()->hasAnyRole([
+            'admin',
+            'orgadmin',
+        ])) {
             if (!is_null(Auth::user()->organisation_id)) {
                 $service->organisation_id = Auth::user()->organisation_id;
             }
@@ -43,7 +46,10 @@ class ServiceObserver
      */
     public function updating(Service $service)
     {
-        if (Auth::user()->hasRole('orgadmin')) {
+        if (Auth::user()->hasAnyRole([
+            'admin',
+            'orgadmin',
+        ])) {
             if (!is_null(Auth::user()->organisation_id)) {
                 $service->organisation_id = Auth::user()->organisation_id;
             }

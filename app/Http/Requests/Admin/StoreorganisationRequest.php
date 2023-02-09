@@ -57,4 +57,11 @@ class StoreOrganisationRequest extends FormRequest
             'primary_user_id'  => 'required|integer|exists:users,id',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'email.unique' => 'This email already exist, please use a different email address'
+        ];
+    }
 }

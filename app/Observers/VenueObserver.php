@@ -18,7 +18,10 @@ class VenueObserver
     {
         $venue->uuid = Str::uuid();
 
-        if (Auth::user()->hasRole('orgadmin')) {
+        if (Auth::user()->hasAnyRole([
+            'admin',
+            'orgadmin',
+        ])) {
             if (!is_null(Auth::user()->organisation_id)) {
                 $venue->organisation_id = Auth::user()->organisation_id;
             }
@@ -43,7 +46,10 @@ class VenueObserver
      */
     public function updating(Venue $venue)
     {
-        if (Auth::user()->hasRole('orgadmin')) {
+        if (Auth::user()->hasAnyRole([
+            'admin',
+            'orgadmin',
+        ])) {
             if (!is_null(Auth::user()->organisation_id)) {
                 $venue->organisation_id = Auth::user()->organisation_id;
             }

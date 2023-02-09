@@ -120,6 +120,10 @@ class OrganisationController extends Controller
     {
         \abort_if(!auth()->user()->can('update organisation'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
+        if (Auth::user()->hasRole('orgadmin')) {
+            \abort_if($organisation->id != Auth::user()->organisation_id, Response::HTTP_FORBIDDEN, 'Unauthorized');
+        }
+
         $organisation->update($request->validated());
 
         if ($request->hasFile('logo')) {

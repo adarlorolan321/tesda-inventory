@@ -29,7 +29,7 @@ class AuthController extends Controller
         if ($request->input('token_name') == 'wyac_mobile_token') {
             $user = User::where('email', $request->email)->first();
             if (!$user) {
-                throw ValidationException::withMessages(['email' => "Invalid credentials."]);
+                throw ValidationException::withMessages(['email' => "Incorrect email or password"]);
             }
 
             if (Hash::check($request->input('password'), $user->password)) {
@@ -37,7 +37,7 @@ class AuthController extends Controller
                 $user->token = $token->plainTextToken;
                 return new UserResource($user);
             } else {
-                throw ValidationException::withMessages(['password' => "Email and password do not match."]);
+                throw ValidationException::withMessages(['password' => "Incorrect email or password"]);
             }
         }
         return response('Authentication Failed', 401);
