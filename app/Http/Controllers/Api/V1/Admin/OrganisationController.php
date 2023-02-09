@@ -42,7 +42,6 @@ class OrganisationController extends Controller
             }
         }
 
-
         // $organisationTableName = app(Organisation::class)->getTable();
         // $serviceTableName = app(Service::class)->getTable();
         // $venueTableName = app(Venue::class)->getTable();
