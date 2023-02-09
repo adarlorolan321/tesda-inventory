@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ForgetPasswordNotification;
 use App\Models\Client;
 use App\Models\Organisation;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -40,6 +41,15 @@ class AuthController extends Controller
             }
         }
         return response('Authentication Failed', 401);
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'Successfully logged out'
+        ]);
     }
 
     public function forget_password(Request $request)

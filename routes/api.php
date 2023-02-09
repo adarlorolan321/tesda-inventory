@@ -22,6 +22,8 @@ Route::prefix('v1')->name('api.')->group(function () {
 
 
 Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [Admin\AuthController::class, 'logout'])->name('logout');
+
     /**
      * for fetching
      * */
