@@ -53,7 +53,8 @@ class User extends Authenticatable implements HasMedia
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
-        'roles'
+        'roles',
+        'media',
     ];
 
     /**
@@ -73,6 +74,7 @@ class User extends Authenticatable implements HasMedia
     protected $appends = [
         'role_name',
         'role',
+        'photo_url',
     ];
 
     public function getRoleNameAttribute()
@@ -93,5 +95,21 @@ class User extends Authenticatable implements HasMedia
     public function organisations()
     {
         return $this->belongsToMany(Organisation::class);
+    }
+
+    public function getPhotoUrlAttribute()
+    {
+        // $media = $this->getMedia('photos')->first();
+        // if ($media) {
+        //     return $this->getMedia('photos')->first()->getTemporaryUrl(now()->addMinutes(30));
+        // }
+
+        $media = $this->getFirstMedia('photos');
+
+        if ($media) {
+            return $media->getUrl();
+        }
+
+        return null;
     }
 }
