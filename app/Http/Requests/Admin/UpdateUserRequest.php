@@ -15,17 +15,20 @@ class UpdateUserRequest extends FormRequest
     public function authorize()
     {
         switch ($this->role) {
-            case 'coach':
-                return auth()->user()->can('store coach');
+            case 'admin':
+                return auth()->user()->can('store admin');
                 break;
             case 'orgadmin':
-                return auth()->user()->can('store orgadmin');
+                return auth()->user()->canAny('store orgadmin');
+                break;
+            case 'coach':
+                return auth()->user()->can('store coach');
                 break;
             case 'client':
                 return auth()->user()->can('store client');
                 break;
             default:
-                return true;
+                return auth()->user()->can('store client');
                 break;
         }
     }
