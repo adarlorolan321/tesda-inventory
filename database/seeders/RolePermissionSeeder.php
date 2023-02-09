@@ -26,7 +26,7 @@ class RolePermissionSeeder extends Seeder
                 'edit organisation',
                 'update organisation',
                 'destroy organisation',
-                'view organisation',
+                'show organisation',
 
                 'access service',
                 'create service',
@@ -165,6 +165,10 @@ class RolePermissionSeeder extends Seeder
                 'show trial',
             ],
             'orgadmin' => [
+                'edit organisation',
+                'update organisation',
+                'show organisation',
+
                 'access service',
                 'create service',
                 'store service',

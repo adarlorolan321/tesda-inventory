@@ -13,6 +13,7 @@ use App\Models\Service;
 use App\Models\User;
 use App\Models\Venue;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
@@ -101,8 +102,10 @@ class OrganisationController extends Controller
 
     public function show(Organisation $organisation)
     {
-        if (!auth()->user()->can('view organisation')) {
-            return abort(401);
+        \abort_if(!auth()->user()->can('show organisation'), Response::HTTP_FORBIDDEN, 'Unauthorized');
+
+        if (Auth::user()->hasRole('orgadmin')) {
+            \abort_if($organisation->id != Auth::user()->organisation_id, Response::HTTP_FORBIDDEN, 'Unauthorized');
         }
 
         return new OrganisationResource($organisation->load([
