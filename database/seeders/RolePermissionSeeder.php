@@ -76,6 +76,14 @@ class RolePermissionSeeder extends Seeder
                 'destroy enrolment',
                 'show enrolment',
 
+                'access admin',
+                'create admin',
+                'store admin',
+                'edit admin',
+                'update admin',
+                'destroy admin',
+                'show admin',
+
                 'access orgadmin',
                 'create orgadmin',
                 'store orgadmin',
@@ -196,7 +204,6 @@ class RolePermissionSeeder extends Seeder
                 'update student',
                 'destroy student',
                 'show student',
-                
 
                 'access user',
                 'create user',
@@ -230,14 +237,6 @@ class RolePermissionSeeder extends Seeder
                 'destroy coach',
                 'show coach',
 
-                'access waitlist',
-                'create waitlist',
-                'store waitlist',
-                'edit waitlist',
-                'update waitlist',
-                'destroy waitlist',
-                'show waitlist',
-
                 'access client',
                 'create client',
                 'store client',
@@ -245,6 +244,14 @@ class RolePermissionSeeder extends Seeder
                 'update client',
                 'destroy client',
                 'show client',
+
+                'access waitlist',
+                'create waitlist',
+                'store waitlist',
+                'edit waitlist',
+                'update waitlist',
+                'destroy waitlist',
+                'show waitlist',
 
                 'access payment',
                 'create payment',
@@ -296,9 +303,7 @@ class RolePermissionSeeder extends Seeder
                 'destroy enrolment',
                 'show enrolment',
             ],
-            'parent' => [
-
-            ],
+            'parent' => [],
             'student' => [],
         ];
 
@@ -326,8 +331,8 @@ class RolePermissionSeeder extends Seeder
         $user->syncRoles('admin');
         if (is_null($user->organisation_id)) {
             $user->update([
-            'organisation_id' => Organisation::count() > 0 ?  Organisation::pluck('id')->random() : Organisation::factory()->create()->pluck('id')->random(),
-        ]);
+                'organisation_id' => Organisation::count() > 0 ?  Organisation::pluck('id')->random() : Organisation::factory()->create()->pluck('id')->random(),
+            ]);
         }
 
 
@@ -336,8 +341,8 @@ class RolePermissionSeeder extends Seeder
         $user->syncRoles('orgadmin');
         if (is_null($user->organisation_id)) {
             $user->update([
-            'organisation_id' => Organisation::count() > 0 ?  Organisation::pluck('id')->random() : Organisation::factory()->create()->pluck('id')->random(),
-        ]);
+                'organisation_id' => Organisation::count() > 0 ?  Organisation::pluck('id')->random() : Organisation::factory()->create()->pluck('id')->random(),
+            ]);
         }
 
         // ASSIGN coach ROLE
@@ -345,8 +350,8 @@ class RolePermissionSeeder extends Seeder
         $user->syncRoles('coach');
         if (is_null($user->organisation_id)) {
             $user->update([
-            'organisation_id' => Organisation::count() > 0 ?  Organisation::pluck('id')->random() : Organisation::factory()->create()->pluck('id')->random(),
-        ]);
+                'organisation_id' => Organisation::count() > 0 ?  Organisation::pluck('id')->random() : Organisation::factory()->create()->pluck('id')->random(),
+            ]);
         }
 
         // ASSIGN client ROLE
@@ -354,10 +359,8 @@ class RolePermissionSeeder extends Seeder
         $user->syncRoles('client');
         if (is_null($user->organisation_id)) {
             $user->update([
-            'organisation_id' => Organisation::count() > 0 ?  Organisation::pluck('id')->random() : Organisation::factory()->create()->pluck('id')->random(),
-        ]);
+                'organisation_id' => Organisation::count() > 0 ?  Organisation::pluck('id')->random() : Organisation::factory()->create()->pluck('id')->random(),
+            ]);
         }
-
-
     }
 }

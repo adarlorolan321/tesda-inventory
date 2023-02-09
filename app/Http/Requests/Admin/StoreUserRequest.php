@@ -16,10 +16,10 @@ class StoreUserRequest extends FormRequest
     {
         switch ($this->role) {
             case 'admin':
-                return auth()->user()->can('store orgadmin');
+                return auth()->user()->can('store admin');
                 break;
             case 'orgadmin':
-                return auth()->user()->can('store orgadmin');
+                return auth()->user()->canAny('store orgadmin');
                 break;
             case 'coach':
                 return auth()->user()->can('store coach');
@@ -28,7 +28,7 @@ class StoreUserRequest extends FormRequest
                 return auth()->user()->can('store client');
                 break;
             default:
-                return false;
+                return auth()->user()->can('store client');
                 break;
         }
     }

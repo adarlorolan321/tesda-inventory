@@ -21,7 +21,7 @@ class UserController extends Controller
         switch (auth()->user()->role_name) {
             case 'admin':
                 $this->permissions = [
-                    $type . ' user',
+                    $type . ' admin',
                     $type . ' orgadmin',
                     $type . ' coach',
                     $type . ' client'
@@ -29,7 +29,6 @@ class UserController extends Controller
                 break;
             case 'orgadmin':
                 $this->permissions = [
-                    $type . ' user',
                     $type . ' orgadmin',
                     $type . ' coach',
                     $type . ' client'
@@ -97,8 +96,8 @@ class UserController extends Controller
                             '%' . $s . '%'
                         )
                         ->orWhere('email', 'like', '%' . $s . '%')
-                ->orWhere(DB::raw('concat(users.first_name, " ", users.last_name)'), 'like', '%' . $s . '%')
-                ->orWhere('last_name', 'like', '%' . $s . '%')
+                        ->orWhere(DB::raw('concat(users.first_name, " ", users.last_name)'), 'like', '%' . $s . '%')
+                        ->orWhere('last_name', 'like', '%' . $s . '%')
                         ->orWhere('name', 'like', '%' . $s . '%')
                         ->orWhere('status', '=', '%' . $s . '%')
                         ->orWhereHas('organisation', function ($query) use ($s) {
@@ -156,12 +155,12 @@ class UserController extends Controller
         $this->fillPermissions('show');
 
         $otherOrganisation = auth()->user()->hasRole('orgadmin') ?
-        auth()->user()->organisation_id == $user->organisation_id
+            auth()->user()->organisation_id == $user->organisation_id
             : true;
 
         \abort_if(
             !\auth()->user()->canAny($this->permissions) ||
-            !$otherOrganisation,
+                !$otherOrganisation,
             Response::HTTP_FORBIDDEN,
             'Unauthorized'
         );
