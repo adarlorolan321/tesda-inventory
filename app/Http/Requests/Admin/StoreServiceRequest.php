@@ -48,6 +48,7 @@ class StoreServiceRequest extends FormRequest
                 })
             ],
             'code' => [
+                'nullable',
                 'string',
                 'unique:services,code'
             ],
