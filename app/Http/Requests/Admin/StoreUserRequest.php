@@ -45,10 +45,15 @@ class StoreUserRequest extends FormRequest
             'last_name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'phone' => 'nullable|string',
-            'role' => 'required|in:coach,orgadmin,client',
+            'role' => [
+                'nullable',
+                'in:coach,orgadmin,client',
+            ],
             'photo' => 'nullable|image|max:2048',
             'status' => [
-                Rule::requiredIf($this->role != 'client'),
+                Rule::requiredIf(function () {
+                    return !empty($this->role) && $this->role != 'client';
+                }),
                 'nullable',
                 'in:active,inactive',
             ],

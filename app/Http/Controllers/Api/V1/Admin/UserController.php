@@ -10,6 +10,7 @@ use App\Models\Organisation;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -113,6 +114,7 @@ class UserController extends Controller
             ->when(!auth()->user()->hasRole('admin'), function ($query) use ($request) {
                 $query->where('organisation_id', auth()->user()->organisation_id);
             })
+            ->where('id', '!=', Auth::user()->id)
             ->orderBy('first_name', 'ASC')
 
             ->paginate($perPage);
@@ -135,8 +137,8 @@ class UserController extends Controller
 
         $user->syncRoles($request->role ?? 'client');
 
-        if ($request->hasFile('photo')) {
-            $user->addMedia($request->file('photo'))->toMediaCollection('photos');
+        if ($request->has('photo')) {
+            $user->addMediaFromRequest('photo')->toMediaCollection('photos');
         }
 
         return (new UserResource($user))
