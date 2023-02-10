@@ -27,7 +27,6 @@ class ClassModelController extends Controller
         \abort_if(!\auth()->user()->can('access class'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
         $perPage = $request->has('perPage') ? $request->input('perPage') : 10;
-        $status = $request->has('status') ? $request->input('status') : 'active';
 
         $classTableName = app(ClassModel::class)->getTable();
         $organisationTableName = app(Organisation::class)->getTable();
@@ -89,7 +88,10 @@ class ClassModelController extends Controller
                         ->orWhere(DB::raw('concat(coach.first_name, " ", coach.last_name) as full_name'), 'like', '%' . $s . '%');
                 });
             })
-            ->when($request->has('status'), function ($query) use ($request, $classTableName) {
+            ->when($request->has('status') && \in_array($request->input('status'), [
+                'active',
+                'inactive',
+            ]), function ($query) use ($request, $classTableName) {
                 $query->where($classTableName . '.status', $request->input('status', 'active'));
             })
             ->leftJoin($organisationTableName,  $classTableName . '.organisation_id', '=', $organisationTableName . '.id')
