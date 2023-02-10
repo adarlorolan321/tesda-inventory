@@ -21,13 +21,11 @@ class Student extends Model
     ];
 
     protected $casts = [
-        'dob'  => 'date:Y-m-d',
+        'dob'  => 'date:d-m-Y',
     ];
 
     public function parents()
     {
         return $this->belongsTo(User::class, 'parent_id')->role(['Parent']);
     }
-
-
 }

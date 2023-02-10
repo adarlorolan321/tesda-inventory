@@ -36,7 +36,7 @@ class StudentController extends Controller
                         ->orWhere($studentTableName . '.email', 'like', '%' . $s . '%')
                         ->orWhere($studentTableName . '.phone', 'like', '%' . $s . '%')
                         ->orWhere($studentTableName . '.gender', 'like', '%' . $s . '%')
-                        ->orWhere(DB::raw('DATE_FORMAT('. $studentTableName . '.dob, "%d/%m/Y")'), 'like', '%' . $s . '%')
+                        ->orWhere(DB::raw('DATE_FORMAT(' . $studentTableName . '.dob, "%d/%m/Y")'), 'like', '%' . $s . '%')
                         ->orWhere(DB::raw('concat(parent.first_name, " ", parent.last_name)'), 'like', '%' . $s . '%');
                 }
             })
@@ -46,10 +46,10 @@ class StudentController extends Controller
                 DB::raw('concat(parent.first_name, " ", parent.last_name) as parent_name'),
             ])
             ->orderBy(
-                DB::raw('concat('. $studentTableName . '.first_name, " ", '. $studentTableName . '.last_name)'), 'ASC'
+                DB::raw('concat(' . $studentTableName . '.first_name, " ", ' . $studentTableName . '.last_name)'),
+                'ASC'
             )
             ->paginate($perPage);
-
     }
 
     /**
