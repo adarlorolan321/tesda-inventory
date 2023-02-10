@@ -31,7 +31,7 @@ class UpdateClassModelRequest extends FormRequest
                 Rule::unique('services')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))
             ],
             'service_id' => 'nullable|integer|exists:services,id',
-            'organisation_id' => 'required|integer|exists:organisations,id',
+            'organisation_id' => 'nullable|integer|exists:organisations,id',
             'start_date' => 'nullable|date_format:Y-m-d',
             'end_date' => 'nullable|date_format:Y-m-d|after:' . $this->start_date,
             'start_time' => 'nullable|date_format:H:i',

@@ -6,6 +6,7 @@ use App\Models\ClassModel;
 use App\Models\Session;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ClassModelObserver
@@ -19,6 +20,15 @@ class ClassModelObserver
     public function creating(ClassModel $class)
     {
         $class->uuid = Str::uuid();
+
+        if (Auth::user()->hasAnyRole([
+            'admin',
+            'orgadmin',
+        ])) {
+            if (!is_null(Auth::user()->organisation_id)) {
+                $class->organisation_id = Auth::user()->organisation_id;
+            }
+        }
     }
 
     /**
@@ -59,6 +69,24 @@ class ClassModelObserver
                         ]);
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * Handle the ClassModel "updating" event.
+     *
+     * @param  \App\Models\ClassModel  $class
+     * @return void
+     */
+    public function updating(ClassModel $class)
+    {
+        if (Auth::user()->hasAnyRole([
+            'admin',
+            'orgadmin',
+        ])) {
+            if (!is_null(Auth::user()->organisation_id)) {
+                $class->organisation_id = Auth::user()->organisation_id;
             }
         }
     }
