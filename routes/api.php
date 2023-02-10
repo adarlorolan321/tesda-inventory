@@ -28,6 +28,8 @@ Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function ()
      * for fetching
      * */
     Route::get('user-list', [Admin\UserController::class, 'getUserList'])->name('.user-list');
+    Route::get('services-list', [Admin\ServiceController::class, 'getList'])->name('.services-list');
+    Route::get('venues-list', [Admin\VenueController::class, 'getList'])->name('.venues-list');
 
     Route::apiResources([
         /**

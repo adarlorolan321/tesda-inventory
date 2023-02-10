@@ -16,6 +16,20 @@ use Illuminate\Support\Facades\DB;
 class VenueController extends Controller
 {
     /**
+     * Display a listing of the resource formatted
+     * by name and id only
+     */
+
+    public function getList(Request $request)
+    {
+        return Venue::query()
+            ->when(auth()->user()->hasRole('orgadmin'), function ($query) {
+                $query->where('organisation_id', auth()->user()->organisation_id);
+            })
+            ->select('uuid', 'id', 'name',)->get();
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
