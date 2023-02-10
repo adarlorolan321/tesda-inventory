@@ -33,4 +33,11 @@ class StoreStudentRequest extends FormRequest
             'gender' => 'nullable|string|in:boy,girl,pns',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'email.unique' => 'This email already exist, please use a different email address'
+        ];
+    }
 }

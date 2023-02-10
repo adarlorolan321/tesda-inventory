@@ -33,4 +33,11 @@ class UpdateStudentRequest extends FormRequest
             'gender' => 'nullable|string',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'email.unique' => 'This email already exist, please use a different email address'
+        ];
+    }
 }
