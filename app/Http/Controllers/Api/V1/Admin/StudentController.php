@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\StoreStudentRequest;
 use App\Http\Requests\Admin\UpdateStudentRequest;
 use App\Http\Resources\StudentResource;
 use App\Models\Student;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -62,7 +63,9 @@ class StudentController extends Controller
     {
         \abort_if(!\auth()->user()->can('store student'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
-        $student = Student::create($request->validated());
+        $request['dob'] = $request->has('dob') ? Carbon::createFromFormat('d-m-Y', $request->input('dob'))->format('Y-m-d') : null;
+
+        $student = Student::create($request->all());
 
         return (new StudentResource($student))
             ->response()
@@ -92,7 +95,9 @@ class StudentController extends Controller
     {
         \abort_if(!\auth()->user()->can('update student'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
-        $student->update($request->validated());
+        $request['dob'] = $request->has('dob') ? Carbon::createFromFormat('d-m-Y', $request->input('dob'))->format('Y-m-d') : null;
+
+        $student->update($request->all());
 
         return (new StudentResource($student))
             ->response()
