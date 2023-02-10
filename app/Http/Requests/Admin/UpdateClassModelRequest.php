@@ -42,7 +42,7 @@ class UpdateClassModelRequest extends FormRequest
             'price_type' => 'nullable|string',
             'price' => 'numeric',
             'venue_id' => 'required|integer|exists:venues,id',
-            'status' => 'string|in:active,inactive',
+            'status' => 'string|in:active,closed,archive',
             'coach_id' => 'required|integer|exists:users,id',
             'additional_coach' => 'nullable|string',
             'default_email' => 'nullable|boolean',

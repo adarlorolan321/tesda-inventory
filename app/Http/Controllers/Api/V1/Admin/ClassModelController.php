@@ -91,7 +91,8 @@ class ClassModelController extends Controller
             })
             ->when($request->has('status') && \in_array($request->input('status'), [
                 'active',
-                'inactive',
+            'closed',
+            'archive', media
             ]), function ($query) use ($request, $classTableName) {
                 $query->where($classTableName . '.status', $request->input('status', 'active'));
             })
