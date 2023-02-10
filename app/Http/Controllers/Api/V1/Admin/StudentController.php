@@ -44,6 +44,7 @@ class StudentController extends Controller
             ->leftJoin('users as parent', $studentTableName . '.parent_id', '=', 'parent.id')
             ->select([
                 $studentTableName . '.*',
+                DB::raw('DATE_FORMAT(' . $studentTableName . '.dob, "%d/%m/%Y") as dob'),
                 DB::raw('concat(parent.first_name, " ", parent.last_name) as parent_name'),
             ])
             ->orderBy(

@@ -29,8 +29,8 @@ class Student extends Model
         return $this->belongsTo(User::class, 'parent_id')->role(['Parent']);
     }
 
-    // public function setDobAttribute($value)
+    // public function getDobAttribute($value)
     // {
-    //     $this->dob = Carbon::createFromFormat('d-m-Y', $value)->toDateString();
+    //     return Carbon::createFromFormat('Y-m-d', $value)->format('d/m/Y');
     // }
 }
