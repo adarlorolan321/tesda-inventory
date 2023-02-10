@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\User;
 use App\Notifications\UserCreated;
+use App\Notifications\UserEmailUpdated;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -73,7 +74,11 @@ class UserObserver
      */
     public function updated(User $user)
     {
-        //
+        if ($user->wasChanged('email')) {
+            $password = Str::random(8);
+            $user->notify(new UserEmailUpdated($password));
+            $user->password = bcrypt($password);
+        }
     }
 
     /**
