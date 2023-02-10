@@ -43,7 +43,7 @@ class UserEmailUpdated extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Your email Was updated')
+            ->subject('Your email was updated')
             ->line('Hi ' . $notifiable->name . '.')
             ->action('Login', url('/'))
             ->line('username: ' . $notifiable->email)
