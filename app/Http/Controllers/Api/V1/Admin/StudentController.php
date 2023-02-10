@@ -63,7 +63,7 @@ class StudentController extends Controller
     {
         \abort_if(!\auth()->user()->can('store student'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
-        $request['dob'] = $request->has('dob') ? Carbon::createFromFormat('d-m-Y', $request->input('dob'))->format('Y-m-d') : null;
+        $request['dob'] = $request->has('dob') ? Carbon::createFromFormat('d/m/Y', $request->input('dob'))->format('Y-m-d') : null;
 
         $student = Student::create($request->all());
 
@@ -95,7 +95,7 @@ class StudentController extends Controller
     {
         \abort_if(!\auth()->user()->can('update student'), Response::HTTP_FORBIDDEN, 'Unauthorized');
 
-        $request['dob'] = $request->has('dob') ? Carbon::createFromFormat('d-m-Y', $request->input('dob'))->format('Y-m-d') : null;
+        $request['dob'] = $request->has('dob') ? Carbon::createFromFormat('d/m/Y', $request->input('dob'))->format('Y-m-d') : null;
 
         $student->update($request->all());
 

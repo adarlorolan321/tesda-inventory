@@ -27,7 +27,7 @@ class StoreStudentRequest extends FormRequest
             'parent_id' => 'required|integer|exists:users,id',
             'first_name' => 'required|string',
             'last_name' => 'required|string',
-            'dob' => 'nullable|date_format:d-m-Y',
+            'dob' => 'nullable|date_format:d/m/Y',
             'email' => 'nullable|email|unique:students,email',
             'phone' => 'nullable|string',
             'gender' => 'nullable|string|in:boy,girl,pns',

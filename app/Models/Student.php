@@ -21,7 +21,7 @@ class Student extends Model
     ];
 
     protected $casts = [
-        'dob'  => 'date:d-m-Y',
+        'dob' => 'date:d/m/Y',
     ];
 
     public function parents()

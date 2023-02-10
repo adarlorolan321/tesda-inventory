@@ -27,7 +27,7 @@ class UpdateStudentRequest extends FormRequest
             'parent_id' => 'required|exists:users,id',
             'first_name' => 'required|string',
             'last_name' => 'required|string',
-            'dob' => 'nullable|date_format:d-m-Y',
+            'dob' => 'nullable|date_format:d/m/Y',
             'email' => 'nullable|email|unique:students,email,' . $this->id,
             'phone' => 'nullable|string',
             'gender' => 'nullable|string',
