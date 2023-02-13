@@ -30,7 +30,8 @@ class StoreSessionRequest extends FormRequest
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i',
             'coach_id' => 'nullable|integer|exists:users,id',
-            'additional_coaches' => 'nullable|string',
+            'additional_coaches' => 'nullable|array',
+            'additional_coaches.*' => 'nullable|integer|exists:users,id',
             'status' => 'required',
         ];
     }

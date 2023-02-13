@@ -22,6 +22,10 @@ class Session extends Model
         'status',
     ];
 
+    protected $casts = [
+        'additional_coaches' => 'array',
+    ];
+
     public function coach()
     {
         return $this->belongsTo(User::class)->role('coach');
