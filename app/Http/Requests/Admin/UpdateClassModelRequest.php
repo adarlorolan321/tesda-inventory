@@ -45,7 +45,7 @@ class UpdateClassModelRequest extends FormRequest
             'status' => 'string|in:active,closed,archive',
             'coach_id' => 'required|integer|exists:users,id',
             'additional_coach' => 'nullable|array',
-            'additional_coach.*' => 'nullable|integer|exists:users,id',
+            'additional_coach.*' => 'nullable|string',
             'default_email' => 'nullable|boolean',
             'custom_email_text' => 'nullable|string',
             'custom_email_subject' => 'nullable|string',
