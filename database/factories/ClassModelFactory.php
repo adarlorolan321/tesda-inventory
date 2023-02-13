@@ -42,7 +42,7 @@ class ClassModelFactory extends Factory
             'venue_id' => Venue::count() > 0 ?  Venue::pluck('id')->random() : Venue::factory()->create()->pluck('id')->random(),
             'status' => $this->faker->randomElement(['active', 'closed', 'archive']),
             'coach_id' => User::role('coach')->count() > 0 ?  User::role('coach')->pluck('id')->random() : User::factory()->create()->each(fn ($user) => $user->assignRole('coach'))->pluck('id')->random(),
-            'additional_coach' => User::role('coach')->pluck('id'),
+            'additional_coach' => User::role('coach')->pluck('name'),
             'default_email' => $this->faker->boolean(),
             'custom_email_text' => $this->faker->randomHtml(),
             'custom_email_subject' => $this->faker->words(rand(1, 5), true),
