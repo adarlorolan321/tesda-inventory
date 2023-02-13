@@ -38,7 +38,9 @@ class ClassModel extends Model
     protected $casts = [
         'days' => 'array',
         'repeat' => 'boolean',
+        'additional_coach' => 'array',
         'default_email' => 'boolean',
+        'tags' => 'array',
     ];
 
     public function organisation()
@@ -63,6 +65,6 @@ class ClassModel extends Model
 
     public function sessions()
     {
-        return $this->hasMany(Session::class);
+        return $this->hasMany(Session::class, 'class_id');
     }
 }

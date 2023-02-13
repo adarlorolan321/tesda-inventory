@@ -91,8 +91,8 @@ class ClassModelController extends Controller
             })
             ->when($request->has('status') && \in_array($request->input('status'), [
                 'active',
-            'closed',
-            'archive',
+                'closed',
+                'archive',
             ]), function ($query) use ($request, $classTableName) {
                 $query->where($classTableName . '.status', $request->input('status', 'active'));
             })
@@ -122,12 +122,37 @@ class ClassModelController extends Controller
     public function store(StoreClassModelRequest $request)
     {
         \abort_if(!\auth()->user()->can('store class'), Response::HTTP_FORBIDDEN, 'Unauthorized');
+        $class = ClassModel::create(
+            [
+                'name' => $request->input('name'),
+                'service_id' => $request->input('service_id'),
+                'organisation_id' => $request->input('organisation_id'),
+                'start_date' => $request->input('start_date'),
+                'end_date' => $request->input('end_date'),
+                'start_time' => $request->input('start_time'),
+                'end_time' => $request->input('end_time'),
+                'days' => $request->input('days'),
+                'repeat' => $request->input('repeat'),
+                'capacity' => $request->input('capacity'),
+                'price_type' => $request->input('price_type'),
+                'price' => $request->input('price'),
+                'venue_id' => $request->input('venue_id'),
+                'status' => $request->input('status'),
+                'coach_id' => $request->input('coach_id'),
+                'additional_coach' => $request->input('additional_coach'),
+                'default_email' => $request->input('default_email'),
+                'custom_email_text' => $request->input('custom_email_text'),
+                'custom_email_subject' => $request->input('custom_email_subject'),
+                'enrolments' => $request->input('enrolments'),
+                'tags' => $request->input('tags'),
+            ]
+        );
 
-        $class = ClassModel::create($request->validated());
+        return $class;
 
-        return (new ClassModelResource($class))
-            ->response()
-            ->setStatusCode(201);
+        // return (new ClassModelResource($class->load(['sessions'])))
+        //     ->response()
+        //     ->setStatusCode(201);
     }
 
     /**
@@ -139,7 +164,9 @@ class ClassModelController extends Controller
     public function show(ClassModel $class)
     {
         \abort_if(!\auth()->user()->can('show class'), Response::HTTP_FORBIDDEN, 'Unauthorized');
-        return new ClassModelResource($class->load(['organisation', 'service', 'venue', 'coach',]));
+        return new ClassModelResource($class->load([
+            'organisation', 'service', 'venue', 'coach', 'sessions'
+        ]));
     }
 
     /**
