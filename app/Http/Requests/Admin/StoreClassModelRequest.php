@@ -51,7 +51,8 @@ class StoreClassModelRequest extends FormRequest
             'custom_email_text' => 'nullable|string',
             'custom_email_subject' => 'nullable|string',
             'enrolments' => 'nullable|integer',
-            'tags' => 'nullable|string',
+            'tags' => 'nullable|array',
+            'tags.*' => 'nullable|string',
         ];
     }
 }
