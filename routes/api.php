@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\Admin as Admin;
+use App\Http\Controllers\Api\V1\Admin\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,10 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::prefix('v1')->name('api.')->group(function () {
     Route::post('/login', [Admin\AuthController::class, 'login'])->name('login');
     Route::post('/register', [Admin\AuthController::class, 'register'])->name('customer.register');
     Route::apiResources([]);
+
+    // Route::post('forgot-password', [Admin\AuthController::class, 'sendResetLink'])->middleware('guest')->name('password.email');
+    Route::post('change-password', [Admin\AuthController::class, 'changePassword'])->middleware('guest')->name('change.password');
 });
 
 

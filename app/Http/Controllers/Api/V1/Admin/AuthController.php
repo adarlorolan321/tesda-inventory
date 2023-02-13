@@ -14,6 +14,7 @@ use App\Mail\ForgetPasswordNotification;
 use App\Models\Client;
 use App\Models\Organisation;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -52,26 +53,39 @@ class AuthController extends Controller
         ]);
     }
 
-    public function forget_password(Request $request)
+    public function sendResetLink(Request $request)
     {
-        $request->validate([
-            'email' => 'required|exists:users,email'
-        ]);
-        $password = Str::random(8);
-        $user = User::where('email', $request->email)->first();
-        $user->password = bcrypt($password);
-        $user->save();
-        // Mail::to($user->email)->queue(new ForgetPasswordNotification($user, $password));
-        return response('We have email your new password.', 201);
+        $request->validate(['email' => 'required|email']);
+
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with(['status' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
+
+        // $request->validate([
+        //     'email' => 'required|exists:users,email'
+        // ]);
+        // $password = Str::random(8);
+        // $user = User::where('email', $request->email)->first();
+        // $user->password = bcrypt($password);
+        // $user->save();
+        // // Mail::to($user->email)->queue(new ForgetPasswordNotification($user, $password));
+        // return response('We have email your new password.', 201);
     }
 
-    public function change_password(Request $request)
+    public function changePassword(Request $request)
     {
         $request->validate([
             'old_password' => 'required|string',
             'password' => 'required|confirmed|string|min:8|max:255',
         ]);
+
         $user = User::find(auth()->user()->id);
+
         if ($user) {
             if (Hash::check($request->input('old_password'), $user->password)) {
                 $user->password = bcrypt($request->input('password'));
