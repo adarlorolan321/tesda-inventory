@@ -31,7 +31,7 @@ class UpdateSessionRequest extends FormRequest
             'end_time' => 'required|date_format:H:i',
             'coach_id' => 'nullable|integer|exists:users,id',
             'additional_coaches' => 'nullable|array',
-            'additional_coaches.*' => 'nullable|integer|exists:users,id',
+            'additional_coaches.*' => 'nullable|string',
             'status' => 'required',
         ];
     }

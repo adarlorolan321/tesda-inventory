@@ -62,7 +62,7 @@ class ServiceController extends Controller
                     $sortBy = $serviceTableName . '.' . $sortBy[1];
                 }
             } else {
-                $sortBy = $request->input('sortBy');
+                $sortBy = $serviceTableName . '.' . $request->input('sortBy');
             }
         }
 
@@ -97,7 +97,7 @@ class ServiceController extends Controller
                 $serviceTableName . '.*',
                 'organisation.name as organisation'
             )
-            ->orderBy($sortBy, $sortDirection)
+            ->orderByRaw('coalesce(' . $sortBy . ') ' . $sortDirection)
             ->paginate($perPage);
     }
 

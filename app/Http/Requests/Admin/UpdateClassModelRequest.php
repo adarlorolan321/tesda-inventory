@@ -24,9 +24,23 @@ class UpdateClassModelRequest extends FormRequest
      */
     public function rules()
     {
+        $tabs = [
+            'confirm_email',
+        ];
+
         return [
             'name' => [
-                'required',
+                Rule::requiredIf(function () use ($tabs) {
+                    if (!$this->tab) {
+                        return true;
+                    }
+
+                    if (\in_array($this->tab, $tabs)) {
+                        return false;
+                    }
+
+                    return true;
+                }),
                 'string',
                 Rule::unique('services')->where(fn ($query) => $query->where('organisation_id', $this->organisation_id))
             ],
@@ -37,18 +51,82 @@ class UpdateClassModelRequest extends FormRequest
             'start_time' => 'nullable|date_format:H:i',
             'end_time' => 'nullable|date_format:H:i|after:' . $this->start_time,
             'days' => 'nullable',
-            'repeat' => 'boolean',
+            'repeat' => [
+                Rule::requiredIf(function () use ($tabs) {
+                    if (!$this->tab) {
+                        return true;
+                    }
+
+                    if (\in_array($this->tab, $tabs)) {
+                        return false;
+                    }
+
+                    return true;
+                }),
+                'nullable',
+                'boolean'
+            ],
             'capacity' => 'integer',
             'price_type' => 'nullable|string',
             'price' => 'numeric',
-            'venue_id' => 'required|integer|exists:venues,id',
+            'venue_id' => [
+                Rule::requiredIf(function () use ($tabs) {
+                    if (!$this->tab) {
+                        return true;
+                    }
+
+                    if (\in_array($this->tab, $tabs)) {
+                        return false;
+                    }
+
+                    return true;
+                }),
+                'nullable',
+                'integer',
+                'exists:venues,id'
+            ],
             'status' => 'string|in:active,closed,archive',
-            'coach_id' => 'required|integer|exists:users,id',
+            'coach_id' => [
+                Rule::requiredIf(function () use ($tabs) {
+                    if (!$this->tab) {
+                        return true;
+                    }
+
+                    if (\in_array($this->tab, $tabs)) {
+                        return false;
+                    }
+
+                    return true;
+                }),
+                'nullable',
+                'integer',
+                'exists:users,id',
+            ],
             'additional_coach' => 'nullable|array',
             'additional_coach.*' => 'nullable|string',
             'default_email' => 'nullable|boolean',
-            'custom_email_text' => 'nullable|string',
-            'custom_email_subject' => 'nullable|string',
+            'custom_email_text' => [
+                Rule::requiredIf(function () use ($tabs) {
+                    if ($this->default_email) {
+                        return true;
+                    }
+
+                    return false;
+                }),
+                'nullable',
+                'string'
+            ],
+            'custom_email_subject' => [
+                Rule::requiredIf(function () use ($tabs) {
+                    if ($this->default_email) {
+                        return true;
+                    }
+
+                    return false;
+                }),
+                'nullable',
+                'string'
+            ],
             'enrolments' => 'integer',
             'tags' => 'nullable|array',
             'tags.*' => 'nullable|string',

@@ -136,11 +136,28 @@ class ClassModelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(ClassModel $class)
+    public function show(ClassModel $class, Request $request)
     {
         \abort_if(!\auth()->user()->can('show class'), Response::HTTP_FORBIDDEN, 'Unauthorized');
+
+        $sortSession = $request->has('sort.session') ? $request->input('sort.session') : 'date';
+        $sortSessionDirection = $request->has('sortDirection.session') ? $request->input('sortDirection.session') : 'asc';
+
         return new ClassModelResource($class->load([
-            'organisation', 'service', 'venue', 'coach', 'sessions'
+            'organisation',
+            'service',
+            'venue',
+            'coach',
+            'sessions' => function ($query) use ($sortSession, $sortSessionDirection) {
+                $query->with('coach')
+                    ->when($sortSession != 'coach', fn ($query) => $query->orderByRaw('coalesce(' . $sortSession . ') ' . $sortSessionDirection))
+                    ->when($sortSession == 'coach', function ($query) use ($sortSessionDirection) {
+                        $query->leftJoin('users as coach', 'session_model.coach_id', '=', 'coach.id')
+                            ->orderBy(DB::raw('concat(coach.first_name, " ", coach.last_name)'), $sortSessionDirection);
+
+                        // ****when sorting coach, session ids are the same and equal to coach_id
+                    });
+            },
         ]));
     }
 
