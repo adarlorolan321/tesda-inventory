@@ -127,7 +127,7 @@ class UpdateClassModelRequest extends FormRequest
                 'nullable',
                 'string'
             ],
-            'enrolments' => 'integer',
+            'enrolments' => 'nullable|integer',
             'tags' => 'nullable|array',
             'tags.*' => 'nullable|string',
         ];
