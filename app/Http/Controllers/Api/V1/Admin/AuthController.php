@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ForgetPasswordNotification;
 use App\Models\Client;
 use App\Models\Organisation;
+use App\Notifications\UserPasswordChanged;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
 
@@ -84,12 +85,13 @@ class AuthController extends Controller
             'password' => 'required|confirmed|string|min:8|max:255',
         ]);
 
-        $user = User::find(auth()->user()->id);
+        $user = Auth::user();
 
         if ($user) {
             if (Hash::check($request->input('old_password'), $user->password)) {
                 $user->password = bcrypt($request->input('password'));
                 $user->save();
+                $user->notify(new UserPasswordChanged());
                 return response('Password is changed successfully', 201);
             } else {
                 throw ValidationException::withMessages(['old_password' => "Current password do not match our record."]);

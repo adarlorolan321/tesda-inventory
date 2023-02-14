@@ -22,11 +22,13 @@ Route::prefix('v1')->name('api.')->group(function () {
     Route::apiResources([]);
 
     // Route::post('forgot-password', [Admin\AuthController::class, 'sendResetLink'])->middleware('guest')->name('password.email');
-    Route::post('change-password', [Admin\AuthController::class, 'changePassword'])->middleware('guest')->name('change.password');
+
 });
 
 
 Route::prefix('v1')->name('api.')->middleware('auth:sanctum')->group(function () {
+    Route::post('change-password', [Admin\AuthController::class, 'changePassword'])->name('change.password');
+
     Route::post('/logout', [Admin\AuthController::class, 'logout'])->name('logout');
 
     /**
