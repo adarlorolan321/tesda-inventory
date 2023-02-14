@@ -66,7 +66,7 @@ class UpdateClassModelRequest extends FormRequest
                 'nullable',
                 'boolean'
             ],
-            'capacity' => 'integer',
+            'capacity' => 'nullable|integer',
             'price_type' => 'nullable|string',
             'price' => 'numeric',
             'venue_id' => [
@@ -85,7 +85,7 @@ class UpdateClassModelRequest extends FormRequest
                 'integer',
                 'exists:venues,id'
             ],
-            'status' => 'string|in:active,closed,archive',
+            'status' => 'nullable|string|in:active,closed,archive',
             'coach_id' => [
                 Rule::requiredIf(function () use ($tabs) {
                     if (!$this->tab) {
