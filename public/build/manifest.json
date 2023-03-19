@@ -1,0 +1,34 @@
+{
+  "resources/js/Pages/Auth/Login.vue": {
+    "file": "assets/Login-12343d1c.js",
+    "imports": [
+      "resources/js/app.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/Pages/Auth/Login.vue"
+  },
+  "resources/js/Pages/Welcome.vue": {
+    "file": "assets/Welcome-695da69b.js",
+    "imports": [
+      "resources/js/app.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/Pages/Welcome.vue"
+  },
+  "resources/js/app.css": {
+    "file": "assets/app-2c9bdbaa.css",
+    "src": "resources/js/app.css"
+  },
+  "resources/js/app.js": {
+    "css": [
+      "assets/app-2c9bdbaa.css"
+    ],
+    "dynamicImports": [
+      "resources/js/Pages/Auth/Login.vue",
+      "resources/js/Pages/Welcome.vue"
+    ],
+    "file": "assets/app-b43756c7.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  }
+}
