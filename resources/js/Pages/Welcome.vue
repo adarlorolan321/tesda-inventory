@@ -1,45 +1,46 @@
 <template>
-    <div class="card">
-        <h5 class="card-header">Table Basic</h5>
-        <div class="mt-3">
-            <button
-                class="btn btn-primary"
-                type="button"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasBackdrop"
-                aria-controls="offcanvasBackdrop"
-            >
-                Enable backdrop
-            </button>
-            <div
-                class="offcanvas offcanvas-end"
-                tabindex="-1"
-                id="offcanvasBackdrop"
-                aria-labelledby="offcanvasBackdropLabel"
-            >
-                <div class="offcanvas-header">
-                    <h5 id="offcanvasBackdropLabel" class="offcanvas-title">
-                        Enable backdrop
-                    </h5>
-                    <button
-                        type="button"
-                        class="btn-close text-reset"
-                        data-bs-dismiss="offcanvas"
-                        aria-label="Close"
-                    ></button>
-                </div>
-                <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
-                    <div class="form-group">
-                        <label for="">First Name</label>
-                        <input type="text" class="form-control" />
+    <div class="card card-action">
+        <div class="card-header">
+            <div class="card-action-title align-items-center">Table Basic</div>
+            <div class="card-action-element">
+                <button
+                    class="btn btn-primary"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offCanvasForm"
+                    aria-controls="offCanvasForm"
+                >
+                    New Item
+                </button>
+                <div
+                    class="offcanvas offcanvas-end"
+                    tabindex="-1"
+                    id="offCanvasForm"
+                    aria-labelledby="offCanvasFormLabel"
+                >
+                    <div class="offcanvas-header">
+                        <h5 id="offCanvasFormLabel" class="offcanvas-title">
+                            New Item
+                        </h5>
+                        <button
+                            type="button"
+                            class="btn-close text-reset"
+                            data-bs-dismiss="offcanvas"
+                            aria-label="Close"
+                        ></button>
+                    </div>
+                    <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
+                        <div class="form-group">
+                            <label for="">First Name</label>
+                            <input type="text" class="form-control" />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="table-responsive text-nowrap">
             <table class="table">
-                <thead>
+                <thead class="table-light">
                     <tr>
                         <th>Project</th>
                         <th>Client</th>

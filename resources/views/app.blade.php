@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <html
-  lang="en"
+    lang="{{ str_replace('_', '-', app()->getLocale()) }}"
   class="light-style layout-navbar-fixed layout-menu-fixed"
   dir="ltr"
   data-theme="theme-default"
@@ -15,7 +15,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Page 1 - Starter Kit | Vuexy - Bootstrap Admin Template</title>
+    <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
     <meta name="description" content="" />
 
@@ -54,6 +54,10 @@
     <!-- Page CSS -->
     <!-- Page -->
     <link rel="stylesheet" href="/assets/vendor/css/pages/page-auth.css" />
+    
+    <script src="/assets/vendor/js/helpers.js" defer></script>
+    <script src="/assets/js/config.js" defer></script>
+
     
     <script src="/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="/assets/vendor/libs/popper/popper.js"></script>

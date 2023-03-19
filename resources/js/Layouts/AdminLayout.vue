@@ -69,13 +69,69 @@
                     <li class="menu-item active">
                         <a href="index.html" class="menu-link">
                             <i class="menu-icon tf-icons ti ti-smart-home"></i>
-                            <div data-i18n="Page 1">Page 1</div>
+                            <div data-i18n="Page 1">Services</div>
                         </a>
                     </li>
                     <li class="menu-item">
                         <a href="page-2.html" class="menu-link">
-                            <i class="menu-icon tf-icons ti ti-app-window"></i>
-                            <div data-i18n="Page 2">Page 2</div>
+                            <i
+                                class="menu-icon tf-icons ti ti-building-community"
+                            ></i>
+                            <div data-i18n="Page 2">Venues</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="page-2.html" class="menu-link">
+                            <i class="menu-icon tf-icons ti ti-school"></i>
+                            <div data-i18n="Page 2">Classes</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="page-2.html" class="menu-link">
+                            <i
+                                class="menu-icon tf-icons ti ti-address-book"
+                            ></i>
+                            <div data-i18n="Page 2">Enrolments</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="page-2.html" class="menu-link">
+                            <i class="menu-icon tf-icons ti ti-gift"></i>
+                            <div data-i18n="Page 2">Trials</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="page-2.html" class="menu-link">
+                            <i class="menu-icon tf-icons ti ti-calendar"></i>
+                            <div data-i18n="Page 2">Waitlist</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="page-2.html" class="menu-link">
+                            <i class="menu-icon tf-icons ti ti-wallet"></i>
+                            <div data-i18n="Page 2">Payments</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="page-2.html" class="menu-link">
+                            <i
+                                class="menu-icon tf-icons ti ti-calendar-time"
+                            ></i>
+                            <div data-i18n="Page 2">Attendance</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="page-2.html" class="menu-link">
+                            <i class="menu-icon tf-icons ti ti-box"></i>
+                            <div data-i18n="Page 2">Merchandise</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="page-2.html" class="menu-link">
+                            <i
+                                class="menu-icon tf-icons ti ti-building-store"
+                            ></i>
+                            <div data-i18n="Page 2">Organisations</div>
                         </a>
                     </li>
                     <li class="menu-item">
@@ -83,10 +139,8 @@
                             href="javascript:void(0);"
                             class="menu-link menu-toggle"
                         >
-                            <i class="menu-icon tf-icons ti ti-settings"></i>
-                            <div data-i18n="Roles & Permissions">
-                                Roles & Permissions
-                            </div>
+                            <i class="menu-icon tf-icons ti ti-users"></i>
+                            <div data-i18n="Users">Users</div>
                         </a>
                         <ul class="menu-sub">
                             <li class="menu-item">
@@ -94,44 +148,31 @@
                                     href="app-access-roles.html"
                                     class="menu-link"
                                 >
-                                    <div data-i18n="Roles">Roles</div>
+                                    <div data-i18n="Roles">Coach</div>
                                 </a>
                             </li>
-                            <li class="menu-item">
-                                <a
-                                    href="app-access-permission.html"
-                                    class="menu-link"
-                                >
-                                    <div data-i18n="Permission">Permission</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu-item">
-                        <a
-                            href="javascript:void(0);"
-                            class="menu-link menu-toggle"
-                        >
-                            <i class="menu-icon tf-icons ti ti-settings"></i>
-                            <div data-i18n="Roles & Permissions">
-                                Roles & Permissions
-                            </div>
-                        </a>
-                        <ul class="menu-sub">
                             <li class="menu-item">
                                 <a
                                     href="app-access-roles.html"
                                     class="menu-link"
                                 >
-                                    <div data-i18n="Roles">Roles</div>
+                                    <div data-i18n="Roles">Staff</div>
                                 </a>
                             </li>
                             <li class="menu-item">
                                 <a
-                                    href="app-access-permission.html"
+                                    href="app-access-roles.html"
                                     class="menu-link"
                                 >
-                                    <div data-i18n="Permission">Permission</div>
+                                    <div data-i18n="Roles">Parents</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a
+                                    href="app-access-roles.html"
+                                    class="menu-link"
+                                >
+                                    <div data-i18n="Roles">Students</div>
                                 </a>
                             </li>
                         </ul>
@@ -144,7 +185,7 @@
             <div class="layout-page">
                 <!-- Navbar -->
                 <nav
-                    class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                    class="layout-navbar container-fluid navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
                     id="layout-navbar"
                 >
                     <div
@@ -285,14 +326,14 @@
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
                     <!-- Content -->
-                    <div class="container-xxl flex-grow-1 container-p-y">
+                    <div class="container-fluid flex-grow-1 container-p-y">
                         <slot></slot>
                     </div>
                     <!-- / Content -->
 
                     <!-- Footer -->
                     <footer class="content-footer footer bg-footer-theme">
-                        <div class="container-xxl">
+                        <div class="container-fluid">
                             <div
                                 class="footer-container d-flex align-items-center justify-content-between py-2 flex-md-row flex-column"
                             >
@@ -339,8 +380,8 @@ import { loadScript } from "vue-plugin-load-script";
 import { onMounted } from "vue";
 
 onMounted(() => {
-    loadScript("/assets/vendor/js/helpers.js");
-    loadScript("/assets/js/config.js");
-    loadScript("/assets/js/main.js");
+    setTimeout(() => {
+        loadScript("/assets/js/main.js");
+    }, 1000);
 });
 </script>
