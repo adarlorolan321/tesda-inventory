@@ -1,6 +1,6 @@
 {
   "resources/js/Pages/Auth/Login.vue": {
-    "file": "assets/Login-2239c405.js",
+    "file": "assets/Login-66ef05f5.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -8,7 +8,7 @@
     "src": "resources/js/Pages/Auth/Login.vue"
   },
   "resources/js/Pages/Welcome.vue": {
-    "file": "assets/Welcome-2acd9c8e.js",
+    "file": "assets/Welcome-7ccc8146.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -27,7 +27,7 @@
       "resources/js/Pages/Auth/Login.vue",
       "resources/js/Pages/Welcome.vue"
     ],
-    "file": "assets/app-a92fb21d.js",
+    "file": "assets/app-cca0fc14.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }
