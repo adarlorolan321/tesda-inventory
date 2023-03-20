@@ -12,6 +12,7 @@ class GenerateCrud extends Command
     protected $signature = 'crud:generate';
     protected $descripton = 'Innsite19 Crud Generator';
     protected $files;
+
     public function __construct(Filesystem $files)
     {
         parent::__construct();
@@ -23,6 +24,8 @@ class GenerateCrud extends Command
         $model = $this->inputModel();
         $this->createModelStub($model);
         $this->createRequestStub($model);
+        $this->createPageControllerStub($model);
+        $this->createApiControllerStub($model);
         dd($model);
         $columns = $this->inputColumn();
     }
@@ -75,7 +78,7 @@ class GenerateCrud extends Command
             $model = $this->ask('Enter model name (press enter to finish)');
         }
         $folder = "";
-        $askFolder =  $this->ask('Enter model folder name: (press enter to finish)');
+        $askFolder = $this->ask('Enter model folder name: (press enter to finish)');
         if (!empty($askFolder)) {
             $folder = Str::studly(Str::title(Str::singular($askFolder)));
         }
@@ -85,9 +88,11 @@ class GenerateCrud extends Command
             'modelClass' => $model,
             'model' => (!empty($folder) ? $folder . '\\' : '') . $model,
             'modelNamespace' => 'App\Models\\' . (!empty($folder) ? $folder : ''),
+            'pageControllerNamespace' => 'App\Http\Controllers\Page\V1\\' . (!empty($folder) ? $folder : ''),
+            'apiControllerNamespace' => 'App\Http\Controllers\Api\V1\\' . (!empty($folder) ? $folder : ''),
 
             'singular_model' => Str::snake(Str::singular($model)),
-            'controller' => 'Api\\V1\\' . (!empty($folder) ? $folder . '\\' : '') . $model . 'Controller',
+//            'controller' => 'Api\\V1\\' . (!empty($folder) ? $folder . '\\' : '') . $model . 'Controller',
             'resources' => [
                 (!empty($folder) ? $folder . '\\' : '') . $model . 'ListResource'
             ],
@@ -98,7 +103,7 @@ class GenerateCrud extends Command
             'requestNamespace' => 'App\\Http\\Requests\\' . (!empty($folder) ? $folder : ''),
 
             'table' => Str::snake(Str::pluralStudly($model)),
-            'folder' => !empty($folder) ?  $folder : '',
+            'folder' => !empty($folder) ? $folder : '',
         ];
     }
 
@@ -131,6 +136,52 @@ class GenerateCrud extends Command
         }
 
         file_put_contents($path . '\\' . $model['modelClass'] . '.php', $modelTemplate);
+    }
+
+    public function createPageControllerStub($model)
+    {
+        $stub = $this->getStub('page-controller');
+        $modelTemplate = str_replace(
+            [
+                "{{ class }}",
+                "{{ table }}",
+                "{{ namespace }}"
+            ],
+            [
+                $model['modelClass'],
+                $model['table'],
+                $model['pageControllerNamespace']
+            ],
+            $stub
+        );
+        $path = $model['pageControllerNamespace'];
+        if (!$this->files->isDirectory($path)) {
+            $this->files->makeDirectory($path, 0777, true, true);
+        }
+        file_put_contents($path . '\\' . $model['modelClass'] . 'Controller.php', $modelTemplate);
+    }
+    public function createApiControllerStub($model)
+    {
+        $stub = $this->getStub('api-controller');
+        $modelTemplate = str_replace(
+            [
+                "{{ class }}",
+                "{{ table }}",
+                "{{ namespace }}"
+            ],
+            [
+                $model['modelClass'],
+                $model['table'],
+                $model['pageControllerNamespace']
+            ],
+            $stub
+        );
+        $path = $model['apiControllerNamespace'];
+        if (!$this->files->isDirectory($path)) {
+            $this->files->makeDirectory($path, 0777, true, true);
+        }
+
+        file_put_contents($path . '\\' . $model['modelClass'] . 'ApiController.php', $modelTemplate);
     }
 
     public function createRequestStub($model)
