@@ -22,12 +22,11 @@ class GenerateCrud extends Command
     public function handle()
     {
         $model = $this->inputModel();
+        // $columns = $this->inputColumn();
+        // dd($columns);
         $this->createModelStub($model);
         $this->createRequestStub($model);
         $this->createPageControllerStub($model);
-        $this->createApiControllerStub($model);
-        dd($model);
-        $columns = $this->inputColumn();
     }
 
     public function inputColumn()
@@ -88,11 +87,9 @@ class GenerateCrud extends Command
             'modelClass' => $model,
             'model' => (!empty($folder) ? $folder . '\\' : '') . $model,
             'modelNamespace' => 'App\Models\\' . (!empty($folder) ? $folder : ''),
-            'pageControllerNamespace' => 'App\Http\Controllers\Page\V1\\' . (!empty($folder) ? $folder : ''),
+            'pageControllerNamespace' => 'App\Http\Controllers\Page\\' . (!empty($folder) ? $folder : ''),
             'apiControllerNamespace' => 'App\Http\Controllers\Api\V1\\' . (!empty($folder) ? $folder : ''),
-
             'singular_model' => Str::snake(Str::singular($model)),
-//            'controller' => 'Api\\V1\\' . (!empty($folder) ? $folder . '\\' : '') . $model . 'Controller',
             'resources' => [
                 (!empty($folder) ? $folder . '\\' : '') . $model . 'ListResource'
             ],
@@ -101,6 +98,7 @@ class GenerateCrud extends Command
                 (!empty($folder) ? $folder . '\\' : '') . 'Update' . $model . 'Request',
             ],
             'requestNamespace' => 'App\\Http\\Requests\\' . (!empty($folder) ? $folder : ''),
+            'resourceNamespace' => 'App\\Http\\Resources\\' . (!empty($folder) ? $folder : ''),
 
             'table' => Str::snake(Str::pluralStudly($model)),
             'folder' => !empty($folder) ? $folder : '',
@@ -145,12 +143,16 @@ class GenerateCrud extends Command
             [
                 "{{ class }}",
                 "{{ table }}",
-                "{{ namespace }}"
+                "{{ namespace }}",
+                "{{ modelNameSpace }}",
+                "{{ requestNamespace }}"
             ],
             [
                 $model['modelClass'],
                 $model['table'],
-                $model['pageControllerNamespace']
+                $model['pageControllerNamespace'],
+                $model['modelNamespace'],
+                $model['requestNamespace'],
             ],
             $stub
         );
@@ -160,6 +162,29 @@ class GenerateCrud extends Command
         }
         file_put_contents($path . '\\' . $model['modelClass'] . 'Controller.php', $modelTemplate);
     }
+
+    public function createResourceStub($model)
+    {
+        $stub = $this->getStub('resource');
+        $modelTemplate = str_replace(
+            [
+                "{{ namespace }}",
+                "{{ class }}",
+            ],
+            [
+                $model['resourceNamespace'],
+                $model['modelClass'],
+            ],
+            $stub
+        );
+        $path = $model['resourceNamespace'];
+        if (!$this->files->isDirectory($path)) {
+            $this->files->makeDirectory($path, 0777, true, true);
+        }
+        file_put_contents($path . '\\' . $model['modelClass'] . 'ListResource.php', $modelTemplate);
+    }
+
+
     public function createApiControllerStub($model)
     {
         $stub = $this->getStub('api-controller');
@@ -193,11 +218,13 @@ class GenerateCrud extends Command
                 "{{ class }}",
                 "{{ namespace }}",
                 "{{ permission }}",
+                "{{ type }}"
             ],
             [
                 $model['modelClass'],
                 $model['requestNamespace'],
-                'store ' . $model['singular_model']
+                'store ' . $model['singular_model'],
+                'Store',
             ],
             $stub
         );
@@ -207,11 +234,13 @@ class GenerateCrud extends Command
                 "{{ class }}",
                 "{{ namespace }}",
                 "{{ permission }}",
+                "{{ type }}"
             ],
             [
                 $model['modelClass'],
                 $model['requestNamespace'],
-                'update ' . $model['singular_model']
+                'update ' . $model['singular_model'],
+                'Update',
             ],
             $stub
         );

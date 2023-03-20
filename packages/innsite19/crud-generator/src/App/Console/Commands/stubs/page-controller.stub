@@ -2,8 +2,12 @@
 
 namespace {{ namespace }};
 
-use App\Http\Resources\{{ class }}Resource;
-use App\Models\{{ class }};
+use App\Http\Controllers\Controller;
+use App\Http\Resources\{{ class }}ListResource;
+use {{ modelNameSpace }}\{{ class }};
+use {{ requestNamespace }}\Store{{ class }}Request;
+use {{ requestNamespace }}\Update{{ class }}Request;
+
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -31,7 +35,7 @@ class {{ class }}Controller extends Controller
             ->withQueryString();
 
         $props = [
-            'data' => {{ class }}Resource::collection($data),
+            'data' => {{ class }}ListResource::collection($data),
             'params' => $request->all(),
         ];
 
@@ -39,7 +43,7 @@ class {{ class }}Controller extends Controller
             return json_encode($props);
         }
 
-        return Inertia::render('Admin/Page/{{ class }}', $props);
+        return Inertia::render('Admin/{{ class }}', $props);
     }
 
     /**
@@ -47,21 +51,21 @@ class {{ class }}Controller extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Page/{{ class }}/Create');
+        return Inertia::render('Admin/{{ class }}/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+    public function store(Store{{ class }}Request $request)
     {
         $data = {{ class }}::create($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return new UserResource($data);
+            return new {{ class }}ListResource($data);
         }
-        return redirect()->route('users.index')->with('message', 'Record Saved');
+        return redirect()->route('{{ table }}.index')->with('message', 'Record Saved');
     }
 
     /**
@@ -71,9 +75,9 @@ class {{ class }}Controller extends Controller
     {
         $data = {{ class }}::findOrFail($id);
         if ($request->wantsJson()) {
-            return new UserResource($data);
+            return new {{ class }}ListResource($data);
         }
-        return Inertia::render('Admin/Page/{{ class }}/Show', [
+        return Inertia::render('Admin/{{ class }}/Show', [
             'data' => $data
         ]);
     }
@@ -85,9 +89,9 @@ class {{ class }}Controller extends Controller
     {
         $data = {{ class }}::findOrFail($id);
         if ($request->wantsJson()) {
-            return new UserResource($data);
+            return new {{ class }}ListResource($data);
         }
-        return Inertia::render('Admin/Page/{{ class }}/Edit', [
+        return Inertia::render('Admin/{{ class }}/Edit', [
             'data' => $data
         ]);
     }
@@ -102,12 +106,12 @@ class {{ class }}Controller extends Controller
         sleep(1);
 
         if ($request->wantsJson()) {
-            return (new UserResource($data))
+            return (new {{ class }}ListResource($data))
                 ->response()
                 ->setStatusCode(201);
         }
 
-        return redirect()->route('users.index')->with('message', 'Record Saved');
+        return redirect()->route('{{ table }}.index')->with('message', 'Record Saved');
     }
 
     /**
@@ -122,6 +126,6 @@ class {{ class }}Controller extends Controller
         if ($request->wantsJson()) {
             return response(null, 204);
         }
-        return redirect()->route('users.index')->with('message', 'Record Removed');
+        return redirect()->route('{{ table }}.index')->with('message', 'Record Removed');
     }
 }
