@@ -22,19 +22,26 @@ class GenerateCrud extends Command
     public function handle()
     {
         $model = $this->inputModel();
-        // $columns = $this->inputColumn();
-        // dd($columns);
-        $this->createModelStub($model);
-        $this->createRequestStub($model);
+        $columns = $this->inputColumn();
+
+        $this->createModelStub($model, $columns['fields']);
+        $this->createRequestStub($model, $columns['fields']);
+
+        $this->createResourceStub($model);
         $this->createPageControllerStub($model);
+        $this->createMigrationStub($model, $columns['columns']);
     }
 
     public function inputColumn()
     {
         $columns = [];
+
+        $fields = [];
+
         $initColumn = $this->ask('Enter new column (press enter to finish)');
 
         while (!empty($initColumn)) {
+            $fields[] = $initColumn;
 
             $type = $this->ask('Enter column type');
             while (empty($type)) {
@@ -65,7 +72,10 @@ class GenerateCrud extends Command
 
             $initColumn = $this->ask("Enter new column (press enter to finish):");
         }
-        return $columns;
+        return [
+            'columns' => $columns,
+            'fields' => $fields,
+        ];
     }
 
 
@@ -111,18 +121,29 @@ class GenerateCrud extends Command
         return file_get_contents($base_path);
     }
 
-    public function createModelStub($model)
+    public function createModelStub($model, $fields)
     {
         $stub = $this->getStub('model');
+
+
+        $fillable = "";
+
+        foreach ($fields as $field) {
+            $fillable .= '"' . $field . '",';
+        }
+
+
 
         $modelTemplate = str_replace(
             [
                 "{{ class }}",
-                "{{ namespace }}"
+                "{{ namespace }}",
+                "{{ fillable }}"
             ],
             [
                 $model['modelClass'],
-                $model['modelNamespace']
+                $model['modelNamespace'],
+                $fillable,
             ],
             $stub
         );
@@ -145,7 +166,8 @@ class GenerateCrud extends Command
                 "{{ table }}",
                 "{{ namespace }}",
                 "{{ modelNameSpace }}",
-                "{{ requestNamespace }}"
+                "{{ requestNamespace }}",
+                "{{ resourceNamespace }}"
             ],
             [
                 $model['modelClass'],
@@ -153,14 +175,39 @@ class GenerateCrud extends Command
                 $model['pageControllerNamespace'],
                 $model['modelNamespace'],
                 $model['requestNamespace'],
+                $model['resourceNamespace'],
             ],
             $stub
         );
-        $path = $model['pageControllerNamespace'];
+        $path = app_path('\Http\\Controllers\\' . $model['folder']);
         if (!$this->files->isDirectory($path)) {
             $this->files->makeDirectory($path, 0777, true, true);
         }
         file_put_contents($path . '\\' . $model['modelClass'] . 'Controller.php', $modelTemplate);
+    }
+
+    public function createMigrationStub($model, $columns)
+    {
+        $stub = $this->getStub('migration');
+
+        $migration = implode("\n", $columns);
+
+        $migrationTemplate = str_replace(
+            [
+                "{{ table }}",
+                "{{ migration }}",
+            ],
+            [
+                $model['table'],
+                $migration
+            ],
+            $stub
+        );
+        $path = database_path('\\migrations');
+        if (!$this->files->isDirectory($path)) {
+            $this->files->makeDirectory($path, 0777, true, true);
+        }
+        file_put_contents($path . '\\' . now()->format('Y_m_d_his') . '_create_' . $model['table'] . '_tables.php', $migrationTemplate);
     }
 
     public function createResourceStub($model)
@@ -177,54 +224,39 @@ class GenerateCrud extends Command
             ],
             $stub
         );
-        $path = $model['resourceNamespace'];
+        $path = app_path('\Http\\Resources\\' . $model['folder']);
+
         if (!$this->files->isDirectory($path)) {
             $this->files->makeDirectory($path, 0777, true, true);
         }
         file_put_contents($path . '\\' . $model['modelClass'] . 'ListResource.php', $modelTemplate);
     }
 
-
-    public function createApiControllerStub($model)
-    {
-        $stub = $this->getStub('api-controller');
-        $modelTemplate = str_replace(
-            [
-                "{{ class }}",
-                "{{ table }}",
-                "{{ namespace }}"
-            ],
-            [
-                $model['modelClass'],
-                $model['table'],
-                $model['pageControllerNamespace']
-            ],
-            $stub
-        );
-        $path = $model['apiControllerNamespace'];
-        if (!$this->files->isDirectory($path)) {
-            $this->files->makeDirectory($path, 0777, true, true);
-        }
-
-        file_put_contents($path . '\\' . $model['modelClass'] . 'ApiController.php', $modelTemplate);
-    }
-
-    public function createRequestStub($model)
+    public function createRequestStub($model, $fields)
     {
         $stub = $this->getStub('request');
+
+        $validations = "";
+
+        foreach ($fields as $field) {
+            $validations .= '"' . $field . '" => ["required"],';
+        }
+
 
         $storeStubTemplate = str_replace(
             [
                 "{{ class }}",
                 "{{ namespace }}",
                 "{{ permission }}",
-                "{{ type }}"
+                "{{ type }}",
+                "{{ validations }}"
             ],
             [
                 $model['modelClass'],
                 $model['requestNamespace'],
                 'store ' . $model['singular_model'],
                 'Store',
+                $validations
             ],
             $stub
         );
@@ -234,13 +266,15 @@ class GenerateCrud extends Command
                 "{{ class }}",
                 "{{ namespace }}",
                 "{{ permission }}",
-                "{{ type }}"
+                "{{ type }}",
+                "{{ validations }}"
             ],
             [
                 $model['modelClass'],
                 $model['requestNamespace'],
                 'update ' . $model['singular_model'],
                 'Update',
+                $validations
             ],
             $stub
         );

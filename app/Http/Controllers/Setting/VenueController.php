@@ -1,17 +1,17 @@
 <?php
 
-namespace {{ namespace }};
+namespace App\Http\Controllers\Page\Setting;
 
 use App\Http\Controllers\Controller;
-use {{ resourceNamespace }}\{{ class }}ListResource;
-use {{ modelNameSpace }}\{{ class }};
-use {{ requestNamespace }}\Store{{ class }}Request;
-use {{ requestNamespace }}\Update{{ class }}Request;
+use App\Http\Resources\Setting\VenueListResource;
+use App\Models\Setting\Venue;
+use App\Http\Requests\Setting\StoreVenueRequest;
+use App\Http\Requests\Setting\UpdateVenueRequest;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class {{ class }}Controller extends Controller
+class VenueController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,7 +22,7 @@ class {{ class }}Controller extends Controller
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
 
-        $data = {{ class }}::query()
+        $data = Venue::query()
             ->with([])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
@@ -35,7 +35,7 @@ class {{ class }}Controller extends Controller
             ->withQueryString();
 
         $props = [
-            'data' => {{ class }}ListResource::collection($data),
+            'data' => VenueListResource::collection($data),
             'params' => $request->all(),
         ];
 
@@ -43,7 +43,7 @@ class {{ class }}Controller extends Controller
             return json_encode($props);
         }
 
-        return Inertia::render('Admin/{{ class }}', $props);
+        return Inertia::render('Admin/Venue', $props);
     }
 
     /**
@@ -51,21 +51,21 @@ class {{ class }}Controller extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/{{ class }}/Create');
+        return Inertia::render('Admin/Venue/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Store{{ class }}Request $request)
+    public function store(StoreVenueRequest $request)
     {
-        $data = {{ class }}::create($request->validated());
+        $data = Venue::create($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return new {{ class }}ListResource($data);
+            return new VenueListResource($data);
         }
-        return redirect()->route('{{ table }}.index')->with('message', 'Record Saved');
+        return redirect()->route('venues.index')->with('message', 'Record Saved');
     }
 
     /**
@@ -73,11 +73,11 @@ class {{ class }}Controller extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $data = {{ class }}::findOrFail($id);
+        $data = Venue::findOrFail($id);
         if ($request->wantsJson()) {
-            return new {{ class }}ListResource($data);
+            return new VenueListResource($data);
         }
-        return Inertia::render('Admin/{{ class }}/Show', [
+        return Inertia::render('Admin/Venue/Show', [
             'data' => $data
         ]);
     }
@@ -87,11 +87,11 @@ class {{ class }}Controller extends Controller
      */
     public function edit(Request $request, string $id)
     {
-        $data = {{ class }}::findOrFail($id);
+        $data = Venue::findOrFail($id);
         if ($request->wantsJson()) {
-            return new {{ class }}ListResource($data);
+            return new VenueListResource($data);
         }
-        return Inertia::render('Admin/{{ class }}/Edit', [
+        return Inertia::render('Admin/Venue/Edit', [
             'data' => $data
         ]);
     }
@@ -99,19 +99,19 @@ class {{ class }}Controller extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Update{{ class }}Request $request, string $id)
+    public function update(UpdateVenueRequest $request, string $id)
     {
-        $data = {{ class }}::findOrFail($id);
+        $data = Venue::findOrFail($id);
         $data->update($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return (new {{ class }}ListResource($data))
+            return (new VenueListResource($data))
                 ->response()
                 ->setStatusCode(201);
         }
 
-        return redirect()->route('{{ table }}.index')->with('message', 'Record Saved');
+        return redirect()->route('venues.index')->with('message', 'Record Saved');
     }
 
     /**
@@ -119,13 +119,13 @@ class {{ class }}Controller extends Controller
      */
     public function destroy(Request $request, string $id)
     {
-        $data = {{ class }}::findOrFail($id);
+        $data = Venue::findOrFail($id);
         $data->delete();
         sleep(1);
 
         if ($request->wantsJson()) {
             return response(null, 204);
         }
-        return redirect()->route('{{ table }}.index')->with('message', 'Record Removed');
+        return redirect()->route('venues.index')->with('message', 'Record Removed');
     }
 }

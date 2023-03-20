@@ -1,17 +1,17 @@
 <?php
 
-namespace {{ namespace }};
+namespace App\Http\Requests\Setting;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class {{ type }}{{ class }}Request extends FormRequest
+class UpdateServiceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return auth()->user()->can("{{ permission }}");
+        return auth()->user()->can("update service");
     }
 
     /**
@@ -22,7 +22,7 @@ class {{ type }}{{ class }}Request extends FormRequest
     public function rules(): array
     {
         return [
-            {{ validations }}
+            "name" => ["required"], "code" => ["required"], "uuid" => ["required"],
         ];
     }
 }

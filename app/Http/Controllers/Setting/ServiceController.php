@@ -1,13 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Page\Setting;
 
-use App\Http\Resources\UserResource;
-use App\Models\User;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Setting\ServiceListResource;
+use App\Models\Setting\Service;
+use App\Http\Requests\Setting\StoreServiceRequest;
+use App\Http\Requests\Setting\UpdateServiceRequest;
+
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class TestController extends Controller
+class ServiceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +22,7 @@ class TestController extends Controller
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
 
-        $data = User::query()
+        $data = Service::query()
             ->with([])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
@@ -31,7 +35,7 @@ class TestController extends Controller
             ->withQueryString();
 
         $props = [
-            'data' => UserResource::collection($data),
+            'data' => ServiceListResource::collection($data),
             'params' => $request->all(),
         ];
 
@@ -39,7 +43,7 @@ class TestController extends Controller
             return json_encode($props);
         }
 
-        return Inertia::render('Admin/Page', $props);
+        return Inertia::render('Admin/Service', $props);
     }
 
     /**
@@ -47,21 +51,21 @@ class TestController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Page/Create');
+        return Inertia::render('Admin/Service/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+    public function store(StoreServiceRequest $request)
     {
-        $data = User::create($request->validated());
+        $data = Service::create($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return new UserResource($data);
+            return new ServiceListResource($data);
         }
-        return redirect()->route('users.index')->with('message', 'Record Saved');
+        return redirect()->route('services.index')->with('message', 'Record Saved');
     }
 
     /**
@@ -69,11 +73,11 @@ class TestController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $data = User::findOrFail($id);
+        $data = Service::findOrFail($id);
         if ($request->wantsJson()) {
-            return new UserResource($data);
+            return new ServiceListResource($data);
         }
-        return Inertia::render('Admin/Page/Show', [
+        return Inertia::render('Admin/Service/Show', [
             'data' => $data
         ]);
     }
@@ -83,11 +87,11 @@ class TestController extends Controller
      */
     public function edit(Request $request, string $id)
     {
-        $data = User::findOrFail($id);
+        $data = Service::findOrFail($id);
         if ($request->wantsJson()) {
-            return new UserResource($data);
+            return new ServiceListResource($data);
         }
-        return Inertia::render('Admin/Page/Edit', [
+        return Inertia::render('Admin/Service/Edit', [
             'data' => $data
         ]);
     }
@@ -95,19 +99,19 @@ class TestController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, string $id)
+    public function update(UpdateServiceRequest $request, string $id)
     {
-        $data = User::findOrFail($id);
+        $data = Service::findOrFail($id);
         $data->update($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return (new UserResource($data))
+            return (new ServiceListResource($data))
                 ->response()
                 ->setStatusCode(201);
         }
 
-        return redirect()->route('users.index')->with('message', 'Record Saved');
+        return redirect()->route('services.index')->with('message', 'Record Saved');
     }
 
     /**
@@ -115,13 +119,13 @@ class TestController extends Controller
      */
     public function destroy(Request $request, string $id)
     {
-        $data = User::findOrFail($id);
+        $data = Service::findOrFail($id);
         $data->delete();
         sleep(1);
 
         if ($request->wantsJson()) {
             return response(null, 204);
         }
-        return redirect()->route('users.index')->with('message', 'Record Removed');
+        return redirect()->route('services.index')->with('message', 'Record Removed');
     }
 }
