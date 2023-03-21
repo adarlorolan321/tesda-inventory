@@ -67,10 +67,10 @@
                 <ul class="menu-inner py-1">
                     <!-- Page -->
                     <li class="menu-item active">
-                        <a href="index.html" class="menu-link">
+                        <inertia-link :href="route('services.index')" class="menu-link">
                             <i class="menu-icon tf-icons ti ti-smart-home"></i>
                             <div data-i18n="Page 1">Services</div>
-                        </a>
+                        </inertia-link>
                     </li>
                     <li class="menu-item">
                         <a href="page-2.html" class="menu-link">

@@ -18,7 +18,15 @@ class RolePermissionSeeder extends Seeder
     public function run()
     {
         $roles = [
-            'Admin' => [],
+            'Admin' => [
+                'access service',
+                'create service',
+                'store service',
+                'edit service',
+                'update service',
+                'destroy service',
+                'show service',
+            ],
             'OrganisationAdmin' => [],
         ];
 

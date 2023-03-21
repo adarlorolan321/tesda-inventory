@@ -1,13 +1,13 @@
 import "./bootstrap";
 import "../css/app.css";
 import { createApp, h } from "vue";
-import { createInertiaApp } from "@inertiajs/vue3";
+import { createInertiaApp, Link } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
 import Select2 from "vue3-select2-component";
 
-const appName =
-    window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
+let doc = window.document.getElementsByTagName("title")[0]
+const appName = doc ? doc.innerText : "Laravel";
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -20,6 +20,7 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .component("Select2", Select2)
+            .component('inertia-link', Link)
             .use(ZiggyVue, Ziggy)
             .mount(el);
     },

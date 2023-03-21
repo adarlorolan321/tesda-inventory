@@ -22,7 +22,8 @@ class UpdateServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required"], "code" => ["required"], "uuid" => ["required"],
+            "name" => ["required"], 
+            "code" => ["required"],
         ];
     }
 }

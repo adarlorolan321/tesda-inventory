@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers as PageController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -22,5 +23,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/', function () {
             return Inertia::render('Welcome', []);
         });
+
+        Route::resources([
+            'services' => PageController\Setting\ServiceController::class,
+        ]);
     });
 });

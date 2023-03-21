@@ -22,7 +22,12 @@ class StoreVenueRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required"], "contact_first_name" => ["required"], "contact_last_name" => ["required"], "contact_email" => ["required"], "contact_phone" => ["required"], "status" => ["required"],
+            "name" => ["required"], 
+            "contact_first_name" => ["required"], 
+            "contact_last_name" => ["required"], 
+            "contact_email" => ["required"], 
+            "contact_phone" => ["required"], 
+            "status" => ["required"],
         ];
     }
 }

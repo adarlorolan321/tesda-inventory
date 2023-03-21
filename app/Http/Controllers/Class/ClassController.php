@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Setting;
+namespace App\Http\Controllers\Class;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Setting\ServiceListResource;
-use App\Models\Setting\Service;
-use App\Http\Requests\Setting\StoreServiceRequest;
-use App\Http\Requests\Setting\UpdateServiceRequest;
+use App\Http\Resources\Class\ClassListResource;
+use App\Models\Class\ClassModel;
+use App\Http\Requests\Class\StoreClassRequest;
+use App\Http\Requests\Class\UpdateClassRequest;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class ServiceController extends Controller
+class ClassController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,16 +19,16 @@ class ServiceController extends Controller
     public function index(Request $request)
     {
 
-        $perPage = $request->input('perPage', 10); // default 50
+        $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
 
-        $data = Service::query()
+        $data = ClassModel::query()
             ->with([])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
-                    $query->where('code', 'like', '%' . $queryString . '%')
-                        ->orWhere('name', 'like', '%' . $queryString . '%');
+                    // $query->where('column', 'like', '%' . $queryString . '%')
+                    //     ->orWhere('column', 'like', '%' . $queryString . '%');
                 }
             })
             ->orderBy('name', 'ASC')
@@ -36,7 +36,7 @@ class ServiceController extends Controller
             ->withQueryString();
 
         $props = [
-            'data' => ServiceListResource::collection($data),
+            'data' => ClassListResource::collection($data),
             'params' => $request->all(),
         ];
 
@@ -44,7 +44,7 @@ class ServiceController extends Controller
             return json_encode($props);
         }
 
-        return Inertia::render('Admin/Service/Index', $props);
+        return Inertia::render('Admin/Class', $props);
     }
 
     /**
@@ -52,21 +52,21 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Service/Create');
+        return Inertia::render('Admin/Class/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreServiceRequest $request)
+    public function store(StoreClassRequest $request)
     {
-        $data = Service::create($request->validated());
+        $data = ClassModel::create($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return new ServiceListResource($data);
+            return new ClassListResource($data);
         }
-        return redirect()->route('services.index')->with('message', 'Record Saved');
+        return redirect()->route('classes.index')->with('message', 'Record Saved');
     }
 
     /**
@@ -74,11 +74,11 @@ class ServiceController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $data = Service::findOrFail($id);
+        $data = ClassModel::findOrFail($id);
         if ($request->wantsJson()) {
-            return new ServiceListResource($data);
+            return new ClassListResource($data);
         }
-        return Inertia::render('Admin/Service/Show', [
+        return Inertia::render('Admin/Class/Show', [
             'data' => $data
         ]);
     }
@@ -88,11 +88,11 @@ class ServiceController extends Controller
      */
     public function edit(Request $request, string $id)
     {
-        $data = Service::findOrFail($id);
+        $data = ClassModel::findOrFail($id);
         if ($request->wantsJson()) {
-            return new ServiceListResource($data);
+            return new ClassListResource($data);
         }
-        return Inertia::render('Admin/Service/Edit', [
+        return Inertia::render('Admin/Class/Edit', [
             'data' => $data
         ]);
     }
@@ -100,19 +100,19 @@ class ServiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateServiceRequest $request, string $id)
+    public function update(UpdateClassRequest $request, string $id)
     {
-        $data = Service::findOrFail($id);
+        $data = ClassModel::findOrFail($id);
         $data->update($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return (new ServiceListResource($data))
+            return (new ClassListResource($data))
                 ->response()
                 ->setStatusCode(201);
         }
 
-        return redirect()->route('services.index')->with('message', 'Record Saved');
+        return redirect()->route('classes.index')->with('message', 'Record Saved');
     }
 
     /**
@@ -120,13 +120,13 @@ class ServiceController extends Controller
      */
     public function destroy(Request $request, string $id)
     {
-        $data = Service::findOrFail($id);
+        $data = ClassModel::findOrFail($id);
         $data->delete();
         sleep(1);
 
         if ($request->wantsJson()) {
             return response(null, 204);
         }
-        return redirect()->route('services.index')->with('message', 'Record Removed');
+        return redirect()->route('classes.index')->with('message', 'Record Removed');
     }
 }

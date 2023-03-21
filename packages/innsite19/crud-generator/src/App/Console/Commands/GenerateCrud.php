@@ -97,7 +97,7 @@ class GenerateCrud extends Command
             'modelClass' => $model,
             'model' => (!empty($folder) ? $folder . '\\' : '') . $model,
             'modelNamespace' => 'App\Models\\' . (!empty($folder) ? $folder : ''),
-            'pageControllerNamespace' => 'App\Http\Controllers\Page\\' . (!empty($folder) ? $folder : ''),
+            'pageControllerNamespace' => 'App\Http\Controllers\\' . (!empty($folder) ? $folder : ''),
             'apiControllerNamespace' => 'App\Http\Controllers\Api\V1\\' . (!empty($folder) ? $folder : ''),
             'singular_model' => Str::snake(Str::singular($model)),
             'resources' => [
