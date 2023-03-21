@@ -51,6 +51,7 @@ let {
                     class="offcanvas offcanvas-end"
                     tabindex="-1"
                     id="offCanvasForm"
+                    data-bs-backdrop="static"
                     aria-labelledby="offCanvasFormLabel"
                 >
                     <div class="offcanvas-header">
@@ -65,6 +66,7 @@ let {
                             class="btn-close text-reset"
                             data-bs-dismiss="offcanvas"
                             aria-label="Close"
+                            v-if="!form.processing"
                         ></button>
                     </div>
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
@@ -103,15 +105,19 @@ let {
                         <button
                             class="btn btn-primary"
                             @click="createPromise"
+                            :disabled="form.processing"
                             v-if="formState == 'create'"
                         >
+                            <span v-if="form.processing" class="spinner-border me-1" role="status" aria-hidden="true"></span>
                             Save
                         </button>
                         <button
                             class="btn btn-primary"
                             @click="updatePromise"
+                            :disabled="form.processing"
                             v-if="formState == 'update'"
                         >
+                            <span v-if="form.processing" class="spinner-border me-1" role="status" aria-hidden="true"></span>
                             Save changes
                         </button>
                     </div>
@@ -212,7 +218,7 @@ let {
                                         active: link.active,
                                     }"
                                     :href="link.url"
-                                    :only="['data']"
+                                    :only="['data', 'params']"
                                 >
                                     <span v-html="link.label"></span>
                                 </inertia-link>

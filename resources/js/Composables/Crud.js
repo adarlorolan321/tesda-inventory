@@ -41,6 +41,7 @@ export function useCrud(formObject = {}, routeName) {
         form.clearErrors();
         form.post(route(`${routeName}.store`), {
             onSuccess: () => {
+                toastr.success('Record saved')
                 router.reload([])
                 form.reset();
                 offCanvas.value.hide();
