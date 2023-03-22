@@ -18,9 +18,11 @@ class {{ class }}Controller extends Controller
      */
     public function index(Request $request)
     {
-
+        
         $perPage = $request->input('perPage', 50); // default 50
-        $queryString = $request->input('query', null);
+        $queryString = $request->input('query', null);  
+        $sort = explode('.', $request->input('sort', 'id'));
+        $order = $request->input('order', 'asc');
 
         $data = {{ class }}::query()
             ->with([])
@@ -30,6 +32,9 @@ class {{ class }}Controller extends Controller
                     // $query->where('column', 'like', '%' . $queryString . '%')
                     //     ->orWhere('column', 'like', '%' . $queryString . '%');
                 }
+            }) 
+            ->when(count($sort) == 1, function ($query) use ($sort, $order) {
+                $query->orderBy($sort[0], $order);
             })
             ->paginate($perPage)
             ->withQueryString();
@@ -41,6 +46,11 @@ class {{ class }}Controller extends Controller
 
         if ($request->wantsJson()) {
             return json_encode($props);
+        }
+
+        if(count($data) <= 0)
+        {
+            return redirect()->route('{{ table }}.index', ['page' => 1]);
         }
 
         return Inertia::render('Admin/{{ class }}', $props);
@@ -65,7 +75,7 @@ class {{ class }}Controller extends Controller
         if ($request->wantsJson()) {
             return new {{ class }}ListResource($data);
         }
-        return redirect()->route('{{ table }}.index')->with('message', 'Record Saved');
+        return redirect()->back();
     }
 
     /**
@@ -111,7 +121,7 @@ class {{ class }}Controller extends Controller
                 ->setStatusCode(201);
         }
 
-        return redirect()->route('{{ table }}.index')->with('message', 'Record Saved');
+        return redirect()->back();
     }
 
     /**
@@ -126,6 +136,6 @@ class {{ class }}Controller extends Controller
         if ($request->wantsJson()) {
             return response(null, 204);
         }
-        return redirect()->route('{{ table }}.index')->with('message', 'Record Removed');
+        return redirect()->back();
     }
 }

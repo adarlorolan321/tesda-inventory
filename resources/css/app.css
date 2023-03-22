@@ -10,3 +10,7 @@
     font-size: 0.8125rem;
     color: #a5a3ae !important;
 }
+
+.sortable {
+    cursor: pointer;
+}
