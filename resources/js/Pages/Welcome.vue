@@ -2,6 +2,12 @@
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">Table Basic</div>
+            <dropzone  collection="medical_certificate" 
+                :url="route('api.media.upload')"
+                model="GCCD\GccdApplication" 
+                acceptedFiles="application/pdf,image/jpeg,image/png">
+            </dropzone>
+
             <div class="card-action-element">
                 <button
                     class="btn btn-primary"

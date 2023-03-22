@@ -6,6 +6,10 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
 import Select2 from "vue3-select2-component";
 
+import Dropzone from "@/Components/Dropzone.vue";
+
+
+
 let doc = window.document.getElementsByTagName("title")[0]
 const appName = doc ? doc.innerText : "Laravel";
 
@@ -20,6 +24,7 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .component("Select2", Select2)
+            .component("Dropzone", Dropzone)
             .component('inertia-link', Link)
             .use(ZiggyVue, Ziggy)
             .mount(el);
