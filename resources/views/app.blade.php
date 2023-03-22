@@ -73,7 +73,6 @@
     <script src="/assets/vendor/libs/hammer/hammer.js"></script>
     <script src="/assets/vendor/js/menu.js"></script>
 
-
     <script src="/assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js"></script>
     <script src="/assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
     <script src="/assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js"></script>
