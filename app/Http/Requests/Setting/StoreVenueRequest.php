@@ -23,11 +23,11 @@ class StoreVenueRequest extends FormRequest
     {
         return [
             "name" => ["required"], 
-            "contact_first_name" => ["required"], 
-            "contact_last_name" => ["required"], 
-            "contact_email" => ["required"], 
-            "contact_phone" => ["required"], 
-            "status" => ["required"],
+            "contact_first_name" => ["nullable"], 
+            "contact_last_name" => ["nullable"], 
+            "contact_email" => ["nullable","email"], 
+            "contact_phone" => ["nullable"], 
+            "status" => ["nullable"],
         ];
     }
 }
