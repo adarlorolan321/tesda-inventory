@@ -45,7 +45,7 @@
                             </svg>
                         </span>
                         <span class="app-brand-text demo menu-text fw-bold"
-                            >Vuexy</span
+                        >Vuexy</span
                         >
                     </a>
 
@@ -66,117 +66,31 @@
 
                 <ul class="menu-inner py-1">
                     <!-- Page -->
-                    <li class="menu-item active">
-                        <inertia-link :href="route('services.index')" class="menu-link">
-                            <i class="menu-icon tf-icons ti ti-smart-home"></i>
-                            <div data-i18n="Page 1">Services</div>
-                        </inertia-link>
-                    </li>
-                    <li class="menu-item">
-                        <a href="page-2.html" class="menu-link">
-                            <i
-                                class="menu-icon tf-icons ti ti-building-community"
-                            ></i>
-                            <div data-i18n="Page 2">Venues</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="page-2.html" class="menu-link">
-                            <i class="menu-icon tf-icons ti ti-school"></i>
-                            <div data-i18n="Page 2">Classes</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="page-2.html" class="menu-link">
-                            <i
-                                class="menu-icon tf-icons ti ti-address-book"
-                            ></i>
-                            <div data-i18n="Page 2">Enrolments</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="page-2.html" class="menu-link">
-                            <i class="menu-icon tf-icons ti ti-gift"></i>
-                            <div data-i18n="Page 2">Trials</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="page-2.html" class="menu-link">
-                            <i class="menu-icon tf-icons ti ti-calendar"></i>
-                            <div data-i18n="Page 2">Waitlist</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="page-2.html" class="menu-link">
-                            <i class="menu-icon tf-icons ti ti-wallet"></i>
-                            <div data-i18n="Page 2">Payments</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="page-2.html" class="menu-link">
-                            <i
-                                class="menu-icon tf-icons ti ti-calendar-time"
-                            ></i>
-                            <div data-i18n="Page 2">Attendance</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="page-2.html" class="menu-link">
-                            <i class="menu-icon tf-icons ti ti-box"></i>
-                            <div data-i18n="Page 2">Merchandise</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="page-2.html" class="menu-link">
-                            <i
-                                class="menu-icon tf-icons ti ti-building-store"
-                            ></i>
-                            <div data-i18n="Page 2">Organisations</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a
-                            href="javascript:void(0);"
-                            class="menu-link menu-toggle"
-                        >
-                            <i class="menu-icon tf-icons ti ti-users"></i>
-                            <div data-i18n="Users">Users</div>
-                        </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a
-                                    href="app-access-roles.html"
-                                    class="menu-link"
-                                >
-                                    <div data-i18n="Roles">Coach</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a
-                                    href="app-access-roles.html"
-                                    class="menu-link"
-                                >
-                                    <div data-i18n="Roles">Staff</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a
-                                    href="app-access-roles.html"
-                                    class="menu-link"
-                                >
-                                    <div data-i18n="Roles">Parents</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a
-                                    href="app-access-roles.html"
-                                    class="menu-link"
-                                >
-                                    <div data-i18n="Roles">Students</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                   <template v-for="(menu,index) in menus" :key="'menu-'+index">
+                       <li v-if="!menu.sub_menu"  class="menu-item" :class="{'active' : route().current(menu.route)}">
+                           <inertia-link :href="route(menu.route)" class="menu-link">
+                               <i class="menu-icon tf-icons" :class="menu.icon"></i>
+                               <div :data-i18n="menu.label">{{menu.label}}</div>
+                           </inertia-link>
+                       </li>
+                       <li v-else class="menu-item" :class="{'active' : route().current(menu.route)}">
+                           <a href="javascript:void(0);" class="menu-link menu-toggle">
+                               <i class="menu-icon tf-icons" :class="menu.icon"></i>
+                               <div :data-i18n="menu.label">{{menu.label}}</div>
+                           </a>
+                           <ul v-if="menu.sub_menu" class="menu-sub">
+                               <template v-for="(sub_menu,index) in menu.sub_menu" :key="'sub-menu-'+index">
+                                   <li class="menu-item">
+                                       <inertia-link :href="route(sub_menu.route)" class="menu-link" :class="{'menu-toggle': sub_menu.sub_menu}">
+                                           <i class="menu-icon tf-icons" :class="sub_menu.icon"></i>
+                                           <div :data-i18n="sub_menu.label">{{sub_menu.label}}</div>
+                                       </inertia-link>
+                                   </li>
+                               </template >
+                           </ul>
+                       </li>
+                   </template>
+
                 </ul>
             </aside>
             <!-- / Menu -->
@@ -250,10 +164,10 @@
                                                 <div class="flex-grow-1">
                                                     <span
                                                         class="fw-semibold d-block"
-                                                        >John Doe</span
+                                                    >John Doe</span
                                                     >
                                                     <small class="text-muted"
-                                                        >Admin</small
+                                                    >Admin</small
                                                     >
                                                 </div>
                                             </div>
@@ -268,7 +182,7 @@
                                                 class="ti ti-user-check me-2 ti-sm"
                                             ></i>
                                             <span class="align-middle"
-                                                >My Profile</span
+                                            >My Profile</span
                                             >
                                         </a>
                                     </li>
@@ -278,7 +192,7 @@
                                                 class="ti ti-settings me-2 ti-sm"
                                             ></i>
                                             <span class="align-middle"
-                                                >Settings</span
+                                            >Settings</span
                                             >
                                         </a>
                                     </li>
@@ -292,11 +206,11 @@
                                                 ></i>
                                                 <span
                                                     class="flex-grow-1 align-middle"
-                                                    >Billing</span
+                                                >Billing</span
                                                 >
                                                 <span
                                                     class="flex-shrink-0 badge badge-center rounded-pill bg-label-danger w-px-20 h-px-20"
-                                                    >2</span
+                                                >2</span
                                                 >
                                             </span>
                                         </a>
@@ -310,7 +224,7 @@
                                                 class="ti ti-logout me-2 ti-sm"
                                             ></i>
                                             <span class="align-middle"
-                                                >Log Out</span
+                                            >Log Out</span
                                             >
                                         </a>
                                     </li>
@@ -345,7 +259,7 @@
                                         href="https://pixinvent.com"
                                         target="_blank"
                                         class="fw-semibold"
-                                        >Pixinvent</a
+                                    >Pixinvent</a
                                     >
                                 </div>
                                 <div>
@@ -353,7 +267,7 @@
                                         href="https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/"
                                         target="_blank"
                                         class="footer-link me-4"
-                                        >Documentation</a
+                                    >Documentation</a
                                     >
                                 </div>
                             </div>
@@ -376,8 +290,11 @@
     </div>
 </template>
 <script setup>
-import { loadScript } from "vue-plugin-load-script";
-import { onMounted } from "vue";
+import {loadScript} from "vue-plugin-load-script";
+import {onMounted, ref} from "vue";
+import {useMenu} from "@/Composables/Menus";
+
+const {menus} = useMenu()
 
 onMounted(() => {
     setTimeout(() => {

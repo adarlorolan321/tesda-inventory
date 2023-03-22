@@ -5,6 +5,11 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\ParentController;
+use App\Http\Controllers\User\CoachController;
+use App\Http\Controllers\User\StudentController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,6 +32,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/user/profile', function(){
             return Inertia::render('Admin/Profile/Show');
         })->name('user.index');
+        
+        Route::name('user.')->prefix('user')->group(function (){
+            Route::get('coach',[CoachController::class,'index'])->name('coach');
+            Route::get('parent',[ParentController::class,'index'])->name('parent');
+            Route::get('student',[StudentController::class,'index'])->name('student');
+        });
+
+        Route::get('/account', function(){
+            return Inertia::render('Admin/Organisation/Create');
+        })->name('account.index');
+
+        Route::get('/account/security', function(){
+            return Inertia::render('Admin/Organisation/Security');
+        })->name('account.security');
 
         Route::get('/user/teams', function(){
             return Inertia::render('Admin/Profile/Teams');
@@ -42,6 +61,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::resources([
             'services' => PageController\Setting\ServiceController::class,
+        ]);
+        Route::resources([
+            'venues' => PageController\Setting\VenueController::class,
         ]);
     });
 });

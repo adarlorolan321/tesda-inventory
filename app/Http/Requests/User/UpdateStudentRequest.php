@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests\Setting;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreVenueRequest extends FormRequest
+class UpdateStudentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return auth()->user()->can("store venue");
+        return auth()->user()->can("update student");
     }
 
     /**
@@ -22,12 +22,7 @@ class StoreVenueRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required"], 
-            "contact_first_name" => ["nullable"], 
-            "contact_last_name" => ["nullable"], 
-            "contact_email" => ["nullable","email"], 
-            "contact_phone" => ["nullable"], 
-            "status" => ["nullable"],
+            
         ];
     }
 }

@@ -15,7 +15,7 @@ const formObject = {
     code: null,
 };
 
-const routeName = "services";
+const routeName = "user.coach";
 let {
     paginatedData,
     form,
@@ -133,7 +133,7 @@ let {
                             <select class="form-select" :value="serverQuery.perPage" @input="handleServerQuery('perPage', $event.target.value)">
                                 <option
                                     v-for="i in [5, 10, 25, 50, 100]"
-                                    :value="String(i)" :key="i"
+                                    :value="String(i)"
                                 >
                                     {{ i }}
                                 </option>
@@ -162,7 +162,7 @@ let {
                             <i class="ti ti-arrow-down" v-if="serverQuery.sort == 'code' && serverQuery.order == 'asc'"></i>
                         </th>
                         <th class="sortable"  @click="handleServerQuery('sort', 'name')">
-                            Service Name 
+                            Service Name
                             <i class="ti ti-arrow-up" v-if="serverQuery.sort == 'name' && serverQuery.order == 'desc'"></i>
                             <i class="ti ti-arrow-down" v-if="serverQuery.sort == 'name' && serverQuery.order == 'asc'"></i>
                         </th>
@@ -173,7 +173,7 @@ let {
                     <tr v-if="paginatedData.data.length <= 0">
                         <td colspan="999999" class="text-center">No item found</td>
                     </tr>
-                    <tr v-for="tableData in paginatedData.data" :key="tableData">
+                    <tr v-for="tableData in paginatedData.data">
                         <td>{{ tableData.code }}</td>
                         <td style="width: 90%">{{ tableData.name }}</td>
                         <td>
@@ -218,7 +218,7 @@ let {
                         <ul class="pagination mb-0">
                             <li
                                 class="page-item"
-                                v-for="link in paginatedData.meta.links" :key="link"
+                                v-for="link in paginatedData.meta.links"
                             >
                                 <inertia-link
                                     class="page-link"
