@@ -21,6 +21,13 @@ use App\Http\Controllers\User\StudentController;
 |
 */
 
+Route::prefix('auth')->group(function () {
+    Route::get('/forgot-password', function(){
+        return Inertia::render('Auth/ForgotPassword');
+    })->name('auth.forgotpassword');
+  
+});
+
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
