@@ -1,11 +1,15 @@
 <template>
+    <Select2 v-model="myValue" :options="['myOptions']" :settings="{ settingOption: value, settingOption: value }"
+             @change="myChangeEvent($event)" @select="mySelectEvent($event)"/>
+
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">Table Basic</div>
-            <dropzone  collection="medical_certificate" 
-                :url="route('api.media.upload')"
-                model="GCCD\GccdApplication" 
-                acceptedFiles="application/pdf,image/jpeg,image/png">
+            <dropzone collection="medical_certificate"
+                      :url="route('api.media.upload')"
+                      model="User"
+                      message="Drop files here or click to upload profile photo"
+                      acceptedFiles="application/pdf,image/jpeg,image/png">
             </dropzone>
 
             <div class="card-action-element">
@@ -38,7 +42,7 @@
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
                         <div class="form-group">
                             <label for="">First Name</label>
-                            <input type="text" class="form-control" />
+                            <input type="text" class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -47,351 +51,351 @@
         <div class="table-responsive text-nowrap">
             <table class="table">
                 <thead class="table-light">
-                    <tr>
-                        <th>Project</th>
-                        <th>Client</th>
-                        <th>Users</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
+                <tr>
+                    <th>Project</th>
+                    <th>Client</th>
+                    <th>Users</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                    <tr>
-                        <td>
-                            <i
-                                class="ti ti-brand-angular ti-lg text-danger me-3"
-                            ></i>
-                            <strong>Angular Project</strong>
-                        </td>
-                        <td>Albert Cook</td>
-                        <td>
-                            <ul
-                                class="list-unstyled users-list m-0 avatar-group d-flex align-items-center"
+                <tr>
+                    <td>
+                        <i
+                            class="ti ti-brand-angular ti-lg text-danger me-3"
+                        ></i>
+                        <strong>Angular Project</strong>
+                    </td>
+                    <td>Albert Cook</td>
+                    <td>
+                        <ul
+                            class="list-unstyled users-list m-0 avatar-group d-flex align-items-center"
+                        >
+                            <li
+                                data-bs-toggle="tooltip"
+                                data-popup="tooltip-custom"
+                                data-bs-placement="top"
+                                class="avatar avatar-xs pull-up"
+                                title="Lilian Fuller"
                             >
-                                <li
-                                    data-bs-toggle="tooltip"
-                                    data-popup="tooltip-custom"
-                                    data-bs-placement="top"
-                                    class="avatar avatar-xs pull-up"
-                                    title="Lilian Fuller"
-                                >
-                                    <img
-                                        src="/assets/img/avatars/5.png"
-                                        alt="Avatar"
-                                        class="rounded-circle"
-                                    />
-                                </li>
-                                <li
-                                    data-bs-toggle="tooltip"
-                                    data-popup="tooltip-custom"
-                                    data-bs-placement="top"
-                                    class="avatar avatar-xs pull-up"
-                                    title="Sophia Wilkerson"
-                                >
-                                    <img
-                                        src="/assets/img/avatars/6.png"
-                                        alt="Avatar"
-                                        class="rounded-circle"
-                                    />
-                                </li>
-                                <li
-                                    data-bs-toggle="tooltip"
-                                    data-popup="tooltip-custom"
-                                    data-bs-placement="top"
-                                    class="avatar avatar-xs pull-up"
-                                    title="Christina Parker"
-                                >
-                                    <img
-                                        src="/assets/img/avatars/7.png"
-                                        alt="Avatar"
-                                        class="rounded-circle"
-                                    />
-                                </li>
-                            </ul>
-                        </td>
-                        <td>
+                                <img
+                                    src="/assets/img/avatars/5.png"
+                                    alt="Avatar"
+                                    class="rounded-circle"
+                                />
+                            </li>
+                            <li
+                                data-bs-toggle="tooltip"
+                                data-popup="tooltip-custom"
+                                data-bs-placement="top"
+                                class="avatar avatar-xs pull-up"
+                                title="Sophia Wilkerson"
+                            >
+                                <img
+                                    src="/assets/img/avatars/6.png"
+                                    alt="Avatar"
+                                    class="rounded-circle"
+                                />
+                            </li>
+                            <li
+                                data-bs-toggle="tooltip"
+                                data-popup="tooltip-custom"
+                                data-bs-placement="top"
+                                class="avatar avatar-xs pull-up"
+                                title="Christina Parker"
+                            >
+                                <img
+                                    src="/assets/img/avatars/7.png"
+                                    alt="Avatar"
+                                    class="rounded-circle"
+                                />
+                            </li>
+                        </ul>
+                    </td>
+                    <td>
                             <span class="badge bg-label-primary me-1"
-                                >Active</span
+                            >Active</span
                             >
-                        </td>
-                        <td>
-                            <div class="dropdown">
-                                <button
-                                    type="button"
-                                    class="btn p-0 dropdown-toggle hide-arrow"
-                                    data-bs-toggle="dropdown"
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button
+                                type="button"
+                                class="btn p-0 dropdown-toggle hide-arrow"
+                                data-bs-toggle="dropdown"
+                            >
+                                <i class="ti ti-dots-vertical"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a
+                                    class="dropdown-item"
+                                    href="javascript:void(0);"
+                                ><i class="ti ti-pencil me-1"></i>
+                                    Edit</a
                                 >
-                                    <i class="ti ti-dots-vertical"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a
-                                        class="dropdown-item"
-                                        href="javascript:void(0);"
-                                        ><i class="ti ti-pencil me-1"></i>
-                                        Edit</a
-                                    >
-                                    <a
-                                        class="dropdown-item"
-                                        href="javascript:void(0);"
-                                        ><i class="ti ti-trash me-1"></i>
-                                        Delete</a
-                                    >
-                                </div>
+                                <a
+                                    class="dropdown-item"
+                                    href="javascript:void(0);"
+                                ><i class="ti ti-trash me-1"></i>
+                                    Delete</a
+                                >
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <i
-                                class="ti ti-brand-react-native ti-lg text-info me-3"
-                            ></i>
-                            <strong>React Project</strong>
-                        </td>
-                        <td>Barry Hunter</td>
-                        <td>
-                            <ul
-                                class="list-unstyled users-list m-0 avatar-group d-flex align-items-center"
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <i
+                            class="ti ti-brand-react-native ti-lg text-info me-3"
+                        ></i>
+                        <strong>React Project</strong>
+                    </td>
+                    <td>Barry Hunter</td>
+                    <td>
+                        <ul
+                            class="list-unstyled users-list m-0 avatar-group d-flex align-items-center"
+                        >
+                            <li
+                                data-bs-toggle="tooltip"
+                                data-popup="tooltip-custom"
+                                data-bs-placement="top"
+                                class="avatar avatar-xs pull-up"
+                                title="Lilian Fuller"
                             >
-                                <li
-                                    data-bs-toggle="tooltip"
-                                    data-popup="tooltip-custom"
-                                    data-bs-placement="top"
-                                    class="avatar avatar-xs pull-up"
-                                    title="Lilian Fuller"
-                                >
-                                    <img
-                                        src="/assets/img/avatars/5.png"
-                                        alt="Avatar"
-                                        class="rounded-circle"
-                                    />
-                                </li>
-                                <li
-                                    data-bs-toggle="tooltip"
-                                    data-popup="tooltip-custom"
-                                    data-bs-placement="top"
-                                    class="avatar avatar-xs pull-up"
-                                    title="Sophia Wilkerson"
-                                >
-                                    <img
-                                        src="/assets/img/avatars/6.png"
-                                        alt="Avatar"
-                                        class="rounded-circle"
-                                    />
-                                </li>
-                                <li
-                                    data-bs-toggle="tooltip"
-                                    data-popup="tooltip-custom"
-                                    data-bs-placement="top"
-                                    class="avatar avatar-xs pull-up"
-                                    title="Christina Parker"
-                                >
-                                    <img
-                                        src="/assets/img/avatars/7.png"
-                                        alt="Avatar"
-                                        class="rounded-circle"
-                                    />
-                                </li>
-                            </ul>
-                        </td>
-                        <td>
+                                <img
+                                    src="/assets/img/avatars/5.png"
+                                    alt="Avatar"
+                                    class="rounded-circle"
+                                />
+                            </li>
+                            <li
+                                data-bs-toggle="tooltip"
+                                data-popup="tooltip-custom"
+                                data-bs-placement="top"
+                                class="avatar avatar-xs pull-up"
+                                title="Sophia Wilkerson"
+                            >
+                                <img
+                                    src="/assets/img/avatars/6.png"
+                                    alt="Avatar"
+                                    class="rounded-circle"
+                                />
+                            </li>
+                            <li
+                                data-bs-toggle="tooltip"
+                                data-popup="tooltip-custom"
+                                data-bs-placement="top"
+                                class="avatar avatar-xs pull-up"
+                                title="Christina Parker"
+                            >
+                                <img
+                                    src="/assets/img/avatars/7.png"
+                                    alt="Avatar"
+                                    class="rounded-circle"
+                                />
+                            </li>
+                        </ul>
+                    </td>
+                    <td>
                             <span class="badge bg-label-success me-1"
-                                >Completed</span
+                            >Completed</span
                             >
-                        </td>
-                        <td>
-                            <div class="dropdown">
-                                <button
-                                    type="button"
-                                    class="btn p-0 dropdown-toggle hide-arrow"
-                                    data-bs-toggle="dropdown"
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button
+                                type="button"
+                                class="btn p-0 dropdown-toggle hide-arrow"
+                                data-bs-toggle="dropdown"
+                            >
+                                <i class="ti ti-dots-vertical"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a
+                                    class="dropdown-item"
+                                    href="javascript:void(0);"
+                                ><i class="ti ti-pencil me-2"></i>
+                                    Edit</a
                                 >
-                                    <i class="ti ti-dots-vertical"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a
-                                        class="dropdown-item"
-                                        href="javascript:void(0);"
-                                        ><i class="ti ti-pencil me-2"></i>
-                                        Edit</a
-                                    >
-                                    <a
-                                        class="dropdown-item"
-                                        href="javascript:void(0);"
-                                        ><i class="ti ti-trash me-2"></i>
-                                        Delete</a
-                                    >
-                                </div>
+                                <a
+                                    class="dropdown-item"
+                                    href="javascript:void(0);"
+                                ><i class="ti ti-trash me-2"></i>
+                                    Delete</a
+                                >
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <i
-                                class="ti ti-brand-vue ti-lg text-success me-3"
-                            ></i>
-                            <strong>VueJs Project</strong>
-                        </td>
-                        <td>Trevor Baker</td>
-                        <td>
-                            <ul
-                                class="list-unstyled users-list m-0 avatar-group d-flex align-items-center"
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <i
+                            class="ti ti-brand-vue ti-lg text-success me-3"
+                        ></i>
+                        <strong>VueJs Project</strong>
+                    </td>
+                    <td>Trevor Baker</td>
+                    <td>
+                        <ul
+                            class="list-unstyled users-list m-0 avatar-group d-flex align-items-center"
+                        >
+                            <li
+                                data-bs-toggle="tooltip"
+                                data-popup="tooltip-custom"
+                                data-bs-placement="top"
+                                class="avatar avatar-xs pull-up"
+                                title="Lilian Fuller"
                             >
-                                <li
-                                    data-bs-toggle="tooltip"
-                                    data-popup="tooltip-custom"
-                                    data-bs-placement="top"
-                                    class="avatar avatar-xs pull-up"
-                                    title="Lilian Fuller"
-                                >
-                                    <img
-                                        src="/assets/img/avatars/5.png"
-                                        alt="Avatar"
-                                        class="rounded-circle"
-                                    />
-                                </li>
-                                <li
-                                    data-bs-toggle="tooltip"
-                                    data-popup="tooltip-custom"
-                                    data-bs-placement="top"
-                                    class="avatar avatar-xs pull-up"
-                                    title="Sophia Wilkerson"
-                                >
-                                    <img
-                                        src="/assets/img/avatars/6.png"
-                                        alt="Avatar"
-                                        class="rounded-circle"
-                                    />
-                                </li>
-                                <li
-                                    data-bs-toggle="tooltip"
-                                    data-popup="tooltip-custom"
-                                    data-bs-placement="top"
-                                    class="avatar avatar-xs pull-up"
-                                    title="Christina Parker"
-                                >
-                                    <img
-                                        src="/assets/img/avatars/7.png"
-                                        alt="Avatar"
-                                        class="rounded-circle"
-                                    />
-                                </li>
-                            </ul>
-                        </td>
-                        <td>
+                                <img
+                                    src="/assets/img/avatars/5.png"
+                                    alt="Avatar"
+                                    class="rounded-circle"
+                                />
+                            </li>
+                            <li
+                                data-bs-toggle="tooltip"
+                                data-popup="tooltip-custom"
+                                data-bs-placement="top"
+                                class="avatar avatar-xs pull-up"
+                                title="Sophia Wilkerson"
+                            >
+                                <img
+                                    src="/assets/img/avatars/6.png"
+                                    alt="Avatar"
+                                    class="rounded-circle"
+                                />
+                            </li>
+                            <li
+                                data-bs-toggle="tooltip"
+                                data-popup="tooltip-custom"
+                                data-bs-placement="top"
+                                class="avatar avatar-xs pull-up"
+                                title="Christina Parker"
+                            >
+                                <img
+                                    src="/assets/img/avatars/7.png"
+                                    alt="Avatar"
+                                    class="rounded-circle"
+                                />
+                            </li>
+                        </ul>
+                    </td>
+                    <td>
                             <span class="badge bg-label-info me-1"
-                                >Scheduled</span
+                            >Scheduled</span
                             >
-                        </td>
-                        <td>
-                            <div class="dropdown">
-                                <button
-                                    type="button"
-                                    class="btn p-0 dropdown-toggle hide-arrow"
-                                    data-bs-toggle="dropdown"
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button
+                                type="button"
+                                class="btn p-0 dropdown-toggle hide-arrow"
+                                data-bs-toggle="dropdown"
+                            >
+                                <i class="ti ti-dots-vertical"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a
+                                    class="dropdown-item"
+                                    href="javascript:void(0);"
+                                ><i class="ti ti-pencil me-2"></i>
+                                    Edit</a
                                 >
-                                    <i class="ti ti-dots-vertical"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a
-                                        class="dropdown-item"
-                                        href="javascript:void(0);"
-                                        ><i class="ti ti-pencil me-2"></i>
-                                        Edit</a
-                                    >
-                                    <a
-                                        class="dropdown-item"
-                                        href="javascript:void(0);"
-                                        ><i class="ti ti-trash me-2"></i>
-                                        Delete</a
-                                    >
-                                </div>
+                                <a
+                                    class="dropdown-item"
+                                    href="javascript:void(0);"
+                                ><i class="ti ti-trash me-2"></i>
+                                    Delete</a
+                                >
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <i
-                                class="ti ti-brand-bootstrap ti-lg text-primary me-3"
-                            ></i>
-                            <strong>Bootstrap Project</strong>
-                        </td>
-                        <td>Jerry Milton</td>
-                        <td>
-                            <ul
-                                class="list-unstyled users-list m-0 avatar-group d-flex align-items-center"
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <i
+                            class="ti ti-brand-bootstrap ti-lg text-primary me-3"
+                        ></i>
+                        <strong>Bootstrap Project</strong>
+                    </td>
+                    <td>Jerry Milton</td>
+                    <td>
+                        <ul
+                            class="list-unstyled users-list m-0 avatar-group d-flex align-items-center"
+                        >
+                            <li
+                                data-bs-toggle="tooltip"
+                                data-popup="tooltip-custom"
+                                data-bs-placement="top"
+                                class="avatar avatar-xs pull-up"
+                                title="Lilian Fuller"
                             >
-                                <li
-                                    data-bs-toggle="tooltip"
-                                    data-popup="tooltip-custom"
-                                    data-bs-placement="top"
-                                    class="avatar avatar-xs pull-up"
-                                    title="Lilian Fuller"
-                                >
-                                    <img
-                                        src="/assets/img/avatars/5.png"
-                                        alt="Avatar"
-                                        class="rounded-circle"
-                                    />
-                                </li>
-                                <li
-                                    data-bs-toggle="tooltip"
-                                    data-popup="tooltip-custom"
-                                    data-bs-placement="top"
-                                    class="avatar avatar-xs pull-up"
-                                    title="Sophia Wilkerson"
-                                >
-                                    <img
-                                        src="/assets/img/avatars/6.png"
-                                        alt="Avatar"
-                                        class="rounded-circle"
-                                    />
-                                </li>
-                                <li
-                                    data-bs-toggle="tooltip"
-                                    data-popup="tooltip-custom"
-                                    data-bs-placement="top"
-                                    class="avatar avatar-xs pull-up"
-                                    title="Christina Parker"
-                                >
-                                    <img
-                                        src="/assets/img/avatars/7.png"
-                                        alt="Avatar"
-                                        class="rounded-circle"
-                                    />
-                                </li>
-                            </ul>
-                        </td>
-                        <td>
+                                <img
+                                    src="/assets/img/avatars/5.png"
+                                    alt="Avatar"
+                                    class="rounded-circle"
+                                />
+                            </li>
+                            <li
+                                data-bs-toggle="tooltip"
+                                data-popup="tooltip-custom"
+                                data-bs-placement="top"
+                                class="avatar avatar-xs pull-up"
+                                title="Sophia Wilkerson"
+                            >
+                                <img
+                                    src="/assets/img/avatars/6.png"
+                                    alt="Avatar"
+                                    class="rounded-circle"
+                                />
+                            </li>
+                            <li
+                                data-bs-toggle="tooltip"
+                                data-popup="tooltip-custom"
+                                data-bs-placement="top"
+                                class="avatar avatar-xs pull-up"
+                                title="Christina Parker"
+                            >
+                                <img
+                                    src="/assets/img/avatars/7.png"
+                                    alt="Avatar"
+                                    class="rounded-circle"
+                                />
+                            </li>
+                        </ul>
+                    </td>
+                    <td>
                             <span class="badge bg-label-warning me-1"
-                                >Pending</span
+                            >Pending</span
                             >
-                        </td>
-                        <td>
-                            <div class="dropdown">
-                                <button
-                                    type="button"
-                                    class="btn p-0 dropdown-toggle hide-arrow"
-                                    data-bs-toggle="dropdown"
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button
+                                type="button"
+                                class="btn p-0 dropdown-toggle hide-arrow"
+                                data-bs-toggle="dropdown"
+                            >
+                                <i class="ti ti-dots-vertical"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a
+                                    class="dropdown-item"
+                                    href="javascript:void(0);"
+                                ><i class="ti ti-pencil me-2"></i>
+                                    Edit</a
                                 >
-                                    <i class="ti ti-dots-vertical"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a
-                                        class="dropdown-item"
-                                        href="javascript:void(0);"
-                                        ><i class="ti ti-pencil me-2"></i>
-                                        Edit</a
-                                    >
-                                    <a
-                                        class="dropdown-item"
-                                        href="javascript:void(0);"
-                                        ><i class="ti ti-trash me-2"></i>
-                                        Delete</a
-                                    >
-                                </div>
+                                <a
+                                    class="dropdown-item"
+                                    href="javascript:void(0);"
+                                ><i class="ti ti-trash me-2"></i>
+                                    Delete</a
+                                >
                             </div>
-                        </td>
-                    </tr>
+                        </div>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -402,7 +406,7 @@ import AdminLayout from '@/Layouts/AdminLayout.vue'
 
 export default {
     layout: AdminLayout,
-    mounted: function(){
+    mounted: function () {
 
     }
 }

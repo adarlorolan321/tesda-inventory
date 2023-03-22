@@ -11,7 +11,7 @@ export function useCrud(formObject = {}, routeName) {
     const formState = ref('create');
     const paginatedData = computed(() => usePage().props.data)
     const serverParams = computed(() => usePage().props.params)
-
+    const isLoadingComponents = ref(false);
     const offCanvas = ref(null)
 
     const serverQuery = ref({
@@ -96,6 +96,8 @@ export function useCrud(formObject = {}, routeName) {
     const updatePromise = async() => {
         form.clearErrors();
         form.patch(route(`${routeName}.update`, form.id), {
+            preserveState: true,
+            preventScroll: true,
             onSuccess: () => {
                 toastr.success('Record saved')
                 router.reload()
@@ -129,28 +131,45 @@ export function useCrud(formObject = {}, routeName) {
 
     // Actions
     const handleEdit = (item) => {
+        item = JSON.parse(JSON.stringify(item))
         form.reset();
+        form.clearErrors()
+
         for (const key in item) {
             const itemValue = item[key];
             form[key] = itemValue;
         }
         formState.value = "update"
         offCanvas.value.show();
+
+
+        isLoadingComponents.value = false
+        setTimeout(() => {
+            isLoadingComponents.value = true
+        }, 1000);
+
     }
 
     const resetForm = () => {
         form.reset();
+        form.clearErrors()
     }
 
     const handleCreate = () => {
         resetForm()
         router.reload([])
+
+        isLoadingComponents.value = false
+        setTimeout(() => {
+            isLoadingComponents.value = true
+        }, 1000);
         formState.value = "create"
     }
 
 
     return {
         paginatedData,
+        isLoadingComponents,
         form,
         createPromise,
         updatePromise,

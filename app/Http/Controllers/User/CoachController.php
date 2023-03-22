@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Helper\StrHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\CoachListResource;
+use App\Models\Media;
 use App\Models\User;
 use App\Http\Requests\User\StoreCoachRequest;
 use App\Http\Requests\User\UpdateCoachRequest;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
 class CoachController extends Controller
@@ -26,7 +29,9 @@ class CoachController extends Controller
         $order = $request->input('order', 'asc');
 
         $data = User::query()
-            ->with([])
+            ->whereHas('roles', function ($query)  {
+                $query->whereIn('name', ['Coach','Staff']);
+            })
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
@@ -39,7 +44,6 @@ class CoachController extends Controller
             })
             ->paginate($perPage)
             ->withQueryString();
-
         $props = [
             'data' => CoachListResource::collection($data),
             'params' => $request->all(),
@@ -48,13 +52,12 @@ class CoachController extends Controller
         if ($request->wantsJson()) {
             return json_encode($props);
         }
-        if(count($data) <= 0 && $page > 1)
-        {
-            return redirect()->route('user.coach', ['page' => 1]);
+        if (count($data) <= 0 && $page > 1) {
+            return redirect()->route('user.coach.index', ['page' => 1]);
         }
 
 
-        return Inertia::render('Admin/User/Coach', $props);
+        return Inertia::render('Admin/User/Coach/Index', $props);
     }
 
     /**
@@ -70,13 +73,23 @@ class CoachController extends Controller
      */
     public function store(StoreCoachRequest $request)
     {
-        $data = User::create($request->validated());
-        sleep(1);
+        $password = StrHelper::randomPassword();
+        $userArr = $request->all();
+        $userArr['name'] = $request['first_name'].' '.$request['last_name'];
+        $userArr['password'] = Hash::make($password);
+        $data = User::create($userArr);
+        $data->assignRole($request['role']);
+        //Upload Profile Photo
+        Media::where('id', $request->input('profile_photo', [])['id'])
+            ->update([
+                'model_id' => $data->id
+            ]);
 
+        sleep(1);
         if ($request->wantsJson()) {
             return new CoachListResource($data);
         }
-        return redirect()->route('coaches.index')->with('message', 'Record Saved');
+        return redirect()->back();
     }
 
     /**
@@ -113,7 +126,18 @@ class CoachController extends Controller
     public function update(UpdateCoachRequest $request, string $id)
     {
         $data = User::findOrFail($id);
-        $data->update($request->validated());
+        $password = StrHelper::randomPassword();
+        $userArr = $request->all();
+        $userArr['name'] = $request['first_name'].' '.$request['last_name'];
+        $userArr['password'] = Hash::make($password);
+        $data->update($userArr);
+        $data->assignRole($request['role']);
+        //Upload Profile Photo
+        Media::where('id', $request->input('profile_photo', [])['id'])
+            ->update([
+                'model_id' => $data->id
+            ]);
+
         sleep(1);
 
         if ($request->wantsJson()) {
@@ -122,7 +146,7 @@ class CoachController extends Controller
                 ->setStatusCode(201);
         }
 
-        return redirect()->route('coaches.index')->with('message', 'Record Saved');
+        return redirect()->back();
     }
 
     /**
@@ -137,6 +161,6 @@ class CoachController extends Controller
         if ($request->wantsJson()) {
             return response(null, 204);
         }
-        return redirect()->route('coaches.index')->with('message', 'Record Removed');
+        return redirect()->back();
     }
 }
