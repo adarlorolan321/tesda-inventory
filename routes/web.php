@@ -5,6 +5,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\Http\Controllers\User\UserController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,10 +26,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
             return Inertia::render('Welcome', []);
         });
 
+        Route::name('user.')->prefix('user')->group(function (){
+            Route::get('coach',[UserController::class,'index'])->name('coach');
+            Route::get('staff',[UserController::class,'index'])->name('staff');
+            Route::get('parent',[UserController::class,'index'])->name('parent');
+            Route::get('student',[UserController::class,'index'])->name('student');
+        });
+
         Route::get('/account', function(){
             return Inertia::render('Admin/Organisation/Create');
         })->name('account.index');
-        
+
         Route::get('/account/security', function(){
             return Inertia::render('Admin/Organisation/Security');
         })->name('account.security');
