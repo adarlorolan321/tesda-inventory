@@ -4,7 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\UserListResource;
-use App\Models\User\User;
+use App\Models\User;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 
@@ -16,7 +16,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, $role = null)
     {
 
         $perPage = $request->input('perPage', 50); // default 50
@@ -46,17 +46,13 @@ class UserController extends Controller
         return Inertia::render('Admin/User', $props);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         return Inertia::render('Admin/User/Create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(StoreUserRequest $request)
     {
         $data = User::create($request->validated());
@@ -68,9 +64,7 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('message', 'Record Saved');
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Request $request, string $id)
     {
         $data = User::findOrFail($id);
@@ -82,9 +76,7 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(Request $request, string $id)
     {
         $data = User::findOrFail($id);
@@ -96,9 +88,7 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(UpdateUserRequest $request, string $id)
     {
         $data = User::findOrFail($id);
@@ -114,9 +104,7 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('message', 'Record Saved');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(Request $request, string $id)
     {
         $data = User::findOrFail($id);

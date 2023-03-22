@@ -27,10 +27,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         });
 
         Route::name('user.')->prefix('user')->group(function (){
-            Route::get('coach',[UserController::class,'index'])->name('coach');
-            Route::get('staff',[UserController::class,'index'])->name('staff');
-            Route::get('parent',[UserController::class,'index'])->name('parent');
-            Route::get('student',[UserController::class,'index'])->name('student');
+            Route::get('coach',[UserController::class,'coach'])->name('coach');
+            Route::get('staff',[UserController::class,'staff'])->name('staff');
+            Route::get('parent',[UserController::class,'parent'])->name('parent');
+            Route::get('student',[UserController::class,'student'])->name('student');
         });
 
         Route::get('/account', function(){
