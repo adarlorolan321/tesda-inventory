@@ -24,6 +24,7 @@ const formObject = {
 
 const routeName = "user.coach";
 let {
+    isLoadingComponents,
     paginatedData,
     form,
     createPromise,
@@ -52,7 +53,7 @@ let {
                     data-bs-target="#offCanvasForm"
                     aria-controls="offCanvasForm"
                 >
-                    New Coach
+                    New Coach {{ formState }}
                 </button>
                 <div
                     class="offcanvas offcanvas-end"
@@ -66,7 +67,6 @@ let {
                             {{
                                 formState == "create" ? "Create" : "Update"
                             }}
-                            Coach
                         </h5>
                         <button
                             type="button"
@@ -160,15 +160,16 @@ let {
                         </div>
                         <div class="form-group mb-4">
                             <label for="name">Profile Photo</label>
-                            {{ form.profile_photo }}
-                            <dropzone  collection="profile_photo"
-                                       :url="route('api.media.upload')"
-                                       model="User"
-                                       :value="form.profile_photo"
-                                       @input="form.profile_photo"
-                                       message="Drop files here or click to upload profile photo"
-                                       acceptedFiles="application/pdf,image/jpeg,image/png">
+                            <dropzone collection="profile_photo"
+                                v-if="isLoadingComponents"
+                                :url="route('api.media.upload')"
+                                model="User"
+                                :value="form.profile_photo"
+                                @input="form.profile_photo = $event"
+                                message="Drop files here or click to upload profile photo"
+                                acceptedFiles="application/pdf,image/jpeg,image/png">
                             </dropzone>
+                            <div v-else>Loading media</div>
                             <div class="invalid-feedback">
                                 {{ form.errors.first_name }}
                             </div>

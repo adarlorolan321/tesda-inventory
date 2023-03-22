@@ -44,7 +44,6 @@ class CoachController extends Controller
             })
             ->paginate($perPage)
             ->withQueryString();
-
         $props = [
             'data' => CoachListResource::collection($data),
             'params' => $request->all(),
@@ -90,7 +89,7 @@ class CoachController extends Controller
         if ($request->wantsJson()) {
             return new CoachListResource($data);
         }
-        return redirect()->route('user.coach.index')->with('message', 'Record Saved');
+        return redirect()->back();
     }
 
     /**
@@ -147,7 +146,7 @@ class CoachController extends Controller
                 ->setStatusCode(201);
         }
 
-        return redirect()->route('user.coach.index')->with('message', 'Record Saved');
+        return redirect()->back();
     }
 
     /**
@@ -162,6 +161,6 @@ class CoachController extends Controller
         if ($request->wantsJson()) {
             return response(null, 204);
         }
-        return redirect()->route('user.coach.index')->with('message', 'Record Removed');
+        return redirect()->back();
     }
 }

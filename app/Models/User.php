@@ -67,6 +67,18 @@ class User extends Authenticatable implements HasMedia
      * @var array<int, string>
      */
     protected $appends = [
-        'profile_photo_url',
+        'profile_photo',
     ];
+
+    public function getProfilePhotoAttribute()
+    {
+        $media = $this->getMedia('profile_photo')->first();
+        return $media ? array_merge($media->toArray(), [
+            'url' => $media->getUrl(),
+            'src' => $media->getUrl(),
+            'path' => $media->getUrl(),
+            'preview_url' => $media->getUrl(),
+        ]) : null;
+    }
+
 }
