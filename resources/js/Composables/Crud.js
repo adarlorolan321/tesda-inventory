@@ -109,14 +109,14 @@ export function useCrud(formObject = {}, routeName) {
 
     const deletePromise = async(id) => {
         Swal.fire({
-          
+            icon: 'warning',
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
             showCancelButton: true,
             confirmButtonText: 'Delete it!',
             customClass: {
                 confirmButton: 'swal2-confirm',
-              },
+            },
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
