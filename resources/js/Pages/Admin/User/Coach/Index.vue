@@ -17,7 +17,7 @@ const formObject = {
     last_name: null,
     phone: null,
     email: null,
-    status: null,
+    status: true,
     role: null,
     profile_photo: null,
 };
