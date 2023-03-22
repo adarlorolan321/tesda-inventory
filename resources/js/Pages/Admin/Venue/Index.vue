@@ -48,7 +48,7 @@ let {
           data-bs-target="#offCanvasForm"
           aria-controls="offCanvasForm"
         >
-          New Venue
+          Create Venue
         </button>
         <div
           class="offcanvas offcanvas-end"
@@ -60,7 +60,7 @@ let {
           <div class="offcanvas-header">
             <h5 id="offCanvasFormLabel" class="offcanvas-title">
               {{ formState == "create" ? "Create" : "Update" }}
-              Venue
+              Service
             </h5>
             <button
               type="button"
@@ -153,7 +153,7 @@ let {
               </div>
             </div>
             <div class="form-group mb-5">
-              <div class="text-light small fw-semibold mb-3">Status</div>
+              <div class=" ">Status</div>
               <label class="switch">
                 <input
                   type="checkbox"
@@ -165,7 +165,8 @@ let {
                   <span class="switch-on"></span>
                   <span class="switch-off"></span>
                 </span>
-                <span class="switch-label">Yes</span>
+                <span class="switch-label" v-if="form.status==1">Yes</span>
+                <span class="switch-label" v-else>No</span> 
               </label>
             </div>
 
@@ -256,7 +257,7 @@ let {
               ></i>
             </th>
             <th class="sortable" @click="handleServerQuery('sort', 'contact_first_name')">
-              Contact First Name
+              Contact Name
               <i
                 class="ti ti-arrow-up"
                 v-if="serverQuery.sort == 'contact_first_name' && serverQuery.order == 'desc'"
@@ -266,19 +267,19 @@ let {
                 v-if="serverQuery.sort == 'contact_first_name' && serverQuery.order == 'asc'"
               ></i>
             </th>
-            <th class="sortable" @click="handleServerQuery('sort', 'contact_last_name')">
-              Contact Last Name
+            <th class="sortable" @click="handleServerQuery('sort', 'contact_phone')">
+               Phone Number
               <i
                 class="ti ti-arrow-up"
-                v-if="serverQuery.sort == 'contact_last_name' && serverQuery.order == 'desc'"
+                v-if="serverQuery.sort == 'contact_phone' && serverQuery.order == 'desc'"
               ></i>
               <i
                 class="ti ti-arrow-down"
-                v-if="serverQuery.sort == 'contact_last_name' && serverQuery.order == 'asc'"
+                v-if="serverQuery.sort == 'contact_phone' && serverQuery.order == 'asc'"
               ></i>
             </th>
             <th class="sortable" @click="handleServerQuery('sort', 'contact_email')">
-              Contact Email
+               Email
               <i
                 class="ti ti-arrow-up"
                 v-if="serverQuery.sort == 'contact_email' && serverQuery.order == 'desc'"
@@ -288,16 +289,8 @@ let {
                 v-if="serverQuery.sort == 'contact_email' && serverQuery.order == 'asc'"
               ></i>
             </th>
-            <th class="sortable" @click="handleServerQuery('sort', 'contact_phone')">
-              Contact Phone
-              <i
-                class="ti ti-arrow-up"
-                v-if="serverQuery.sort == 'contact_phone' && serverQuery.order == 'desc'"
-              ></i>
-              <i
-                class="ti ti-arrow-down"
-                v-if="serverQuery.sort == 'contact_phone' && serverQuery.order == 'asc'"
-              ></i>
+            <th class="sortable " >
+                Embed Code
             </th>
             <th class="sortable" @click="handleServerQuery('sort', 'status')">
               Status
@@ -319,12 +312,12 @@ let {
           </tr>
           <tr v-for="tableData in paginatedData.data" :key="tableData">
             <td>{{ tableData.name }}</td>
-            <td >{{ tableData.contact_first_name }}</td>
-            <td >{{ tableData.contact_last_name }}</td>
-            <td >{{ tableData.contact_email }}</td>
+            <td >{{ tableData.contact_first_name }} {{ tableData.contact_last_name }}</td>
             <td >{{ tableData.contact_phone }}</td>
-            <td ><span v-if="tableData.status ==1" class="badge rounded-pill bg-success">Yes</span>
-                <span v-else class="badge rounded-pill bg-secondary">No</span>
+            <td >{{ tableData.contact_email }}</td>
+            <td class=""><a href="#"><i class="fa-regular fa-copy ms-4" style="font-size: 22px;"></i></a></td>
+            <td ><span v-if="tableData.status ==1" class="badge bg-label-success">Active</span>
+                <span v-else class="badge bg-label-danger">In-active</span>
             </td>
             <td>
               <div class="d-flex gap-2">
@@ -336,6 +329,7 @@ let {
                 </a>
                 <a
                   class="btn btn-icon btn-label-danger waves-effect"
+                  id="confirm-text"
                   href="javascript:void(0);"
                   @click="deletePromise(tableData.id)"
                   ><i class="ti ti-trash"></i>
