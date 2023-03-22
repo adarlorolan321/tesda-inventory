@@ -19,17 +19,25 @@ class VenueController extends Controller
     public function index(Request $request)
     {
 
+        $page = $request->input('page', 1); // default 50
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
-
+        $sort = explode('.', $request->input('sort', 'name'));
+        $order = $request->input('order', 'asc');
         $data = Venue::query()
             ->with([])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
-                    // $query->where('column', 'like', '%' . $queryString . '%')
-                    //     ->orWhere('column', 'like', '%' . $queryString . '%');
+                    $query->where('name', 'like', '%' . $queryString . '%')
+                        ->orWhere('contact_last_name', 'like', '%' . $queryString . '%')
+                        ->orWhere('contact_first_name', 'like', '%' . $queryString . '%')
+                        ->orWhere('contact_email', 'like', '%' . $queryString . '%')
+                        ->orWhere('contact_phone', 'like', '%' . $queryString . '%');
                 }
+            })
+            ->when(count($sort) == 1, function ($query) use ($sort, $order) {
+                $query->orderBy($sort[0], $order);
             })
             ->paginate($perPage)
             ->withQueryString();
@@ -43,7 +51,7 @@ class VenueController extends Controller
             return json_encode($props);
         }
 
-        return Inertia::render('Admin/Venue', $props);
+        return Inertia::render('Admin/Venue/Index', $props);
     }
 
     /**
@@ -59,6 +67,7 @@ class VenueController extends Controller
      */
     public function store(StoreVenueRequest $request)
     {
+
         $data = Venue::create($request->validated());
         sleep(1);
 
