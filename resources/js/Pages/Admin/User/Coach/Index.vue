@@ -148,7 +148,7 @@ let {
                             <select2
                                 :class="{ 'is-invalid': form.errors.role }"
                                 v-model="form.role"
-                                :options="['myOptions']"
+                                :options="['Coach', 'Staff']"
                             >
                                 <!-- <option value="Coach">Coach</option>
                 <option value="Staff">Staff</option> -->
