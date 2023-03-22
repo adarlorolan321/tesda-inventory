@@ -1,11 +1,11 @@
 <template>
     <div class="dropzone" ref="dropzone">
         <div class="dz-message needsclick">
-            Drop files here or click to upload
-            <span class="note needsclick"
-            >(This is just a demo dropzone. Selected files are <strong>not</strong> actually
-            uploaded.)</span
-            >
+            {{message}}
+<!--            <span class="note needsclick"-->
+<!--            >(This is just a demo dropzone. Selected files are <strong>not</strong> actually-->
+<!--            uploaded.)</span-->
+<!--            >-->
         </div>
         <div class="fallback">
             <input name="file" type="file" />
@@ -28,6 +28,10 @@ export default {
             type: String,
             required: true,
         },
+        message: {
+            type: String,
+            default: "Drop files here or click to upload",
+        },
         model: {
             type: String,
             required: true,
@@ -44,6 +48,7 @@ export default {
             type: Number,
             default: 2,
         },
+
     },
     watch: {
         value: function (val) {

@@ -11,7 +11,7 @@ class UpdateCoachRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->can("update coach");
+        return auth()->user()->can("update user");
     }
 
     /**
@@ -22,7 +22,13 @@ class UpdateCoachRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            'first_name' => ['required'],
+            'last_name' => ['required'],
+            'email' => ['required','unique:users,email,id,',$this->id],
+            'phone' => ['required','unique:users,phone,',$this->id],
+            'role' => ['required'],
+            'status' => ['required'],
+            'profile_photo' => ['nullable'],
         ];
     }
 }

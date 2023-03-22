@@ -11,7 +11,7 @@ class StoreCoachRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->can("store coach");
+        return auth()->user()->can("store user");
     }
 
     /**
@@ -22,7 +22,13 @@ class StoreCoachRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            'first_name' => ['required'],
+            'last_name' => ['required'],
+            'email' => ['required','unique:users,email'],
+            'phone' => ['required','unique:users,phone'],
+            'role' => ['required'],
+            'status' => ['required'],
+            'profile_photo' => ['nullable'],
         ];
     }
 }

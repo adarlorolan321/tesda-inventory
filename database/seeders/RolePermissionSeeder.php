@@ -27,7 +27,14 @@ class RolePermissionSeeder extends Seeder
                 'destroy service',
                 'show service',
 
-                //venue
+                'access user',
+                'create user',
+                'store user',
+                'edit user',
+                'update user',
+                'destroy user',
+                'show user',
+
                 'access venue',
                 'create venue',
                 'store venue',
@@ -36,7 +43,42 @@ class RolePermissionSeeder extends Seeder
                 'destroy venue',
                 'show venue',
             ],
-            'OrganisationAdmin' => [],
+            'Coach' => [
+                'access user',
+                'create user',
+                'store user',
+                'edit user',
+                'update user',
+                'destroy user',
+                'show user',
+            ],
+            'Staff' => [
+                'access user',
+                'create user',
+                'store user',
+                'edit user',
+                'update user',
+                'destroy user',
+                'show user',
+            ],
+            'Parent' => [
+                'access user',
+                'create user',
+                'store user',
+                'edit user',
+                'update user',
+                'destroy user',
+                'show user',
+            ],
+            'Student' => [
+                'access user',
+                'create user',
+                'store user',
+                'edit user',
+                'update user',
+                'destroy user',
+                'show user',
+            ],
         ];
 
         foreach ($roles as $role => $permissions) {
