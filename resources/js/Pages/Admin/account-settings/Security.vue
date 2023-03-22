@@ -15,8 +15,7 @@ export default {
 
               <div class="row">
                 <div class="col-md-12">
-                  <Navigation />
-                 
+                  <Navigation />      
                   <div class="card mb-4">
                     <h5 class="card-header">Change Password</h5>
                     <div class="card-body">
