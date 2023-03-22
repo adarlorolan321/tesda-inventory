@@ -66,6 +66,7 @@
 
                 <ul class="menu-inner py-1">
                     <!-- Page -->
+<<<<<<< HEAD
                    <template v-for="(menu,index) in menus" :key="'menu-'+index">
                        <li v-if="!menu.sub_menu"  class="menu-item" :class="{'active' : route().current(menu.route)}">
                            <inertia-link :href="route(menu.route)" class="menu-link">
@@ -91,6 +92,131 @@
                        </li>
                    </template>
 
+=======
+                    <li class="menu-item" :class="{
+                          'active': route().current('services.index')
+                        }"  >
+                        <inertia-link :href="route('services.index')" class="menu-link">
+                            <i class="menu-icon tf-icons ti ti-smart-home"></i>
+                            <div data-i18n="Page 1">Services</div>
+                        </inertia-link>
+                    </li>
+                    <li class="menu-item">
+                        <a href="page-2.html" class="menu-link">
+                            <i
+                                class="menu-icon tf-icons ti ti-building-community"
+                            ></i>
+                            <div data-i18n="Page 2">Venues</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="page-2.html" class="menu-link">
+                            <i class="menu-icon tf-icons ti ti-school"></i>
+                            <div data-i18n="Page 2">Classes</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="page-2.html" class="menu-link">
+                            <i
+                                class="menu-icon tf-icons ti ti-address-book"
+                            ></i>
+                            <div data-i18n="Page 2">Enrolments</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="page-2.html" class="menu-link">
+                            <i class="menu-icon tf-icons ti ti-gift"></i>
+                            <div data-i18n="Page 2">Trials</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="page-2.html" class="menu-link">
+                            <i class="menu-icon tf-icons ti ti-calendar"></i>
+                            <div data-i18n="Page 2">Waitlist</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="page-2.html" class="menu-link">
+                            <i class="menu-icon tf-icons ti ti-wallet"></i>
+                            <div data-i18n="Page 2">Payments</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="page-2.html" class="menu-link">
+                            <i
+                                class="menu-icon tf-icons ti ti-calendar-time"
+                            ></i>
+                            <div data-i18n="Page 2">Attendance</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="page-2.html" class="menu-link">
+                            <i class="menu-icon tf-icons ti ti-box"></i>
+                            <div data-i18n="Page 2">Merchandise</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="page-2.html" class="menu-link">
+                            <i
+                                class="menu-icon tf-icons ti ti-building-store"
+                            ></i>
+                            <div data-i18n="Page 2">Organisations</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a
+                            href="javascript:void(0);"
+                            class="menu-link menu-toggle"
+                        >
+                            <i class="menu-icon tf-icons ti ti-users"></i>
+                            <div data-i18n="Users">Users</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a
+                                    href="app-access-roles.html"
+                                    class="menu-link"
+                                >
+                                    <div data-i18n="Roles">Coach</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a
+                                    href="app-access-roles.html"
+                                    class="menu-link"
+                                >
+                                    <div data-i18n="Roles">Staff</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a
+                                    href="app-access-roles.html"
+                                    class="menu-link"
+                                >
+                                    <div data-i18n="Roles">Parents</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a
+                                    href="app-access-roles.html"
+                                    class="menu-link"
+                                >
+                                    <div data-i18n="Roles">Students</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item" :class="{
+                          'active': route().current('account.index') || route().current('account.security')
+                        }" >
+                        <inertia-link :href="route('account.index')" class="menu-link">
+                            <i
+                                class="menu-icon tf-icons ti ti-settings"
+                            ></i>
+                            <div data-i18n="Page 2">Account Settings</div>
+                        </inertia-link>
+                    </li>
+>>>>>>> 668160b9fccb3febfe0a08720cafab6b11052f9b
                 </ul>
             </aside>
             <!-- / Menu -->
