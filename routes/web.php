@@ -24,6 +24,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
             return Inertia::render('Welcome', []);
         });
 
+        Route::get('/auth/forgotpassword', function(){
+            return Inertia::render('Auth/ForgotPassword');
+        })->name('auth.forgotpassword');
+
         Route::get('/user/profile', function(){
             return Inertia::render('Admin/Profile/Show');
         })->name('user.index');
