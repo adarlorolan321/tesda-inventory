@@ -105,12 +105,14 @@ export default {
                             const element = self.value[index];
                             myDropzone.emit("addedfile", element);
                             myDropzone.emit("complete", element);
+                            myDropzone.emit("thumbnail", element, element.src);
                             myDropzone.files.push(element);
                         }
                     }
                 } else {
                     myDropzone.emit("addedfile", self.value);
                     myDropzone.emit("complete", self.value);
+                    myDropzone.emit("thumbnail", self.value, self.value.src);
                     myDropzone.files.push(self.value);
                 }
             }
