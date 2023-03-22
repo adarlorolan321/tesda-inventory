@@ -28,6 +28,18 @@ Route::middleware(['auth:sanctum'])->group(function () {
             return Inertia::render('Admin/Profile/Show');
         })->name('user.index');
 
+        Route::get('/user/teams', function(){
+            return Inertia::render('Admin/Profile/Teams');
+        })->name('user.teams');
+
+        Route::get('/user/projects', function(){
+            return Inertia::render('Admin/Profile/Projects');
+        })->name('user.projects');
+
+        Route::get('/user/conns', function(){
+            return Inertia::render('Admin/Profile/Connections');
+        })->name('user.conns');
+
         Route::resources([
             'services' => PageController\Setting\ServiceController::class,
         ]);

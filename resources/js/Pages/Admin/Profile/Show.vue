@@ -53,26 +53,26 @@ export default {
         <div class="row">
           <div class="col-md-12">
             <ul class="nav nav-pills flex-column flex-sm-row mb-4">
-              <li class="nav-item">
-                <a class="nav-link active" href="javascript:void(0);"
-                  ><i class="ti-xs ti ti-user-check me-1"></i> Profile</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="pages-profile-teams.html"
-                  ><i class="ti-xs ti ti-users me-1"></i> Teams</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="pages-profile-projects.html"
-                  ><i class="ti-xs ti ti-layout-grid me-1"></i> Projects</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="pages-profile-connections.html"
-                  ><i class="ti-xs ti ti-link me-1"></i> Connections</a
-                >
-              </li>
+                <li class="nav-item">
+                    <inertia-link class="nav-link" :href="route('user.index')" :class="{ 'active': route().current('user.index') }">
+                        <i class="ti ti-user-check me-1 ti-xs"></i> Profile
+                    </inertia-link>
+                </li>
+                <li class="nav-item">
+                    <inertia-link class="nav-link" :href="route('user.teams')" :class="{ 'active': route().current('user.teams') }">
+                        <i class="ti ti-users me-1 ti-xs"></i> Teams
+                    </inertia-link>
+                </li>
+                <li class="nav-item">
+                    <inertia-link class="nav-link" :href="route('user.projects')" :class="{ 'active': route().current('user.projects') }">
+                        <i class="ti ti-layout-grid me-1 ti-xs"></i> Projects
+                    </inertia-link>
+                </li>
+                <li class="nav-item">
+                    <inertia-link class="nav-link" :href="route('user.conns')" :class="{ 'active': route().current('user.conns') }">
+                        <i class="ti ti-link me-1 ti-xs"></i> Connections
+                    </inertia-link>
+                </li>
             </ul>
           </div>
         </div>
