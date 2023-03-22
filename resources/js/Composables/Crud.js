@@ -17,7 +17,7 @@ export function useCrud(formObject = {}, routeName) {
     const serverQuery = ref({
         perPage: 50,
         query: null,
-        page: 1,
+        page: 1
     })
 
     onMounted(() => {
@@ -29,6 +29,12 @@ export function useCrud(formObject = {}, routeName) {
         }
         if (serverParams.value.query) {
             serverQuery.value.query = serverParams.value.query
+        }
+        if (serverParams.value.sort) {
+            serverQuery.value.sort = serverParams.value.sort
+        }
+        if (serverParams.value.order) {
+            serverQuery.value.order = serverParams.value.order
         }
     })
 
@@ -53,7 +59,28 @@ export function useCrud(formObject = {}, routeName) {
         if (key == 'perPage' || key == 'query') {
             serverQuery.value['page'] = 1
         }
-        serverQuery.value[key] = value
+        if (key == 'sort') {
+            if (!serverQuery.value.sort) {
+                serverQuery.value['sort'] = value;
+                serverQuery.value['order'] = 'asc'
+            } else {
+                if (serverQuery.value.sort == value) {
+                    if (serverQuery.value['order'] == 'asc') {
+                        serverQuery.value['sort'] = value;
+                        serverQuery.value['order'] = 'desc'
+                    } else {
+                        serverQuery.value['sort'] = null;
+                        serverQuery.value['order'] = null
+                    }
+                } else {
+                    serverQuery.value['sort'] = value;
+                    serverQuery.value['order'] = 'asc'
+                }
+            }
+
+        } else {
+            serverQuery.value[key] = value
+        }
         handleDeboundServerQuery();
     }
 
@@ -64,7 +91,7 @@ export function useCrud(formObject = {}, routeName) {
                 'params'
             ]
         })
-    }, 1000);
+    }, 500);
 
     const updatePromise = async() => {
         form.clearErrors();

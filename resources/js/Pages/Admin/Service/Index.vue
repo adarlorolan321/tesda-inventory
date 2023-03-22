@@ -156,8 +156,16 @@ let {
             <table class="table">
                 <thead class="table-light">
                     <tr>
-                        <th style="width: 200px">Code</th>
-                        <th>Service Name</th>
+                        <th class="sortable" style="width: 200px" @click="handleServerQuery('sort', 'code')">
+                            Code
+                            <i class="ti ti-arrow-up" v-if="serverQuery.sort == 'code' && serverQuery.order == 'desc'"></i>
+                            <i class="ti ti-arrow-down" v-if="serverQuery.sort == 'code' && serverQuery.order == 'asc'"></i>
+                        </th>
+                        <th class="sortable"  @click="handleServerQuery('sort', 'name')">
+                            Service Name 
+                            <i class="ti ti-arrow-up" v-if="serverQuery.sort == 'name' && serverQuery.order == 'desc'"></i>
+                            <i class="ti ti-arrow-down" v-if="serverQuery.sort == 'name' && serverQuery.order == 'asc'"></i>
+                        </th>
                         <th>Actions</th>
                     </tr>
                 </thead>

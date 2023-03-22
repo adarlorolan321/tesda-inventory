@@ -19,8 +19,11 @@ class ServiceController extends Controller
     public function index(Request $request)
     {
 
-        $perPage = $request->input('perPage', 10); // default 50
-        $queryString = $request->input('query', null);
+        $perPage = $request->input('perPage', 50); // default 50
+        $queryString = $request->input('query', null);  
+        $sort = explode('.', $request->input('sort', 'id'));
+        $order = $request->input('order', 'asc');
+        
 
         $data = Service::query()
             ->with([])
@@ -30,10 +33,15 @@ class ServiceController extends Controller
                     $query->where('code', 'like', '%' . $queryString . '%')
                         ->orWhere('name', 'like', '%' . $queryString . '%');
                 }
+            }) 
+            ->when(count($sort) == 1, function ($query) use ($sort, $order) {
+                $query->orderBy($sort[0], $order);
             })
             ->orderBy('name', 'ASC')
             ->paginate($perPage)
             ->withQueryString();
+        
+       
 
         $props = [
             'data' => ServiceListResource::collection($data),
@@ -42,6 +50,11 @@ class ServiceController extends Controller
 
         if ($request->wantsJson()) {
             return json_encode($props);
+        }
+
+        if(count($data) <= 0)
+        {
+            return redirect()->route('services.index', ['page' => 1]);
         }
 
         return Inertia::render('Admin/Service/Index', $props);
@@ -66,7 +79,7 @@ class ServiceController extends Controller
         if ($request->wantsJson()) {
             return new ServiceListResource($data);
         }
-        return redirect()->route('services.index')->with('message', 'Record Saved');
+        return redirect()->back();
     }
 
     /**
@@ -112,7 +125,7 @@ class ServiceController extends Controller
                 ->setStatusCode(201);
         }
 
-        return redirect()->route('services.index')->with('message', 'Record Saved');
+        return redirect()->back();
     }
 
     /**
@@ -127,6 +140,6 @@ class ServiceController extends Controller
         if ($request->wantsJson()) {
             return response(null, 204);
         }
-        return redirect()->route('services.index')->with('message', 'Record Removed');
+        return redirect()->back();
     }
 }
