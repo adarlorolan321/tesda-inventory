@@ -335,7 +335,7 @@
   border: 0;
   border-radius: 0.25em;
   background: initial;
-  background-color: #7066e0;
+  background-color: #7066e0 !important;
   color: #fff;
   font-size: 1em;
 }
