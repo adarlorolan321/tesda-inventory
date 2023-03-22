@@ -24,12 +24,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
             return Inertia::render('Welcome', []);
         });
 
-        Route::get('/account', function(){
-            return Inertia::render('Admin/Organisation/Create');
+        Route::get('/account-settings', function(){
+            return Inertia::render('Admin/account-settings/Account');
         })->name('account.index');
         
-        Route::get('/account/security', function(){
-            return Inertia::render('Admin/Organisation/Security');
+        Route::get('/account-settings/security', function(){
+            return Inertia::render('Admin/account-settings/Security');
         })->name('account.security');
 
 

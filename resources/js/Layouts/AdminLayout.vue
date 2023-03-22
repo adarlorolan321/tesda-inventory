@@ -66,7 +66,9 @@
 
                 <ul class="menu-inner py-1">
                     <!-- Page -->
-                    <li class="menu-item active">
+                    <li class="menu-item" :class="{
+                          'active': route().current('services.index')
+                        }"  >
                         <inertia-link :href="route('services.index')" class="menu-link">
                             <i class="menu-icon tf-icons ti ti-smart-home"></i>
                             <div data-i18n="Page 1">Services</div>
@@ -176,6 +178,16 @@
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                    <li class="menu-item" :class="{
+                          'active': route().current('account.index') || route().current('account.security')
+                        }" >
+                        <inertia-link :href="route('account.index')" class="menu-link">
+                            <i
+                                class="menu-icon tf-icons ti ti-settings"
+                            ></i>
+                            <div data-i18n="Page 2">Account Settings</div>
+                        </inertia-link>
                     </li>
                 </ul>
             </aside>

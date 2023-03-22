@@ -1,48 +1,24 @@
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
+import  Navigation   from "./Navigation/Navigation.vue";
+
 export default {
     layout: AdminLayout,
+    components:{
+      Navigation
+    }
+    
 };
 </script>
 <template>
     
     <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Account Settings /</span> Account</h4>
+            
+              <Navigation   />
 
               <div class="row">
                 <div class="col-md-12">
-                  <ul class="nav nav-pills flex-column flex-md-row mb-4">
-                    <li class="nav-item">
-                      <inertia-link class="nav-link" :href="route('account.index')"
-                        :class="{
-                          'active': route().current('account.index')
-                        }"  
-                      ><i class="ti-xs ti ti-users me-1"></i> Account</inertia-link
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <inertia-link class="nav-link" :href="route('account.security')" :class="{
-                          'active': route().current('account.security')
-                        }"  
-                        ><i class="ti-xs ti ti-lock me-1"></i> Security</inertia-link
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="pages-account-settings-billing.html"
-                        ><i class="ti-xs ti ti-file-description me-1"></i> Billing & Plans</a
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="pages-account-settings-notifications.html"
-                        ><i class="ti-xs ti ti-bell me-1"></i> Notifications</a
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="pages-account-settings-connections.html"
-                        ><i class="ti-xs ti ti-link me-1"></i> Connections</a
-                      >
-                    </li>
-                  </ul>
+              
                   <div class="card mb-4">
                     <h5 class="card-header">Profile Details</h5>
                     <!-- Account -->
@@ -115,6 +91,7 @@ export default {
                               value="Pixinvent"
                             />
                           </div>
+
                           <div class="mb-3 col-md-6">
                             <label class="form-label" for="phoneNumber">Phone Number</label>
                             <div class="input-group input-group-merge">
