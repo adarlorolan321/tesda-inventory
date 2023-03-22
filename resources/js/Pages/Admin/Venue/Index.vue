@@ -48,7 +48,7 @@ let {
           data-bs-target="#offCanvasForm"
           aria-controls="offCanvasForm"
         >
-          Create Venue
+          Add Venue
         </button>
         <div
           class="offcanvas offcanvas-end"
@@ -59,7 +59,7 @@ let {
         >
           <div class="offcanvas-header">
             <h5 id="offCanvasFormLabel" class="offcanvas-title">
-              {{ formState == "create" ? "Create" : "Update" }}
+              {{ formState == "create" ? "Add" : "Update" }}
               Service
             </h5>
             <button
@@ -166,7 +166,7 @@ let {
                   <span class="switch-off"></span>
                 </span>
                 <span class="switch-label" v-if="form.status==1">Active</span>
-                <span class="switch-label" v-else>In-active</span> 
+                <span class="switch-label" v-else>In-active</span>
               </label>
             </div>
 
