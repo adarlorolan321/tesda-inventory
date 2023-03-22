@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\ParentController;
+use App\Http\Controllers\User\CoachController;
+use App\Http\Controllers\User\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,10 +30,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         });
 
         Route::name('user.')->prefix('user')->group(function (){
-            Route::get('coach',[UserController::class,'coach'])->name('coach');
-            Route::get('staff',[UserController::class,'staff'])->name('staff');
-            Route::get('parent',[UserController::class,'parent'])->name('parent');
-            Route::get('student',[UserController::class,'student'])->name('student');
+            Route::get('coach',[CoachController::class,'index'])->name('coach');
+            Route::get('parent',[ParentController::class,'index'])->name('parent');
+            Route::get('student',[StudentController::class,'index'])->name('student');
         });
 
         Route::get('/account', function(){
