@@ -51,7 +51,8 @@
     <link rel="stylesheet" href="/assets/vendor/libs/bootstrap-select/bootstrap-select.css" />
     <link rel="stylesheet" href="/assets/vendor/libs/toastr/toastr.css" />
     <link rel="stylesheet" href="/assets/vendor/libs/animate-css/animate.css" />
-    <link rel="stylesheet" href="../../assets/vendor/libs/sweetalert2/sweetalert2.css" />
+    <link rel="stylesheet" href="/assets/vendor/libs/sweetalert2/sweetalert2.css" />
+    <link rel="stylesheet" href="/assets/vendor/libs/dropzone/dropzone.css" />
 
     <!-- Vendor -->
     <link rel="stylesheet" href="/assets/vendor/libs/formvalidation/dist/css/formValidation.min.css" />

@@ -133,7 +133,7 @@ let {
                             <select class="form-select" :value="serverQuery.perPage" @input="handleServerQuery('perPage', $event.target.value)">
                                 <option
                                     v-for="i in [5, 10, 25, 50, 100]"
-                                    :value="String(i)"
+                                    :value="String(i)" :key="i"
                                 >
                                     {{ i }}
                                 </option>
@@ -173,7 +173,7 @@ let {
                     <tr v-if="paginatedData.data.length <= 0">
                         <td colspan="999999" class="text-center">No item found</td>
                     </tr>
-                    <tr v-for="tableData in paginatedData.data">
+                    <tr v-for="tableData in paginatedData.data" :key="tableData">
                         <td>{{ tableData.code }}</td>
                         <td style="width: 90%">{{ tableData.name }}</td>
                         <td>
@@ -218,7 +218,7 @@ let {
                         <ul class="pagination mb-0">
                             <li
                                 class="page-item"
-                                v-for="link in paginatedData.meta.links"
+                                v-for="link in paginatedData.meta.links" :key="link"
                             >
                                 <inertia-link
                                     class="page-link"

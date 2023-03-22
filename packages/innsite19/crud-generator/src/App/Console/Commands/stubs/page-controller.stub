@@ -18,7 +18,8 @@ class {{ class }}Controller extends Controller
      */
     public function index(Request $request)
     {
-        $page = $request->input('page', 1); // default 50
+        
+        $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
         $sort = explode('.', $request->input('sort', 'id'));
