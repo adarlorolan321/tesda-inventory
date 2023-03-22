@@ -113,7 +113,7 @@ export function useCrud(formObject = {}, routeName) {
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
             showCancelButton: true,
-            confirmButtonText: 'Delete it!',
+            confirmButtonText: 'Yes, delete it!',
             customClass: {
                 confirmButton: 'swal2-confirm',
             },
