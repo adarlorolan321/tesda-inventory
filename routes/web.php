@@ -25,10 +25,15 @@ use App\Http\Controllers\User\StudentController;
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::middleware(['role:Admin'])->group(function () {
+        
         Route::get('/', function () {
             return Inertia::render('Welcome', []);
         });
 
+        Route::get('/user/profile', function(){
+            return Inertia::render('Admin/Profile/Show');
+        })->name('user.index');
+        
         Route::name('user.')->prefix('user')->group(function (){
             Route::get('coach',[CoachController::class,'index'])->name('coach');
             Route::get('parent',[ParentController::class,'index'])->name('parent');
@@ -41,13 +46,30 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::get('/account/security', function(){
             return Inertia::render('Admin/Organisation/Security');
+        })->name('account.index');
+
+        Route::get('/account-settings', function(){
+            return Inertia::render('Admin/account-settings/Account');
+        })->name('account.index');
+        
+        Route::get('/account-settings/security', function(){
+            return Inertia::render('Admin/account-settings/Security');
         })->name('account.security');
 
+        Route::get('/user/teams', function(){
+            return Inertia::render('Admin/Profile/Teams');
+        })->name('user.teams');
+
+        Route::get('/user/projects', function(){
+            return Inertia::render('Admin/Profile/Projects');
+        })->name('user.projects');
+
+        Route::get('/user/conns', function(){
+            return Inertia::render('Admin/Profile/Connections');
+        })->name('user.conns');
 
         Route::resources([
             'services' => PageController\Setting\ServiceController::class,
-        ]);
-        Route::resources([
             'venues' => PageController\Setting\VenueController::class,
         ]);
     });
