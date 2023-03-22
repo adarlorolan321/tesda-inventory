@@ -42,7 +42,7 @@ let {
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">
-                <h5 class="card-title">COACH / PARENT</h5>
+                <h5 class="card-title">COACHES / STAFFS</h5>
             </div>
             <div class="card-action-element">
                 <button
@@ -53,7 +53,7 @@ let {
                     data-bs-target="#offCanvasForm"
                     aria-controls="offCanvasForm"
                 >
-                    New Coach {{ formState }}
+                    Add Coach / Staff
                 </button>
                 <div
                     class="offcanvas offcanvas-end"
@@ -65,7 +65,7 @@ let {
                     <div class="offcanvas-header">
                         <h5 id="offCanvasFormLabel" class="offcanvas-title">
                             {{
-                                formState == "create" ? "Create" : "Update"
+                                formState == "create" ? "Add" : "Update"
                             }}
                         </h5>
                         <button
@@ -142,34 +142,56 @@ let {
                                 }"
                             />
                             <div class="invalid-feedback">
-                                {{ form.errors.email }}
+                                {{ form.errors.phone }}
                             </div>
                         </div>
                         <div class="form-group mb-3">
                             <label for="role">Role</label>
-                            <Select2  :class="{
-                                    'is-invalid' : form.errors.role
-                                }" placeholder="Select Role" v-model="form.role" :options="['Coach','Staff']" />
+                            <select :class="{ 'is-invalid' : form.errors.role }" v-model="form.role"
+                                    class="form-select">
+                                <option value="Coach">Coach</option>
+                                <option value="Staff">Staff</option>
+                            </select>
                             <div class="invalid-feedback">
                                 {{ form.errors.role }}
                             </div>
                         </div>
-                        <div class="form-check form-switch my-4">
-                            <input v-model="form.status" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" />
-                            <label class="form-check-label" for="flexSwitchCheckChecked"> Active</label>
+                        <div class="form-group mb-3">
+                            <div class=" ">Status</div>
+                            <label class="switch">
+                                <input
+                                    type="checkbox"
+                                    v-model="form.status"
+                                    :checked="form.status"
+                                    class="switch-input"
+                                />
+                                <span class="switch-toggle-slider">
+                                  <span class="switch-on"></span>
+                                  <span class="switch-off"></span>
+                                 </span>
+                                <span class="switch-label" v-if="form.status==1">Active</span>
+                                <span class="switch-label" v-else>In-active</span>
+                            </label>
                         </div>
                         <div class="form-group mb-4">
                             <label for="name">Profile Photo</label>
                             <dropzone collection="profile_photo"
-                                v-if="isLoadingComponents"
-                                :url="route('api.media.upload')"
-                                model="User"
-                                :value="form.profile_photo"
-                                @input="form.profile_photo = $event"
-                                message="Drop files here or click to upload profile photo"
-                                acceptedFiles="application/pdf,image/jpeg,image/png">
+                                      v-if="isLoadingComponents"
+                                      :url="route('api.media.upload')"
+                                      model="User"
+                                      :value="form.profile_photo"
+                                      @input="form.profile_photo = $event"
+                                      message="Drop files here or click to upload profile photo"
+                                      acceptedFiles="application/pdf,image/jpeg,image/png">
                             </dropzone>
-                            <div v-else>Loading media</div>
+                            <div v-else>
+                                <div class="dropzone" ref="dropzone">
+                                    <div class="dz-message needsclick">
+                                        Please Wait
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="invalid-feedback">
                                 {{ form.errors.first_name }}
                             </div>

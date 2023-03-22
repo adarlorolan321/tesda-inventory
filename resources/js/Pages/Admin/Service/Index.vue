@@ -45,7 +45,7 @@ let {
                     data-bs-target="#offCanvasForm"
                     aria-controls="offCanvasForm"
                 >
-                    Create Service
+                    Add Service
                 </button>
                 <div
                     class="offcanvas offcanvas-end"
@@ -57,7 +57,7 @@ let {
                     <div class="offcanvas-header">
                         <h5 id="offCanvasFormLabel" class="offcanvas-title">
                             {{
-                                formState == "create" ? "Create" : "Update"
+                                formState == "create" ? "Add" : "Update"
                             }}
                             Service
                         </h5>
@@ -162,7 +162,7 @@ let {
                             <i class="ti ti-arrow-down" v-if="serverQuery.sort == 'code' && serverQuery.order == 'asc'"></i>
                         </th>
                         <th class="sortable"  @click="handleServerQuery('sort', 'name')">
-                            Service Name 
+                            Service Name
                             <i class="ti ti-arrow-up" v-if="serverQuery.sort == 'name' && serverQuery.order == 'desc'"></i>
                             <i class="ti ti-arrow-down" v-if="serverQuery.sort == 'name' && serverQuery.order == 'asc'"></i>
                         </th>
