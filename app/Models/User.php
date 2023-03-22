@@ -67,8 +67,13 @@ class User extends Authenticatable implements HasMedia
      * @var array<int, string>
      */
     protected $appends = [
-        'profile_photo',
+        'profile_photo','role'
     ];
+
+    public function getRoleAttribute()
+    {
+        return $this->getRoleNames()->implode(', ');
+    }
 
     public function getProfilePhotoAttribute()
     {
