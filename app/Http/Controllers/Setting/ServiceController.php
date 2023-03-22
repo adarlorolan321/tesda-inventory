@@ -21,10 +21,10 @@ class ServiceController extends Controller
 
         $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
-        $queryString = $request->input('query', null);  
+        $queryString = $request->input('query', null);
         $sort = explode('.', $request->input('sort', 'code'));
         $order = $request->input('order', 'asc');
-        
+
 
         $data = Service::query()
             ->with([])
@@ -34,14 +34,14 @@ class ServiceController extends Controller
                     $query->where('code', 'like', '%' . $queryString . '%')
                         ->orWhere('name', 'like', '%' . $queryString . '%');
                 }
-            }) 
+            })
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
                 $query->orderBy($sort[0], $order);
             })
             ->paginate($perPage)
             ->withQueryString();
-        
-       
+
+
 
         $props = [
             'data' => ServiceListResource::collection($data),

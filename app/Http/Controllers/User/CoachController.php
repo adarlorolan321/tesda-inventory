@@ -1,31 +1,31 @@
 <?php
 
-namespace {{ namespace }};
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use {{ resourceNamespace }}\{{ class }}ListResource;
-use {{ modelNameSpace }}\{{ class }};
-use {{ requestNamespace }}\Store{{ class }}Request;
-use {{ requestNamespace }}\Update{{ class }}Request;
+use App\Http\Resources\User\CoachListResource;
+use App\Models\User;
+use App\Http\Requests\User\StoreCoachRequest;
+use App\Http\Requests\User\UpdateCoachRequest;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class {{ class }}Controller extends Controller
+class CoachController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        
+
         $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
         $sort = explode('.', $request->input('sort', 'id'));
         $order = $request->input('order', 'asc');
 
-        $data = {{ class }}::query()
+        $data = User::query()
             ->with([])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
@@ -41,20 +41,20 @@ class {{ class }}Controller extends Controller
             ->withQueryString();
 
         $props = [
-            'data' => {{ class }}ListResource::collection($data),
+            'data' => CoachListResource::collection($data),
             'params' => $request->all(),
         ];
 
         if ($request->wantsJson()) {
             return json_encode($props);
         }
-
         if(count($data) <= 0 && $page > 1)
         {
-            return redirect()->route('{{ table }}.index', ['page' => 1]);
+            return redirect()->route('user.coach', ['page' => 1]);
         }
 
-        return Inertia::render('Admin/{{ class }}', $props);
+
+        return Inertia::render('Admin/User/Coach', $props);
     }
 
     /**
@@ -62,21 +62,21 @@ class {{ class }}Controller extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/{{ class }}/Create');
+        return Inertia::render('Admin/Coach/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Store{{ class }}Request $request)
+    public function store(StoreCoachRequest $request)
     {
-        $data = {{ class }}::create($request->validated());
+        $data = User::create($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return new {{ class }}ListResource($data);
+            return new CoachListResource($data);
         }
-        return redirect()->back();
+        return redirect()->route('coaches.index')->with('message', 'Record Saved');
     }
 
     /**
@@ -84,11 +84,11 @@ class {{ class }}Controller extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $data = {{ class }}::findOrFail($id);
+        $data = User::findOrFail($id);
         if ($request->wantsJson()) {
-            return new {{ class }}ListResource($data);
+            return new CoachListResource($data);
         }
-        return Inertia::render('Admin/{{ class }}/Show', [
+        return Inertia::render('Admin/Coach/Show', [
             'data' => $data
         ]);
     }
@@ -98,11 +98,11 @@ class {{ class }}Controller extends Controller
      */
     public function edit(Request $request, string $id)
     {
-        $data = {{ class }}::findOrFail($id);
+        $data = User::findOrFail($id);
         if ($request->wantsJson()) {
-            return new {{ class }}ListResource($data);
+            return new CoachListResource($data);
         }
-        return Inertia::render('Admin/{{ class }}/Edit', [
+        return Inertia::render('Admin/Coach/Edit', [
             'data' => $data
         ]);
     }
@@ -110,19 +110,19 @@ class {{ class }}Controller extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Update{{ class }}Request $request, string $id)
+    public function update(UpdateCoachRequest $request, string $id)
     {
-        $data = {{ class }}::findOrFail($id);
+        $data = User::findOrFail($id);
         $data->update($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return (new {{ class }}ListResource($data))
+            return (new CoachListResource($data))
                 ->response()
                 ->setStatusCode(201);
         }
 
-        return redirect()->back();
+        return redirect()->route('coaches.index')->with('message', 'Record Saved');
     }
 
     /**
@@ -130,13 +130,13 @@ class {{ class }}Controller extends Controller
      */
     public function destroy(Request $request, string $id)
     {
-        $data = {{ class }}::findOrFail($id);
+        $data = User::findOrFail($id);
         $data->delete();
         sleep(1);
 
         if ($request->wantsJson()) {
             return response(null, 204);
         }
-        return redirect()->back();
+        return redirect()->route('coaches.index')->with('message', 'Record Removed');
     }
 }
