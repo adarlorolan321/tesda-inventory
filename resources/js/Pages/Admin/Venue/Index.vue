@@ -165,8 +165,8 @@ let {
                   <span class="switch-on"></span>
                   <span class="switch-off"></span>
                 </span>
-                <span class="switch-label" v-if="form.status==1">Yes</span>
-                <span class="switch-label" v-else>No</span> 
+                <span class="switch-label" v-if="form.status==1">Active</span>
+                <span class="switch-label" v-else>In-active</span> 
               </label>
             </div>
 
