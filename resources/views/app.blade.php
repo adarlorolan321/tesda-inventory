@@ -46,13 +46,10 @@
     <link rel="stylesheet" href="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <link rel="stylesheet" href="/assets/vendor/libs/node-waves/node-waves.css" />
     <link rel="stylesheet" href="/assets/vendor/libs/typeahead-js/typeahead.css" />
-    <link rel="stylesheet" href="/assets/vendor/libs/select2/select2.css" />
     <link rel="stylesheet" href="/assets/vendor/libs/tagify/tagify.css" />
     <link rel="stylesheet" href="/assets/vendor/libs/bootstrap-select/bootstrap-select.css" />
     <link rel="stylesheet" href="/assets/vendor/libs/toastr/toastr.css" />
     <link rel="stylesheet" href="/assets/vendor/libs/animate-css/animate.css" />
-    <link rel="stylesheet" href="/assets/vendor/libs/sweetalert2/sweetalert2.css" />
-    <link rel="stylesheet" href="/assets/vendor/libs/dropzone/dropzone.css" />
 
     <!-- Vendor -->
     <link rel="stylesheet" href="/assets/vendor/libs/formvalidation/dist/css/formValidation.min.css" />
@@ -83,6 +80,9 @@
     @inertiaHead
 
 
+    <link rel="stylesheet" href="/assets/vendor/libs/sweetalert2/sweetalert2.css" />
+    <link rel="stylesheet" href="/assets/vendor/libs/dropzone/dropzone.css" />
+    <link rel="stylesheet" href="/assets/vendor/libs/select2/select2.css" />
   </head>
 
   <body>
