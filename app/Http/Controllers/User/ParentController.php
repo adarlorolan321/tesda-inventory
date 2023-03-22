@@ -4,7 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\ParentListResource;
-use App\Models\User\Parent;
+use App\Models\User;
 use App\Http\Requests\User\StoreParentRequest;
 use App\Http\Requests\User\UpdateParentRequest;
 
@@ -22,7 +22,7 @@ class ParentController extends Controller
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
 
-        $data = Parent::query()
+        $data = User::query()
             ->with([])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
@@ -59,7 +59,7 @@ class ParentController extends Controller
      */
     public function store(StoreParentRequest $request)
     {
-        $data = Parent::create($request->validated());
+        $data = User::create($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
@@ -73,7 +73,7 @@ class ParentController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $data = Parent::findOrFail($id);
+        $data = User::findOrFail($id);
         if ($request->wantsJson()) {
             return new ParentListResource($data);
         }
@@ -87,7 +87,7 @@ class ParentController extends Controller
      */
     public function edit(Request $request, string $id)
     {
-        $data = Parent::findOrFail($id);
+        $data = User::findOrFail($id);
         if ($request->wantsJson()) {
             return new ParentListResource($data);
         }
@@ -101,7 +101,7 @@ class ParentController extends Controller
      */
     public function update(UpdateParentRequest $request, string $id)
     {
-        $data = Parent::findOrFail($id);
+        $data = User::findOrFail($id);
         $data->update($request->validated());
         sleep(1);
 
@@ -119,7 +119,7 @@ class ParentController extends Controller
      */
     public function destroy(Request $request, string $id)
     {
-        $data = Parent::findOrFail($id);
+        $data = User::findOrFail($id);
         $data->delete();
         sleep(1);
 

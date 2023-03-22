@@ -19,11 +19,13 @@ class CoachController extends Controller
     public function index(Request $request)
     {
 
+        $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
+        $sort = explode('.', $request->input('sort', 'id'));
+        $order = $request->input('order', 'asc');
 
         $data = User::query()
-            ->role('Coach')
             ->with([])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
@@ -31,6 +33,9 @@ class CoachController extends Controller
                     // $query->where('column', 'like', '%' . $queryString . '%')
                     //     ->orWhere('column', 'like', '%' . $queryString . '%');
                 }
+            })
+            ->when(count($sort) == 1, function ($query) use ($sort, $order) {
+                $query->orderBy($sort[0], $order);
             })
             ->paginate($perPage)
             ->withQueryString();
@@ -43,8 +48,13 @@ class CoachController extends Controller
         if ($request->wantsJson()) {
             return json_encode($props);
         }
+        if(count($data) <= 0 && $page > 1)
+        {
+            return redirect()->route('user.coach', ['page' => 1]);
+        }
 
-        return Inertia::render('Admin/Coach', $props);
+
+        return Inertia::render('Admin/User/Coach', $props);
     }
 
     /**
