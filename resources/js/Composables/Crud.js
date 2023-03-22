@@ -43,6 +43,8 @@ export function useCrud(formObject = {}, routeName) {
     });
     // Promise
     const createPromise = async () => {
+        $.fn.modal.Constructor.prototype.enforceFocus = function () {};
+
         form.clearErrors();
         form.post(route(`${routeName}.store`), {
             onSuccess: () => {

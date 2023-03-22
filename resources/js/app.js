@@ -4,13 +4,11 @@ import { createApp, h } from "vue";
 import { createInertiaApp, Link } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
-import Select2 from "vue3-select2-component";
 
 import Dropzone from "@/Components/Dropzone.vue";
+import Select2 from "@/Components/Select2.vue";
 
-
-
-let doc = window.document.getElementsByTagName("title")[0]
+let doc = window.document.getElementsByTagName("title")[0];
 const appName = doc ? doc.innerText : "Laravel";
 
 createInertiaApp({
@@ -25,7 +23,7 @@ createInertiaApp({
             .use(plugin)
             .component("Select2", Select2)
             .component("Dropzone", Dropzone)
-            .component('inertia-link', Link)
+            .component("inertia-link", Link)
             .use(ZiggyVue, Ziggy)
             .mount(el);
     },
