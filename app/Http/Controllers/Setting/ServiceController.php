@@ -19,6 +19,7 @@ class ServiceController extends Controller
     public function index(Request $request)
     {
 
+        $page = $request->input('page', 1); // default 50
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);  
         $sort = explode('.', $request->input('sort', 'code'));
@@ -51,7 +52,7 @@ class ServiceController extends Controller
             return json_encode($props);
         }
 
-        if(count($data) <= 0)
+        if(count($data) <= 0 && $page < 1)
         {
             return redirect()->route('services.index', ['page' => 1]);
         }

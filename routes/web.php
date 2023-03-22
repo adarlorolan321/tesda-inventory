@@ -36,5 +36,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::resources([
             'services' => PageController\Setting\ServiceController::class,
         ]);
+        Route::resources([
+            'venues' => PageController\Setting\VenueController::class,
+        ]);
     });
 });
