@@ -24,8 +24,8 @@ class UpdateCoachRequest extends FormRequest
         return [
             'first_name' => ['required'],
             'last_name' => ['required'],
-            'email' => ['required','unique:users,email,id,',$this->id],
-            'phone' => ['required','unique:users,phone,',$this->id],
+            'email' => ['required', 'email:rfc,dns', 'unique:users,email,', $this->id],
+            'phone' => ['required', 'email:rfc,dns', 'unique:users,phone,', $this->id],
             'role' => ['required'],
             'status' => ['required'],
             'profile_photo' => ['nullable'],
