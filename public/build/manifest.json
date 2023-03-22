@@ -1,21 +1,39 @@
 {
-  "_AdminLayout-b08e6042.js": {
-    "file": "assets/AdminLayout-b08e6042.js",
+  "_AdminLayout-3bda3251.js": {
+    "file": "assets/AdminLayout-3bda3251.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
+  "resources/js/Pages/Admin/Organisation/Create.vue": {
+    "file": "assets/Create-dd126c36.js",
+    "imports": [
+      "_AdminLayout-3bda3251.js",
+      "resources/js/app.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/Pages/Admin/Organisation/Create.vue"
+  },
+  "resources/js/Pages/Admin/Organisation/Security.vue": {
+    "file": "assets/Security-b586120b.js",
+    "imports": [
+      "_AdminLayout-3bda3251.js",
+      "resources/js/app.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/Pages/Admin/Organisation/Security.vue"
+  },
   "resources/js/Pages/Admin/Service/Index.vue": {
-    "file": "assets/Index-41b9b6ca.js",
+    "file": "assets/Index-046bb02e.js",
     "imports": [
       "resources/js/app.js",
-      "_AdminLayout-b08e6042.js"
+      "_AdminLayout-3bda3251.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Admin/Service/Index.vue"
   },
   "resources/js/Pages/Auth/Login.vue": {
-    "file": "assets/Login-c7870716.js",
+    "file": "assets/Login-49bb8310.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -23,28 +41,30 @@
     "src": "resources/js/Pages/Auth/Login.vue"
   },
   "resources/js/Pages/Welcome.vue": {
-    "file": "assets/Welcome-1afc2059.js",
+    "file": "assets/Welcome-2a9449db.js",
     "imports": [
-      "_AdminLayout-b08e6042.js",
+      "_AdminLayout-3bda3251.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Welcome.vue"
   },
   "resources/js/app.css": {
-    "file": "assets/app-f1981873.css",
+    "file": "assets/app-e44131b3.css",
     "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
     "css": [
-      "assets/app-f1981873.css"
+      "assets/app-e44131b3.css"
     ],
     "dynamicImports": [
+      "resources/js/Pages/Admin/Organisation/Create.vue",
+      "resources/js/Pages/Admin/Organisation/Security.vue",
       "resources/js/Pages/Admin/Service/Index.vue",
       "resources/js/Pages/Auth/Login.vue",
       "resources/js/Pages/Welcome.vue"
     ],
-    "file": "assets/app-005e190f.js",
+    "file": "assets/app-37b45d4a.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }
