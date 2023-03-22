@@ -24,6 +24,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
             return Inertia::render('Welcome', []);
         });
 
+        Route::get('/test', function(){
+            return Inertia::render('Admin/Organisation/Create');
+        });
+
         Route::resources([
             'services' => PageController\Setting\ServiceController::class,
         ]);
