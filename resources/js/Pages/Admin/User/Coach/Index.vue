@@ -147,29 +147,35 @@ let {
                         </div>
                         <div class="form-group mb-3">
                             <label for="role">Role</label>
-                            <Select2  :class="{
+                            <Select2 :class="{
                                     'is-invalid' : form.errors.role
-                                }" placeholder="Select Role" v-model="form.role" :options="['Coach','Staff']" />
+                                }" placeholder="Select Role" v-model="form.role" :options="['Coach','Staff']"/>
                             <div class="invalid-feedback">
                                 {{ form.errors.role }}
                             </div>
                         </div>
                         <div class="form-check form-switch my-4">
-                            <input v-model="form.status" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" />
+                            <input v-model="form.status" class="form-check-input" type="checkbox"
+                                   id="flexSwitchCheckChecked"/>
                             <label class="form-check-label" for="flexSwitchCheckChecked"> Active</label>
                         </div>
                         <div class="form-group mb-4">
                             <label for="name">Profile Photo</label>
                             <dropzone collection="profile_photo"
-                                v-if="isLoadingComponents"
-                                :url="route('api.media.upload')"
-                                model="User"
-                                :value="form.profile_photo"
-                                @input="form.profile_photo = $event"
-                                message="Drop files here or click to upload profile photo"
-                                acceptedFiles="application/pdf,image/jpeg,image/png">
+                                      v-if="isLoadingComponents"
+                                      :url="route('api.media.upload')"
+                                      model="User"
+                                      :value="form.profile_photo"
+                                      @input="form.profile_photo = $event"
+                                      message="Drop files here or click to upload profile photo"
+                                      acceptedFiles="application/pdf,image/jpeg,image/png">
                             </dropzone>
-                            <div v-else>Loading media</div>
+                            <div v-else> <div class="dropzone" ref="dropzone">
+                                <div class="dz-message needsclick">
+                                    Please Wait
+                                </div>
+                            </div></div>
+
                             <div class="invalid-feedback">
                                 {{ form.errors.first_name }}
                             </div>
