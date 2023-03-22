@@ -142,7 +142,7 @@ let {
                                 }"
                             />
                             <div class="invalid-feedback">
-                                {{ form.errors.email }}
+                                {{ form.errors.phone }}
                             </div>
                         </div>
                         <div class="form-group mb-3">
