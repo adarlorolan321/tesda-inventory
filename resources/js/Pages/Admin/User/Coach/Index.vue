@@ -19,7 +19,7 @@ const formObject = {
     email: null,
     status: null,
     role: null,
-    photo: null,
+    profile_photo: null,
 };
 
 const routeName = "user.coach";
@@ -149,7 +149,7 @@ let {
                             <label for="role">Role</label>
                             <Select2  :class="{
                                     'is-invalid' : form.errors.role
-                                }" placeholder="Select Role" v-model="myValue" :options="['Coach','Staff']" :settings="{ settingOption: value, settingOption: value }" />
+                                }" placeholder="Select Role" v-model="form.role" :options="['Coach','Staff']" />
                             <div class="invalid-feedback">
                                 {{ form.errors.role }}
                             </div>
@@ -157,6 +157,21 @@ let {
                         <div class="form-check form-switch my-4">
                             <input v-model="form.status" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" />
                             <label class="form-check-label" for="flexSwitchCheckChecked"> Active</label>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="name">Profile Photo</label>
+                            {{ form.profile_photo }}
+                            <dropzone  collection="profile_photo"
+                                       :url="route('api.media.upload')"
+                                       model="User"
+                                       :value="form.profile_photo"
+                                       @input="form.profile_photo"
+                                       message="Drop files here or click to upload profile photo"
+                                       acceptedFiles="application/pdf,image/jpeg,image/png">
+                            </dropzone>
+                            <div class="invalid-feedback">
+                                {{ form.errors.first_name }}
+                            </div>
                         </div>
                         <button
                             class="btn btn-primary"

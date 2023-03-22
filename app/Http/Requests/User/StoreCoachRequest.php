@@ -28,7 +28,7 @@ class StoreCoachRequest extends FormRequest
             'phone' => ['required','unique:users,phone'],
             'role' => ['required'],
             'status' => ['required'],
-            'photo' => ['nullable'],
+            'profile_photo' => ['nullable'],
         ];
     }
 }

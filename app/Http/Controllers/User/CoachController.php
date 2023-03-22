@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Helper\StrHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\CoachListResource;
+use App\Models\Media;
 use App\Models\User;
 use App\Http\Requests\User\StoreCoachRequest;
 use App\Http\Requests\User\UpdateCoachRequest;
@@ -74,10 +75,17 @@ class CoachController extends Controller
     public function store(StoreCoachRequest $request)
     {
         $password = StrHelper::randomPassword();
-        $request['name'] = $request['first_name'].' '.$request['las_name'];
-        $request['password'] = Hash::make($password);
-        $data = User::create($request->validated());
+        $userArr = $request->all();
+        $userArr['name'] = $request['first_name'].' '.$request['last_name'];
+        $userArr['password'] = Hash::make($password);
+        $data = User::create($userArr);
         $data->assignRole($request['role']);
+        //Upload Profile Photo
+        Media::where('id', $request->input('profile_photo', [])['id'])
+            ->update([
+                'model_id' => $data->id
+            ]);
+
         sleep(1);
         if ($request->wantsJson()) {
             return new CoachListResource($data);
@@ -119,7 +127,18 @@ class CoachController extends Controller
     public function update(UpdateCoachRequest $request, string $id)
     {
         $data = User::findOrFail($id);
-        $data->update($request->validated());
+        $password = StrHelper::randomPassword();
+        $userArr = $request->all();
+        $userArr['name'] = $request['first_name'].' '.$request['last_name'];
+        $userArr['password'] = Hash::make($password);
+        $data->update($userArr);
+        $data->assignRole($request['role']);
+        //Upload Profile Photo
+        Media::where('id', $request->input('profile_photo', [])['id'])
+            ->update([
+                'model_id' => $data->id
+            ]);
+
         sleep(1);
 
         if ($request->wantsJson()) {

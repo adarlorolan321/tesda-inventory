@@ -10,11 +10,14 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens;
+    use InteractsWithMedia;
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
@@ -30,12 +33,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'first_name',
-        'middle_name',
+        'last_name',
         'email',
         'phone',
-        'role',
         'status',
-        'photo',
         'password'
     ];
 
