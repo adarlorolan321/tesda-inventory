@@ -1,4 +1,6 @@
 <template>
+    <Select2 v-model="myValue" :options="['myOptions']" :settings="{ settingOption: value, settingOption: value }" @change="myChangeEvent($event)" @select="mySelectEvent($event)" />
+
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">Table Basic</div>

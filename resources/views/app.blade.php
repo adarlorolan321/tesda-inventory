@@ -52,17 +52,17 @@
     <link rel="stylesheet" href="/assets/vendor/libs/toastr/toastr.css" />
     <link rel="stylesheet" href="/assets/vendor/libs/animate-css/animate.css" />
     <link rel="stylesheet" href="../../assets/vendor/libs/sweetalert2/sweetalert2.css" />
-    
+
     <!-- Vendor -->
     <link rel="stylesheet" href="/assets/vendor/libs/formvalidation/dist/css/formValidation.min.css" />
     <!-- Page CSS -->
     <!-- Page -->
     <link rel="stylesheet" href="/assets/vendor/css/pages/page-auth.css" />
-    
+
     <script src="/assets/vendor/js/helpers.js" defer></script>
     <script src="/assets/js/config.js" defer></script>
 
-    
+
     <script src="/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="/assets/vendor/libs/popper/popper.js"></script>
     <script src="/assets/vendor/js/bootstrap.js"></script>
@@ -72,7 +72,7 @@
     <script src="/assets/vendor/libs/hammer/hammer.js"></script>
     <script src="/assets/vendor/js/menu.js"></script>
 
-    
+
     <script src="/assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js"></script>
     <script src="/assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
     <script src="/assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js"></script>
@@ -92,7 +92,7 @@
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-  
+
 
   </body>
 </html>

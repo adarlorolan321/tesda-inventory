@@ -30,9 +30,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         });
 
         Route::name('user.')->prefix('user')->group(function (){
-            Route::get('coach',[CoachController::class,'index'])->name('coach');
-            Route::get('parent',[ParentController::class,'index'])->name('parent');
-            Route::get('student',[StudentController::class,'index'])->name('student');
+            Route::resource('coach',CoachController::class);
+            Route::resource('parent',ParentController::class);
+            Route::resource('student',StudentController::class);
         });
 
         Route::get('/account', function(){

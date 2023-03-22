@@ -1,18 +1,25 @@
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import { usePage } from "@inertiajs/vue3";
-import { reactive, computed, onMounted } from "vue";
+import {usePage} from "@inertiajs/vue3";
+import {reactive, computed, onMounted} from "vue";
+
 export default {
     layout: AdminLayout,
 };
 </script>
 
 <script setup>
-import { useCrud } from "@/Composables/Crud.js";
-const { props } = usePage();
+import {useCrud} from "@/Composables/Crud.js";
+
+const {props} = usePage();
 const formObject = {
-    name: null,
-    code: null,
+    first_name: null,
+    last_name: null,
+    phone: null,
+    email: null,
+    status: null,
+    role: null,
+    photo: null,
 };
 
 const routeName = "user.coach";
@@ -34,7 +41,7 @@ let {
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">
-                <h5 class="card-title">SERVICES</h5>
+                <h5 class="card-title">COACH / PARENT</h5>
             </div>
             <div class="card-action-element">
                 <button
@@ -45,7 +52,7 @@ let {
                     data-bs-target="#offCanvasForm"
                     aria-controls="offCanvasForm"
                 >
-                    New Service
+                    New Coach
                 </button>
                 <div
                     class="offcanvas offcanvas-end"
@@ -59,7 +66,7 @@ let {
                             {{
                                 formState == "create" ? "Create" : "Update"
                             }}
-                            Service
+                            Coach
                         </h5>
                         <button
                             type="button"
@@ -71,36 +78,85 @@ let {
                     </div>
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
                         <div class="form-group mb-3">
-                            <label for="">Code</label>
+                            <label for="name">First Name</label>
                             <input
                                 type="text"
+                                id="first_name"
                                 class="form-control"
-                                placeholder="Enter code"
-                                v-model="form.code"
+                                v-model="form.first_name"
+                                @input="form.clearErrors('first_name')"
+                                placeholder="Enter First Name"
                                 :class="{
-                                    'is-invalid' : form.errors.code
+                                    'is-invalid' : form.errors.first_name
                                 }"
-                                @input="form.clearErrors('code')"
                             />
-                            <div  class="invalid-feedback">
-                                {{ form.errors.code }}
+                            <div class="invalid-feedback">
+                                {{ form.errors.first_name }}
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="">Service Name</label>
+                            <label for="name">Last Name</label>
                             <input
                                 type="text"
+                                id="last_name"
                                 class="form-control"
-                                v-model="form.name"
-                                @input="form.clearErrors('name')"
-                                placeholder="Enter name"
+                                v-model="form.last_name"
+                                @input="form.clearErrors('last_name')"
+                                placeholder="Enter Last Name"
                                 :class="{
-                                    'is-invalid' : form.errors.name
+                                    'is-invalid' : form.errors.last_name
                                 }"
                             />
-                            <div  class="invalid-feedback">
-                                {{ form.errors.name }}
+                            <div class="invalid-feedback">
+                                {{ form.errors.last_name }}
                             </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="name">Email</label>
+                            <input
+                                type="text"
+                                id="email"
+                                class="form-control"
+                                v-model="form.email"
+                                @input="form.clearErrors('email')"
+                                placeholder="Enter Email"
+                                :class="{
+                                    'is-invalid' : form.errors.email
+                                }"
+                            />
+                            <div class="invalid-feedback">
+                                {{ form.errors.email }}
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="name">Phone</label>
+                            <input
+                                type="text"
+                                id="phone"
+                                class="form-control"
+                                v-model="form.phone"
+                                @input="form.clearErrors('phone')"
+                                placeholder="Enter Phone"
+                                :class="{
+                                    'is-invalid' : form.errors.phone
+                                }"
+                            />
+                            <div class="invalid-feedback">
+                                {{ form.errors.email }}
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="role">Role</label>
+                            <Select2  :class="{
+                                    'is-invalid' : form.errors.role
+                                }" placeholder="Select Role" v-model="myValue" :options="['Coach','Staff']" :settings="{ settingOption: value, settingOption: value }" />
+                            <div class="invalid-feedback">
+                                {{ form.errors.role }}
+                            </div>
+                        </div>
+                        <div class="form-check form-switch my-4">
+                            <input v-model="form.status" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" />
+                            <label class="form-check-label" for="flexSwitchCheckChecked"> Active</label>
                         </div>
                         <button
                             class="btn btn-primary"
@@ -108,7 +164,8 @@ let {
                             :disabled="form.processing"
                             v-if="formState == 'create'"
                         >
-                            <span v-if="form.processing" class="spinner-border me-1" role="status" aria-hidden="true"></span>
+                            <span v-if="form.processing" class="spinner-border me-1" role="status"
+                                  aria-hidden="true"></span>
                             Save
                         </button>
                         <button
@@ -117,7 +174,8 @@ let {
                             :disabled="form.processing"
                             v-if="formState == 'update'"
                         >
-                            <span v-if="form.processing" class="spinner-border me-1" role="status" aria-hidden="true"></span>
+                            <span v-if="form.processing" class="spinner-border me-1" role="status"
+                                  aria-hidden="true"></span>
                             Save changes
                         </button>
                     </div>
@@ -130,7 +188,8 @@ let {
                     <div class="d-flex align-items-center gap-2">
                         <div class="w-auto">Show</div>
                         <div class="flex-1">
-                            <select class="form-select" :value="serverQuery.perPage" @input="handleServerQuery('perPage', $event.target.value)">
+                            <select class="form-select" :value="serverQuery.perPage"
+                                    @input="handleServerQuery('perPage', $event.target.value)">
                                 <option
                                     v-for="i in [5, 10, 25, 50, 100]"
                                     :value="String(i)"
@@ -144,9 +203,10 @@ let {
                 </div>
                 <div class="col-auto">
                     <div class="d-flex gap-2 align-items-center">
-                        <div class="w-auto">Search: </div>
+                        <div class="w-auto">Search:</div>
                         <div class="flex-1">
-                            <input type="search" placeholder="Search" class="form-control" :value="serverQuery.query" @input="handleServerQuery('query', $event.target.value)">
+                            <input type="search" placeholder="Search" class="form-control" :value="serverQuery.query"
+                                   @input="handleServerQuery('query', $event.target.value)">
                         </div>
                     </div>
                 </div>
@@ -155,46 +215,40 @@ let {
         <div class="table-responsive text-nowrap">
             <table class="table">
                 <thead class="table-light">
-                    <tr>
-                        <th class="sortable" style="width: 200px" @click="handleServerQuery('sort', 'code')">
-                            Code
-                            <i class="ti ti-arrow-up" v-if="serverQuery.sort == 'code' && serverQuery.order == 'desc'"></i>
-                            <i class="ti ti-arrow-down" v-if="serverQuery.sort == 'code' && serverQuery.order == 'asc'"></i>
-                        </th>
-                        <th class="sortable"  @click="handleServerQuery('sort', 'name')">
-                            Service Name
-                            <i class="ti ti-arrow-up" v-if="serverQuery.sort == 'name' && serverQuery.order == 'desc'"></i>
-                            <i class="ti ti-arrow-down" v-if="serverQuery.sort == 'name' && serverQuery.order == 'asc'"></i>
-                        </th>
-                        <th>Actions</th>
-                    </tr>
+                <tr>
+                    <th class="sortable" @click="handleServerQuery('sort', 'name')">
+                        Name
+                        <i class="ti ti-arrow-up" v-if="serverQuery.sort == 'name' && serverQuery.order == 'desc'"></i>
+                        <i class="ti ti-arrow-down" v-if="serverQuery.sort == 'name' && serverQuery.order == 'asc'"></i>
+                    </th>
+                    <th>Actions</th>
+                </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                    <tr v-if="paginatedData.data.length <= 0">
-                        <td colspan="999999" class="text-center">No item found</td>
-                    </tr>
-                    <tr v-for="tableData in paginatedData.data">
-                        <td>{{ tableData.code }}</td>
-                        <td style="width: 90%">{{ tableData.name }}</td>
-                        <td>
-                           <div class="d-flex gap-2">
+                <tr v-if="paginatedData.data.length <= 0">
+                    <td colspan="999999" class="text-center">No item found</td>
+                </tr>
+                <tr v-for="tableData in paginatedData.data">
+                    <td style="width: 90%">{{ tableData.name }}</td>
+                    <td>
+                        <div class="d-flex gap-2">
                             <a
-                            class="btn btn-icon btn-label-primary waves-effect"
+                                class="btn btn-icon btn-label-primary waves-effect"
                                 @click="handleEdit(tableData)"
                                 href="javascript:void(0);"
-                                ><i class="ti ti-pencil"></i>
-                                </a
+                            ><i class="ti ti-pencil"></i>
+                            </a
                             >
                             <a
-                            class="btn btn-icon btn-label-danger waves-effect"
+                                class="btn btn-icon btn-label-danger waves-effect"
                                 href="javascript:void(0);"
                                 @click="deletePromise(tableData.id)"
-                                ><i class="ti ti-trash"></i>
-                                </a
+                            ><i class="ti ti-trash"></i>
+                            </a
                             >
-                           </div>
-                        </td>
-                    </tr>
+                        </div>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>

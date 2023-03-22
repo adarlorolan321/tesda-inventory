@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Helper\StrHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\CoachListResource;
 use App\Models\User;
@@ -9,6 +10,7 @@ use App\Http\Requests\User\StoreCoachRequest;
 use App\Http\Requests\User\UpdateCoachRequest;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
 class CoachController extends Controller
@@ -26,7 +28,9 @@ class CoachController extends Controller
         $order = $request->input('order', 'asc');
 
         $data = User::query()
-            ->with([])
+            ->whereHas('roles', function ($query)  {
+                $query->whereIn('name', ['Coach','Staff']);
+            })
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
@@ -48,13 +52,12 @@ class CoachController extends Controller
         if ($request->wantsJson()) {
             return json_encode($props);
         }
-        if(count($data) <= 0 && $page > 1)
-        {
-            return redirect()->route('user.coach', ['page' => 1]);
+        if (count($data) <= 0 && $page > 1) {
+            return redirect()->route('user.coach.index', ['page' => 1]);
         }
 
 
-        return Inertia::render('Admin/User/Coach', $props);
+        return Inertia::render('Admin/User/Coach/Index', $props);
     }
 
     /**
@@ -70,13 +73,16 @@ class CoachController extends Controller
      */
     public function store(StoreCoachRequest $request)
     {
+        $password = StrHelper::randomPassword();
+        $request['name'] = $request['first_name'].' '.$request['las_name'];
+        $request['password'] = Hash::make($password);
         $data = User::create($request->validated());
+        $data->assignRole($request['role']);
         sleep(1);
-
         if ($request->wantsJson()) {
             return new CoachListResource($data);
         }
-        return redirect()->route('coaches.index')->with('message', 'Record Saved');
+        return redirect()->route('user.coach.index')->with('message', 'Record Saved');
     }
 
     /**
@@ -122,7 +128,7 @@ class CoachController extends Controller
                 ->setStatusCode(201);
         }
 
-        return redirect()->route('coaches.index')->with('message', 'Record Saved');
+        return redirect()->route('user.coach.index')->with('message', 'Record Saved');
     }
 
     /**
@@ -137,6 +143,6 @@ class CoachController extends Controller
         if ($request->wantsJson()) {
             return response(null, 204);
         }
-        return redirect()->route('coaches.index')->with('message', 'Record Removed');
+        return redirect()->route('user.coach.index')->with('message', 'Record Removed');
     }
 }
