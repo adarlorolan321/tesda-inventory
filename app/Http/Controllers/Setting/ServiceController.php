@@ -21,7 +21,7 @@ class ServiceController extends Controller
 
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);  
-        $sort = explode('.', $request->input('sort', 'id'));
+        $sort = explode('.', $request->input('sort', 'code'));
         $order = $request->input('order', 'asc');
         
 
@@ -37,7 +37,6 @@ class ServiceController extends Controller
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
                 $query->orderBy($sort[0], $order);
             })
-            ->orderBy('name', 'ASC')
             ->paginate($perPage)
             ->withQueryString();
         
