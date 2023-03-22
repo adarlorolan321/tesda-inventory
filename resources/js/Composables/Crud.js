@@ -109,15 +109,20 @@ export function useCrud(formObject = {}, routeName) {
 
     const deletePromise = async(id) => {
         Swal.fire({
+          
             title: 'Are you sure?',
+            text: "You won't be able to revert this!",
             showCancelButton: true,
             confirmButtonText: 'Delete it!',
+            customClass: {
+                confirmButton: 'swal2-confirm',
+              },
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 router.delete(route(`${routeName}.destroy`, id), {
                     onSuccess: () => {
-                        toastr.success('Record removed')
+                        toastr.success('Record deleted')
                     }
                 });
             }

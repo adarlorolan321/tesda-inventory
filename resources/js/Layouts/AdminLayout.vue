@@ -288,6 +288,7 @@
         <div class="drag-target"></div>
     </div>
 </template>
+
 <script setup>
 import {loadScript} from "vue-plugin-load-script";
 import {onMounted, ref} from "vue";

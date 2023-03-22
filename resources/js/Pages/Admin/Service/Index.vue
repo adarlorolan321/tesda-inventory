@@ -45,7 +45,7 @@ let {
                     data-bs-target="#offCanvasForm"
                     aria-controls="offCanvasForm"
                 >
-                    New Service
+                    Create Service
                 </button>
                 <div
                     class="offcanvas offcanvas-end"
