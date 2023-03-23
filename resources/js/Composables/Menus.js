@@ -2,21 +2,21 @@ import {ref} from "vue";
 
 export function useMenu() {
     const menus = [
-        {label: "Staff", route: "user.coaches.index", icon: "ti ti-ball-volleyball"},
+        {label: "Staff", route: "user.coaches.index", icon: "ti ti-users"},
         {label: "Parents", route: "user.parents.index", icon: "ti ti-user"},
-        {label: "Players", route: "players.index", icon: "ti ti-user"},
-        {label: "Enrolments", route: "enrolments.index", icon: "ti ti-user"},
-        {label: "Payments", route: "payments.index", icon: "ti ti-user"},
-        {label: "Waitlist", route: "waitlists.index", icon: "ti ti-user"},
-        {label: "Trials", route: "trials.index", icon: "ti ti-user"},
-        {label: "Orders", route: "orders.index", icon: "ti ti-user"},
-        {label: "Messages", route: "messages.index", icon: "ti ti-user"},
-        {label: "Merchandise", route: "merchandises.index", icon: "ti ti-user",},
+        {label: "Players", route: "players.index", icon: "ti ti-ball-tennis"},
+        {label: "Enrolments", route: "enrolments.index", icon: "ti ti-file-pencil"},
+        {label: "Payments", route: "payments.index", icon: "ti ti-cash-banknote"},
+        {label: "Waitlist", route: "waitlists.index", icon: "ti ti-clock"},
+        {label: "Trials", route: "trials.index", icon: "ti ti-clipboard"},
+        {label: "Orders", route: "orders.index", icon: "ti ti-shopping-cart"},
+        {label: "Messages", route: "messages.index", icon: "ti ti-message-2"},
+        {label: "Merchandise", route: "merchandises.index", icon: "ti ti-building-store",},
 
         {
             label: "Settings",
             route: "settings.*",
-            icon: "ti ti-user",
+            icon: "ti ti-settings",
             sub_menu: [
                 {label: "Services", route: "settings.services.index", icon: "ti ti-smart-home",},
                 {label: "Venues", route: "settings.venues.index", icon: "ti ti-home"},
