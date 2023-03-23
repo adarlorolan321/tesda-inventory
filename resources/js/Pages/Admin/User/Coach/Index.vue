@@ -1,5 +1,6 @@
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
+import $ from 'jquery'
 import {usePage} from "@inertiajs/vue3";
 import {reactive, computed, onMounted} from "vue";
 
@@ -268,9 +269,9 @@ let {
                 <div class="col-auto">
                     <div class="d-flex flex-row gap-3">
                         <select2
-                            style="width: 200px"
-                            v-model="serverQuery.role"
+                            style="width: 200px" 
                             :settings="{allowClear:true, minimumResultsForSearch: -1}"
+                            v-model="serverQuery.role"
                             placeholder="Filter By Role"
                             @select="handleServerQuery('role',  $event.text)"
                             :options="['Coach', 'Admin']"
