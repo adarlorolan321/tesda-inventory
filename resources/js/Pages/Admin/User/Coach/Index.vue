@@ -195,7 +195,7 @@ let {
                                 :value="form.profile_photo"
                                 @input="form.profile_photo = $event"
                                 message="Drop files here or click to upload profile photo"
-                                acceptedFiles="application/pdf,image/jpeg,image/png"
+                                acceptedFiles="image/jpeg,image/png"
                             >
                             </dropzone>
                             <div v-else>
@@ -348,19 +348,11 @@ let {
                     :key="tableData"
                 >
                     <td>
-                        <div class="avatar avatar-lg" v-if="tableData.profile_photo && tableData.profile_photo.src">
+                        <div class="avatar avatar-lg" >
                             <img
-                                :src="tableData.profile_photo.src"
+                                :src="tableData.profile_photo_url"
                                 alt="Avatar"
                                 class="rounded-circle"
-                            />
-                        </div>
-                        <div class="avatar avatar-lg" v-else>
-                            <img
-                                style="object-fit: contain"
-                                src="/assets/img/image_not_available.png"
-                                alt="Avatar"
-                                class="rounded-circle shadow-sm"
                             />
                         </div>
                     </td>
