@@ -3,6 +3,7 @@
 use App\Http\Controllers as PageController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthController;
 use Inertia\Inertia;
 
 /*
@@ -52,4 +53,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
             'services' => PageController\Setting\ServiceController::class,
         ]);
     });
+
+     Route::post('reset-password',[AuthController::class,'reset'])->name('password.update');
 });
