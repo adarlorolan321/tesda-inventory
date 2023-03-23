@@ -197,7 +197,7 @@
                                                     .profile_photo_url
                                             "
                                             alt
-                                            class="h-auto rounded-circle"
+                                            class="rounded-circle"
                                         />
                                     </div>
                                 </a>
@@ -216,7 +216,7 @@
                                                                     .profile_photo_url
                                                             "
                                                             alt
-                                                            class="h-auto rounded-circle"
+                                                            class="rounded-circle"
                                                         />
                                                     </div>
                                                 </div>
@@ -240,16 +240,19 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <inertia-link
+                                            class="dropdown-item"
+                                            href="/user/profile"
+                                        >
                                             <i
                                                 class="ti ti-user-check me-2 ti-sm"
                                             ></i>
                                             <span class="align-middle"
                                                 >My Profile</span
                                             >
-                                        </a>
+                                        </inertia-link>
                                     </li>
-                                    <li>
+                                    <!-- <li>
                                         <a class="dropdown-item" href="#">
                                             <i
                                                 class="ti ti-settings me-2 ti-sm"
@@ -277,7 +280,7 @@
                                                 >
                                             </span>
                                         </a>
-                                    </li>
+                                    </li> -->
                                     <li>
                                         <div class="dropdown-divider"></div>
                                     </li>

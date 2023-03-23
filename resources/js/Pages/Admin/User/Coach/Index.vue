@@ -81,6 +81,42 @@ let {
                         ></button>
                     </div>
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
+                        <div class="form-group mb-4 dropzone-profile-photo">
+                            <label for="name">Profile Photo</label>
+                            <dropzone
+                                collection="profile_photo"
+                                v-if="isLoadingComponents"
+                                :url="route('api.media.upload')"
+                                type="profile"
+                                model="User"
+                                :value="form.profile_photo"
+                                @input="form.profile_photo = $event"
+                                message="Drop files here or click to upload profile photo"
+                                acceptedFiles="image/jpeg,image/png"
+                                @error="
+                                    form.setError(
+                                        'profile_photo',
+                                        $event && $event[0] ? $event[0] : $event
+                                    )
+                                "
+                            >
+                            </dropzone>
+                            <div v-else>
+                                <div class="dropzone" ref="dropzone">
+                                    <div class="dz-message needsclick">
+                                        Please Wait
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="v-invalid-feedback"
+                                v-if="form.errors.profile_photo"
+                            >
+                                {{ form.errors.profile_photo }}
+                            </div>
+                        </div>
+
                         <div class="form-group mb-3">
                             <label for="name"
                                 >First Name
@@ -203,31 +239,7 @@ let {
                                 >
                             </label>
                         </div>
-                        <div class="form-group mb-4">
-                            <label for="name">Profile Photo</label>
-                            <dropzone
-                                collection="profile_photo"
-                                v-if="isLoadingComponents"
-                                :url="route('api.media.upload')"
-                                model="User"
-                                :value="form.profile_photo"
-                                @input="form.profile_photo = $event"
-                                message="Drop files here or click to upload profile photo"
-                                acceptedFiles="image/jpeg,image/png"
-                            >
-                            </dropzone>
-                            <div v-else>
-                                <div class="dropzone" ref="dropzone">
-                                    <div class="dz-message needsclick">
-                                        Please Wait
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="invalid-feedback">
-                                {{ form.errors.first_name }}
-                            </div>
-                        </div>
                         <button
                             class="btn btn-primary"
                             @click="createPromise"

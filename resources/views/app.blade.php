@@ -59,6 +59,7 @@
     <!-- Page CSS -->
     <!-- Page -->
     <link rel="stylesheet" href="/assets/vendor/css/pages/page-auth.css" />
+    <link rel="stylesheet" href="/assets/vendor/css/pages/page-profile.css" />
 
     <script src="/assets/vendor/js/helpers.js" defer></script>
     <script src="/assets/js/config.js" defer></script>
