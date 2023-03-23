@@ -30,15 +30,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/', function () {
             return Inertia::render('Welcome', []);
         });
-        Route::get('reset-password',[AuthController::class,'reset'])->name('password.update');
-
         Route::get('/auth/login', function(){
             return Inertia::render('Auth/Login');
         })->name('auth.login');
-
-        // Route::get('/reset-password/{token}', function(){
-        //     return Inertia::render('Auth/ResetPassword');
-        // })->name('password.update');
 
         Route::get('/user/profile', function(){
             return Inertia::render('Admin/Profile/Show');
