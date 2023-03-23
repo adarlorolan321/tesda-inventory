@@ -44,6 +44,7 @@ class CoachController extends Controller
                 if ($queryString && $queryString != '') {
                     $query->where('first_name', 'like', '%' . $queryString . '%')
                         ->orWhere('last_name', 'like', '%' . $queryString . '%')
+                        ->orWhere('name', 'like', '%' . $queryString . '%')
                         ->orWhere('email', 'like', '%' . $queryString . '%')
                         ->orWhere('phone', 'like', '%' . $queryString . '%')
                         ->orWhere(DB::raw("CASE WHEN `status` = '1' THEN 'Active' ELSE 'In-active' END"), 'like', $queryString . '%');
