@@ -91,7 +91,7 @@ export function useCrud(formObject = {}, routeName) {
         form.post(route(`${routeName}.store`), {
             preserveState: true,
             preventScroll: true,
-            only: ["data", "params"],
+            only: ["data", "params", "errors"],
             onSuccess: () => {
                 toastr.success("Record saved");
                 form.reset();
@@ -105,7 +105,7 @@ export function useCrud(formObject = {}, routeName) {
         form.patch(route(`${routeName}.update`, form.id), {
             preserveState: true,
             preventScroll: true,
-            only: ["data", "params"],
+            only: ["data", "params", "errors"],
             onSuccess: () => {
                 toastr.success("Record saved");
                 form.reset();
