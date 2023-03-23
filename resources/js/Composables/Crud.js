@@ -84,17 +84,18 @@ export function useCrud(formObject = {}, routeName) {
         } else {
             serverQuery.value[key] = value;
         }
-        handleDeboundServerQuery();
+        handleDebouncedServerQuery();
     };
 
-    const handleDeboundServerQuery = debounce(() => {
+    const handleDebouncedServerQuery = debounce(() => {
         router.get(
             route(`${routeName}.index`, serverQuery.value),
             {},
             {
+                preserveState: true,
                 only: ["data", "params"],
             }
-        );
+        )
     }, 500);
 
     const updatePromise = async () => {
