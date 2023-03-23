@@ -23,6 +23,7 @@ use App\Http\Controllers\User\StudentController;
 
 
 
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::middleware(['role:Admin'])->group(function () {
 
