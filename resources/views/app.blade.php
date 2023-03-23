@@ -75,12 +75,12 @@
     <script src="/assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js"></script>
 
 
+    <link rel="stylesheet" href="/assets/vendor/libs/sweetalert2/sweetalert2.css" />
     @routes
     @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
     @inertiaHead
 
 
-    <link rel="stylesheet" href="/assets/vendor/libs/sweetalert2/sweetalert2.css" />
     <link rel="stylesheet" href="/assets/vendor/libs/dropzone/dropzone.css" />
     <link rel="stylesheet" href="/assets/vendor/libs/select2/select2.css" />
   </head>

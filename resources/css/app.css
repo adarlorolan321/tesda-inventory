@@ -14,7 +14,25 @@
 .sortable {
     cursor: pointer;
 }
+
+
 /* 
 .select2-container{
     z-index: 99999;
 } */
+
+.swal2-cancel {
+    color: #ea5455 !important;
+    border-color: transparent !important;
+    background: #fce4e4 !important;
+}
+
+.swal2-html-container {
+    margin-top: 0px !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.swal2-title {
+    margin-top: 0.25rem !important;
+    margin-bottom: 0px !important;
+}
