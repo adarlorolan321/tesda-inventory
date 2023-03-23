@@ -19,11 +19,16 @@ class ParentController extends Controller
     public function index(Request $request)
     {
 
+        $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
+        $sort = explode('.', $request->input('sort', 'id'));
+        $order = $request->input('order', 'asc');
 
         $data = User::query()
-            ->with([])
+            ->whereHas('roles', function ($query)  {
+                $query->whereIn('name', ['Coach','Staff']);
+            })
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
@@ -31,9 +36,11 @@ class ParentController extends Controller
                     //     ->orWhere('column', 'like', '%' . $queryString . '%');
                 }
             })
+            ->when(count($sort) == 1, function ($query) use ($sort, $order) {
+                $query->orderBy($sort[0], $order);
+            })
             ->paginate($perPage)
             ->withQueryString();
-
         $props = [
             'data' => ParentListResource::collection($data),
             'params' => $request->all(),
@@ -42,8 +49,12 @@ class ParentController extends Controller
         if ($request->wantsJson()) {
             return json_encode($props);
         }
+        if (count($data) <= 0 && $page > 1) {
+            return redirect()->route('user.coach.index', ['page' => 1]);
+        }
 
-        return Inertia::render('Admin/Parent', $props);
+
+        return Inertia::render('Admin/User/Coach/Index', $props);
     }
 
     /**
@@ -51,7 +62,7 @@ class ParentController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Parent/Create');
+        return Inertia::render('Admin/Coach/Create');
     }
 
     /**
@@ -59,13 +70,23 @@ class ParentController extends Controller
      */
     public function store(StoreParentRequest $request)
     {
-        $data = User::create($request->validated());
-        sleep(1);
+        $password = StrHelper::randomPassword();
+        $userArr = $request->all();
+        $userArr['name'] = $request['first_name'].' '.$request['last_name'];
+        $userArr['password'] = Hash::make($password);
+        $data = User::create($userArr);
+        $data->assignRole($request['role']);
+        //Upload Profile Photo
+        Media::where('id', $request->input('profile_photo', [])['id'])
+            ->update([
+                'model_id' => $data->id
+            ]);
 
+        sleep(1);
         if ($request->wantsJson()) {
             return new ParentListResource($data);
         }
-        return redirect()->route('parents.index')->with('message', 'Record Saved');
+        return redirect()->back();
     }
 
     /**
@@ -75,9 +96,9 @@ class ParentController extends Controller
     {
         $data = User::findOrFail($id);
         if ($request->wantsJson()) {
-            return new ParentListResource($data);
+            return new CoachListResource($data);
         }
-        return Inertia::render('Admin/Parent/Show', [
+        return Inertia::render('Admin/Coach/Show', [
             'data' => $data
         ]);
     }
@@ -89,9 +110,9 @@ class ParentController extends Controller
     {
         $data = User::findOrFail($id);
         if ($request->wantsJson()) {
-            return new ParentListResource($data);
+            return new CoachListResource($data);
         }
-        return Inertia::render('Admin/Parent/Edit', [
+        return Inertia::render('Admin/Coach/Edit', [
             'data' => $data
         ]);
     }
@@ -99,19 +120,30 @@ class ParentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateParentRequest $request, string $id)
+    public function update(UpdateCoachRequest $request, string $id)
     {
         $data = User::findOrFail($id);
-        $data->update($request->validated());
+        $password = StrHelper::randomPassword();
+        $userArr = $request->all();
+        $userArr['name'] = $request['first_name'].' '.$request['last_name'];
+        $userArr['password'] = Hash::make($password);
+        $data->update($userArr);
+        $data->assignRole($request['role']);
+        //Upload Profile Photo
+        Media::where('id', $request->input('profile_photo', [])['id'])
+            ->update([
+                'model_id' => $data->id
+            ]);
+
         sleep(1);
 
         if ($request->wantsJson()) {
-            return (new ParentListResource($data))
+            return (new CoachListResource($data))
                 ->response()
                 ->setStatusCode(201);
         }
 
-        return redirect()->route('parents.index')->with('message', 'Record Saved');
+        return redirect()->back();
     }
 
     /**
@@ -126,6 +158,6 @@ class ParentController extends Controller
         if ($request->wantsJson()) {
             return response(null, 204);
         }
-        return redirect()->route('parents.index')->with('message', 'Record Removed');
+        return redirect()->back();
     }
 }
