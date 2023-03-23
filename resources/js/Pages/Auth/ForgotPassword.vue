@@ -1,7 +1,7 @@
 
 
 <script setup>
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 import { Head, useForm } from "@inertiajs/vue3";
 
 defineProps({
@@ -19,7 +19,7 @@ const submit = () => {
             // Swal.fire("Email sent!", "A valid email address with an existing account has been submitted by user","success" );
         },
         onError: () => {
-            // Swal.fire("Email not sent!", "An error occured","error" )
+            // Swal.fire("Email not sent!", "Incorrect email address /Invalid email address","error" )
         }
     });
     
@@ -103,6 +103,7 @@ const submit = () => {
                             <div class="form-group mb-3">
                                 <label for="">Email</label>
                                 <input
+                                    @input=" form.clearErrors('email')"
                                     class="form-control"
                                     type="email"
                                     v-model="form.email"
