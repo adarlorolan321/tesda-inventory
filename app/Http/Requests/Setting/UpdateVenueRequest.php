@@ -22,7 +22,12 @@ class UpdateVenueRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required"], "contact_first_name" => ["required"], "contact_last_name" => ["required"], "contact_email" => ["required"], "contact_phone" => ["required"], "status" => ["required"],
+            "name" => ["required"], 
+            "contact_first_name" => ["nullable"], 
+            "contact_last_name" => ["nullable"], 
+            "contact_email" => ["nullable","email"], 
+            "contact_phone" => ["nullable"], 
+            "status" => ["nullable"],
         ];
     }
 }

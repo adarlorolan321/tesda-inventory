@@ -15,7 +15,7 @@ const formObject = {
     code: null,
 };
 
-const routeName = "services";
+const routeName = "settings.services";
 let {
     paginatedData,
     form,
@@ -45,7 +45,7 @@ let {
                     data-bs-target="#offCanvasForm"
                     aria-controls="offCanvasForm"
                 >
-                    New Service
+                    Add Service
                 </button>
                 <div
                     class="offcanvas offcanvas-end"
@@ -56,9 +56,7 @@ let {
                 >
                     <div class="offcanvas-header">
                         <h5 id="offCanvasFormLabel" class="offcanvas-title">
-                            {{
-                                formState == "create" ? "Create" : "Update"
-                            }}
+                            {{ formState == "create" ? "Add" : "Update" }}
                             Service
                         </h5>
                         <button
@@ -71,22 +69,6 @@ let {
                     </div>
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
                         <div class="form-group mb-3">
-                            <label for="">Code</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                placeholder="Enter code"
-                                v-model="form.code"
-                                :class="{
-                                    'is-invalid' : form.errors.code
-                                }"
-                                @input="form.clearErrors('code')"
-                            />
-                            <div  class="invalid-feedback">
-                                {{ form.errors.code }}
-                            </div>
-                        </div>
-                        <div class="form-group mb-3">
                             <label for="">Service Name</label>
                             <input
                                 type="text"
@@ -95,11 +77,27 @@ let {
                                 @input="form.clearErrors('name')"
                                 placeholder="Enter name"
                                 :class="{
-                                    'is-invalid' : form.errors.name
+                                    'is-invalid': form.errors.name,
                                 }"
                             />
-                            <div  class="invalid-feedback">
+                            <div class="invalid-feedback">
                                 {{ form.errors.name }}
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="">Code</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Enter code"
+                                v-model="form.code"
+                                :class="{
+                                    'is-invalid': form.errors.code,
+                                }"
+                                @input="form.clearErrors('code')"
+                            />
+                            <div class="invalid-feedback">
+                                {{ form.errors.code }}
                             </div>
                         </div>
                         <button
@@ -108,7 +106,12 @@ let {
                             :disabled="form.processing"
                             v-if="formState == 'create'"
                         >
-                            <span v-if="form.processing" class="spinner-border me-1" role="status" aria-hidden="true"></span>
+                            <span
+                                v-if="form.processing"
+                                class="spinner-border me-1"
+                                role="status"
+                                aria-hidden="true"
+                            ></span>
                             Save
                         </button>
                         <button
@@ -117,7 +120,12 @@ let {
                             :disabled="form.processing"
                             v-if="formState == 'update'"
                         >
-                            <span v-if="form.processing" class="spinner-border me-1" role="status" aria-hidden="true"></span>
+                            <span
+                                v-if="form.processing"
+                                class="spinner-border me-1"
+                                role="status"
+                                aria-hidden="true"
+                            ></span>
                             Save changes
                         </button>
                     </div>
@@ -130,10 +138,20 @@ let {
                     <div class="d-flex align-items-center gap-2">
                         <div class="w-auto">Show</div>
                         <div class="flex-1">
-                            <select class="form-select" :value="serverQuery.perPage" @input="handleServerQuery('perPage', $event.target.value)">
+                            <select
+                                class="form-select"
+                                :value="serverQuery.perPage"
+                                @input="
+                                    handleServerQuery(
+                                        'perPage',
+                                        $event.target.value
+                                    )
+                                "
+                            >
                                 <option
                                     v-for="i in [5, 10, 25, 50, 100]"
                                     :value="String(i)"
+                                    :key="i"
                                 >
                                     {{ i }}
                                 </option>
@@ -144,9 +162,20 @@ let {
                 </div>
                 <div class="col-auto">
                     <div class="d-flex gap-2 align-items-center">
-                        <div class="w-auto">Search: </div>
+                        <div class="w-auto">Search:</div>
                         <div class="flex-1">
-                            <input type="search" placeholder="Search" class="form-control" :value="serverQuery.query" @input="handleServerQuery('query', $event.target.value)">
+                            <input
+                                type="search"
+                                placeholder="Search"
+                                class="form-control"
+                                :value="serverQuery.query"
+                                @input="
+                                    handleServerQuery(
+                                        'query',
+                                        $event.target.value
+                                    )
+                                "
+                            />
                         </div>
                     </div>
                 </div>
@@ -156,43 +185,59 @@ let {
             <table class="table">
                 <thead class="table-light">
                     <tr>
-                        <th class="sortable" style="width: 200px" @click="handleServerQuery('sort', 'code')">
+                        <table-header
+                            @click="handleServerQuery('sort', 'name')"
+                            :serverQuery="serverQuery"
+                            serverQueryKey="name"
+                        >
+                            Service Name
+                        </table-header>
+                        <table-header
+                            @click="handleServerQuery('sort', 'code')"
+                            :serverQuery="serverQuery"
+                            serverQueryKey="code"
+                        >
                             Code
-                            <i class="ti ti-arrow-up" v-if="serverQuery.sort == 'code' && serverQuery.order == 'desc'"></i>
-                            <i class="ti ti-arrow-down" v-if="serverQuery.sort == 'code' && serverQuery.order == 'asc'"></i>
-                        </th>
-                        <th class="sortable"  @click="handleServerQuery('sort', 'name')">
-                            Service Name 
-                            <i class="ti ti-arrow-up" v-if="serverQuery.sort == 'name' && serverQuery.order == 'desc'"></i>
-                            <i class="ti ti-arrow-down" v-if="serverQuery.sort == 'name' && serverQuery.order == 'asc'"></i>
-                        </th>
+                        </table-header>
+                        <th>Embed Code</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
                     <tr v-if="paginatedData.data.length <= 0">
-                        <td colspan="999999" class="text-center">No item found</td>
+                        <td colspan="999999" class="text-center">
+                            No item found
+                        </td>
                     </tr>
-                    <tr v-for="tableData in paginatedData.data">
+                    <tr
+                        v-for="tableData in paginatedData.data"
+                        :key="tableData"
+                    >
+                        <td style="width: 60%">{{ tableData.name }}</td>
                         <td>{{ tableData.code }}</td>
-                        <td style="width: 90%">{{ tableData.name }}</td>
+                        <td class="">
+                            <a href="#"
+                                ><i
+                                    class="fa-regular fa-copy ms-4"
+                                    style="font-size: 22px"
+                                ></i
+                            ></a>
+                        </td>
                         <td>
-                           <div class="d-flex gap-2">
-                            <a
-                            class="btn btn-icon btn-label-primary waves-effect"
-                                @click="handleEdit(tableData)"
-                                href="javascript:void(0);"
-                                ><i class="ti ti-pencil"></i>
-                                </a
-                            >
-                            <a
-                            class="btn btn-icon btn-label-danger waves-effect"
-                                href="javascript:void(0);"
-                                @click="deletePromise(tableData.id)"
-                                ><i class="ti ti-trash"></i>
-                                </a
-                            >
-                           </div>
+                            <div class="d-flex gap-2">
+                                <a
+                                    class="btn btn-icon btn-label-primary waves-effect"
+                                    @click="handleEdit(tableData)"
+                                    href="javascript:void(0);"
+                                    ><i class="ti ti-pencil"></i>
+                                </a>
+                                <a
+                                    class="btn btn-icon btn-label-danger waves-effect"
+                                    href="javascript:void(0);"
+                                    @click="deletePromise(tableData.id)"
+                                    ><i class="ti ti-trash"></i>
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -219,6 +264,7 @@ let {
                             <li
                                 class="page-item"
                                 v-for="link in paginatedData.meta.links"
+                                :key="link"
                             >
                                 <inertia-link
                                     class="page-link"

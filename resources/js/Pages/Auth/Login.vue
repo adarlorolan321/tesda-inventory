@@ -95,9 +95,9 @@ const { login, form } = useLogin();
                                     <label class="form-label" for="password"
                                         >Password</label
                                     >
-                                    <a href="auth-forgot-password-basic.html">
+                                    <inertia-link href="/forgot-password">
                                         <small>Forgot Password?</small>
-                                    </a>
+                                    </inertia-link>
                                 </div>
                                 <div class="input-group input-group-merge">
                                     <input
@@ -152,9 +152,9 @@ const { login, form } = useLogin();
 
                         <p class="text-center">
                             <span>New on our platform?</span>&nbsp;
-                            <a href="auth-register-basic.html">
+                            <inertia-link >
                                 <span>Create an account</span>
-                            </a>
+                            </inertia-link>
                         </p>
 
                         <div class="divider my-4">

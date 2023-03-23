@@ -1,5 +1,6 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
+import { ref } from 'vue'
 
 const props = defineProps({
     email: String,
@@ -18,6 +19,9 @@ const submit = () => {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
 };
+
+const isPassword = ref({ password: true, password_confirmation: true });
+
 </script>
 
 <template>
@@ -71,32 +75,40 @@ const submit = () => {
                 <p class="mb-4">for <span class="fw-bold">{{ form.email }}</span></p>
                     <form @submit.prevent="submit()">
                         <div class="mb-3 form-password-toggle">
-                        <label class="form-label" for="password">New Password</label>
-                        <div class="input-group input-group-merge">
-                            <input
-                                v-model="form.password"
-                                type="password"
-                                id="password"
-                                class="form-control"
-                                name="password"
-                                aria-describedby="password"
-                            />
-                            <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
-                            <span class="text-danger">{{form.errors.password}}</span>
+                            <div class="form-group mb-3">
+                                <label for="name">New Password <span class="required">*</span></label>
+                                <div class="input-group input-group-merge">
+                                    <input
+                                        :type="isPassword.password?'password':'text'"
+                                        id="password"
+                                        class="form-control"
+                                        v-model="form.password"
+                                        @input="form.clearErrors('password')"
+                                    />
+                                    <span @click="isPassword.password = !isPassword.password" class="input-group-text cursor-pointer"><i  :class="isPassword.password ? 'ti ti-eye-off' : 'ti ti-eye'"></i></span>
+                                </div>
+                                <div class="custom-invalid-feedback" v-if="form.errors.password">
+                                    {{ form.errors.password }}
+                                </div>
+                            </div>
                         </div>
-                        </div>
+                        {{ form.errors }}
                         <div class="mb-3 form-password-toggle">
-                            <label class="form-label" for="password_confirmation">Confirm Password</label>
-                            <div class="input-group input-group-merge">
-                                <input
-                                    v-model="form.password_confirmation"
-                                    type="password" id="password_confirmation"
-                                    class="form-control"
-                                    name="password_confirmation"
-                                    aria-describedby="password"
-                                />
-                                <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
-                                <span class="text-danger">{{form.errors.password_confirmation}}</span>
+                            <div class="form-group mb-3">
+                                <label for="name">Confirm Password <span class="required">*</span></label>
+                                <div class="input-group input-group-merge">
+                                    <input
+                                        :type="isPassword.password_confirmation?'password':'text'"
+                                        id="password_confirmation"
+                                        class="form-control"
+                                        v-model="form.password_confirmation"
+                                        @input="form.clearErrors('password_confirmation')"
+                                    />
+                                    <span @click="isPassword.password_confirmation = !isPassword.password_confirmation" class="input-group-text cursor-pointer"><i  :class="isPassword.password_confirmation ? 'ti ti-eye-off' : 'ti ti-eye'"></i></span>
+                                </div>
+                                <div class="custom-invalid-feedback" v-if="form.errors.password_confirmation">
+                                    {{ form.errors.password_confirmation }}
+                                </div>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary d-grid w-100 mb-3">Set new password</button>

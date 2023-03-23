@@ -1,6 +1,6 @@
 .page-link {
     padding: 0.594rem 0.35rem;
-    min-width: calc( 1.938rem + 0px);
+    min-width: calc(1.938rem + 0px);
     font-size: 0.75rem;
     line-height: 1;
 }
@@ -13,4 +13,49 @@
 
 .sortable {
     cursor: pointer;
+}
+
+
+/*.select2-container{*/
+
+
+/*    z-index: 99999;*/
+
+
+/*}*/
+
+.required {
+    color: red;
+}
+
+.swal2-cancel {
+    color: #ea5455 !important;
+    border-color: transparent !important;
+    background: #fce4e4 !important;
+}
+
+.swal2-html-container {
+    margin-top: 0px !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.swal2-title {
+    margin-top: 0.25rem !important;
+    margin-bottom: 0px !important;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.input-group:focus-within {
+    box-shadow: unset !important;
+}
+
+.custom-invalid-feedback {
+    display: block !important;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.8125rem;
+    color: #ea5455;
 }
