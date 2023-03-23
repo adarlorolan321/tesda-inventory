@@ -326,7 +326,7 @@ let {
                         :key="tableData"
                     >
                         <td>
-                            <div class="avatar avatar-lg" v-if="tableData.profile_photo">
+                            <div class="avatar avatar-lg" v-if="tableData.profile_photo && tableData.profile_photo.src">
                                 <img
                                     :src="tableData.profile_photo.src"
                                     alt="Avatar"
