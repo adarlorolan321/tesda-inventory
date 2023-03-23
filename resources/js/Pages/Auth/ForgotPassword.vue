@@ -79,7 +79,7 @@ const submit = () => {
         </div>
  
         <button type="submit"
-        class="btn btn-primary d-grid w-100 "
+        class="btn btn-primary d-grid w-100 mb-3"
             :class="{ 'opacity-25': form.processing }"
             :disabled="form.processing"
         >
