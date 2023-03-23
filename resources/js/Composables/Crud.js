@@ -98,7 +98,7 @@ export function useCrud(formObject = {}, routeName) {
             preserveState: true,
             preventScroll: true,
             onSuccess: () => {
-                toastr.success("Record saved");
+                toastr.info("Record updated");
                 router.reload();
                 form.reset();
                 offCanvas.value.hide();
@@ -123,7 +123,7 @@ export function useCrud(formObject = {}, routeName) {
             if (result.isConfirmed) {
                 router.delete(route(`${routeName}.destroy`, id), {
                     onSuccess: () => {
-                        toastr.success("Record deleted");
+                        toastr.error("Record deleted");
                     },
                 });
             }
