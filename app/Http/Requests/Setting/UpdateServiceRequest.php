@@ -23,7 +23,7 @@ class UpdateServiceRequest extends FormRequest
     {
         return [
             "name" => ["required"], 
-            "code" => ["required"],
+            "code" => ["nullable"],
         ];
     }
 }

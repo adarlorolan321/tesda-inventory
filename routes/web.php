@@ -40,14 +40,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::resource('student',StudentController::class);
         });
 
-        Route::get('/account', function(){
-            return Inertia::render('Admin/Organisation/Create');
-        })->name('account.index');
-
-        Route::get('/account/security', function(){
-            return Inertia::render('Admin/Organisation/Security');
-        })->name('account.index');
-
         Route::get('/account-settings', function(){
             return Inertia::render('Admin/account-settings/Account');
         })->name('account.index');
