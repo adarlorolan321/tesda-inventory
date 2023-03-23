@@ -80,7 +80,7 @@ const submit = () => {
                 </div>
                 <button class="btn btn-primary d-grid w-100 mb-3">Set new password</button>
                 <div class="text-center">
-                  <inertia-link :href="route('auth.login')">
+                  <inertia-link :href="route('login')">
                     <i class="ti ti-chevron-left scaleX-n1-rtl"></i>
                     Back to login
                   </inertia-link>
