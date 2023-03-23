@@ -1,17 +1,24 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
 
-defineProps({
-    status: String,
+const props = defineProps({
+    email: String,
+    token: String,
 });
 
 const form = useForm({
-    email: "",
+    token: props.token,
+    email: props.email,
+    password: '',
+    password_confirmation: '',
 });
 
 const submit = () => {
-    form.post(route("password.email"));
+    form.post(route('password.update'), {
+        onFinish: () => form.reset('password', 'password_confirmation'),
+    });
 };
+
 </script>
 
 <template>
