@@ -74,7 +74,7 @@ class VenueController extends Controller
         if ($request->wantsJson()) {
             return new VenueListResource($data);
         }
-        return redirect()->route('venues.index')->with('message', 'Record Saved');
+        return redirect()->route('settings.venues.index')->with('message', 'Record Saved');
     }
 
     /**
@@ -120,7 +120,7 @@ class VenueController extends Controller
                 ->setStatusCode(201);
         }
 
-        return redirect()->route('venues.index')->with('message', 'Record Saved');
+        return redirect()->route('settings.venues.index')->with('message', 'Record Saved');
     }
 
     /**
@@ -135,6 +135,6 @@ class VenueController extends Controller
         if ($request->wantsJson()) {
             return response(null, 204);
         }
-        return redirect()->route('venues.index')->with('message', 'Record Removed');
+        return redirect()->route('settings.venues.index')->with('message', 'Record Removed');
     }
 }

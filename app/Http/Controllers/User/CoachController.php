@@ -80,11 +80,12 @@ class CoachController extends Controller
         $data = User::create($userArr);
         $data->assignRole($request['role']);
         //Upload Profile Photo
-        Media::where('id', $request->input('profile_photo', [])['id'])
-            ->update([
-                'model_id' => $data->id
-            ]);
-
+        if(isset($request->input('profile_photo', [])['id'])){
+            Media::where('id', $request->input('profile_photo', [])['id'])
+                ->update([
+                    'model_id' => $data->id
+                ]);
+        }
         sleep(1);
         if ($request->wantsJson()) {
             return new CoachListResource($data);
@@ -126,17 +127,20 @@ class CoachController extends Controller
     public function update(UpdateCoachRequest $request, string $id)
     {
         $data = User::findOrFail($id);
-        $password = StrHelper::randomPassword();
         $userArr = $request->all();
         $userArr['name'] = $request['first_name'].' '.$request['last_name'];
-        $userArr['password'] = Hash::make($password);
         $data->update($userArr);
         $data->assignRole($request['role']);
         //Upload Profile Photo
-        Media::where('id', $request->input('profile_photo', [])['id'])
-            ->update([
-                'model_id' => $data->id
-            ]);
+        if(isset($request->input('profile_photo', [])['id'])){
+            if($request->input('profile_photo', [])['model_id'] != $data->id){
+                $data->clearMediaCollection('profile_photo');
+            }
+            Media::where('id', $request->input('profile_photo', [])['id'])
+                ->update([
+                    'model_id' => $data->id
+                ]);
+        }
 
         sleep(1);
 

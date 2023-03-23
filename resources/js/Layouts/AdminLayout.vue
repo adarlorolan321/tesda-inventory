@@ -73,14 +73,14 @@
                                <div :data-i18n="menu.label">{{menu.label}}</div>
                            </inertia-link>
                        </li>
-                       <li v-else class="menu-item" :class="{'active' : route().current(menu.route)}">
+                       <li v-else class="menu-item" :class="{'active open' : route().current(menu.route)}">
                            <a href="javascript:void(0);" class="menu-link menu-toggle">
                                <i class="menu-icon tf-icons" :class="menu.icon"></i>
                                <div :data-i18n="menu.label">{{menu.label}}</div>
                            </a>
                            <ul v-if="menu.sub_menu" class="menu-sub">
                                <template v-for="(sub_menu,index) in menu.sub_menu" :key="'sub-menu-'+index">
-                                   <li class="menu-item">
+                                   <li class="menu-item" :class="{'active' : route().current(sub_menu.route)}">
                                        <inertia-link :href="route(sub_menu.route)" class="menu-link" :class="{'menu-toggle': sub_menu.sub_menu}">
                                            <i class="menu-icon tf-icons" :class="sub_menu.icon"></i>
                                            <div :data-i18n="sub_menu.label">{{sub_menu.label}}</div>

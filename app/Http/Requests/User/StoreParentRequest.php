@@ -11,7 +11,7 @@ class StoreParentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->can("store parent");
+        return auth()->user()->can("store user");
     }
 
     /**
@@ -22,7 +22,13 @@ class StoreParentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            'first_name' => ['required'],
+            'last_name' => ['required'],
+            'email' => ['required','email:rfc,dns','unique:users,email'],
+            'phone' => ['required','numeric','unique:users,phone'],
+            'role' => ['required'],
+            'status' => ['required'],
+            'profile_photo' => ['nullable'],
         ];
     }
 }

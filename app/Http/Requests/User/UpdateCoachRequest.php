@@ -3,6 +3,7 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateCoachRequest extends FormRequest
 {
@@ -24,8 +25,8 @@ class UpdateCoachRequest extends FormRequest
         return [
             'first_name' => ['required'],
             'last_name' => ['required'],
-            'email' => ['required', 'email:rfc,dns'],
-            'phone' => ['required', 'numeric'],
+            'email' => ['required', 'email:rfc,dns', Rule::unique('users')->ignore($this->id)],
+            'phone' => ['required', 'numeric',Rule::unique('users')->ignore($this->id)],
             'role' => ['required'],
             'status' => ['required'],
             'profile_photo' => ['nullable'],

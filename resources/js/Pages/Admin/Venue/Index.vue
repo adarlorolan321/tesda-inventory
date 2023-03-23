@@ -18,7 +18,7 @@ const formObject = {
   status: false,
 };
 
-const routeName = "venues";
+const routeName = "settings.venues";
 let {
   paginatedData,
   form,
@@ -60,7 +60,7 @@ let {
           <div class="offcanvas-header">
             <h5 id="offCanvasFormLabel" class="offcanvas-title">
               {{ formState == "create" ? "Add" : "Update" }}
-              Service
+              Venue
             </h5>
             <button
               type="button"

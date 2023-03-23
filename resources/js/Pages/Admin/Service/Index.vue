@@ -15,7 +15,7 @@ const formObject = {
     code: null,
 };
 
-const routeName = "services";
+const routeName = "settings.services";
 let {
     paginatedData,
     form,
