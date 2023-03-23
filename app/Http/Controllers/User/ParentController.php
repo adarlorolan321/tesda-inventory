@@ -11,6 +11,7 @@ use App\Http\Requests\User\StoreParentRequest;
 use App\Http\Requests\User\UpdateParentRequest;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
 class ParentController extends Controller
