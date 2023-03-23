@@ -123,7 +123,7 @@ export function useCrud(formObject = {}, routeName) {
             confirmButtonText: "Yes, delete it!",
             customClass: {
                 confirmButton: "btn btn-primary me-3",
-                cancelButton: "btn btn-label-secondary",
+                cancelButton: "btn btn-label-danger",
             },
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
