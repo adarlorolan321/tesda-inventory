@@ -295,10 +295,10 @@ let {
                             <i class="ti ti-arrow-up" v-if="  serverQuery.sort == 'name' && serverQuery.order == 'desc' " ></i>
                             <i class="ti ti-arrow-down" v-if=" serverQuery.sort == 'name' && serverQuery.order == 'asc' "  ></i>
                         </th>
-                        <th class="sortable" @click="handleServerQuery('sort', 'role')" > Role
-                            <i class="ti ti-arrow-up" v-if=" serverQuery.sort == 'role' && serverQuery.order == 'desc' " ></i>
-                            <i class="ti ti-arrow-down"  v-if=" serverQuery.sort == 'role' &&  serverQuery.order == 'asc' " ></i>
-                        </th>
+<!--                        <th class="sortable" @click="handleServerQuery('sort', 'role')" > Role-->
+<!--                            <i class="ti ti-arrow-up" v-if=" serverQuery.sort == 'role' && serverQuery.order == 'desc' " ></i>-->
+<!--                            <i class="ti ti-arrow-down"  v-if=" serverQuery.sort == 'role' &&  serverQuery.order == 'asc' " ></i>-->
+<!--                        </th>-->
                         <th  class="sortable" @click="handleServerQuery('sort', 'email')" >
                             Email
                             <i  class="ti ti-arrow-up" v-if=" serverQuery.sort == 'email' &&  serverQuery.order == 'desc' " ></i>
@@ -309,11 +309,11 @@ let {
                             <i class="ti ti-arrow-up" v-if=" serverQuery.sort == 'phone' &&  serverQuery.order == 'desc' "  ></i>
                             <i class="ti ti-arrow-down" v-if=" serverQuery.sort == 'phone' &&  serverQuery.order == 'asc' " ></i>
                         </th>
-                        <th class="sortable" @click="handleServerQuery('sort', 'status')" >
-                            Status
-                            <i  class="ti ti-arrow-up"  v-if=" serverQuery.sort == 'status' && serverQuery.order == 'desc' "  ></i>
-                            <i class="ti ti-arrow-down" v-if="  serverQuery.sort == 'status' && serverQuery.order == 'asc' "></i>
-                        </th>
+<!--                        <th class="sortable" @click="handleServerQuery('sort', 'status')" >-->
+<!--                            Status-->
+<!--                            <i  class="ti ti-arrow-up"  v-if=" serverQuery.sort == 'status' && serverQuery.order == 'desc' "  ></i>-->
+<!--                            <i class="ti ti-arrow-down" v-if="  serverQuery.sort == 'status' && serverQuery.order == 'asc' "></i>-->
+<!--                        </th>-->
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -345,19 +345,19 @@ let {
                             </div>
                         </td>
                         <td>{{ tableData.name }}</td>
-                        <td>{{ tableData.role }}</td>
+<!--                        <td>{{ tableData.role }}</td>-->
                         <td>{{ tableData.email }}</td>
                         <td>{{ tableData.phone }}</td>
-                        <td>
-                            <span
-                                v-if="tableData.status == 1"
-                                class="badge bg-label-success"
-                                >Active</span
-                            >
-                            <span v-else class="badge bg-label-danger"
-                                >In-active</span
-                            >
-                        </td>
+<!--                        <td>-->
+<!--                            <span-->
+<!--                                v-if="tableData.status == 1"-->
+<!--                                class="badge bg-label-success"-->
+<!--                                >Active</span-->
+<!--                            >-->
+<!--                            <span v-else class="badge bg-label-danger"-->
+<!--                                >In-active</span-->
+<!--                            >-->
+<!--                        </td>-->
                         <td>
                             <div class="d-flex gap-2">
                                 <a
