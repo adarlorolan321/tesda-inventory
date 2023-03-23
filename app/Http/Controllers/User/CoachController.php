@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Helper\StrHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\CoachListResource;
+use App\Mail\Notification\WelcomeUserNotification;
 use App\Models\Media;
 use App\Models\User;
 use App\Http\Requests\User\StoreCoachRequest;
@@ -13,6 +14,7 @@ use App\Http\Requests\User\UpdateCoachRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class CoachController extends Controller
@@ -84,20 +86,28 @@ class CoachController extends Controller
      */
     public function store(StoreCoachRequest $request)
     {
-        $password = StrHelper::randomPassword();
-        $userArr = $request->all();
-        $userArr['name'] = $request['first_name'].' '.$request['last_name'];
-        $userArr['password'] = Hash::make($password);
-        $data = User::create($userArr);
-        $data->assignRole($request['role']);
-        //Upload Profile Photo
-        if(isset($request->input('profile_photo', [])['id'])){
-            Media::where('id', $request->input('profile_photo', [])['id'])
-                ->update([
-                    'model_id' => $data->id
-                ]);
+        DB::beginTransaction();
+        try {
+            $password = StrHelper::randomPassword();
+            $userArr = $request->all();
+            $userArr['name'] = $request['first_name'] . ' ' . $request['last_name'];
+            $userArr['password'] = Hash::make($password);
+            $data = User::create($userArr);
+            $data->assignRole($request['role']);
+            //Upload Profile Photo
+            if (isset($request->input('profile_photo', [])['id'])) {
+                Media::where('id', $request->input('profile_photo', [])['id'])
+                    ->update([
+                        'model_id' => $data->id
+                    ]);
+            }
+            $data->sendWelcomeMail(array_merge($userArr, ['password' => $password]));
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
         }
         sleep(1);
+
         if ($request->wantsJson()) {
             return new CoachListResource($data);
         }
@@ -138,6 +148,7 @@ class CoachController extends Controller
     public function update(UpdateCoachRequest $request, string $id)
     {
         $data = User::findOrFail($id);
+        $prevEmail = $data->email;
         $userArr = $request->all();
         $userArr['name'] = $request['first_name'].' '.$request['last_name'];
         $data->update($userArr);
@@ -151,6 +162,10 @@ class CoachController extends Controller
                 ->update([
                     'model_id' => $data->id
                 ]);
+        }
+
+        if($prevEmail != $userArr['email']){
+            $data->sendUpdateEmailNotication(array_merge($userArr,['password' => 'Your current password']));
         }
 
         sleep(1);

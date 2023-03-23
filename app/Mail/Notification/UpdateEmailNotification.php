@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class WelcomeUserNotification extends Mailable
+class UpdateEmailNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -20,10 +20,11 @@ class WelcomeUserNotification extends Mailable
         $this->user = $user;
     }
 
+
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Welcome User Notification',
+            subject: 'Update Email Notification',
         );
     }
 
@@ -31,7 +32,7 @@ class WelcomeUserNotification extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.notification.welcome-user-notification',
+            markdown: 'mail.notification.update-email-notification',
         );
     }
 

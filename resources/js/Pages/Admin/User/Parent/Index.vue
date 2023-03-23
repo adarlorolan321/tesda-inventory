@@ -77,7 +77,7 @@ let {
                     </div>
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
                         <div class="form-group mb-3">
-                            <label for="name">First Name</label>
+                            <label for="name">First Name  <span class="required">*</span></label>
                             <input
                                 type="text"
                                 id="first_name"
@@ -94,7 +94,7 @@ let {
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="name">Last Name</label>
+                            <label for="name">Last Name  <span class="required">*</span></label>
                             <input
                                 type="text"
                                 id="last_name"
@@ -111,7 +111,7 @@ let {
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="name">Email</label>
+                            <label for="name">Email  <span class="required">*</span></label>
                             <input
                                 type="text"
                                 id="email"
@@ -128,7 +128,7 @@ let {
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="name">Phone</label>
+                            <label for="name">Phone  <span class="required">*</span></label>
                             <input
                                 type="text"
                                 id="phone"
@@ -158,7 +158,7 @@ let {
 <!--                            </div>-->
 <!--                        </div>-->
                         <div class="form-group mb-3">
-                            <div class=" ">Status</div>
+                            <div class=" ">Status  <span class="required">*</span></div>
                             <label class="switch">
                                 <input
                                     type="checkbox"
