@@ -37,7 +37,7 @@ class CoachController extends Controller
                 if ($queryByRole) {
                     $query->where('name', $queryByRole);
                 } else {
-                    $query->whereIn('name', ['Coach', 'OrgAdmin']);
+                    $query->whereIn('name', ['Coach', 'Admin']);
                 }
             })
             ->where(function ($query) use ($queryString) {

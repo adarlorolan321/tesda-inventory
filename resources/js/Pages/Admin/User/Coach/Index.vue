@@ -11,6 +11,7 @@ export default {
 
 <script setup>
 import {useCrud} from "@/Composables/Crud.js";
+import {validateForm} from "@/Composables/Validate.js";
 
 const {props} = usePage();
 const formObject = {
@@ -23,6 +24,8 @@ const formObject = {
     role: null,
     profile_photo: null,
 };
+
+let {validateEmail} = validateForm;
 
 const routeName = "user.coaches";
 let {

@@ -38,6 +38,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::resource('coaches',CoachController::class);
             Route::resource('parents',ParentController::class);
             Route::resource('students',StudentController::class);
+            Route::get('validate/{type}',[UserController::class,'validateInput'])->name('validate');
         });
 
         Route::name('settings.')->prefix('settings')->group(function (){
