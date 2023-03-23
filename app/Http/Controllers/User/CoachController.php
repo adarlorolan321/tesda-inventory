@@ -34,11 +34,10 @@ class CoachController extends Controller
 
         $data = User::query()
             ->whereHas('roles', function ($query) use ($queryByRole) {
-                if($queryByRole){
+                if ($queryByRole) {
                     $query->where('name', $queryByRole);
-                }
-                else{
-                    $query->whereIn('name', ['Coach','OrgAdmin']);
+                } else {
+                    $query->whereIn('name', ['Coach', 'OrgAdmin']);
                 }
             })
             ->where(function ($query) use ($queryString) {
@@ -47,7 +46,7 @@ class CoachController extends Controller
                         ->orWhere('last_name', 'like', '%' . $queryString . '%')
                         ->orWhere('email', 'like', '%' . $queryString . '%')
                         ->orWhere('phone', 'like', '%' . $queryString . '%')
-                        ->orWhere(DB::raw("CASE WHEN `status` = '1' THEN 'Active' ELSE 'In-active' END"), 'like',  $queryString . '%');
+                        ->orWhere(DB::raw("CASE WHEN `status` = '1' THEN 'Active' ELSE 'In-active' END"), 'like', $queryString . '%');
                 }
             })
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
@@ -121,9 +120,7 @@ class CoachController extends Controller
         if ($request->wantsJson()) {
             return new CoachListResource($data);
         }
-        return Inertia::render('Admin/Coach/Show', [
-            'data' => $data
-        ]);
+        return Inertia::render('Admin/User/Coach/Show', ['data' => $data]);
     }
 
     /**
@@ -148,12 +145,12 @@ class CoachController extends Controller
         $data = User::findOrFail($id);
         $prevEmail = $data->email;
         $userArr = $request->all();
-        $userArr['name'] = $request['first_name'].' '.$request['last_name'];
+        $userArr['name'] = $request['first_name'] . ' ' . $request['last_name'];
         $data->update($userArr);
         $data->assignRole($request['role']);
         //Upload Profile Photo
-        if(isset($request->input('profile_photo', [])['id'])){
-            if($request->input('profile_photo', [])['model_id'] != $data->id){
+        if (isset($request->input('profile_photo', [])['id'])) {
+            if ($request->input('profile_photo', [])['model_id'] != $data->id) {
                 $data->clearMediaCollection('profile_photo');
             }
             Media::where('id', $request->input('profile_photo', [])['id'])
@@ -162,8 +159,8 @@ class CoachController extends Controller
                 ]);
         }
 
-        if($prevEmail != $userArr['email']){
-            $data->sendUpdateEmailNotication(array_merge($userArr,['password' => 'Your current password']));
+        if ($prevEmail != $userArr['email']) {
+            $data->sendUpdateEmailNotication(array_merge($userArr, ['password' => 'Your current password']));
         }
 
         sleep(1);

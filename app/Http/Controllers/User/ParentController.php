@@ -113,9 +113,8 @@ class ParentController extends Controller
         if ($request->wantsJson()) {
             return new CoachListResource($data);
         }
-        return Inertia::render('Admin/Coach/Show', [
-            'data' => $data
-        ]);
+        return Inertia::render('Admin/User/Parent/Show', ['data' => $data]);
+
     }
 
     /**
