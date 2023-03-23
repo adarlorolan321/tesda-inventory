@@ -4,9 +4,9 @@ import { createApp, h } from "vue";
 import { createInertiaApp, Link } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
-import Select2 from "vue3-select2-component";
 
 import Dropzone from "@/Components/Dropzone.vue";
+import Select2 from "@/Components/Select2.vue";
 
 
 

@@ -343,7 +343,14 @@ let {
             <td>
               <div class="avatar avatar-xl">
                 <img
-                  :src="tableData.profile_photo.src"
+                  v-if="tableData?.profile_photo"
+                  :src="tableData?.profile_photo?.src"
+                  alt="Avatar"
+                  class="rounded-circle"
+                />
+                <img
+                  v-else
+                  src="/assets/img/image_not_available.png"
                   alt="Avatar"
                   class="rounded-circle"
                 />
