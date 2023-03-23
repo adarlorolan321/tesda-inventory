@@ -16,10 +16,17 @@
 }
 
 
-/* 
-.select2-container{
-    z-index: 99999;
-} */
+/*.select2-container{*/
+
+
+/*    z-index: 99999;*/
+
+
+/*}*/
+
+.required {
+    color: red;
+}
 
 .swal2-cancel {
     color: #ea5455 !important;
@@ -35,4 +42,8 @@
 .swal2-title {
     margin-top: 0.25rem !important;
     margin-bottom: 0px !important;
+}
+
+body {
+    overflow-x: hidden;
 }

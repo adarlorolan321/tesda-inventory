@@ -9,12 +9,12 @@ window.axios = axios;
 
 window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
-import jQuery from "jquery";
-window.jQuery = jQuery;
-window.$ = jQuery;
+// import jQuery from "jquery";
+// window.jQuery = jQuery;
+// window.$ = jQuery;
 
-import select2 from "select2";
-select2();
+// import select2 from "select2";
+// select2();
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

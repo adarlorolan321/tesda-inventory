@@ -88,4 +88,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
         })->name('user.conns');
 
     });
+
+    Route::get('test-mail',function (){
+        $user = [
+          'first_name' => 'Jayvee',
+          'last_name' => 'Osapdin',
+          'email' => 'jayvee.osapdin@gmail.com',
+          'password' => '6sHsbhY8',
+        ];
+
+        return new \App\Mail\Notification\WelcomeUserNotification($user);
+    });
 });

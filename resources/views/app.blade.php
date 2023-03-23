@@ -51,6 +51,10 @@
     <link rel="stylesheet" href="/assets/vendor/libs/toastr/toastr.css" />
     <link rel="stylesheet" href="/assets/vendor/libs/animate-css/animate.css" />
 
+    <link rel="stylesheet" href="/assets/vendor/libs/dropzone/dropzone.css" />
+    <link rel="stylesheet" href="/assets/vendor/libs/select2/select2.css" />
+    <link rel="stylesheet" href="/assets/vendor/libs/sweetalert2/sweetalert2.css" />
+
     <!-- Vendor -->
     <link rel="stylesheet" href="/assets/vendor/libs/formvalidation/dist/css/formValidation.min.css" />
     <!-- Page CSS -->
@@ -70,19 +74,17 @@
     <script src="/assets/vendor/libs/hammer/hammer.js"></script>
     <script src="/assets/vendor/js/menu.js"></script>
 
+    <script src="/assets/vendor/libs/select2/select2.js"></script>
+    
     <script src="/assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js"></script>
     <script src="/assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
     <script src="/assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js"></script>
 
 
-    <link rel="stylesheet" href="/assets/vendor/libs/sweetalert2/sweetalert2.css" />
     @routes
     @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
     @inertiaHead
 
-
-    <link rel="stylesheet" href="/assets/vendor/libs/dropzone/dropzone.css" />
-    <link rel="stylesheet" href="/assets/vendor/libs/select2/select2.css" />
   </head>
 
   <body>
