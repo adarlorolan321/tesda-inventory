@@ -3,6 +3,7 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateParentRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateParentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->can("update parent");
+        return auth()->user()->can("update user");
     }
 
     /**
@@ -22,7 +23,13 @@ class UpdateParentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            
+            'first_name' => ['required'],
+            'last_name' => ['required'],
+            'email' => ['required', 'email:rfc,dns', Rule::unique('users')->ignore($this->id)],
+            'phone' => ['required', 'numeric',Rule::unique('users')->ignore($this->id)],
+            'role' => ['required'],
+            'status' => ['required'],
+            'profile_photo' => ['nullable'],
         ];
     }
 }

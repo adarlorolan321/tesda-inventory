@@ -18,7 +18,7 @@ const formObject = {
   status: false,
 };
 
-const routeName = "venues";
+const routeName = "settings.venues";
 let {
   paginatedData,
   form,

@@ -61,7 +61,7 @@ class RolePermissionSeeder extends Seeder
                 'destroy user',
                 'show user',
             ],
-            'Parent' => [
+            'Client' => [
                 'access user',
                 'create user',
                 'store user',

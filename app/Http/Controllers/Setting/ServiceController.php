@@ -54,7 +54,7 @@ class ServiceController extends Controller
 
         if(count($data) <= 0 && $page > 1)
         {
-            return redirect()->route('services.index', ['page' => 1]);
+            return redirect()->route('settings.services.index', ['page' => 1]);
         }
 
         return Inertia::render('Admin/Service/Index', $props);
