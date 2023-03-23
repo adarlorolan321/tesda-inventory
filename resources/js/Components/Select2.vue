@@ -11,8 +11,6 @@
 </template>
 
 <script>
-import { loadScript } from "vue-plugin-load-script";
-
 export default {
     name: "Select2",
     data() {
@@ -86,23 +84,20 @@ export default {
         },
     },
     mounted() {
-        this.$nextTick(() => {
-            setTimeout(() => {
-                loadScript("/assets/vendor/libs/select2/select2.js");
-                this.select2 = $(this.$el)
-                    .find("select")
-                    .select2({
-                        placeholder: this.placeholder,
-                        ...this.settings,
-                        data: this.options,
-                    })
-                    .on("select2:select select2:unselect", (ev) => {
-                        this.$emit("update:modelValue", this.select2.val());
-                        this.$emit("select", ev["params"]["data"]);
-                    });
-                this.setValue(this.modelValue);
-            }, 2000);
-        });
+        this.select2 = $(this.$el)
+            .find("select")
+            .wrap('<div class="position-relative"></div>')
+            .select2({
+                placeholder: this.placeholder,
+                ...this.settings,
+                data: this.options,
+                dropdownParent: $(this.$el).parent(),
+            })
+            .on("select2:select select2:unselect", (ev) => {
+                this.$emit("update:modelValue", this.select2.val());
+                this.$emit("select", ev["params"]["data"]);
+            });
+        this.setValue(this.modelValue);
     },
     beforeUnmount() {
         this.select2.select2("destroy");
