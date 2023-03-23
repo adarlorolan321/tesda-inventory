@@ -276,7 +276,7 @@ let {
                             :settings="{allowClear:true, minimumResultsForSearch: -1}"
                             v-model="serverQuery.role"
                             placeholder="Filter By Role"
-                            @select="handleServerQuery('role',  $event.text)"
+                            @update:modelValue="handleServerQuery('role',  $event)"
                             :options="['Coach', 'Admin']"
                         >
                         </select2>

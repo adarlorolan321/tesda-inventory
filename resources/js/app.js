@@ -7,6 +7,7 @@ import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
 
 import Dropzone from "@/Components/Dropzone.vue";
 import Select2 from "@/Components/Select2.vue";
+import TableHeader from "@/Components/TableHeader.vue";
 
 let doc = window.document.getElementsByTagName("title")[0];
 const appName = doc ? doc.innerText : "Laravel";
@@ -22,6 +23,7 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .component("Select2", Select2)
+            .component("TableHeader", TableHeader)
             .component("Dropzone", Dropzone)
             .component("inertia-link", Link)
             .use(ZiggyVue, Ziggy)
