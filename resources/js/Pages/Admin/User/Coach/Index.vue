@@ -404,9 +404,16 @@ let {
                         :key="tableData"
                     >
                         <td>
-                            <div class="avatar avatar-xl">
+                            <div class="avatar avatar-lg" v-if="tableData.profile_photo">
                                 <img
                                     :src="tableData.profile_photo.src"
+                                    alt="Avatar"
+                                    class="rounded-circle"
+                                />
+                            </div>
+                            <div class="avatar avatar-lg" v-else>
+                                <img
+                                    src="/assets/img/image_not_available.png"
                                     alt="Avatar"
                                     class="rounded-circle"
                                 />
