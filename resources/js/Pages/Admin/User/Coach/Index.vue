@@ -43,7 +43,7 @@ let {
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">
-                <h5 class="card-title">COACHES / STAFFS</h5>
+                <h5 class="card-title">COACHES / STAFF</h5>
             </div>
             <div class="card-action-element">
                 <button
