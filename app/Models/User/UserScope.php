@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models\User;
+use App\Mail\Notification\UpdateEmailNotification;
 use App\Mail\Notification\WelcomeUserNotification;
 use Illuminate\Support\Facades\Mail;
 
@@ -20,5 +21,9 @@ trait UserScope
     public function scopeSendWelcomeMail($query,$data)
     {
         Mail::to($this->attributes['email'])->queue(new WelcomeUserNotification($data));
+    }
+    public function scopeSendUpdateEmailNotication($query,$data)
+    {
+        Mail::to($this->attributes['email'])->queue(new UpdateEmailNotification($data));
     }
 }

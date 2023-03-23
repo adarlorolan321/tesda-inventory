@@ -138,6 +138,7 @@ class ParentController extends Controller
     public function update(UpdateParentRequest $request, string $id)
     {
         $data = User::findOrFail($id);
+        $prevEmail = $data->email;
         $userArr = $request->all();
         $userArr['name'] = $request['first_name'] . ' ' . $request['last_name'];
         $data->update($userArr);
@@ -151,6 +152,10 @@ class ParentController extends Controller
                 ->update([
                     'model_id' => $data->id
                 ]);
+        }
+
+        if($prevEmail != $userArr['email']){
+            $data->sendUpdateEmailNotication(array_merge($userArr,['password' => 'Your current password']));
         }
 
         sleep(1);
