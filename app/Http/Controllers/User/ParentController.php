@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\ParentListResource;
+use App\Models\Media;
 use App\Models\User;
 use App\Http\Requests\User\StoreParentRequest;
 use App\Http\Requests\User\UpdateParentRequest;
@@ -27,7 +28,7 @@ class ParentController extends Controller
 
         $data = User::query()
             ->whereHas('roles', function ($query)  {
-                $query->whereIn('name', ['Coach','Staff']);
+                $query->where('name', 'Client');
             })
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
@@ -54,7 +55,7 @@ class ParentController extends Controller
         }
 
 
-        return Inertia::render('Admin/User/Coach/Index', $props);
+        return Inertia::render('Admin/User/Parent/Index', $props);
     }
 
     /**
@@ -77,10 +78,12 @@ class ParentController extends Controller
         $data = User::create($userArr);
         $data->assignRole($request['role']);
         //Upload Profile Photo
-        Media::where('id', $request->input('profile_photo', [])['id'])
-            ->update([
-                'model_id' => $data->id
-            ]);
+        if(isset($request->input('profile_photo', [])['id'])){
+            Media::where('id', $request->input('profile_photo', [])['id'])
+                ->update([
+                    'model_id' => $data->id
+                ]);
+        }
 
         sleep(1);
         if ($request->wantsJson()) {
@@ -120,7 +123,7 @@ class ParentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCoachRequest $request, string $id)
+    public function update(UpdateParentRequest $request, string $id)
     {
         $data = User::findOrFail($id);
         $password = StrHelper::randomPassword();
@@ -130,10 +133,12 @@ class ParentController extends Controller
         $data->update($userArr);
         $data->assignRole($request['role']);
         //Upload Profile Photo
-        Media::where('id', $request->input('profile_photo', [])['id'])
-            ->update([
-                'model_id' => $data->id
-            ]);
+        if(isset($request->input('profile_photo', [])['id'])){
+            Media::where('id', $request->input('profile_photo', [])['id'])
+                ->update([
+                    'model_id' => $data->id
+                ]);
+        }
 
         sleep(1);
 

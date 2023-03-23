@@ -13,12 +13,13 @@ import { useCrud } from "@/Composables/Crud.js";
 
 const { props } = usePage();
 const formObject = {
+    id: null,
     first_name: null,
     last_name: null,
     phone: null,
     email: null,
     status: true,
-    role: null,
+    role: 'Client',
     profile_photo: null,
 };
 
@@ -42,7 +43,7 @@ let {
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">
-                <h5 class="card-title">COACHES / STAFFS</h5>
+                <h5 class="card-title">PARENTS</h5>
             </div>
             <div class="card-action-element">
                 <button
@@ -53,7 +54,7 @@ let {
                     data-bs-target="#offCanvasForm"
                     aria-controls="offCanvasForm"
                 >
-                    Add Coach / Staff
+                    Add Parent
                 </button>
                 <div
                     class="offcanvas offcanvas-end"
@@ -64,7 +65,7 @@ let {
                 >
                     <div class="offcanvas-header">
                         <h5 id="offCanvasFormLabel" class="offcanvas-title">
-                            {{ formState == "create" ? "Add" : "Update" }}
+                            {{ formState == "create" ? "Add" : "Update" }} Parent
                         </h5>
                         <button
                             type="button"
@@ -143,18 +144,19 @@ let {
                                 {{ form.errors.phone }}
                             </div>
                         </div>
-                        <div class="form-group mb-3">
-                            <label for="role">Role</label>
-                            <select2
-                                :class="{ 'is-invalid': form.errors.role }"
-                                v-model="form.role"
-                                :options="['Coach', 'Staff']"
-                            >
-                            </select2>
-                            <div class="invalid-feedback">
-                                {{ form.errors.role }}
-                            </div>
-                        </div>
+<!--                        <div class="form-group mb-3">-->
+<!--                            <label for="role">Role</label>-->
+<!--                            <select2-->
+<!--                                :class="{ 'is-invalid': form.errors.role }"-->
+<!--                                v-model="form.role"-->
+<!--                                @select="form.clearErrors('role')"-->
+<!--                                :options="['Coach', 'Staff']"-->
+<!--                            >-->
+<!--                            </select2>-->
+<!--                            <div class="invalid-feedback">-->
+<!--                                {{ form.errors.role }}-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <div class="form-group mb-3">
                             <div class=" ">Status</div>
                             <label class="switch">
@@ -326,7 +328,7 @@ let {
                         :key="tableData"
                     >
                         <td>
-                            <div class="avatar avatar-lg" v-if="tableData.profile_photo">
+                            <div class="avatar avatar-lg" v-if="tableData.profile_photo && tableData.profile_photo.src">
                                 <img
                                     :src="tableData.profile_photo.src"
                                     alt="Avatar"
@@ -335,7 +337,7 @@ let {
                             </div>
                             <div class="avatar avatar-lg" v-else>
                                 <img
-                                    style="object-fit: cover"
+                                    style="object-fit: contain"
                                     src="/assets/img/image_not_available.png"
                                     alt="Avatar"
                                     class="rounded-circle shadow-sm"

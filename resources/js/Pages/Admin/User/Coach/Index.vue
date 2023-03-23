@@ -13,6 +13,7 @@ import { useCrud } from "@/Composables/Crud.js";
 
 const { props } = usePage();
 const formObject = {
+    id: null,
     first_name: null,
     last_name: null,
     phone: null,
@@ -64,7 +65,7 @@ let {
                 >
                     <div class="offcanvas-header">
                         <h5 id="offCanvasFormLabel" class="offcanvas-title">
-                            {{ formState == "create" ? "Add" : "Update" }}
+                            {{ formState == "create" ? "Add" : "Update" }} Coach / Staff
                         </h5>
                         <button
                             type="button"
@@ -148,6 +149,7 @@ let {
                             <select2
                                 :class="{ 'is-invalid': form.errors.role }"
                                 v-model="form.role"
+                                @select="form.clearErrors('role')"
                                 :options="['Coach', 'Staff']"
                             >
                             </select2>
@@ -335,7 +337,7 @@ let {
                             </div>
                             <div class="avatar avatar-lg" v-else>
                                 <img
-                                    style="object-fit: cover"
+                                    style="object-fit: contain"
                                     src="/assets/img/image_not_available.png"
                                     alt="Avatar"
                                     class="rounded-circle shadow-sm"
