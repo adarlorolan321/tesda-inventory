@@ -1,6 +1,8 @@
 <script setup>
 import { useLogin } from "../../Composables/Login";
+import {ref} from 'vue'
 const { login, form } = useLogin();
+const password = ref(true);
 </script>
 <template>
     <div class="container-xxl">
@@ -101,7 +103,7 @@ const { login, form } = useLogin();
                                 </div>
                                 <div class="input-group input-group-merge">
                                     <input
-                                        type="password"
+                                        :type='password?"password":"text"'
                                         id="password"
                                         class="form-control"
                                         :class="{
@@ -115,7 +117,8 @@ const { login, form } = useLogin();
                                     />
                                     <span
                                         class="input-group-text cursor-pointer"
-                                        ><i class="ti ti-eye-off"></i
+                                        @click="password = !password"
+                                        ><i :class='[password?"ti ti-eye-off":"ti ti-eye"]'></i
                                     ></span>
                                 </div>
                                 <div

@@ -53,7 +53,6 @@
 
     <link rel="stylesheet" href="/assets/vendor/libs/dropzone/dropzone.css" />
     <link rel="stylesheet" href="/assets/vendor/libs/select2/select2.css" />
-    <link rel="stylesheet" href="/assets/vendor/libs/sweetalert2/sweetalert2.css" />
 
     <!-- Vendor -->
     <link rel="stylesheet" href="/assets/vendor/libs/formvalidation/dist/css/formValidation.min.css" />
@@ -85,6 +84,7 @@
     @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
     @inertiaHead
 
+    <link rel="stylesheet" href="/assets/vendor/libs/sweetalert2/sweetalert2.css" />
   </head>
 
   <body>
