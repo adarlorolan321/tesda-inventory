@@ -34,6 +34,12 @@
     background: #fce4e4 !important;
 }
 
+.swal2-confirm {
+    color: #fff !important;
+    background-color: #7367f0 !important;
+    border-color: #7367f0 !important;
+}
+
 .swal2-html-container {
     margin-top: 0px !important;
     margin-bottom: 0.5rem !important;
@@ -59,3 +65,13 @@ body {
     font-size: 0.8125rem;
     color: #ea5455;
 }
+
+.swal2-icon .swal2-icon-content {
+    font-size: 4rem !important;
+}
+
+.swal2-icon {
+    width: 60px !important;
+    height: 60px !important;
+}
+
