@@ -23,7 +23,7 @@ const formObject = {
     profile_photo: null,
 };
 
-const routeName = "user.coach";
+const routeName = "user.coaches";
 let {
     isLoadingComponents,
     paginatedData,
