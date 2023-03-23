@@ -71,22 +71,6 @@ let {
                     </div>
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
                         <div class="form-group mb-3">
-                            <label for="">Code</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                placeholder="Enter code"
-                                v-model="form.code"
-                                :class="{
-                                    'is-invalid' : form.errors.code
-                                }"
-                                @input="form.clearErrors('code')"
-                            />
-                            <div  class="invalid-feedback">
-                                {{ form.errors.code }}
-                            </div>
-                        </div>
-                        <div class="form-group mb-3">
                             <label for="">Service Name</label>
                             <input
                                 type="text"
@@ -100,6 +84,22 @@ let {
                             />
                             <div  class="invalid-feedback">
                                 {{ form.errors.name }}
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="">Code</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Enter code"
+                                v-model="form.code"
+                                :class="{
+                                    'is-invalid' : form.errors.code
+                                }"
+                                @input="form.clearErrors('code')"
+                            />
+                            <div  class="invalid-feedback">
+                                {{ form.errors.code }}
                             </div>
                         </div>
                         <button
@@ -156,15 +156,18 @@ let {
             <table class="table">
                 <thead class="table-light">
                     <tr>
+                        <th class="sortable"  @click="handleServerQuery('sort', 'name')">
+                            Service Name
+                            <i class="ti ti-arrow-up" v-if="serverQuery.sort == 'name' && serverQuery.order == 'desc'"></i>
+                            <i class="ti ti-arrow-down" v-if="serverQuery.sort == 'name' && serverQuery.order == 'asc'"></i>
+                        </th>
                         <th class="sortable" style="width: 200px" @click="handleServerQuery('sort', 'code')">
                             Code
                             <i class="ti ti-arrow-up" v-if="serverQuery.sort == 'code' && serverQuery.order == 'desc'"></i>
                             <i class="ti ti-arrow-down" v-if="serverQuery.sort == 'code' && serverQuery.order == 'asc'"></i>
                         </th>
-                        <th class="sortable"  @click="handleServerQuery('sort', 'name')">
-                            Service Name
-                            <i class="ti ti-arrow-up" v-if="serverQuery.sort == 'name' && serverQuery.order == 'desc'"></i>
-                            <i class="ti ti-arrow-down" v-if="serverQuery.sort == 'name' && serverQuery.order == 'asc'"></i>
+                        <th>
+                            Embed Code
                         </th>
                         <th>Actions</th>
                     </tr>
@@ -174,8 +177,9 @@ let {
                         <td colspan="999999" class="text-center">No item found</td>
                     </tr>
                     <tr v-for="tableData in paginatedData.data" :key="tableData">
+                        <td style="width: 60%">{{ tableData.name }}</td>
                         <td>{{ tableData.code }}</td>
-                        <td style="width: 90%">{{ tableData.name }}</td>
+                        <td class=""><a href="#"><i class="fa-regular fa-copy ms-4" style="font-size: 22px;"></i></a></td>
                         <td>
                            <div class="d-flex gap-2">
                             <a

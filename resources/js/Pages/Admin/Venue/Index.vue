@@ -289,7 +289,7 @@ let {
                 v-if="serverQuery.sort == 'contact_email' && serverQuery.order == 'asc'"
               ></i>
             </th>
-            <th class="sortable " >
+            <th>
                 Embed Code
             </th>
             <th class="sortable" @click="handleServerQuery('sort', 'status')">

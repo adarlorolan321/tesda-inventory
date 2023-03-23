@@ -218,7 +218,7 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="javascript:void(0);" @click="logout">
                                             <i
                                                 class="ti ti-logout me-2 ti-sm"
                                             ></i>
@@ -293,6 +293,7 @@
 import {loadScript} from "vue-plugin-load-script";
 import {onMounted, ref} from "vue";
 import {useMenu} from "@/Composables/Menus";
+import { router } from '@inertiajs/vue3'
 
 const {menus} = useMenu()
 
@@ -301,4 +302,8 @@ onMounted(() => {
         loadScript("/assets/js/main.js");
     }, 1000);
 });
+
+const logout = () => {
+    router.post(route('logout'));
+}
 </script>
