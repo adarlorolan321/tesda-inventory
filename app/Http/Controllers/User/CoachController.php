@@ -29,8 +29,8 @@ class CoachController extends Controller
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
         $queryByRole = $request->input('role', null);
-        $sort = explode('.', $request->input('sort', 'id'));
-        $order = $request->input('order', 'asc');
+        $sort = explode('.', $request->input('sort', 'first_name')) ?? ['first_name'];
+        $order = $request->input('order', 'asc') ?? 'ASC';
 
         $data = User::query()
             ->whereHas('roles', function ($query) use ($queryByRole) {
@@ -51,9 +51,7 @@ class CoachController extends Controller
                 }
             })
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
-                if(!$sort[0] == 'role') {
-                    $query->orderBy($sort[0], $order);
-                }
+                $query->orderBy($sort[0], $order);
             })
             ->paginate($perPage)
             ->withQueryString();

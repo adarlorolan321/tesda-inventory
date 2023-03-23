@@ -27,8 +27,8 @@ class ParentController extends Controller
         $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
-        $sort = explode('.', $request->input('sort', 'id'));
-        $order = $request->input('order', 'asc');
+        $sort = explode('.', $request->input('sort', 'first_name')) ?? ['first_name'];
+        $order = $request->input('order', 'asc') ?? 'ASC';
 
         $data = User::query()
             ->whereHas('roles', function ($query) {
