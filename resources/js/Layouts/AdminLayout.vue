@@ -45,7 +45,7 @@
                             </svg>
                         </span>
                         <span class="app-brand-text demo menu-text fw-bold"
-                        >Vuexy</span
+                            >Vuexy</span
                         >
                     </a>
 
@@ -66,30 +66,83 @@
 
                 <ul class="menu-inner py-1">
                     <!-- Page -->
-                   <template v-for="(menu,index) in menus" :key="'menu-'+index">
-                       <li v-if="!menu.sub_menu"  class="menu-item" :class="{'active' : route().current(menu.route)}">
-                           <inertia-link :href="route(menu.route)" class="menu-link" :only="['data', 'params']">
-                               <i class="menu-icon tf-icons" :class="menu.icon"></i>
-                               <div :data-i18n="menu.label">{{menu.label}}</div>
-                           </inertia-link>
-                       </li>
-                       <li v-else class="menu-item" :class="{'active open' : route().current(menu.route)}">
-                           <a href="javascript:void(0);" class="menu-link menu-toggle">
-                               <i class="menu-icon tf-icons" :class="menu.icon"></i>
-                               <div :data-i18n="menu.label">{{menu.label}}</div>
-                           </a>
-                           <ul v-if="menu.sub_menu" class="menu-sub">
-                               <template v-for="(sub_menu,index) in menu.sub_menu" :key="'sub-menu-'+index">
-                                   <li class="menu-item" :class="{'active' : route().current(sub_menu.route)}">
-                                       <inertia-link :href="route(sub_menu.route)" class="menu-link" :class="{'menu-toggle': sub_menu.sub_menu}"  :only="['data', 'params']">
-                                           <i class="menu-icon tf-icons" :class="sub_menu.icon"></i>
-                                           <div :data-i18n="sub_menu.label">{{sub_menu.label}}</div>
-                                       </inertia-link>
-                                   </li>
-                               </template >
-                           </ul>
-                       </li>
-                   </template>
+                    <template
+                        v-for="(menu, index) in menus"
+                        :key="'menu-' + index"
+                    >
+                        <li
+                            v-if="!menu.sub_menu"
+                            class="menu-item"
+                            :class="{ active: route().current(menu.route) }"
+                        >
+                            <inertia-link
+                                :href="route(menu.route)"
+                                class="menu-link"
+                                :only="['data', 'params']"
+                            >
+                                <i
+                                    class="menu-icon tf-icons"
+                                    :class="menu.icon"
+                                ></i>
+                                <div :data-i18n="menu.label">
+                                    {{ menu.label }}
+                                </div>
+                            </inertia-link>
+                        </li>
+                        <li
+                            v-else
+                            class="menu-item"
+                            :class="{
+                                'active open': route().current(menu.route),
+                            }"
+                        >
+                            <a
+                                href="javascript:void(0);"
+                                class="menu-link menu-toggle"
+                            >
+                                <i
+                                    class="menu-icon tf-icons"
+                                    :class="menu.icon"
+                                ></i>
+                                <div :data-i18n="menu.label">
+                                    {{ menu.label }}
+                                </div>
+                            </a>
+                            <ul v-if="menu.sub_menu" class="menu-sub">
+                                <template
+                                    v-for="(sub_menu, index) in menu.sub_menu"
+                                    :key="'sub-menu-' + index"
+                                >
+                                    <li
+                                        class="menu-item"
+                                        :class="{
+                                            active: route().current(
+                                                sub_menu.route
+                                            ),
+                                        }"
+                                    >
+                                        <inertia-link
+                                            :href="route(sub_menu.route)"
+                                            class="menu-link"
+                                            :class="{
+                                                'menu-toggle':
+                                                    sub_menu.sub_menu,
+                                            }"
+                                            :only="['data', 'params']"
+                                        >
+                                            <i
+                                                class="menu-icon tf-icons"
+                                                :class="sub_menu.icon"
+                                            ></i>
+                                            <div :data-i18n="sub_menu.label">
+                                                {{ sub_menu.label }}
+                                            </div>
+                                        </inertia-link>
+                                    </li>
+                                </template>
+                            </ul>
+                        </li>
+                    </template>
                 </ul>
             </aside>
             <!-- / Menu -->
@@ -139,7 +192,10 @@
                                 >
                                     <div class="avatar avatar-online">
                                         <img
-                                        :src="$page.props.auth.user.profile_photo_url"
+                                            :src="
+                                                $page.props.auth.user
+                                                    .profile_photo_url
+                                            "
                                             alt
                                             class="h-auto rounded-circle"
                                         />
@@ -154,7 +210,11 @@
                                                         class="avatar avatar-online"
                                                     >
                                                         <img
-                                                            :src="$page.props.auth.user.profile_photo_url"
+                                                            :src="
+                                                                $page.props.auth
+                                                                    .user
+                                                                    .profile_photo_url
+                                                            "
                                                             alt
                                                             class="h-auto rounded-circle"
                                                         />
@@ -163,11 +223,15 @@
                                                 <div class="flex-grow-1">
                                                     <span
                                                         class="fw-semibold d-block"
-                                                    >{{ $page.props.auth.user.name}}</span
+                                                        >{{
+                                                            $page.props.auth
+                                                                .user.name
+                                                        }}</span
                                                     >
-                                                    <small class="text-muted"
-                                                    >{{ $page.props.auth.user.role}}</small
-                                                    >
+                                                    <small class="text-muted">{{
+                                                        $page.props.auth.user
+                                                            .role
+                                                    }}</small>
                                                 </div>
                                             </div>
                                         </a>
@@ -181,7 +245,7 @@
                                                 class="ti ti-user-check me-2 ti-sm"
                                             ></i>
                                             <span class="align-middle"
-                                            >My Profile</span
+                                                >My Profile</span
                                             >
                                         </a>
                                     </li>
@@ -191,7 +255,7 @@
                                                 class="ti ti-settings me-2 ti-sm"
                                             ></i>
                                             <span class="align-middle"
-                                            >Settings</span
+                                                >Settings</span
                                             >
                                         </a>
                                     </li>
@@ -205,11 +269,11 @@
                                                 ></i>
                                                 <span
                                                     class="flex-grow-1 align-middle"
-                                                >Billing</span
+                                                    >Billing</span
                                                 >
                                                 <span
                                                     class="flex-shrink-0 badge badge-center rounded-pill bg-label-danger w-px-20 h-px-20"
-                                                >2</span
+                                                    >2</span
                                                 >
                                             </span>
                                         </a>
@@ -218,12 +282,16 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="javascript:void(0);" @click="logout">
+                                        <a
+                                            class="dropdown-item"
+                                            href="javascript:void(0);"
+                                            @click="logout"
+                                        >
                                             <i
                                                 class="ti ti-logout me-2 ti-sm"
                                             ></i>
                                             <span class="align-middle"
-                                            >Log Out</span
+                                                >Log Out</span
                                             >
                                         </a>
                                     </li>
@@ -258,7 +326,7 @@
                                         href="https://pixinvent.com"
                                         target="_blank"
                                         class="fw-semibold"
-                                    >Pixinvent</a
+                                        >Pixinvent</a
                                     >
                                 </div>
                                 <div>
@@ -266,7 +334,7 @@
                                         href="https://pixinvent.com/demo/vuexy-html-bootstrap-admin-template/documentation/"
                                         target="_blank"
                                         class="footer-link me-4"
-                                    >Documentation</a
+                                        >Documentation</a
                                     >
                                 </div>
                             </div>
@@ -290,12 +358,12 @@
 </template>
 
 <script setup>
-import {loadScript} from "vue-plugin-load-script";
-import {onMounted, ref} from "vue";
-import {useMenu} from "@/Composables/Menus";
-import { router } from '@inertiajs/vue3'
+import { loadScript } from "vue-plugin-load-script";
+import { onMounted, ref } from "vue";
+import { useMenu } from "@/Composables/Menus";
+import { router } from "@inertiajs/vue3";
 
-const {menus} = useMenu()
+const { menus } = useMenu();
 
 onMounted(() => {
     setTimeout(() => {
@@ -304,6 +372,6 @@ onMounted(() => {
 });
 
 const logout = () => {
-    router.post(route('logout'));
-}
+    router.post(route("logout"));
+};
 </script>

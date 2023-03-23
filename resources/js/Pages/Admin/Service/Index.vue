@@ -266,7 +266,8 @@ let {
                                 v-for="link in paginatedData.meta.links"
                                 :key="link"
                             >
-                                <inertia-link
+                                <component
+                                    :is="link.url ? 'inertia-link' : 'button'"
                                     class="page-link"
                                     :class="{
                                         active: link.active,
@@ -275,7 +276,7 @@ let {
                                     :only="['data', 'params']"
                                 >
                                     <span v-html="link.label"></span>
-                                </inertia-link>
+                                </component>
                             </li>
                         </ul>
                     </nav>

@@ -62,7 +62,6 @@ let {
                 </button>
                 <div
                     class="offcanvas offcanvas-end"
-                    tabindex="-1"
                     id="offCanvasForm"
                     data-bs-backdrop="static"
                     aria-labelledby="offCanvasFormLabel"
@@ -167,14 +166,12 @@ let {
                                 :class="{ 'is-invalid': form.errors.role }"
                                 v-model="form.role"
                                 placeholder="Select Role"
+                                selectID="select2"
                                 @select="form.clearErrors('role')"
                                 :options="['Coach', 'Admin']"
                             >
                             </select2>
-                            <div
-                                class="v-invalid-feedback"
-                                v-if="form.errors.role"
-                            >
+                            <div class="invalid-feedback">
                                 {{ form.errors.role }}
                             </div>
                         </div>
@@ -213,7 +210,7 @@ let {
                                 :value="form.profile_photo"
                                 @input="form.profile_photo = $event"
                                 message="Drop files here or click to upload profile photo"
-                                acceptedFiles="image/jpeg,image/png"
+                                acceptedFiles="application/pdf,image/jpeg,image/png"
                             >
                             </dropzone>
                             <div v-else>
@@ -423,11 +420,25 @@ let {
                         :key="tableData"
                     >
                         <td>
-                            <div class="avatar avatar-lg">
+                            <div
+                                class="avatar avatar-lg"
+                                v-if="
+                                    tableData.profile_photo &&
+                                    tableData.profile_photo.src
+                                "
+                            >
                                 <img
-                                    :src="tableData.profile_photo_url"
+                                    :src="tableData.profile_photo.src"
                                     alt="Avatar"
                                     class="rounded-circle"
+                                />
+                            </div>
+                            <div class="avatar avatar-lg" v-else>
+                                <img
+                                    style="object-fit: contain"
+                                    src="/assets/img/image_not_available.png"
+                                    alt="Avatar"
+                                    class="rounded-circle shadow-sm"
                                 />
                             </div>
                         </td>
@@ -494,7 +505,8 @@ let {
                                 class="page-item"
                                 v-for="link in paginatedData.meta.links"
                             >
-                                <inertia-link
+                                <component
+                                    :is="link.url ? 'inertia-link' : 'button'"
                                     class="page-link"
                                     :class="{
                                         active: link.active,
@@ -503,7 +515,7 @@ let {
                                     :only="['data', 'params']"
                                 >
                                     <span v-html="link.label"></span>
-                                </inertia-link>
+                                </component>
                             </li>
                         </ul>
                     </nav>

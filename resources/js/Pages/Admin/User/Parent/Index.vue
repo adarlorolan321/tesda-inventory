@@ -19,7 +19,7 @@ const formObject = {
     phone: null,
     email: null,
     status: true,
-    role: 'Client',
+    role: "Client",
     profile_photo: null,
 };
 
@@ -65,7 +65,10 @@ let {
                 >
                     <div class="offcanvas-header">
                         <h5 id="offCanvasFormLabel" class="offcanvas-title">
-                            {{ formState == "create" ? "Add" : "Update" }} Parent
+                            {{
+                                formState == "create" ? "Add" : "Update"
+                            }}
+                            Parent
                         </h5>
                         <button
                             type="button"
@@ -77,7 +80,10 @@ let {
                     </div>
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
                         <div class="form-group mb-3">
-                            <label for="name">First Name  <span class="required">*</span></label>
+                            <label for="name"
+                                >First Name
+                                <span class="required">*</span></label
+                            >
                             <input
                                 type="text"
                                 id="first_name"
@@ -94,7 +100,10 @@ let {
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="name">Last Name  <span class="required">*</span></label>
+                            <label for="name"
+                                >Last Name
+                                <span class="required">*</span></label
+                            >
                             <input
                                 type="text"
                                 id="last_name"
@@ -111,7 +120,9 @@ let {
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="name">Email  <span class="required">*</span></label>
+                            <label for="name"
+                                >Email <span class="required">*</span></label
+                            >
                             <input
                                 type="text"
                                 id="email"
@@ -229,31 +240,76 @@ let {
             <table class="table">
                 <thead class="table-light">
                     <tr>
-<!--                        <th class="sortable">Photo</th>-->
-                        <th  class="sortable"  @click="handleServerQuery('sort', 'name')" >
+                        <!--                        <th class="sortable">Photo</th>-->
+                        <th
+                            class="sortable"
+                            @click="handleServerQuery('sort', 'name')"
+                        >
                             Name
-                            <i class="ti ti-arrow-up" v-if="  serverQuery.sort == 'name' && serverQuery.order == 'desc' " ></i>
-                            <i class="ti ti-arrow-down" v-if=" serverQuery.sort == 'name' && serverQuery.order == 'asc' "  ></i>
+                            <i
+                                class="ti ti-arrow-up"
+                                v-if="
+                                    serverQuery.sort == 'name' &&
+                                    serverQuery.order == 'desc'
+                                "
+                            ></i>
+                            <i
+                                class="ti ti-arrow-down"
+                                v-if="
+                                    serverQuery.sort == 'name' &&
+                                    serverQuery.order == 'asc'
+                                "
+                            ></i>
                         </th>
-<!--                        <th class="sortable" @click="handleServerQuery('sort', 'role')" > Role-->
-<!--                            <i class="ti ti-arrow-up" v-if=" serverQuery.sort == 'role' && serverQuery.order == 'desc' " ></i>-->
-<!--                            <i class="ti ti-arrow-down"  v-if=" serverQuery.sort == 'role' &&  serverQuery.order == 'asc' " ></i>-->
-<!--                        </th>-->
-                        <th  class="sortable" @click="handleServerQuery('sort', 'email')" >
+                        <!--                        <th class="sortable" @click="handleServerQuery('sort', 'role')" > Role-->
+                        <!--                            <i class="ti ti-arrow-up" v-if=" serverQuery.sort == 'role' && serverQuery.order == 'desc' " ></i>-->
+                        <!--                            <i class="ti ti-arrow-down"  v-if=" serverQuery.sort == 'role' &&  serverQuery.order == 'asc' " ></i>-->
+                        <!--                        </th>-->
+                        <th
+                            class="sortable"
+                            @click="handleServerQuery('sort', 'email')"
+                        >
                             Email
-                            <i  class="ti ti-arrow-up" v-if=" serverQuery.sort == 'email' &&  serverQuery.order == 'desc' " ></i>
-                            <i class="ti ti-arrow-down" v-if=" serverQuery.sort == 'email' && serverQuery.order == 'asc' " ></i>
+                            <i
+                                class="ti ti-arrow-up"
+                                v-if="
+                                    serverQuery.sort == 'email' &&
+                                    serverQuery.order == 'desc'
+                                "
+                            ></i>
+                            <i
+                                class="ti ti-arrow-down"
+                                v-if="
+                                    serverQuery.sort == 'email' &&
+                                    serverQuery.order == 'asc'
+                                "
+                            ></i>
                         </th>
-                        <th class="sortable"  @click="handleServerQuery('sort', 'phone')" >
+                        <th
+                            class="sortable"
+                            @click="handleServerQuery('sort', 'phone')"
+                        >
                             Phone
-                            <i class="ti ti-arrow-up" v-if=" serverQuery.sort == 'phone' &&  serverQuery.order == 'desc' "  ></i>
-                            <i class="ti ti-arrow-down" v-if=" serverQuery.sort == 'phone' &&  serverQuery.order == 'asc' " ></i>
+                            <i
+                                class="ti ti-arrow-up"
+                                v-if="
+                                    serverQuery.sort == 'phone' &&
+                                    serverQuery.order == 'desc'
+                                "
+                            ></i>
+                            <i
+                                class="ti ti-arrow-down"
+                                v-if="
+                                    serverQuery.sort == 'phone' &&
+                                    serverQuery.order == 'asc'
+                                "
+                            ></i>
                         </th>
-<!--                        <th class="sortable" @click="handleServerQuery('sort', 'status')" >-->
-<!--                            Status-->
-<!--                            <i  class="ti ti-arrow-up"  v-if=" serverQuery.sort == 'status' && serverQuery.order == 'desc' "  ></i>-->
-<!--                            <i class="ti ti-arrow-down" v-if="  serverQuery.sort == 'status' && serverQuery.order == 'asc' "></i>-->
-<!--                        </th>-->
+                        <!--                        <th class="sortable" @click="handleServerQuery('sort', 'status')" >-->
+                        <!--                            Status-->
+                        <!--                            <i  class="ti ti-arrow-up"  v-if=" serverQuery.sort == 'status' && serverQuery.order == 'desc' "  ></i>-->
+                        <!--                            <i class="ti ti-arrow-down" v-if="  serverQuery.sort == 'status' && serverQuery.order == 'asc' "></i>-->
+                        <!--                        </th>-->
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -267,43 +323,45 @@ let {
                         v-for="tableData in paginatedData.data"
                         :key="tableData"
                     >
-<!--                        <td>-->
-<!--                            <div class="avatar avatar-lg" v-if="tableData.profile_photo && tableData.profile_photo.src">-->
-<!--                                <img-->
-<!--                                    :src="tableData.profile_photo.src"-->
-<!--                                    alt="Avatar"-->
-<!--                                    class="rounded-circle"-->
-<!--                                />-->
-<!--                            </div>-->
-<!--                            <div class="avatar avatar-lg" v-else>-->
-<!--                                <img-->
-<!--                                    style="object-fit: contain"-->
-<!--                                    src="/assets/img/image_not_available.png"-->
-<!--                                    alt="Avatar"-->
-<!--                                    class="rounded-circle shadow-sm"-->
-<!--                                />-->
-<!--                            </div>-->
-<!--                        </td>-->
+                        <!--                        <td>-->
+                        <!--                            <div class="avatar avatar-lg" v-if="tableData.profile_photo && tableData.profile_photo.src">-->
+                        <!--                                <img-->
+                        <!--                                    :src="tableData.profile_photo.src"-->
+                        <!--                                    alt="Avatar"-->
+                        <!--                                    class="rounded-circle"-->
+                        <!--                                />-->
+                        <!--                            </div>-->
+                        <!--                            <div class="avatar avatar-lg" v-else>-->
+                        <!--                                <img-->
+                        <!--                                    style="object-fit: contain"-->
+                        <!--                                    src="/assets/img/image_not_available.png"-->
+                        <!--                                    alt="Avatar"-->
+                        <!--                                    class="rounded-circle shadow-sm"-->
+                        <!--                                />-->
+                        <!--                            </div>-->
+                        <!--                        </td>-->
                         <td>{{ tableData.name }}</td>
-<!--                        <td>{{ tableData.role }}</td>-->
+                        <!--                        <td>{{ tableData.role }}</td>-->
                         <td>{{ tableData.email }}</td>
                         <td>{{ tableData.phone }}</td>
-<!--                        <td>-->
-<!--                            <span-->
-<!--                                v-if="tableData.status == 1"-->
-<!--                                class="badge bg-label-success"-->
-<!--                                >Active</span-->
-<!--                            >-->
-<!--                            <span v-else class="badge bg-label-danger"-->
-<!--                                >In-active</span-->
-<!--                            >-->
-<!--                        </td>-->
+                        <!--                        <td>-->
+                        <!--                            <span-->
+                        <!--                                v-if="tableData.status == 1"-->
+                        <!--                                class="badge bg-label-success"-->
+                        <!--                                >Active</span-->
+                        <!--                            >-->
+                        <!--                            <span v-else class="badge bg-label-danger"-->
+                        <!--                                >In-active</span-->
+                        <!--                            >-->
+                        <!--                        </td>-->
                         <td>
                             <div class="d-flex gap-2">
                                 <inertia-link
                                     class="btn btn-icon btn-label-info waves-effect"
-                                    :href="route('user.parents.show',tableData.id)"
-                                ><i class="ti ti-eye"></i>
+                                    :href="
+                                        route('user.parents.show', tableData.id)
+                                    "
+                                    ><i class="ti ti-eye"></i>
                                 </inertia-link>
                                 <a
                                     class="btn btn-icon btn-label-primary waves-effect"
@@ -345,7 +403,8 @@ let {
                                 class="page-item"
                                 v-for="link in paginatedData.meta.links"
                             >
-                                <inertia-link
+                                <component
+                                    :is="link.url ? 'inertia-link' : 'button'"
                                     class="page-link"
                                     :class="{
                                         active: link.active,
@@ -354,7 +413,7 @@ let {
                                     :only="['data', 'params']"
                                 >
                                     <span v-html="link.label"></span>
-                                </inertia-link>
+                                </component>
                             </li>
                         </ul>
                     </nav>
