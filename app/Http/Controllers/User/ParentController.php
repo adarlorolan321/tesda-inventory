@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Helper\StrHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\ParentListResource;
 use App\Models\Media;
@@ -126,14 +127,15 @@ class ParentController extends Controller
     public function update(UpdateParentRequest $request, string $id)
     {
         $data = User::findOrFail($id);
-        $password = StrHelper::randomPassword();
         $userArr = $request->all();
         $userArr['name'] = $request['first_name'].' '.$request['last_name'];
-        $userArr['password'] = Hash::make($password);
         $data->update($userArr);
         $data->assignRole($request['role']);
         //Upload Profile Photo
         if(isset($request->input('profile_photo', [])['id'])){
+            if($request->input('profile_photo', [])['model_id'] != $data->id){
+                $data->clearMediaCollection('profile_photo');
+            }
             Media::where('id', $request->input('profile_photo', [])['id'])
                 ->update([
                     'model_id' => $data->id
