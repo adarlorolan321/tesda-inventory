@@ -35,6 +35,9 @@ export function useCrud(formObject = {}, routeName) {
         if (serverParams.value.order) {
             serverQuery.value.order = serverParams.value.order;
         }
+        if (serverParams.value.role) {
+            serverQuery.value.role = serverParams.value.role;
+        }
     });
 
     onMounted(() => {

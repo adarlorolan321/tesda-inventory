@@ -18,6 +18,15 @@ class RolePermissionSeeder extends Seeder
     public function run()
     {
         $roles = [
+            'OrgAdmin' => [
+                'access service',
+                'create service',
+                'store service',
+                'edit service',
+                'update service',
+                'destroy service',
+                'show service',
+            ],
             'Admin' => [
                 'access service',
                 'create service',
@@ -88,7 +97,7 @@ class RolePermissionSeeder extends Seeder
                 $db_role = Role::create(['name' => $role]);
             }
             // ADD PERMISSION
-            foreach ($permissions as  $permission) {
+            foreach ($permissions as $permission) {
                 $new_permission = Permission::where('name', $permission)->first();
                 if (!$new_permission) {
                     $new_permission = Permission::create([

@@ -85,4 +85,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         })->name('user.conns');
 
     });
+
+    Route::get('test-mail',function (){
+
+    });
 });

@@ -11,6 +11,7 @@ use App\Http\Requests\User\StoreParentRequest;
 use App\Http\Requests\User\UpdateParentRequest;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
@@ -34,9 +35,11 @@ class ParentController extends Controller
             })
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
-                    // filter result
-                    // $query->where('column', 'like', '%' . $queryString . '%')
-                    //     ->orWhere('column', 'like', '%' . $queryString . '%');
+                    $query->where('first_name', 'like', '%' . $queryString . '%')
+                        ->orWhere('last_name', 'like', '%' . $queryString . '%')
+                        ->orWhere('email', 'like', '%' . $queryString . '%')
+                        ->orWhere('phone', 'like', '%' . $queryString . '%')
+                        ->orWhere(DB::raw("CASE WHEN `status` = '1' THEN 'Active' ELSE 'In-active' END"), 'like',  $queryString . '%');
                 }
             })
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
