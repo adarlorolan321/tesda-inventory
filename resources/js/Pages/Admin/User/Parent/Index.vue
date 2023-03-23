@@ -144,54 +144,7 @@ let {
                                 {{ form.errors.phone }}
                             </div>
                         </div>
-                        <div class="form-group mb-3">
-                            <div class=" ">Status  <span class="required">*</span></div>
-                            <label class="switch">
-                                <input
-                                    type="checkbox"
-                                    v-model="form.status"
-                                    :checked="form.status"
-                                    class="switch-input"
-                                />
-                                <span class="switch-toggle-slider">
-                                    <span class="switch-on"></span>
-                                    <span class="switch-off"></span>
-                                </span>
-                                <span
-                                    class="switch-label"
-                                    v-if="form.status == 1"
-                                    >Active</span
-                                >
-                                <span class="switch-label" v-else
-                                    >In-active</span
-                                >
-                            </label>
-                        </div>
-                        <div class="form-group mb-4">
-                            <label for="name">Profile Photo</label>
-                            <dropzone
-                                collection="profile_photo"
-                                v-if="isLoadingComponents"
-                                :url="route('api.media.upload')"
-                                model="User"
-                                :value="form.profile_photo"
-                                @input="form.profile_photo = $event"
-                                message="Drop files here or click to upload profile photo"
-                                acceptedFiles="application/pdf,image/jpeg,image/png"
-                            >
-                            </dropzone>
-                            <div v-else>
-                                <div class="dropzone" ref="dropzone">
-                                    <div class="dz-message needsclick">
-                                        Please Wait
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="invalid-feedback">
-                                {{ form.errors.first_name }}
-                            </div>
-                        </div>
                         <button
                             class="btn btn-primary"
                             @click="createPromise"
