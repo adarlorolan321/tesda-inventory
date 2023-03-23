@@ -1,114 +1,114 @@
 {
-  "_AdminLayout-4b3c78af.js": {
-    "file": "assets/AdminLayout-4b3c78af.js",
+  "_AdminLayout-d3bd306c.js": {
+    "file": "assets/AdminLayout-d3bd306c.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
-  "_Crud-2fc11598.js": {
-    "file": "assets/Crud-2fc11598.js",
+  "_Crud-3117ffc9.js": {
+    "file": "assets/Crud-3117ffc9.js",
     "imports": [
       "resources/js/app.js"
     ]
   },
   "resources/js/Pages/Admin/Profile/Connections.vue": {
-    "file": "assets/Connections-ee2156a6.js",
+    "file": "assets/Connections-4ebd2284.js",
     "imports": [
-      "_AdminLayout-4b3c78af.js",
+      "_AdminLayout-d3bd306c.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Admin/Profile/Connections.vue"
   },
   "resources/js/Pages/Admin/Profile/Projects.vue": {
-    "file": "assets/Projects-6fd35849.js",
+    "file": "assets/Projects-72462123.js",
     "imports": [
-      "_AdminLayout-4b3c78af.js",
+      "_AdminLayout-d3bd306c.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Admin/Profile/Projects.vue"
   },
   "resources/js/Pages/Admin/Profile/Show.vue": {
-    "file": "assets/Show-383d0dda.js",
+    "file": "assets/Show-48b96b86.js",
     "imports": [
-      "_AdminLayout-4b3c78af.js",
+      "_AdminLayout-d3bd306c.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Admin/Profile/Show.vue"
   },
   "resources/js/Pages/Admin/Profile/Teams.vue": {
-    "file": "assets/Teams-793b3310.js",
+    "file": "assets/Teams-ffeebd0e.js",
     "imports": [
-      "_AdminLayout-4b3c78af.js",
+      "_AdminLayout-d3bd306c.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Admin/Profile/Teams.vue"
   },
   "resources/js/Pages/Admin/Service/Index.vue": {
-    "file": "assets/Index-8f8a1711.js",
+    "file": "assets/Index-c83e1bbd.js",
     "imports": [
       "resources/js/app.js",
-      "_Crud-2fc11598.js",
-      "_AdminLayout-4b3c78af.js"
+      "_Crud-3117ffc9.js",
+      "_AdminLayout-d3bd306c.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Admin/Service/Index.vue"
   },
   "resources/js/Pages/Admin/User/Coach/Index.vue": {
-    "file": "assets/Index-9c8e583a.js",
+    "file": "assets/Index-07d2345f.js",
     "imports": [
       "resources/js/app.js",
-      "_Crud-2fc11598.js",
-      "_AdminLayout-4b3c78af.js"
+      "_Crud-3117ffc9.js",
+      "_AdminLayout-d3bd306c.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Admin/User/Coach/Index.vue"
   },
   "resources/js/Pages/Admin/User/Coach/Show.vue": {
-    "file": "assets/Show-2c2eaa1e.js",
+    "file": "assets/Show-5b2798fd.js",
     "imports": [
-      "_AdminLayout-4b3c78af.js",
+      "_AdminLayout-d3bd306c.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Admin/User/Coach/Show.vue"
   },
   "resources/js/Pages/Admin/User/Parent/Index.vue": {
-    "file": "assets/Index-cb84e4d1.js",
+    "file": "assets/Index-026156c4.js",
     "imports": [
       "resources/js/app.js",
-      "_Crud-2fc11598.js",
-      "_AdminLayout-4b3c78af.js"
+      "_Crud-3117ffc9.js",
+      "_AdminLayout-d3bd306c.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Admin/User/Parent/Index.vue"
   },
   "resources/js/Pages/Admin/User/Parent/Show.vue": {
-    "file": "assets/Show-67f0215c.js",
+    "file": "assets/Show-e7743669.js",
     "imports": [
-      "_AdminLayout-4b3c78af.js",
+      "_AdminLayout-d3bd306c.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Admin/User/Parent/Show.vue"
   },
   "resources/js/Pages/Admin/Venue/Index.vue": {
-    "file": "assets/Index-2136cc37.js",
+    "file": "assets/Index-80d67802.js",
     "imports": [
       "resources/js/app.js",
-      "_Crud-2fc11598.js",
-      "_AdminLayout-4b3c78af.js"
+      "_Crud-3117ffc9.js",
+      "_AdminLayout-d3bd306c.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Admin/Venue/Index.vue"
   },
   "resources/js/Pages/Admin/account-settings/Account.vue": {
-    "file": "assets/Account-7b55a055.js",
+    "file": "assets/Account-d2273e5c.js",
     "imports": [
-      "_AdminLayout-4b3c78af.js",
+      "_AdminLayout-d3bd306c.js",
       "resources/js/Pages/Admin/account-settings/Navigation/Navigation.vue",
       "resources/js/app.js"
     ],
@@ -116,18 +116,18 @@
     "src": "resources/js/Pages/Admin/account-settings/Account.vue"
   },
   "resources/js/Pages/Admin/account-settings/Navigation/Navigation.vue": {
-    "file": "assets/Navigation-5028d6e6.js",
+    "file": "assets/Navigation-849c18f5.js",
     "imports": [
-      "_AdminLayout-4b3c78af.js",
+      "_AdminLayout-d3bd306c.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/Pages/Admin/account-settings/Navigation/Navigation.vue"
   },
   "resources/js/Pages/Admin/account-settings/Security.vue": {
-    "file": "assets/Security-412e9758.js",
+    "file": "assets/Security-e376814d.js",
     "imports": [
-      "_AdminLayout-4b3c78af.js",
+      "_AdminLayout-d3bd306c.js",
       "resources/js/Pages/Admin/account-settings/Navigation/Navigation.vue",
       "resources/js/app.js"
     ],
@@ -135,7 +135,7 @@
     "src": "resources/js/Pages/Admin/account-settings/Security.vue"
   },
   "resources/js/Pages/Auth/ForgotPassword.vue": {
-    "file": "assets/ForgotPassword-e8f18d54.js",
+    "file": "assets/ForgotPassword-6edda15e.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -143,7 +143,7 @@
     "src": "resources/js/Pages/Auth/ForgotPassword.vue"
   },
   "resources/js/Pages/Auth/Login.vue": {
-    "file": "assets/Login-3e664360.js",
+    "file": "assets/Login-d5b36f89.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -151,7 +151,7 @@
     "src": "resources/js/Pages/Auth/Login.vue"
   },
   "resources/js/Pages/Auth/ResetPassword.vue": {
-    "file": "assets/ResetPassword-c30f103a.js",
+    "file": "assets/ResetPassword-2c883f61.js",
     "imports": [
       "resources/js/app.js"
     ],
@@ -159,9 +159,9 @@
     "src": "resources/js/Pages/Auth/ResetPassword.vue"
   },
   "resources/js/Pages/Welcome.vue": {
-    "file": "assets/Welcome-bd1703de.js",
+    "file": "assets/Welcome-d8de3a5c.js",
     "imports": [
-      "_AdminLayout-4b3c78af.js",
+      "_AdminLayout-d3bd306c.js",
       "resources/js/app.js"
     ],
     "isDynamicEntry": true,
@@ -194,7 +194,7 @@
       "resources/js/Pages/Auth/ResetPassword.vue",
       "resources/js/Pages/Welcome.vue"
     ],
-    "file": "assets/app-ea3047b7.js",
+    "file": "assets/app-e8020c22.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }
