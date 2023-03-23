@@ -3,7 +3,7 @@ import { useForm, router, usePage } from "@inertiajs/vue3";
 import { debounce } from "lodash";
 import { ref, computed, onMounted } from "vue";
 import toastr from "toastr";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 
 export function useCrud(formObject = {}, routeName) {
     const form = useForm(formObject);
@@ -121,6 +121,7 @@ export function useCrud(formObject = {}, routeName) {
             text: "You won't be able to revert this!",
             showCancelButton: true,
             confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel it!",
             customClass: {
                 confirmButton: "btn btn-primary me-3",
                 cancelButton: "btn btn-label-danger",

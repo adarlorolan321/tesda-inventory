@@ -68,7 +68,7 @@
                     <!-- Page -->
                    <template v-for="(menu,index) in menus" :key="'menu-'+index">
                        <li v-if="!menu.sub_menu"  class="menu-item" :class="{'active' : route().current(menu.route)}">
-                           <inertia-link :href="route(menu.route)" class="menu-link">
+                           <inertia-link :href="route(menu.route)" class="menu-link" :only="['data', 'params']">
                                <i class="menu-icon tf-icons" :class="menu.icon"></i>
                                <div :data-i18n="menu.label">{{menu.label}}</div>
                            </inertia-link>
@@ -81,7 +81,7 @@
                            <ul v-if="menu.sub_menu" class="menu-sub">
                                <template v-for="(sub_menu,index) in menu.sub_menu" :key="'sub-menu-'+index">
                                    <li class="menu-item" :class="{'active' : route().current(sub_menu.route)}">
-                                       <inertia-link :href="route(sub_menu.route)" class="menu-link" :class="{'menu-toggle': sub_menu.sub_menu}">
+                                       <inertia-link :href="route(sub_menu.route)" class="menu-link" :class="{'menu-toggle': sub_menu.sub_menu}"  :only="['data', 'params']">
                                            <i class="menu-icon tf-icons" :class="sub_menu.icon"></i>
                                            <div :data-i18n="sub_menu.label">{{sub_menu.label}}</div>
                                        </inertia-link>
@@ -139,7 +139,7 @@
                                 >
                                     <div class="avatar avatar-online">
                                         <img
-                                            src="/assets/img/avatars/1.png"
+                                        :src="$page.props.auth.user.profile_photo_url"
                                             alt
                                             class="h-auto rounded-circle"
                                         />
@@ -154,7 +154,7 @@
                                                         class="avatar avatar-online"
                                                     >
                                                         <img
-                                                            src="/assets/img/avatars/1.png"
+                                                            :src="$page.props.auth.user.profile_photo_url"
                                                             alt
                                                             class="h-auto rounded-circle"
                                                         />
@@ -163,10 +163,10 @@
                                                 <div class="flex-grow-1">
                                                     <span
                                                         class="fw-semibold d-block"
-                                                    >John Doe</span
+                                                    >{{ $page.props.auth.user.name}}</span
                                                     >
                                                     <small class="text-muted"
-                                                    >Admin</small
+                                                    >{{ $page.props.auth.user.role}}</small
                                                     >
                                                 </div>
                                             </div>

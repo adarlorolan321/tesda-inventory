@@ -19,7 +19,7 @@ class User extends Authenticatable implements HasMedia
     use HasApiTokens;
     use InteractsWithMedia;
     use HasFactory;
-    use HasProfilePhoto;
+    // use HasProfilePhoto;
     use Notifiable;
     use HasRoles;
     use UserScope;
@@ -50,6 +50,7 @@ class User extends Authenticatable implements HasMedia
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
+        "roles"
     ];
 
     /**
@@ -67,7 +68,7 @@ class User extends Authenticatable implements HasMedia
      * @var array<int, string>
      */
     protected $appends = [
-        'profile_photo','role'
+        'profile_photo','role', 'profile_photo_url'
     ];
 
     public function getRoleAttribute()
@@ -84,6 +85,12 @@ class User extends Authenticatable implements HasMedia
             'path' => $media->getUrl(),
             'preview_url' => $media->getUrl(),
         ]) : null;
+    }
+
+    public function getProfilePhotoUrlAttribute()
+    {
+        $media = $this->getMedia('profile_photo')->first();
+        return $media ? $media->getUrl() : 'https://ui-avatars.com/api/?name='. $this->name .'&color=8176f2&background=F8F7FA';
     }
 
 }
