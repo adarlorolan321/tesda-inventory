@@ -24,9 +24,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
             return Inertia::render('Welcome', []);
         });
 
-        Route::get('/auth/forgotpassword', function(){
-            return Inertia::render('Auth/Profile/Show');
-        })->name('auth.forgotpassword');
+        Route::get('/auth/login', function(){
+            return Inertia::render('Auth/Login');
+        })->name('auth.login');
+
+        Route::get('/auth/resetpassword', function(){
+            return Inertia::render('Auth/ResetPassword');
+        })->name('auth.resetpassword');
 
         Route::get('/user/profile', function(){
             return Inertia::render('Admin/Profile/Show');
