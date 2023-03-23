@@ -1,7 +1,7 @@
 <template>
     <div>
         <select
-            class="form-control"
+            class="select2 form-select form-select-lg select2-hidden-accessible"
             :id="id"
             :name="name"
             :disabled="disabled"
@@ -85,13 +85,13 @@ export default {
     },
     mounted() {
         this.select2 = $(this.$el)
-            .find("select")
             .wrap('<div class="position-relative"></div>')
+            .find("select")
             .select2({
                 placeholder: this.placeholder,
                 ...this.settings,
                 data: this.options,
-                dropdownParent: $(this.$el).parent(),
+                dropdownParent: $(this.$el).parent()
             })
             .on("select2:select select2:unselect", (ev) => {
                 this.$emit("update:modelValue", this.select2.val());

@@ -45,8 +45,7 @@ export function useCrud(formObject = {}, routeName) {
         offCanvas.value = new bootstrap.Offcanvas(myOffcanvas);
     });
     // Promise
-    const createPromise = async () => {
-        $.fn.modal.Constructor.prototype.enforceFocus = function () {};
+    const createPromise = async() => {
 
         form.clearErrors();
         form.post(route(`${routeName}.store`), {
@@ -89,21 +88,19 @@ export function useCrud(formObject = {}, routeName) {
 
     const handleDeboundServerQuery = debounce(() => {
         router.get(
-            route(`${routeName}.index`, serverQuery.value),
-            {},
-            {
+            route(`${routeName}.index`, serverQuery.value), {}, {
                 only: ["data", "params"],
             }
         );
     }, 500);
 
-    const updatePromise = async () => {
+    const updatePromise = async() => {
         form.clearErrors();
         form.patch(route(`${routeName}.update`, form.id), {
             preserveState: true,
             preventScroll: true,
             onSuccess: () => {
-                toastr.success("Record saved");
+                toastr.info("Record updated");
                 router.reload();
                 form.reset();
                 offCanvas.value.hide();
@@ -111,23 +108,24 @@ export function useCrud(formObject = {}, routeName) {
         });
     };
 
-    const deletePromise = async (id) => {
+    const deletePromise = async(id) => {
         Swal.fire({
             icon: "warning",
             title: "Are you sure?",
             text: "You won't be able to revert this!",
             showCancelButton: true,
             confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
             customClass: {
                 confirmButton: "btn btn-primary me-3",
-                cancelButton: "btn btn-label-secondary",
+                cancelButton: "btn btn-label-danger waves-effect",
             },
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 router.delete(route(`${routeName}.destroy`, id), {
                     onSuccess: () => {
-                        toastr.success("Record deleted");
+                        toastr.error("Record deleted");
                     },
                 });
             }
