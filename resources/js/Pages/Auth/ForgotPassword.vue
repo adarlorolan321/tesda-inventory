@@ -1,4 +1,5 @@
 
+
 <script setup>
 import { Head, useForm } from "@inertiajs/vue3";
 
@@ -14,6 +15,9 @@ const submit = () => {
     form.post(route("password.email"));
 };
 </script>
+
+
+
 
 
 <template>
@@ -63,6 +67,7 @@ const submit = () => {
               <h4 class="mb-1 pt-2">Forgot Password? 🔒</h4>
               <p class="mb-4">Enter your email and we'll send you instructions to reset your password</p>
 
+
               <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
         {{ status }}
     </div>
@@ -86,6 +91,7 @@ const submit = () => {
                   <i class="ti ti-chevron-left scaleX-n1-rtl"></i>
                   Back to login
                 </inertia-link>
+
 
               </div>
             </div>
