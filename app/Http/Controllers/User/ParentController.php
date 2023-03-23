@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Helper\StrHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\ParentListResource;
 use App\Models\Media;
