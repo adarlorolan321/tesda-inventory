@@ -128,7 +128,7 @@ let {
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="name">Phone  <span class="required">*</span></label>
+                            <label for="name">Phone</label>
                             <input
                                 type="text"
                                 id="phone"
@@ -144,19 +144,6 @@ let {
                                 {{ form.errors.phone }}
                             </div>
                         </div>
-<!--                        <div class="form-group mb-3">-->
-<!--                            <label for="role">Role</label>-->
-<!--                            <select2-->
-<!--                                :class="{ 'is-invalid': form.errors.role }"-->
-<!--                                v-model="form.role"-->
-<!--                                @select="form.clearErrors('role')"-->
-<!--                                :options="['Coach', 'Staff']"-->
-<!--                            >-->
-<!--                            </select2>-->
-<!--                            <div class="invalid-feedback">-->
-<!--                                {{ form.errors.role }}-->
-<!--                            </div>-->
-<!--                        </div>-->
                         <div class="form-group mb-3">
                             <div class=" ">Status  <span class="required">*</span></div>
                             <label class="switch">
