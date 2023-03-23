@@ -128,7 +128,7 @@ let {
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="name">Phone  <span class="required">*</span></label>
+                            <label for="name">Phone</label>
                             <input
                                 type="text"
                                 id="phone"
@@ -144,67 +144,7 @@ let {
                                 {{ form.errors.phone }}
                             </div>
                         </div>
-<!--                        <div class="form-group mb-3">-->
-<!--                            <label for="role">Role</label>-->
-<!--                            <select2-->
-<!--                                :class="{ 'is-invalid': form.errors.role }"-->
-<!--                                v-model="form.role"-->
-<!--                                @select="form.clearErrors('role')"-->
-<!--                                :options="['Coach', 'Staff']"-->
-<!--                            >-->
-<!--                            </select2>-->
-<!--                            <div class="invalid-feedback">-->
-<!--                                {{ form.errors.role }}-->
-<!--                            </div>-->
-<!--                        </div>-->
-                        <div class="form-group mb-3">
-                            <div class=" ">Status  <span class="required">*</span></div>
-                            <label class="switch">
-                                <input
-                                    type="checkbox"
-                                    v-model="form.status"
-                                    :checked="form.status"
-                                    class="switch-input"
-                                />
-                                <span class="switch-toggle-slider">
-                                    <span class="switch-on"></span>
-                                    <span class="switch-off"></span>
-                                </span>
-                                <span
-                                    class="switch-label"
-                                    v-if="form.status == 1"
-                                    >Active</span
-                                >
-                                <span class="switch-label" v-else
-                                    >In-active</span
-                                >
-                            </label>
-                        </div>
-                        <div class="form-group mb-4">
-                            <label for="name">Profile Photo</label>
-                            <dropzone
-                                collection="profile_photo"
-                                v-if="isLoadingComponents"
-                                :url="route('api.media.upload')"
-                                model="User"
-                                :value="form.profile_photo"
-                                @input="form.profile_photo = $event"
-                                message="Drop files here or click to upload profile photo"
-                                acceptedFiles="application/pdf,image/jpeg,image/png"
-                            >
-                            </dropzone>
-                            <div v-else>
-                                <div class="dropzone" ref="dropzone">
-                                    <div class="dz-message needsclick">
-                                        Please Wait
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="invalid-feedback">
-                                {{ form.errors.first_name }}
-                            </div>
-                        </div>
                         <button
                             class="btn btn-primary"
                             @click="createPromise"
@@ -289,7 +229,7 @@ let {
             <table class="table">
                 <thead class="table-light">
                     <tr>
-                        <th class="sortable">Photo</th>
+<!--                        <th class="sortable">Photo</th>-->
                         <th  class="sortable"  @click="handleServerQuery('sort', 'name')" >
                             Name
                             <i class="ti ti-arrow-up" v-if="  serverQuery.sort == 'name' && serverQuery.order == 'desc' " ></i>
@@ -327,23 +267,23 @@ let {
                         v-for="tableData in paginatedData.data"
                         :key="tableData"
                     >
-                        <td>
-                            <div class="avatar avatar-lg" v-if="tableData.profile_photo && tableData.profile_photo.src">
-                                <img
-                                    :src="tableData.profile_photo.src"
-                                    alt="Avatar"
-                                    class="rounded-circle"
-                                />
-                            </div>
-                            <div class="avatar avatar-lg" v-else>
-                                <img
-                                    style="object-fit: contain"
-                                    src="/assets/img/image_not_available.png"
-                                    alt="Avatar"
-                                    class="rounded-circle shadow-sm"
-                                />
-                            </div>
-                        </td>
+<!--                        <td>-->
+<!--                            <div class="avatar avatar-lg" v-if="tableData.profile_photo && tableData.profile_photo.src">-->
+<!--                                <img-->
+<!--                                    :src="tableData.profile_photo.src"-->
+<!--                                    alt="Avatar"-->
+<!--                                    class="rounded-circle"-->
+<!--                                />-->
+<!--                            </div>-->
+<!--                            <div class="avatar avatar-lg" v-else>-->
+<!--                                <img-->
+<!--                                    style="object-fit: contain"-->
+<!--                                    src="/assets/img/image_not_available.png"-->
+<!--                                    alt="Avatar"-->
+<!--                                    class="rounded-circle shadow-sm"-->
+<!--                                />-->
+<!--                            </div>-->
+<!--                        </td>-->
                         <td>{{ tableData.name }}</td>
 <!--                        <td>{{ tableData.role }}</td>-->
                         <td>{{ tableData.email }}</td>
@@ -360,6 +300,11 @@ let {
 <!--                        </td>-->
                         <td>
                             <div class="d-flex gap-2">
+                                <inertia-link
+                                    class="btn btn-icon btn-label-info waves-effect"
+                                    :href="route('user.parents.show',tableData.id)"
+                                ><i class="ti ti-eye"></i>
+                                </inertia-link>
                                 <a
                                     class="btn btn-icon btn-label-primary waves-effect"
                                     @click="handleEdit(tableData)"

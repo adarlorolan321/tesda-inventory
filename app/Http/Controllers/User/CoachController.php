@@ -29,31 +29,29 @@ class CoachController extends Controller
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
         $queryByRole = $request->input('role', null);
-        $sort = explode('.', $request->input('sort', 'id'));
-        $order = $request->input('order', 'asc');
+        $sort = explode('.', $request->input('sort', 'first_name')) ?? ['first_name'];
+        $order = $request->input('order', 'asc') ?? 'ASC';
 
         $data = User::query()
             ->whereHas('roles', function ($query) use ($queryByRole) {
-                if($queryByRole){
+                if ($queryByRole) {
                     $query->where('name', $queryByRole);
-                }
-                else{
-                    $query->whereIn('name', ['Coach','OrgAdmin']);
+                } else {
+                    $query->whereIn('name', ['Coach', 'Admin']);
                 }
             })
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     $query->where('first_name', 'like', '%' . $queryString . '%')
                         ->orWhere('last_name', 'like', '%' . $queryString . '%')
+                        ->orWhere('name', 'like', '%' . $queryString . '%')
                         ->orWhere('email', 'like', '%' . $queryString . '%')
                         ->orWhere('phone', 'like', '%' . $queryString . '%')
-                        ->orWhere(DB::raw("CASE WHEN `status` = '1' THEN 'Active' ELSE 'In-active' END"), 'like',  $queryString . '%');
+                        ->orWhere(DB::raw("CASE WHEN `status` = '1' THEN 'Active' ELSE 'In-active' END"), 'like', $queryString . '%');
                 }
             })
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
-                if(!$sort[0] == 'role') {
-                    $query->orderBy($sort[0], $order);
-                }
+                $query->orderBy($sort[0], $order);
             })
             ->paginate($perPage)
             ->withQueryString();
@@ -123,9 +121,7 @@ class CoachController extends Controller
         if ($request->wantsJson()) {
             return new CoachListResource($data);
         }
-        return Inertia::render('Admin/Coach/Show', [
-            'data' => $data
-        ]);
+        return Inertia::render('Admin/User/Coach/Show', ['data' => $data]);
     }
 
     /**
@@ -150,12 +146,12 @@ class CoachController extends Controller
         $data = User::findOrFail($id);
         $prevEmail = $data->email;
         $userArr = $request->all();
-        $userArr['name'] = $request['first_name'].' '.$request['last_name'];
+        $userArr['name'] = $request['first_name'] . ' ' . $request['last_name'];
         $data->update($userArr);
         $data->assignRole($request['role']);
         //Upload Profile Photo
-        if(isset($request->input('profile_photo', [])['id'])){
-            if($request->input('profile_photo', [])['model_id'] != $data->id){
+        if (isset($request->input('profile_photo', [])['id'])) {
+            if ($request->input('profile_photo', [])['model_id'] != $data->id) {
                 $data->clearMediaCollection('profile_photo');
             }
             Media::where('id', $request->input('profile_photo', [])['id'])
@@ -164,8 +160,8 @@ class CoachController extends Controller
                 ]);
         }
 
-        if($prevEmail != $userArr['email']){
-            $data->sendUpdateEmailNotication(array_merge($userArr,['password' => 'Your current password']));
+        if ($prevEmail != $userArr['email']) {
+            $data->sendUpdateEmailNotication(array_merge($userArr, ['password' => 'Your current password']));
         }
 
         sleep(1);

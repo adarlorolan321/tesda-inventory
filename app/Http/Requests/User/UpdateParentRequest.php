@@ -26,7 +26,7 @@ class UpdateParentRequest extends FormRequest
             'first_name' => ['required'],
             'last_name' => ['required'],
             'email' => ['required', 'email:rfc,dns', Rule::unique('users')->ignore($this->id)],
-            'phone' => ['required', 'numeric',Rule::unique('users')->ignore($this->id)],
+            'phone' => ['nullable', 'numeric',Rule::unique('users')->ignore($this->id)],
             'role' => ['required'],
             'status' => ['required'],
             'profile_photo' => ['nullable'],

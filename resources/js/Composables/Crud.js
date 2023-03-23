@@ -44,20 +44,7 @@ export function useCrud(formObject = {}, routeName) {
         var myOffcanvas = document.getElementById("offCanvasForm");
         offCanvas.value = new bootstrap.Offcanvas(myOffcanvas);
     });
-    // Promise
-    const createPromise = async () => {
-        $.fn.modal.Constructor.prototype.enforceFocus = function () {};
 
-        form.clearErrors();
-        form.post(route(`${routeName}.store`), {
-            onSuccess: () => {
-                toastr.success("Record saved");
-                router.reload([]);
-                form.reset();
-                offCanvas.value.hide();
-            },
-        });
-    };
 
     const handleServerQuery = (key, value) => {
         if (key == "perPage" || key == "query") {
@@ -89,30 +76,45 @@ export function useCrud(formObject = {}, routeName) {
 
     const handleDebouncedServerQuery = debounce(() => {
         router.get(
-            route(`${routeName}.index`, serverQuery.value),
-            {},
-            {
+            route(`${routeName}.index`, serverQuery.value), {}, {
                 preserveState: true,
+                preventScroll: true,
                 only: ["data", "params"],
             }
         )
     }, 500);
 
-    const updatePromise = async () => {
+    // Promise
+    const createPromise = async() => {
+        $.fn.modal.Constructor.prototype.enforceFocus = function() {};
         form.clearErrors();
-        form.patch(route(`${routeName}.update`, form.id), {
+        form.post(route(`${routeName}.store`), {
             preserveState: true,
             preventScroll: true,
+            only: ["data", "params", "errors"],
             onSuccess: () => {
                 toastr.success("Record saved");
-                router.reload();
                 form.reset();
                 offCanvas.value.hide();
             },
         });
     };
 
-    const deletePromise = async (id) => {
+    const updatePromise = async() => {
+        form.clearErrors();
+        form.patch(route(`${routeName}.update`, form.id), {
+            preserveState: true,
+            preventScroll: true,
+            only: ["data", "params", "errors"],
+            onSuccess: () => {
+                toastr.success("Record saved");
+                form.reset();
+                offCanvas.value.hide();
+            },
+        });
+    };
+
+    const deletePromise = async(id) => {
         Swal.fire({
             icon: "warning",
             title: "Are you sure?",
@@ -121,12 +123,15 @@ export function useCrud(formObject = {}, routeName) {
             confirmButtonText: "Yes, delete it!",
             customClass: {
                 confirmButton: "btn btn-primary me-3",
-                cancelButton: "btn btn-label-secondary",
+                cancelButton: "btn btn-label-danger",
             },
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 router.delete(route(`${routeName}.destroy`, id), {
+                    preserveState: true,
+                    preventScroll: true,
+                    only: ["data", "params"],
                     onSuccess: () => {
                         toastr.success("Record deleted");
                     },
@@ -136,6 +141,17 @@ export function useCrud(formObject = {}, routeName) {
     };
 
     // Actions
+    const handleCreate = () => {
+        resetForm();
+        router.reload([]);
+
+        isLoadingComponents.value = false;
+        setTimeout(() => {
+            isLoadingComponents.value = true;
+        }, 1000);
+        formState.value = "create";
+    };
+
     const handleEdit = (item) => {
         item = JSON.parse(JSON.stringify(item));
         form.reset();
@@ -157,17 +173,6 @@ export function useCrud(formObject = {}, routeName) {
     const resetForm = () => {
         form.reset();
         form.clearErrors();
-    };
-
-    const handleCreate = () => {
-        resetForm();
-        router.reload([]);
-
-        isLoadingComponents.value = false;
-        setTimeout(() => {
-            isLoadingComponents.value = true;
-        }, 1000);
-        formState.value = "create";
     };
 
     return {

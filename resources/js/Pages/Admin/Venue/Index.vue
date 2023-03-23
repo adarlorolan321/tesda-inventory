@@ -241,68 +241,44 @@ let {
       <table class="table">
         <thead class="table-light">
           <tr>
-            <th
-              class="sortable"
-              style="width: 200px"
+            <table-header 
               @click="handleServerQuery('sort', 'name')"
-            >
+              :serverQuery="serverQuery"
+              serverQueryKey="name"
+              >
               Venue Name
-              <i
-                class="ti ti-arrow-up"
-                v-if="serverQuery.sort == 'name' && serverQuery.order == 'desc'"
-              ></i>
-              <i
-                class="ti ti-arrow-down"
-                v-if="serverQuery.sort == 'name' && serverQuery.order == 'asc'"
-              ></i>
-            </th>
-            <th class="sortable" @click="handleServerQuery('sort', 'contact_first_name')">
+            </table-header>
+            <table-header 
+              @click="handleServerQuery('sort', 'contact_first_name')"
+              :serverQuery="serverQuery"
+              serverQueryKey="contact_first_name"
+              >
               Contact Name
-              <i
-                class="ti ti-arrow-up"
-                v-if="serverQuery.sort == 'contact_first_name' && serverQuery.order == 'desc'"
-              ></i>
-              <i
-                class="ti ti-arrow-down"
-                v-if="serverQuery.sort == 'contact_first_name' && serverQuery.order == 'asc'"
-              ></i>
-            </th>
-            <th class="sortable" @click="handleServerQuery('sort', 'contact_phone')">
-               Phone Number
-              <i
-                class="ti ti-arrow-up"
-                v-if="serverQuery.sort == 'contact_phone' && serverQuery.order == 'desc'"
-              ></i>
-              <i
-                class="ti ti-arrow-down"
-                v-if="serverQuery.sort == 'contact_phone' && serverQuery.order == 'asc'"
-              ></i>
-            </th>
-            <th class="sortable" @click="handleServerQuery('sort', 'contact_email')">
-               Email
-              <i
-                class="ti ti-arrow-up"
-                v-if="serverQuery.sort == 'contact_email' && serverQuery.order == 'desc'"
-              ></i>
-              <i
-                class="ti ti-arrow-down"
-                v-if="serverQuery.sort == 'contact_email' && serverQuery.order == 'asc'"
-              ></i>
-            </th>
+            </table-header>
+            <table-header 
+              @click="handleServerQuery('sort', 'contact_phone')"
+              :serverQuery="serverQuery"
+              serverQueryKey="contact_phone"
+              >
+              Phone Number
+            </table-header>
+            <table-header 
+              @click="handleServerQuery('sort', 'contact_email')"
+              :serverQuery="serverQuery"
+              serverQueryKey="contact_email"
+              >
+              Email
+            </table-header>
             <th>
                 Embed Code
             </th>
-            <th class="sortable" @click="handleServerQuery('sort', 'status')">
+            <table-header 
+              @click="handleServerQuery('sort', 'status')"
+              :serverQuery="serverQuery"
+              serverQueryKey="status"
+              >
               Status
-              <i
-                class="ti ti-arrow-up"
-                v-if="serverQuery.sort == 'status' && serverQuery.order == 'desc'"
-              ></i>
-              <i
-                class="ti ti-arrow-down"
-                v-if="serverQuery.sort == 'status' && serverQuery.order == 'asc'"
-              ></i>
-            </th>
+            </table-header>
             <th>Actions</th>
           </tr>
         </thead>
