@@ -27,8 +27,8 @@ class ParentController extends Controller
         $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
-        $sort = explode('.', $request->input('sort', 'id'));
-        $order = $request->input('order', 'asc');
+        $sort = explode('.', $request->input('sort', 'first_name')) ?? ['first_name'];
+        $order = $request->input('order', 'asc') ?? 'ASC';
 
         $data = User::query()
             ->whereHas('roles', function ($query) {
@@ -38,6 +38,7 @@ class ParentController extends Controller
                 if ($queryString && $queryString != '') {
                     $query->where('first_name', 'like', '%' . $queryString . '%')
                         ->orWhere('last_name', 'like', '%' . $queryString . '%')
+                        ->orWhere('name', 'like', '%' . $queryString . '%')
                         ->orWhere('email', 'like', '%' . $queryString . '%')
                         ->orWhere('phone', 'like', '%' . $queryString . '%')
                         ->orWhere(DB::raw("CASE WHEN `status` = '1' THEN 'Active' ELSE 'In-active' END"), 'like', $queryString . '%');
@@ -113,9 +114,8 @@ class ParentController extends Controller
         if ($request->wantsJson()) {
             return new CoachListResource($data);
         }
-        return Inertia::render('Admin/Coach/Show', [
-            'data' => $data
-        ]);
+        return Inertia::render('Admin/User/Parent/Show', ['data' => $data]);
+
     }
 
     /**

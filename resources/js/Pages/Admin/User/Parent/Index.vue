@@ -289,7 +289,7 @@ let {
             <table class="table">
                 <thead class="table-light">
                     <tr>
-                        <th class="sortable">Photo</th>
+<!--                        <th class="sortable">Photo</th>-->
                         <th  class="sortable"  @click="handleServerQuery('sort', 'name')" >
                             Name
                             <i class="ti ti-arrow-up" v-if="  serverQuery.sort == 'name' && serverQuery.order == 'desc' " ></i>
@@ -327,23 +327,23 @@ let {
                         v-for="tableData in paginatedData.data"
                         :key="tableData"
                     >
-                        <td>
-                            <div class="avatar avatar-lg" v-if="tableData.profile_photo && tableData.profile_photo.src">
-                                <img
-                                    :src="tableData.profile_photo.src"
-                                    alt="Avatar"
-                                    class="rounded-circle"
-                                />
-                            </div>
-                            <div class="avatar avatar-lg" v-else>
-                                <img
-                                    style="object-fit: contain"
-                                    src="/assets/img/image_not_available.png"
-                                    alt="Avatar"
-                                    class="rounded-circle shadow-sm"
-                                />
-                            </div>
-                        </td>
+<!--                        <td>-->
+<!--                            <div class="avatar avatar-lg" v-if="tableData.profile_photo && tableData.profile_photo.src">-->
+<!--                                <img-->
+<!--                                    :src="tableData.profile_photo.src"-->
+<!--                                    alt="Avatar"-->
+<!--                                    class="rounded-circle"-->
+<!--                                />-->
+<!--                            </div>-->
+<!--                            <div class="avatar avatar-lg" v-else>-->
+<!--                                <img-->
+<!--                                    style="object-fit: contain"-->
+<!--                                    src="/assets/img/image_not_available.png"-->
+<!--                                    alt="Avatar"-->
+<!--                                    class="rounded-circle shadow-sm"-->
+<!--                                />-->
+<!--                            </div>-->
+<!--                        </td>-->
                         <td>{{ tableData.name }}</td>
 <!--                        <td>{{ tableData.role }}</td>-->
                         <td>{{ tableData.email }}</td>
@@ -360,6 +360,11 @@ let {
 <!--                        </td>-->
                         <td>
                             <div class="d-flex gap-2">
+                                <inertia-link
+                                    class="btn btn-icon btn-label-info waves-effect"
+                                    :href="route('user.parents.show',tableData.id)"
+                                ><i class="ti ti-eye"></i>
+                                </inertia-link>
                                 <a
                                     class="btn btn-icon btn-label-primary waves-effect"
                                     @click="handleEdit(tableData)"

@@ -9,6 +9,7 @@ use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -115,5 +116,16 @@ class UserController extends Controller
             return response(null, 204);
         }
         return redirect()->route('users.index')->with('message', 'Record Removed');
+    }
+
+    public function validateInput(Request $request, $type)
+    {
+        return $type;
+//        $rules = [
+//            'email' => 'email|unique:users,email',
+//        ];
+//        $validator = Validator::make($request->all(), $rules);
+//
+//        return $validator->passes();
     }
 }

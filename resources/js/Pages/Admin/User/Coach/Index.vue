@@ -11,6 +11,7 @@ export default {
 
 <script setup>
 import {useCrud} from "@/Composables/Crud.js";
+import {validateForm} from "@/Composables/Validate.js";
 
 const {props} = usePage();
 const formObject = {
@@ -23,6 +24,8 @@ const formObject = {
     role: null,
     profile_photo: null,
 };
+
+let {validateEmail} = validateForm;
 
 const routeName = "user.coaches";
 let {
@@ -269,7 +272,7 @@ let {
                 <div class="col-auto">
                     <div class="d-flex flex-row gap-3">
                         <select2
-                            style="width: 200px" 
+                            style="width: 200px"
                             :settings="{allowClear:true, minimumResultsForSearch: -1}"
                             v-model="serverQuery.role"
                             placeholder="Filter By Role"
@@ -377,6 +380,12 @@ let {
                     </td>
                     <td>
                         <div class="d-flex gap-2">
+
+                            <inertia-link
+                                class="btn btn-icon btn-label-info waves-effect"
+                                :href="route('user.coaches.show',tableData.id)"
+                            ><i class="ti ti-eye"></i>
+                            </inertia-link>
                             <a
                                 class="btn btn-icon btn-label-primary waves-effect"
                                 @click="handleEdit(tableData)"
