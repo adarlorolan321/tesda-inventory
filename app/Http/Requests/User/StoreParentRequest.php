@@ -25,7 +25,7 @@ class StoreParentRequest extends FormRequest
             'first_name' => ['required','max:100'],
             'last_name' => ['required','max:100'],
             'email' => ['required','email:rfc,dns','unique:users,email'],
-            'phone' => ['nullable','numeric','max:20'],
+            'phone' => ['nullable','numeric'],
             'role' => ['required'],
             'status' => ['required'],
             'profile_photo' => ['nullable'],

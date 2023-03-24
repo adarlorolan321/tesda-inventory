@@ -25,7 +25,7 @@ class StoreCoachRequest extends FormRequest
             'first_name' => ['required','max:100'],
             'last_name' => ['required','max:100'],
             'email' => ['required','email:rfc,dns','unique:users,email'],
-            'phone' => ['required','numeric','max:20'],
+            'phone' => ['required','numeric'],
             'role' => ['required'],
             'status' => ['required'],
             'profile_photo' => ['nullable'],
