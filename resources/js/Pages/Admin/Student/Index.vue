@@ -10,7 +10,7 @@ export default {
 import { useCrud } from "@/Composables/Crud.js";
 import { useValidateForm } from "@/Composables/Validate.js";
 import { userInputFormat } from "@/Composables/InputFormat.js";
-
+import {  Head } from "@inertiajs/vue3";
 const formObject = {
     first_name: null,
     last_name: null,
@@ -44,6 +44,7 @@ let {
 </script>
 
 <template>
+    <Head title="Players"></Head>
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">
