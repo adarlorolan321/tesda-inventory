@@ -45,7 +45,7 @@
                             </svg>
                         </span>
                         <span class="app-brand-text demo menu-text fw-bold"
-                            >Vuexy</span
+                            >Sportsaas</span
                         >
                     </a>
 

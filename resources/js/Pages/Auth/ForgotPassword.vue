@@ -83,7 +83,7 @@ const { validateForm } = useValidateForm();
                                 </span>
                                 <span
                                     class="app-brand-text demo text-body fw-bold"
-                                    >Sportsaas</span
+                                    >SportSaas</span
                                 >
                             </a>
                         </div>

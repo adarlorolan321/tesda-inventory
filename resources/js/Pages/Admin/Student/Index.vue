@@ -10,7 +10,7 @@ export default {
 import { useCrud } from "@/Composables/Crud.js";
 import { useValidateForm } from "@/Composables/Validate.js";
 import { userInputFormat } from "@/Composables/InputFormat.js";
-
+import {  Head } from "@inertiajs/vue3";
 const formObject = {
     first_name: null,
     last_name: null,
@@ -44,6 +44,7 @@ let {
 </script>
 
 <template>
+    <Head title="Players"></Head>
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">
@@ -82,9 +83,7 @@ let {
                     </div>
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
                         <div class="form-group mb-3">
-                            <label for=""
-                                >Parent <span class="required">*</span></label
-                            >
+                            <label>Parent <span class="required">*</span></label>
                             <select2
                                 :class="{ 'is-invalid': form.errors.parent_id }"
                                 v-model="form.parent_id"
@@ -211,7 +210,7 @@ let {
                                         form.clearErrors('phone');
                                     }
                                 "
-                                placeholder="04 1234 1234"
+                                placeholder="Enter Phone"
                                 :class="{
                                     'is-invalid': form.errors.phone,
                                 }"
@@ -360,6 +359,12 @@ let {
                         </td>
                         <td>
                             <div class="d-flex gap-2">
+                                <a
+                                    class="btn btn-icon btn-label-info waves-effect"
+                                    @click="handleEdit(tableData)"
+                                    href="javascript:void(0);"
+                                    ><i class="ti ti-eye"></i>
+                                </a>
                                 <a
                                     class="btn btn-icon btn-label-primary waves-effect"
                                     @click="handleEdit(tableData)"

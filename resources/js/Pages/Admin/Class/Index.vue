@@ -1,7 +1,5 @@
 <script>
-import AdminLayout from "@/Layouts/AdminLayout.vue";
-import { usePage } from "@inertiajs/vue3";
-import { reactive, computed, onMounted } from "vue";
+import AdminLayout from "@/Layouts/AdminLayout.vue"; 
 export default {
     layout: AdminLayout,
 };
@@ -9,6 +7,7 @@ export default {
 
 <script setup>
 import { useCrud } from "@/Composables/Crud.js";
+import { usePage, Head } from "@inertiajs/vue3"; 
 const { props } = usePage();
 const formObject = {
     name: null,
@@ -31,6 +30,7 @@ let {
 </script>
 
 <template>
+     <Head title="Class"></Head>
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">
