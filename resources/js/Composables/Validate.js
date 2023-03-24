@@ -36,6 +36,12 @@ export function useValidateForm() {
             }
         }
 
+        if (validationRule.indexOf('nullable') >= 0) {
+            if (!value || value == "") {
+                return;
+            }
+        }
+
         if (validationRule.indexOf('number') >= 0) {
             if (isNaN(value)) {
                 form.setError(key, `The ${key} must be a number`)
@@ -45,11 +51,15 @@ export function useValidateForm() {
 
         if (validationRule.indexOf('email') >= 0) {
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(value)) {
-                form.setError(key, `Invalid email address`)
-                return;
+            if (value || value != "") {
+                if (!emailPattern.test(value)) {
+                    form.setError(key, `Invalid email address`)
+                    return;
+                }
             }
         }
+
+
 
     }, 1000);
 

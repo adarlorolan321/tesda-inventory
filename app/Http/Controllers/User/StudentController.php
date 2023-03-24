@@ -7,8 +7,9 @@ use App\Http\Resources\User\StudentListResource;
 use App\Models\User\Student;
 use App\Http\Requests\User\StoreStudentRequest;
 use App\Http\Requests\User\UpdateStudentRequest;
-
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class StudentController extends Controller
@@ -30,10 +31,12 @@ class StudentController extends Controller
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
-                    // $query->where('column', 'like', '%' . $queryString . '%')
-                    //     ->orWhere('column', 'like', '%' . $queryString . '%');
+                    $query->where(DB::raw("CONCAT(students.first_name,' ',students.last_name)"), 'like', '%' . $queryString . '%')
+                        ->orWhere('users.name', 'like', '%' . $queryString . '%');
                 }
             })
+            ->leftJoin('users', 'students.parent_id', '=', 'users.id')
+            ->select('students.*', 'users.name as parent_name', DB::raw("CONCAT(students.first_name,' ',students.last_name) as name"))
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
                 $query->orderBy($sort[0], $order);
             })
@@ -43,6 +46,16 @@ class StudentController extends Controller
         $props = [
             'data' => StudentListResource::collection($data),
             'params' => $request->all(),
+            'parents' => User::whereHas('roles', function ($query) {
+                        $query->where('name', 'Client');
+                    })
+                    ->get(['id', 'name'])
+                    ->map(function($parent) {
+                        return [
+                            'id' => $parent->id,
+                            'text' => $parent->name
+                        ];
+                    })
         ];
 
         if ($request->wantsJson()) {

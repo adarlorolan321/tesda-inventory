@@ -20,6 +20,7 @@
         "vue": "^3.2.31"
     },
     "dependencies": {
+        "cleave.js": "^1.6.0",
         "dropzone": "^6.0.0-beta.2",
         "jquery": "^3.6.4",
         "lodash": "^4.17.21",
