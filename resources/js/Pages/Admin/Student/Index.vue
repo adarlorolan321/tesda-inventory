@@ -82,7 +82,7 @@ let {
                     </div>
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
                         <div class="form-group mb-3">
-                            <label>Parent Name <span class="required">*</span></label>
+                            <label>Parent <span class="required">*</span></label>
                             <select2
                                 :class="{ 'is-invalid': form.errors.parent_id }"
                                 v-model="form.parent_id"
