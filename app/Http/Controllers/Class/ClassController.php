@@ -26,12 +26,15 @@ class ClassController extends Controller
         $queryString = $request->input('query', null);
 
         $data = ClassModel::query()
-            ->with(['service','venue','coach'])
+            ->with(['service', 'venue', 'coach'])
+            ->leftJoin('users', 'classes.coach_id', '=', 'users.id')
+            ->leftJoin('services', 'classes.service_id', '=', 'services.id')
+            ->select('classes.name', 'classes.days', 'services.name as service_name', 'users.name as coach_name', 'classes.id')
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
-                     $query->where('column', 'like', '%' . $queryString . '%')
-                         ->orWhere('column', 'like', '%' . $queryString . '%');
+                    $query->where('column', 'like', '%' . $queryString . '%')
+                        ->orWhere('column', 'like', '%' . $queryString . '%');
                 }
             })
             ->orderBy('name', 'ASC')
@@ -70,7 +73,9 @@ class ClassController extends Controller
                         'text' => $parent->name
                     ];
                 }),
-            'coaches' => User::whereHas('roles', function ($query) {$query->where('name', 'Coach');})
+            'coaches' => User::whereHas('roles', function ($query) {
+                $query->where('name', 'Coach');
+            })
                 ->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
@@ -134,7 +139,9 @@ class ClassController extends Controller
                         'text' => $parent->name
                     ];
                 }),
-            'coaches' => User::whereHas('roles', function ($query) {$query->where('name', 'Coach');})
+            'coaches' => User::whereHas('roles', function ($query) {
+                $query->where('name', 'Coach');
+            })
                 ->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [

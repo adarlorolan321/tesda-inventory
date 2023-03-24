@@ -1,5 +1,5 @@
 <script>
-import AdminLayout from "@/Layouts/AdminLayout.vue"; 
+import AdminLayout from "@/Layouts/AdminLayout.vue";
 export default {
     layout: AdminLayout,
 };
@@ -7,7 +7,7 @@ export default {
 
 <script setup>
 import { useCrud } from "@/Composables/Crud.js";
-import { usePage, Head } from "@inertiajs/vue3"; 
+import { usePage, Head } from "@inertiajs/vue3";
 const { props } = usePage();
 const formObject = {
     name: null,
@@ -30,7 +30,7 @@ let {
 </script>
 
 <template>
-     <Head title="Class"></Head>
+    <Head title="Class"></Head>
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">
@@ -141,14 +141,14 @@ let {
                         :key="tableData"
                     >
                         <td style="width: 60%">{{ tableData.name }}</td>
-                        <td>{{ tableData.days ? tableData.days : '-' }}</td>
-                        <td>{{ tableData.service.name  }}</td>
-                        <td>{{ tableData.coach.name  }}</td>
+                        <td>{{ tableData.days ? tableData.days : "-" }}</td>
+                        <td>{{ tableData.service_name }}</td>
+                        <td>{{ tableData.coach_name }}</td>
                         <td>
                             <div class="d-flex gap-2">
                                 <inertia-link
                                     class="btn btn-icon btn-label-primary waves-effect"
-                                    :href="route('classes.edit',tableData.id)"
+                                    :href="route('classes.edit', tableData.id)"
                                     ><i class="ti ti-pencil"></i>
                                 </inertia-link>
                                 <a
