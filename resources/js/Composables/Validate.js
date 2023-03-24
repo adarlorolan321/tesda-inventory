@@ -1,6 +1,6 @@
 import { debounce } from "lodash";
 import { router } from "@inertiajs/vue3";
-import { useCrud } from "@/Composables/Crud";
+import { getCurrentInstance } from 'vue'
 
 export function useValidateForm() {
     const validateEmail = debounce((email) => {
@@ -30,34 +30,26 @@ export function useValidateForm() {
 
         if (validationRule.indexOf('required') >= 0) {
             if (!value || value == "") {
-                form.errors[key] = 'This is a required field';
+                form.setError(key, 'This is a required field')
+                    // form.errors[key] = 'This is a required field';
                 return;
             }
         }
 
         if (validationRule.indexOf('number') >= 0) {
             if (isNaN(value)) {
-                form.errors[key] = `The ${key} must be a number`;
+                form.setError(key, `The ${key} must be a number`)
                 return;
             }
         }
-
-        if (validationRule.indexOf('number') >= 0) {
-            if (isNaN(value)) {
-                form.errors[key] = `The ${key} must be a number`;
-                return;
-            }
-        }
-
 
         if (validationRule.indexOf('email') >= 0) {
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailPattern.test(value)) {
-                form.errors[key] = `Invalid email address`;
+                form.setError(key, `Invalid email address`)
                 return;
             }
         }
-
 
     }, 1000);
 

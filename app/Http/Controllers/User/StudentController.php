@@ -54,7 +54,7 @@ class StudentController extends Controller
             return redirect()->route('students.index', ['page' => 1]);
         }
 
-        return Inertia::render('Admin/Student', $props);
+        return Inertia::render('Admin/Student/Index', $props);
     }
 
     /**
