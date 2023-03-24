@@ -40,6 +40,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::resource('students', StudentController::class);
 
             Route::get('profile', [UserController::class, 'profile'])->name('profile.index');
+
+            Route::put('profile/{id}', [UserController::class, 'update'])->name('profile.update');
+
             Route::get('profile/change-password', [UserController::class, 'changePassword'])->name('profile.change_password');
 
             Route::get('validate/{type}', [UserController::class, 'validateInput'])->name('validate');

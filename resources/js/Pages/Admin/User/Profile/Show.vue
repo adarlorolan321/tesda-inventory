@@ -1,41 +1,44 @@
 <script>
 import ProfileLayout from "@/Layouts/ProfileLayout.vue";
+
 import { useCrud } from "@/Composables/Crud.js";
 import Swal from "sweetalert2";
-
-
-
-
+import { useForm, router, usePage } from "@inertiajs/vue3";
+import {ref} from 'vue';
 // Swal.fire("Email sent!", "A valid email address with an existing account has been submitted by user","success" );
 export default {
-    props: {
-    auth: {
-      type: Object,
-      required: true,
-    },
-  },
-  setup(props) {
-    console.log(props.auth); 
-  },
+ 
+ 
     setup(){
         const routeName = "user.profile";
-        // const { form, updatePromise } = useCrud({
-        //     first_name:null,
-        //     last_name:null,
-        //     phone:null,
-
-        // },routeName);
-
-        const submitForm = async () => {
-        try {
-            await updatePromise();
+        // const { form, updatePromise } = useCrud(formObject,routeName);
+        const page = usePage()
+        const user = page.props.auth.user;
+        const form = useForm({
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email,
+            profile_photo_url:user.profile_photo_url,
+            phone:user.phone,
+            profile_photo:user.profile_photo
+        })
         
-        } catch (error) {
-          
-        }
-        }
+        const submitForm = () =>{
+       form.put(route('user.profile.update', {id: user.id}), {
+            onSuccess:(response) =>{
+                    Swal.fire("Records saved.", "","success" );
+            },
+            onError:(error)=>{
+                console.table(error);
+            }
+
+    })
+     }
+
+     
         return {
-            // form,
+            // routeName,
+            form,
             submitForm,
         }
 
@@ -55,6 +58,8 @@ export default {
             this.imageUrl = event.target.result;
             };
             reader.readAsDataURL(file);
+            
+          
         
         },
 
@@ -96,7 +101,7 @@ export default {
                               class="account-file-input"
                               hidden
                               ref="fileInput"
-                             accept="image/*"
+                             
 
                             />
                           </label>
@@ -111,7 +116,7 @@ export default {
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
-                      <form id="formAccountSettings" method="POST" @submit.prevent="submitForm">
+                      <form id="formAccountSettings" @submit.prevent="submitForm">
                         <div class="row">
                           <div class="mb-3 col-md-6">
                             <label for="firstName"  class="form-label">First Name</label>
@@ -120,13 +125,13 @@ export default {
                               type="text"
                               id="firstName"
                               name="firstName"
-                              :value="$page.props.auth.user.first_name"
+                                v-model="form.first_name"
                               autofocus
                             />
                           </div>
                           <div class="mb-3 col-md-6">
                             <label for="lastName" class="form-label">Last Name</label>
-                            <input class="form-control" type="text" name="lastName" id="lastName"     :value="$page.props.auth.user.last_name" />
+                            <input class="form-control" type="text" name="lastName" id="lastName"    v-model="form.last_name" />
                           </div>
                           <div class="mb-3 col-md-6">
                             <label for="email" class="form-label">E-mail</label>
@@ -135,7 +140,7 @@ export default {
                               type="text"
                               id="email"
                               name="email"
-                              :value="$page.props.auth.user.email"
+                             v-model="form.email"
                              
                             />
                           </div>
@@ -149,16 +154,11 @@ export default {
                                 type="text"
                                 id="phoneNumber"
                                 name="phoneNumber"
-                                class="form-control"
-                                :value="$page.props.auth.user.phone"
-                               
+                                class="form-control"                               
+                                v-model="form.phone"
                               />
                             </div>
-                          </div>
-                        
-                        
-                        
-                        
+                          </div>                    
                           <div class="mb-3 col-md-6">
                             <label for="role" class="form-label">Role</label>
 

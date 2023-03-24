@@ -90,11 +90,16 @@ class UserController extends Controller
     }
 
 
-    public function update(UpdateUserRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
+       
+      
         $data = User::findOrFail($id);
-        $data->update($request->validated());
+      
+      $data->update($request->all());
         sleep(1);
+      
+       
 
         if ($request->wantsJson()) {
             return (new UserListResource($data))
@@ -102,7 +107,7 @@ class UserController extends Controller
                 ->setStatusCode(201);
         }
 
-        return redirect()->route('users.index')->with('message', 'Record Saved');
+        return redirect()->route('user.profile.index')->with('message', 'Record Saved');
     }
 
 
