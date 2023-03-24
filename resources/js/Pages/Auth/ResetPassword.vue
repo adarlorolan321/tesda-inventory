@@ -73,7 +73,6 @@ const isPassword = ref({ password: true, password_confirmation: true });
 
                 <h4 class="mb-1 pt-2">Reset Password 🔒</h4>
                 <p class="mb-4">for <span class="fw-bold">{{ form.email }}</span></p>
-                {{  form }}
                     <form @submit.prevent="submit()">
                         <div class="mb-3 form-password-toggle">
                             <div class="form-group mb-3">
@@ -83,6 +82,9 @@ const isPassword = ref({ password: true, password_confirmation: true });
                                         :type="isPassword.password?'password':'text'"
                                         id="password"
                                         class="form-control"
+                                        :class="{
+                                            'is-invalid': form.errors.password,
+                                        }"
                                         v-model="form.password"
                                         @input="form.clearErrors('password')"
                                     />
@@ -93,7 +95,6 @@ const isPassword = ref({ password: true, password_confirmation: true });
                                 </div>
                             </div>
                         </div>
-                        {{ form.errors }}
                         <div class="mb-3 form-password-toggle">
                             <div class="form-group mb-3">
                                 <label for="name">Confirm Password <span class="required">*</span></label>
@@ -102,6 +103,9 @@ const isPassword = ref({ password: true, password_confirmation: true });
                                         :type="isPassword.password_confirmation?'password':'text'"
                                         id="password_confirmation"
                                         class="form-control"
+                                        :class="{
+                                            'is-invalid': form.errors.password_confirmation,
+                                        }"
                                         v-model="form.password_confirmation"
                                         @input="form.clearErrors('password_confirmation')"
                                     />
@@ -114,7 +118,7 @@ const isPassword = ref({ password: true, password_confirmation: true });
                         </div>
                         <button type="submit" class="btn btn-primary d-grid w-100 mb-3">Set new password</button>
                         <div class="text-center">
-                        <inertia-link :href="route('auth.login')">
+                        <inertia-link :href="route('login')">
                             <i class="ti ti-chevron-left scaleX-n1-rtl"></i>
                             Back to login
                         </inertia-link>
