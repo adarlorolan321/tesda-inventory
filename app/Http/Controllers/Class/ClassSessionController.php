@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Class;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Class\ClassListResource;
-use App\Models\Class\ClassModel;
-use App\Http\Requests\Class\StoreClassRequest;
-use App\Http\Requests\Class\UpdateClassRequest;
+use App\Http\Resources\Class\ClassSessionListResource;
+use App\Models\Class\ClassSession;
+use App\Http\Requests\Class\StoreClassSessionRequest;
+use App\Http\Requests\Class\UpdateClassSessionRequest;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class ClassController extends Controller
+class ClassSessionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,10 +19,13 @@ class ClassController extends Controller
     public function index(Request $request)
     {
 
+        $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
+        $sort = explode('.', $request->input('sort', 'id'));
+        $order = $request->input('order', 'asc');
 
-        $data = ClassModel::query()
+        $data = ClassSession::query()
             ->with([])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
@@ -31,12 +34,14 @@ class ClassController extends Controller
                     //     ->orWhere('column', 'like', '%' . $queryString . '%');
                 }
             })
-            ->orderBy('name', 'ASC')
+            ->when(count($sort) == 1, function ($query) use ($sort, $order) {
+                $query->orderBy($sort[0], $order);
+            })
             ->paginate($perPage)
             ->withQueryString();
 
         $props = [
-            'data' => ClassListResource::collection($data),
+            'data' => ClassSessionListResource::collection($data),
             'params' => $request->all(),
         ];
 
@@ -44,7 +49,12 @@ class ClassController extends Controller
             return json_encode($props);
         }
 
-        return Inertia::render('Admin/Class/Index', $props);
+        if(count($data) <= 0 && $page > 1)
+        {
+            return redirect()->route('classes.sessions.index', ['page' => 1]);
+        }
+
+        return Inertia::render('Admin/Class/Session/Index', $props);
     }
 
     /**
@@ -52,21 +62,21 @@ class ClassController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Class/Create');
+        return Inertia::render('Admin/ClassSession/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreClassRequest $request)
+    public function store(StoreClassSessionRequest $request)
     {
-        $data = ClassModel::create($request->validated());
+        $data = ClassSession::create($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return new ClassListResource($data);
+            return new ClassSessionListResource($data);
         }
-        return redirect()->route('classes.index')->with('message', 'Record Saved');
+        return redirect()->back();
     }
 
     /**
@@ -74,11 +84,11 @@ class ClassController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $data = ClassModel::findOrFail($id);
+        $data = ClassSession::findOrFail($id);
         if ($request->wantsJson()) {
-            return new ClassListResource($data);
+            return new ClassSessionListResource($data);
         }
-        return Inertia::render('Admin/Class/Show', [
+        return Inertia::render('Admin/ClassSession/Show', [
             'data' => $data
         ]);
     }
@@ -88,11 +98,11 @@ class ClassController extends Controller
      */
     public function edit(Request $request, string $id)
     {
-        $data = ClassModel::findOrFail($id);
+        $data = ClassSession::findOrFail($id);
         if ($request->wantsJson()) {
-            return new ClassListResource($data);
+            return new ClassSessionListResource($data);
         }
-        return Inertia::render('Admin/Class/Edit', [
+        return Inertia::render('Admin/ClassSession/Edit', [
             'data' => $data
         ]);
     }
@@ -100,19 +110,19 @@ class ClassController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateClassRequest $request, string $id)
+    public function update(UpdateClassSessionRequest $request, string $id)
     {
-        $data = ClassModel::findOrFail($id);
+        $data = ClassSession::findOrFail($id);
         $data->update($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return (new ClassListResource($data))
+            return (new ClassSessionListResource($data))
                 ->response()
                 ->setStatusCode(201);
         }
 
-        return redirect()->route('classes.index')->with('message', 'Record Saved');
+        return redirect()->back();
     }
 
     /**
@@ -120,13 +130,13 @@ class ClassController extends Controller
      */
     public function destroy(Request $request, string $id)
     {
-        $data = ClassModel::findOrFail($id);
+        $data = ClassSession::findOrFail($id);
         $data->delete();
         sleep(1);
 
         if ($request->wantsJson()) {
             return response(null, 204);
         }
-        return redirect()->route('classes.index')->with('message', 'Record Removed');
+        return redirect()->back();
     }
 }
