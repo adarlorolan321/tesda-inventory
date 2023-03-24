@@ -4,6 +4,7 @@ import { createApp, h } from "vue";
 import { createInertiaApp, Link } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
+import flatPickr from 'vue-flatpickr-component';
 
 import Dropzone from "@/Components/Dropzone.vue";
 import Select2 from "@/Components/Select2.vue";
@@ -26,6 +27,7 @@ createInertiaApp({
             .component("TableHeader", TableHeader)
             .component("Dropzone", Dropzone)
             .component("inertia-link", Link)
+            .component("flat-pickr", flatPickr)
             .use(ZiggyVue, Ziggy)
             .mount(el);
     },

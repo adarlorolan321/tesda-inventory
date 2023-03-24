@@ -247,7 +247,7 @@ let {
                         <button
                             class="btn btn-primary"
                             @click="createPromise"
-                            :disabled="form.processing || Object.keys(form.errors).length > 0"
+                            :disabled="form.processing || form.hasErrors"
                             v-if="formState == 'create'"
                         >
                             <span
@@ -261,7 +261,7 @@ let {
                         <button
                             class="btn btn-primary"
                             @click="updatePromise"
-                            :disabled="form.processing || Object.keys(form.errors).length > 0"
+                            :disabled="form.processing || form.hasErrors"
                             v-if="formState == 'update'"
                         >
                             <span
