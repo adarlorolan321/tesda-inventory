@@ -74,7 +74,10 @@ let {
                                 type="text"
                                 class="form-control"
                                 v-model="form.name"
-                                @input="form.clearErrors('name')"
+                                @input="($event) => {
+                                    form.clearErrors('name'); 
+                                    validateForm(['required'], form, $event.target.value, 'name');
+                                }" 
                                 placeholder="Enter name"
                                 :class="{
                                     'is-invalid': form.errors.name,
