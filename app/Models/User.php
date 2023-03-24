@@ -50,7 +50,8 @@ class User extends Authenticatable implements HasMedia
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
-        "roles"
+        "roles",
+        'media'
     ];
 
     /**

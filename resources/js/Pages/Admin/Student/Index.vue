@@ -9,13 +9,24 @@ export default {
 <script setup>
 import { useCrud } from "@/Composables/Crud.js";
 import { useValidateForm } from "@/Composables/Validate.js";
+import { userInputFormat } from "@/Composables/InputFormat.js";
 
 const formObject = {
     first_name: null,
     last_name: null,
+    parent_id: null,
+    dob: null,
+    email: null,
+    phone: null,
+    gender: null,
 };
 
 const { validateForm } = useValidateForm();
+const { dateFormat, timeFormat } = userInputFormat();
+
+defineProps({
+    parents: Array,
+});
 
 const routeName = "students";
 let {
@@ -71,15 +82,43 @@ let {
                     </div>
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
                         <div class="form-group mb-3">
-                            <label for="">First Name</label>
+                            <label for=""
+                                >Parent <span class="required">*</span></label
+                            >
+                            <select2
+                                :class="{ 'is-invalid': form.errors.parent_id }"
+                                v-model="form.parent_id"
+                                placeholder="Select Parent"
+                                @update:modelValue="
+                                    form.clearErrors('parent_id')
+                                "
+                                :options="parents"
+                            >
+                            </select2>
+                            <div class="invalid-feedback">
+                                {{ form.errors.parent_id }}
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for=""
+                                >First Name
+                                <span class="required">*</span></label
+                            >
                             <input
                                 type="text"
                                 class="form-control"
                                 v-model="form.first_name"
-                                @input="($event) => {
-                                    form.clearErrors('first_name');
-                                    validateForm(['required'], form, $event.target.value, 'first_name');
-                                }"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('first_name');
+                                        validateForm(
+                                            ['required'],
+                                            form,
+                                            $event.target.value,
+                                            'first_name'
+                                        );
+                                    }
+                                "
                                 placeholder="Enter First Name"
                                 :class="{
                                     'is-invalid': form.errors.first_name,
@@ -95,10 +134,17 @@ let {
                                 type="text"
                                 class="form-control"
                                 v-model="form.last_name"
-                                @input="($event) => {
-                                    form.clearErrors('last_name');
-                                    validateForm(['required'], form, $event.target.value, 'last_name');
-                                }"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('last_name');
+                                        validateForm(
+                                            ['required'],
+                                            form,
+                                            $event.target.value,
+                                            'last_name'
+                                        );
+                                    }
+                                "
                                 placeholder="Enter Last Name"
                                 :class="{
                                     'is-invalid': form.errors.last_name,
@@ -108,7 +154,90 @@ let {
                                 {{ form.errors.last_name }}
                             </div>
                         </div>
+                        <div class="form-group mb-3">
+                            <label for="">Date Of Birth</label>
+                            <flat-pickr
+                                :config="dateFormat"
+                                class="form-control"
+                                :class="{
+                                    'is-invalid': form.errors.dob,
+                                }"
+                                placeholder="Enter Date of Birth"
+                                v-model="form.dob"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('dob');
+                                    }
+                                "
+                            />
+                            <div class="invalid-feedback">
+                                {{ form.errors.dob }}
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="">Email</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                v-model="form.email"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('email');
+                                        validateForm(
+                                            ['email'],
+                                            form,
+                                            $event.target.value,
+                                            'email'
+                                        );
+                                    }
+                                "
+                                placeholder="Enter Email"
+                                :class="{
+                                    'is-invalid': form.errors.email,
+                                }"
+                            />
+                            <div class="invalid-feedback">
+                                {{ form.errors.email }}
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Phone</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                v-model="form.phone"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('phone');
+                                    }
+                                "
+                                placeholder="04 1234 1234"
+                                :class="{
+                                    'is-invalid': form.errors.phone,
+                                }"
+                            />
+                            <div class="invalid-feedback">
+                                {{ form.errors.phone }}
+                            </div>
+                        </div>
 
+                        <div class="form-group mb-3">
+                            <label for="gender">Gender </label>
+                            <select2
+                                :class="{ 'is-invalid': form.errors.gender }"
+                                v-model="form.gender"
+                                placeholder="Select Gender"
+                                @update:modelValue="form.clearErrors('gender')"
+                                :options="['Boy', 'Girl', 'Prefer not to say']"
+                            >
+                            </select2>
+                            <div
+                                class="v-invalid-feedback"
+                                v-if="form.errors.gender"
+                            >
+                                {{ form.errors.gender }}
+                            </div>
+                        </div>
                         <button
                             class="btn btn-primary"
                             @click="createPromise"
@@ -195,42 +324,22 @@ let {
                 <thead class="table-light">
                     <tr>
                         <table-header
+                            style="min-width: 200px"
                             @click="handleServerQuery('sort', 'name')"
                             :serverQuery="serverQuery"
                             serverQueryKey="name"
                         >
-                            Venue Name
+                            Name
                         </table-header>
                         <table-header
+                            style="min-width: 200px"
                             @click="
-                                handleServerQuery('sort', 'contact_first_name')
+                                handleServerQuery('sort', 'parent_name')
                             "
                             :serverQuery="serverQuery"
-                            serverQueryKey="contact_first_name"
+                            serverQueryKey="parent_name"
                         >
-                            Contact Name
-                        </table-header>
-                        <table-header
-                            @click="handleServerQuery('sort', 'contact_phone')"
-                            :serverQuery="serverQuery"
-                            serverQueryKey="contact_phone"
-                        >
-                            Phone Number
-                        </table-header>
-                        <table-header
-                            @click="handleServerQuery('sort', 'contact_email')"
-                            :serverQuery="serverQuery"
-                            serverQueryKey="contact_email"
-                        >
-                            Email
-                        </table-header>
-                        <th>Embed Code</th>
-                        <table-header
-                            @click="handleServerQuery('sort', 'status')"
-                            :serverQuery="serverQuery"
-                            serverQueryKey="status"
-                        >
-                            Status
+                            Parent Name
                         </table-header>
                         <th>Actions</th>
                     </tr>
@@ -245,31 +354,8 @@ let {
                         v-for="tableData in paginatedData.data"
                         :key="tableData"
                     >
-                        <td>{{ tableData.name }}</td>
-                        <td>
-                            {{ tableData.contact_first_name }}
-                            {{ tableData.contact_last_name }}
-                        </td>
-                        <td>{{ tableData.contact_phone }}</td>
-                        <td>{{ tableData.contact_email }}</td>
-                        <td class="">
-                            <a href="#"
-                                ><i
-                                    class="fa-regular fa-copy ms-4"
-                                    style="font-size: 22px"
-                                ></i
-                            ></a>
-                        </td>
-                        <td>
-                            <span
-                                v-if="tableData.status == 1"
-                                class="badge bg-label-success"
-                                >Active</span
-                            >
-                            <span v-else class="badge bg-label-danger"
-                                >In-active</span
-                            >
-                        </td>
+                        <td>{{ tableData.first_name }}&nbsp;{{ tableData.last_name }}</td>
+                        <td>{{ tableData.parent_name }}</td>
                         <td>
                             <div class="d-flex gap-2">
                                 <a
