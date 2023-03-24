@@ -61,19 +61,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/messages', [CoachController::class, 'index'])->name('messages.index');
         Route::get('/merchandises', [CoachController::class, 'index'])->name('merchandises.index');
 
-        Route::get('/account', function () {
+        Route::get('/account', function(){
             return Inertia::render('Admin/Organisation/Create');
         })->name('account.index');
 
-        Route::get('/account/security', function () {
+        Route::get('/account/security', function(){
             return Inertia::render('Admin/Organisation/Security');
         })->name('account.security.index');
 
-        Route::get('/account-settings', function () {
+        Route::get('/account-settings', function(){
             return Inertia::render('Admin/account-settings/Account');
         })->name('account-settings.index');
 
-        Route::get('/account-settings/security', function () {
+        Route::get('/account-settings/security', function(){
             return Inertia::render('Admin/account-settings/Security');
         })->name('account-settings.security.index');
     });
