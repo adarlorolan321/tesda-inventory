@@ -113,7 +113,7 @@ export function useCrud(formObject = {}, routeName) {
             preventScroll: true,
             only: ["data", "params", "errors"],
             onSuccess: () => {
-                toastr.success("Record saved");
+                toastr.info("Record updated");
                 form.reset();
                 hideOffCanvas();
             },
@@ -140,7 +140,7 @@ export function useCrud(formObject = {}, routeName) {
                     preventScroll: true,
                     only: ["data", "params"],
                     onSuccess: () => {
-                        toastr.success("Record deleted");
+                        toastr.error("Record deleted");
                     },
                 });
             }
