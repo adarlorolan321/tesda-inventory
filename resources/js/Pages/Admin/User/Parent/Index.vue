@@ -10,6 +10,7 @@ export default {
 
 <script setup>
 import { useCrud } from "@/Composables/Crud.js";
+import { useValidateForm } from "@/Composables/Validate.js";
 
 const { props } = usePage();
 const formObject = {
@@ -24,6 +25,8 @@ const formObject = {
 };
 
 const routeName = "user.parents";
+
+const {validateForm } = useValidateForm();
 let {
     isLoadingComponents,
     paginatedData,
@@ -145,7 +148,10 @@ let {
                                 id="phone"
                                 class="form-control"
                                 v-model="form.phone"
-                                @input="form.clearErrors('phone')"
+                                @input="($event) => {
+                                    form.clearErrors('phone');
+                                    validateForm(['number'], form, $event.target.value, 'phone')
+                                }"
                                 placeholder="Enter Phone"
                                 :class="{
                                     'is-invalid': form.errors.phone,
@@ -159,7 +165,7 @@ let {
                         <button
                             class="btn btn-primary"
                             @click="createPromise"
-                            :disabled="form.processing"
+                            :disabled="form.processing || Object.keys(form.errors).length > 0"
                             v-if="formState == 'create'"
                         >
                             <span
@@ -173,7 +179,7 @@ let {
                         <button
                             class="btn btn-primary"
                             @click="updatePromise"
-                            :disabled="form.processing"
+                            :disabled="form.processing || Object.keys(form.errors).length > 0"
                             v-if="formState == 'update'"
                         >
                             <span

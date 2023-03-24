@@ -11,7 +11,7 @@ export default {
 
 <script setup>
 import { useCrud } from "@/Composables/Crud.js";
-import { validateForm } from "@/Composables/Validate.js";
+import { useValidateForm } from "@/Composables/Validate.js";
 
 const { props } = usePage();
 const formObject = {
@@ -25,7 +25,7 @@ const formObject = {
     profile_photo: null,
 };
 
-let { validateEmail } = validateForm;
+const { validateForm } = useValidateForm();
 
 const routeName = "user.coaches";
 let {
@@ -185,7 +185,10 @@ let {
                                 id="phone"
                                 class="form-control"
                                 v-model="form.phone"
-                                @input="form.clearErrors('phone')"
+                                @input="($event) => {
+                                    form.clearErrors('phone');
+                                    validateForm(['number'], form, $event.target.value, 'phone')
+                                }"
                                 placeholder="Enter Phone"
                                 :class="{
                                     'is-invalid': form.errors.phone,
@@ -243,7 +246,7 @@ let {
                         <button
                             class="btn btn-primary"
                             @click="createPromise"
-                            :disabled="form.processing"
+                            :disabled="form.processing || Object.keys(form.errors).length > 0"
                             v-if="formState == 'create'"
                         >
                             <span
@@ -257,7 +260,7 @@ let {
                         <button
                             class="btn btn-primary"
                             @click="updatePromise"
-                            :disabled="form.processing"
+                            :disabled="form.processing || Object.keys(form.errors).length > 0"
                             v-if="formState == 'update'"
                         >
                             <span
