@@ -49,6 +49,7 @@ class StudentController extends Controller
             'parents' => User::whereHas('roles', function ($query) {
                         $query->where('name', 'Client');
                     })
+                    ->orderBy('name', 'ASC')
                     ->get(['id', 'name'])
                     ->map(function($parent) {
                         return [

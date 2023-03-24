@@ -20,7 +20,7 @@ export function useCrud(formObject = {}, routeName) {
     });
 
     onMounted(() => {
-        if(serverParams.value){
+        if (serverParams.value) {
             if (serverParams.value.page) {
                 serverQuery.value.page = serverParams.value.page;
             }
