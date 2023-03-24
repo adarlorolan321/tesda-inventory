@@ -9,7 +9,7 @@ use App\Models\Media;
 use App\Models\User;
 use App\Http\Requests\User\StoreParentRequest;
 use App\Http\Requests\User\UpdateParentRequest;
-
+use App\Models\User\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -111,12 +111,14 @@ class ParentController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $data = User::findOrFail($id);
+        $parent = User::findOrFail($id);
         if ($request->wantsJson()) {
-            return new CoachListResource($data);
+            return new ParentListResource($parent);
         }
-        return Inertia::render('Admin/User/Parent/Show', ['data' => $data]);
-
+        return Inertia::render('Admin/User/Parent/Show', [
+            'parent' => $parent,
+            'students' => Student::where('parent_id', $parent->id)->get()
+        ]);
     }
 
     /**
@@ -126,7 +128,7 @@ class ParentController extends Controller
     {
         $data = User::findOrFail($id);
         if ($request->wantsJson()) {
-            return new CoachListResource($data);
+            return new ParentListResource($data);
         }
         return Inertia::render('Admin/Coach/Edit', [
             'data' => $data
@@ -155,14 +157,14 @@ class ParentController extends Controller
                 ]);
         }
 
-        if($prevEmail != $userArr['email']){
-            $data->sendUpdateEmailNotication(array_merge($userArr,['password' => 'Your current password']));
+        if ($prevEmail != $userArr['email']) {
+            $data->sendUpdateEmailNotication(array_merge($userArr, ['password' => 'Your current password']));
         }
 
         sleep(1);
 
         if ($request->wantsJson()) {
-            return (new CoachListResource($data))
+            return (new ParentListResource($data))
                 ->response()
                 ->setStatusCode(201);
         }

@@ -10,7 +10,7 @@ export default {
 import { useCrud } from "@/Composables/Crud.js";
 import { useValidateForm } from "@/Composables/Validate.js";
 import { userInputFormat } from "@/Composables/InputFormat.js";
-import {  Head } from "@inertiajs/vue3";
+import { Head } from "@inertiajs/vue3";
 const formObject = {
     first_name: null,
     last_name: null,
@@ -83,7 +83,9 @@ let {
                     </div>
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
                         <div class="form-group mb-3">
-                            <label>Parent <span class="required">*</span></label>
+                            <label
+                                >Parent <span class="required">*</span></label
+                            >
                             <select2
                                 :class="{ 'is-invalid': form.errors.parent_id }"
                                 v-model="form.parent_id"
@@ -332,9 +334,7 @@ let {
                         </table-header>
                         <table-header
                             style="min-width: 200px"
-                            @click="
-                                handleServerQuery('sort', 'parent_name')
-                            "
+                            @click="handleServerQuery('sort', 'parent_name')"
                             :serverQuery="serverQuery"
                             serverQueryKey="parent_name"
                         >
@@ -353,9 +353,21 @@ let {
                         v-for="tableData in paginatedData.data"
                         :key="tableData"
                     >
-                        <td>{{ tableData.first_name }}&nbsp;{{ tableData.last_name }}</td>
                         <td>
-                            <inertia-link :href="route('user.parents.show', tableData.id)">{{ tableData.parent_name }}</inertia-link>
+                            {{ tableData.first_name }}&nbsp;{{
+                                tableData.last_name
+                            }}
+                        </td>
+                        <td>
+                            <inertia-link
+                                :href="
+                                    route(
+                                        'user.parents.show',
+                                        tableData.parent_id
+                                    )
+                                "
+                                >{{ tableData.parent_name }}</inertia-link
+                            >
                         </td>
                         <td>
                             <div class="d-flex gap-2">

@@ -1,45 +1,33 @@
 <script>
-import AdminLayout from "@/Layouts/AdminLayout.vue";
-import { usePage } from "@inertiajs/vue3";
-
+import ParentLayout from "@/Layouts/ParentLayout.vue";
 export default {
-    layout: AdminLayout,
+    layout: ParentLayout,
 };
 </script>
 
 <script setup>
+import { usePage } from "@inertiajs/vue3";
 const { props } = usePage();
 </script>
 
 <template>
-    <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4">
-            <span class="text-muted fw-light">Parents /</span>
-            {{ props.data.name.toUpperCase() }}
-        </h4>
-        <ul class="nav nav-pills flex-column flex-md-row mb-4">
-            <li class="nav-item">
-                <inertia-link
-                    class="nav-link active"
-                    :href="route('user.parents.index')"
-                    :class="{
-                        active: route().current('user.parents.index'),
-                    }"
-                    ><i class="ti-xs ti ti-user-check me-1"></i>
-                    Account</inertia-link
+    <div class="card card-action">
+        <div class="card-header">
+            <div class="card-action-title align-items-center">
+                <h5 class="card-title">Players</h5>
+            </div>
+            <div class="card-action-element">
+                <button
+                    class="btn btn-primary"
+                    type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#offCanvasForm"
+                    aria-controls="offCanvasForm"
                 >
-            </li>
-            <li class="nav-item">
-                <inertia-link
-                    class="nav-link"
-                    :href="route('user.parents.index')"
-                    :class="{
-                        active: route().current('user.parents.index'),
-                    }"
-                    ><i class="ti-xs ti ti-users me-1"></i>
-                    Players</inertia-link
-                >
-            </li>
-        </ul>
+                    Add Player
+                </button>
+            </div>
+        </div>
     </div>
+    {{ props.students }}
 </template>
