@@ -15,7 +15,7 @@
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
     <!-- {{ config('app.name', 'Laravel') }} -->
-    <title inertia>Sports SAAS</title>
+    <title inertia>Sportsaas</title>
 
     <meta name="description" content=""/>
 

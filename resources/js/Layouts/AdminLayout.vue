@@ -45,7 +45,7 @@
                             </svg>
                         </span>
                         <span class="app-brand-text demo menu-text fw-bold"
-                            >Sports SAAS</span
+                            >Sportsaas</span
                         >
                     </a>
 
