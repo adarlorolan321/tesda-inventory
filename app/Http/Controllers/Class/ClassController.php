@@ -33,8 +33,10 @@ class ClassController extends Controller
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
-                    $query->where('column', 'like', '%' . $queryString . '%')
-                        ->orWhere('column', 'like', '%' . $queryString . '%');
+                    $query->where('classes.name', 'like', '%' . $queryString . '%')
+                        ->orWhere('classes.days', 'like', '%' . $queryString . '%')
+                        ->orWhere('services.name', 'like', '%' . $queryString . '%')
+                        ->orWhere('users.name', 'like', '%' . $queryString . '%');
                 }
             })
             ->orderBy('name', 'ASC')
