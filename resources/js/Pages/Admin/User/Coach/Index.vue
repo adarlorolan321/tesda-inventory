@@ -441,6 +441,7 @@ let {
                         <td>
                             <div class="avatar avatar-lg">
                                 <img
+                                    style="object-fit: cover"
                                     :src="tableData.profile_photo_url"
                                     alt="Avatar"
                                     class="rounded-circle"
