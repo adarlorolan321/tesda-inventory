@@ -8,13 +8,14 @@ export default {
 </script>
 
 <script setup>
-import { useCrud } from "@/Composables/Crud.js";
+import { useCrud } from "@/Composables/Crud.js"; 
+import { useValidateForm } from "@/Composables/Validate.js";
 const { props } = usePage();
 const formObject = {
     name: null,
     code: null,
 };
-
+const { validateForm } = useValidateForm();
 const routeName = "settings.services";
 let {
     paginatedData,
@@ -106,7 +107,7 @@ let {
                         <button
                             class="btn btn-primary"
                             @click="createPromise"
-                            :disabled="form.processing"
+                            :disabled="form.processing || form.hasErrors"
                             v-if="formState == 'create'"
                         >
                             <span
@@ -120,7 +121,7 @@ let {
                         <button
                             class="btn btn-primary"
                             @click="updatePromise"
-                            :disabled="form.processing"
+                            :disabled="form.processing || form.hasErrors"
                             v-if="formState == 'update'"
                         >
                             <span
