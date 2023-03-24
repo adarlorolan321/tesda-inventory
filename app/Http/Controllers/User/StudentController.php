@@ -18,9 +18,12 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-
+        
+        $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
+        $sort = explode('.', $request->input('sort', 'id'));
+        $order = $request->input('order', 'asc');
 
         $data = Student::query()
             ->with([])
@@ -30,6 +33,9 @@ class StudentController extends Controller
                     // $query->where('column', 'like', '%' . $queryString . '%')
                     //     ->orWhere('column', 'like', '%' . $queryString . '%');
                 }
+            })
+            ->when(count($sort) == 1, function ($query) use ($sort, $order) {
+                $query->orderBy($sort[0], $order);
             })
             ->paginate($perPage)
             ->withQueryString();
@@ -41,6 +47,11 @@ class StudentController extends Controller
 
         if ($request->wantsJson()) {
             return json_encode($props);
+        }
+
+        if(count($data) <= 0 && $page > 1)
+        {
+            return redirect()->route('students.index', ['page' => 1]);
         }
 
         return Inertia::render('Admin/Student', $props);
@@ -65,7 +76,7 @@ class StudentController extends Controller
         if ($request->wantsJson()) {
             return new StudentListResource($data);
         }
-        return redirect()->route('students.index')->with('message', 'Record Saved');
+        return redirect()->back();
     }
 
     /**
@@ -111,7 +122,7 @@ class StudentController extends Controller
                 ->setStatusCode(201);
         }
 
-        return redirect()->route('students.index')->with('message', 'Record Saved');
+        return redirect()->back();
     }
 
     /**
@@ -126,6 +137,6 @@ class StudentController extends Controller
         if ($request->wantsJson()) {
             return response(null, 204);
         }
-        return redirect()->route('students.index')->with('message', 'Record Removed');
+        return redirect()->back();
     }
 }
