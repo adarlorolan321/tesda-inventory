@@ -82,6 +82,9 @@ const isPassword = ref({ password: true, password_confirmation: true });
                                         :type="isPassword.password?'password':'text'"
                                         id="password"
                                         class="form-control"
+                                        :class="{
+                                            'is-invalid': form.errors.password,
+                                        }"
                                         v-model="form.password"
                                         @input="form.clearErrors('password')"
                                     />
@@ -100,6 +103,9 @@ const isPassword = ref({ password: true, password_confirmation: true });
                                         :type="isPassword.password_confirmation?'password':'text'"
                                         id="password_confirmation"
                                         class="form-control"
+                                        :class="{
+                                            'is-invalid': form.errors.password_confirmation,
+                                        }"
                                         v-model="form.password_confirmation"
                                         @input="form.clearErrors('password_confirmation')"
                                     />
