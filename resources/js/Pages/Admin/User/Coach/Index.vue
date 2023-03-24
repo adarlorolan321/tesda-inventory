@@ -11,7 +11,7 @@ export default {
 
 <script setup>
 import { useCrud } from "@/Composables/Crud.js";
-import { validateForm } from "@/Composables/Validate.js";
+import { useValidateForm } from "@/Composables/Validate.js";
 
 const { props } = usePage();
 const formObject = {
@@ -25,7 +25,7 @@ const formObject = {
     profile_photo: null,
 };
 
-let { validateEmail } = validateForm;
+const { validateForm } = useValidateForm();
 
 const routeName = "user.coaches";
 let {
@@ -127,7 +127,7 @@ let {
                                 id="first_name"
                                 class="form-control"
                                 v-model="form.first_name"
-                                @input="form.clearErrors('first_name')"
+                                @input="($event) => {form.clearErrors('first_name'); validateForm(['required'], form, $event.target.value, 'first_name');}"
                                 placeholder="Enter First Name"
                                 :class="{
                                     'is-invalid': form.errors.first_name,
@@ -147,7 +147,7 @@ let {
                                 id="last_name"
                                 class="form-control"
                                 v-model="form.last_name"
-                                @input="form.clearErrors('last_name')"
+                                @input="($event) => {form.clearErrors('last_name'); validateForm(['required'], form, $event.target.value, 'last_name');}"
                                 placeholder="Enter Last Name"
                                 :class="{
                                     'is-invalid': form.errors.last_name,
@@ -166,7 +166,7 @@ let {
                                 id="email"
                                 class="form-control"
                                 v-model="form.email"
-                                @input="form.clearErrors('email')"
+                                @input="($event) => {form.clearErrors('email'); validateForm(['required'], form, $event.target.value, 'email');}"
                                 placeholder="Enter Email"
                                 :class="{
                                     'is-invalid': form.errors.email,
@@ -185,7 +185,11 @@ let {
                                 id="phone"
                                 class="form-control"
                                 v-model="form.phone"
-                                @input="form.clearErrors('phone')"
+                                @input="($event) => {
+                                    form.clearErrors('phone');
+                                    validateForm(['required'], form, $event.target.value, 'phone');
+                                    validateForm(['number'], form, $event.target.value, 'phone');
+                                }"
                                 placeholder="Enter Phone"
                                 :class="{
                                     'is-invalid': form.errors.phone,
@@ -243,7 +247,7 @@ let {
                         <button
                             class="btn btn-primary"
                             @click="createPromise"
-                            :disabled="form.processing"
+                            :disabled="form.processing || Object.keys(form.errors).length > 0"
                             v-if="formState == 'create'"
                         >
                             <span
@@ -257,7 +261,7 @@ let {
                         <button
                             class="btn btn-primary"
                             @click="updatePromise"
-                            :disabled="form.processing"
+                            :disabled="form.processing || Object.keys(form.errors).length > 0"
                             v-if="formState == 'update'"
                         >
                             <span
@@ -437,6 +441,7 @@ let {
                         <td>
                             <div class="avatar avatar-lg">
                                 <img
+                                    style="object-fit: cover"
                                     :src="tableData.profile_photo_url"
                                     alt="Avatar"
                                     class="rounded-circle"

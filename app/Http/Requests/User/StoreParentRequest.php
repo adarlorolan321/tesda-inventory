@@ -22,10 +22,10 @@ class StoreParentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['required'],
-            'last_name' => ['required'],
+            'first_name' => ['required','max:100'],
+            'last_name' => ['required','max:100'],
             'email' => ['required','email:rfc,dns','unique:users,email'],
-            'phone' => ['nullable','numeric','unique:users,phone'],
+            'phone' => ['nullable','numeric'],
             'role' => ['required'],
             'status' => ['required'],
             'profile_photo' => ['nullable'],

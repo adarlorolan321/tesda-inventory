@@ -172,6 +172,9 @@ export default {
                 // self.$emit('error', [replaceString])
                 if (String(message).includes("File is too big")) {
                     self.$emit("error", ["File size is too big. Max 2MB"]);
+                }
+                if (String(message).includes("You can't upload files of this type.")) {
+                    self.$emit("error", ["You can't upload files of this type"]);
                 } else {
                     self.$emit("error", [replaceString]);
                 }

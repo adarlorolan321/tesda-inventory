@@ -23,10 +23,10 @@ class UpdateParentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['required'],
-            'last_name' => ['required'],
+            'first_name' => ['required','max:100'],
+            'last_name' => ['required','max:100'],
             'email' => ['required', 'email:rfc,dns', Rule::unique('users')->ignore($this->id)],
-            'phone' => ['nullable', 'numeric',Rule::unique('users')->ignore($this->id)],
+            'phone' => ['nullable', 'numeric'],
             'role' => ['required'],
             'status' => ['required'],
             'profile_photo' => ['nullable'],
