@@ -73,7 +73,6 @@ const isPassword = ref({ password: true, password_confirmation: true });
 
                 <h4 class="mb-1 pt-2">Reset Password 🔒</h4>
                 <p class="mb-4">for <span class="fw-bold">{{ form.email }}</span></p>
-                {{  form }}
                     <form @submit.prevent="submit()">
                         <div class="mb-3 form-password-toggle">
                             <div class="form-group mb-3">
@@ -93,7 +92,6 @@ const isPassword = ref({ password: true, password_confirmation: true });
                                 </div>
                             </div>
                         </div>
-                        {{ form.errors }}
                         <div class="mb-3 form-password-toggle">
                             <div class="form-group mb-3">
                                 <label for="name">Confirm Password <span class="required">*</span></label>
