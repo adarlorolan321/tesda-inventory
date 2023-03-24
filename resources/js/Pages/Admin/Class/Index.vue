@@ -107,23 +107,23 @@ let {
                             Name
                         </table-header>
                         <table-header
-                            @click="handleServerQuery('sort', 'day')"
+                            @click="handleServerQuery('sort', 'days')"
                             :serverQuery="serverQuery"
-                            serverQueryKey="day"
+                            serverQueryKey="days"
                         >
                             Day
                         </table-header>
                         <table-header
-                            @click="handleServerQuery('sort', 'service')"
+                            @click="handleServerQuery('sort', 'service_name')"
                             :serverQuery="serverQuery"
-                            serverQueryKey="service"
+                            serverQueryKey="service_name"
                         >
                             Service
                         </table-header>
                         <table-header
-                            @click="handleServerQuery('sort', 'coach')"
+                            @click="handleServerQuery('sort', 'coach_name')"
                             :serverQuery="serverQuery"
-                            serverQueryKey="coach"
+                            serverQueryKey="coach_name"
                         >
                             Coach
                         </table-header>
