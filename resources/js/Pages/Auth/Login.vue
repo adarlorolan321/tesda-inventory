@@ -1,5 +1,6 @@
 <script setup>
 import { useLogin } from "../../Composables/Login";
+import { Head } from '@inertiajs/vue3'
 import { ref } from "vue";
 const { login, form } = useLogin();
 const password = ref(true);
@@ -9,6 +10,7 @@ defineProps({
 
 </script>
 <template>
+    <Head title="Login"></Head>
     <div class="container-xxl">
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner py-4">
