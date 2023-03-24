@@ -1,8 +1,8 @@
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import $ from 'jquery'
-import {usePage} from "@inertiajs/vue3";
-import {reactive, computed, onMounted} from "vue";
+import $ from "jquery";
+import { usePage } from "@inertiajs/vue3";
+import { reactive, computed, onMounted } from "vue";
 
 export default {
     layout: AdminLayout,
@@ -10,10 +10,10 @@ export default {
 </script>
 
 <script setup>
-import {useCrud} from "@/Composables/Crud.js";
-import {validateForm} from "@/Composables/Validate.js";
+import { useCrud } from "@/Composables/Crud.js";
+import { validateForm } from "@/Composables/Validate.js";
 
-const {props} = usePage();
+const { props } = usePage();
 const formObject = {
     id: null,
     first_name: null,
@@ -25,7 +25,7 @@ const formObject = {
     profile_photo: null,
 };
 
-let {validateEmail} = validateForm;
+let { validateEmail } = validateForm;
 
 const routeName = "user.coaches";
 let {
@@ -69,7 +69,8 @@ let {
                 >
                     <div class="offcanvas-header">
                         <h5 id="offCanvasFormLabel" class="offcanvas-title">
-                            {{ formState == "create" ? "Add" : "Update" }} Coach / Staff
+                            {{ formState == "create" ? "Add" : "Update" }} Coach
+                            / Staff
                         </h5>
                         <button
                             type="button"
@@ -80,8 +81,47 @@ let {
                         ></button>
                     </div>
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
+                        <div class="form-group mb-4 dropzone-profile-photo">
+                            <label for="name">Profile Photo</label>
+                            <dropzone
+                                collection="profile_photo"
+                                v-if="isLoadingComponents"
+                                :url="route('api.media.upload')"
+                                type="profile"
+                                model="User"
+                                :value="form.profile_photo"
+                                @input="form.profile_photo = $event"
+                                message="Drop files here or click to upload profile photo"
+                                acceptedFiles="image/jpeg,image/png"
+                                @error="
+                                    form.setError(
+                                        'profile_photo',
+                                        $event && $event[0] ? $event[0] : $event
+                                    )
+                                "
+                            >
+                            </dropzone>
+                            <div v-else>
+                                <div class="dropzone" ref="dropzone">
+                                    <div class="dz-message needsclick">
+                                        Please Wait
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="v-invalid-feedback"
+                                v-if="form.errors.profile_photo"
+                            >
+                                {{ form.errors.profile_photo }}
+                            </div>
+                        </div>
+
                         <div class="form-group mb-3">
-                            <label for="name">First Name <span class="required">*</span></label>
+                            <label for="name"
+                                >First Name
+                                <span class="required">*</span></label
+                            >
                             <input
                                 type="text"
                                 id="first_name"
@@ -98,7 +138,10 @@ let {
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="name">Last Name <span class="required">*</span></label>
+                            <label for="name"
+                                >Last Name
+                                <span class="required">*</span></label
+                            >
                             <input
                                 type="text"
                                 id="last_name"
@@ -115,7 +158,9 @@ let {
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="name">Email <span class="required">*</span></label>
+                            <label for="name"
+                                >Email <span class="required">*</span></label
+                            >
                             <input
                                 type="text"
                                 id="email"
@@ -132,7 +177,9 @@ let {
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="name">Phone <span class="required">*</span></label>
+                            <label for="name"
+                                >Phone <span class="required">*</span></label
+                            >
                             <input
                                 type="text"
                                 id="phone"
@@ -149,7 +196,9 @@ let {
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="role">Role <span class="required">*</span></label>
+                            <label for="role"
+                                >Role <span class="required">*</span></label
+                            >
                             <select2
                                 :class="{ 'is-invalid': form.errors.role }"
                                 v-model="form.role"
@@ -158,12 +207,17 @@ let {
                                 :options="['Coach', 'Admin']"
                             >
                             </select2>
-                            <div class="invalid-feedback">
+                            <div
+                                class="v-invalid-feedback"
+                                v-if="form.errors.role"
+                            >
                                 {{ form.errors.role }}
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <div class=" ">Status <span class="required">*</span></div>
+                            <div class=" ">
+                                Status <span class="required">*</span>
+                            </div>
                             <label class="switch">
                                 <input
                                     type="checkbox"
@@ -178,38 +232,14 @@ let {
                                 <span
                                     class="switch-label"
                                     v-if="form.status == 1"
-                                >Active</span
+                                    >Active</span
                                 >
                                 <span class="switch-label" v-else
-                                >In-active</span
+                                    >In-active</span
                                 >
                             </label>
                         </div>
-                        <div class="form-group mb-4">
-                            <label for="name">Profile Photo</label>
-                            <dropzone
-                                collection="profile_photo"
-                                v-if="isLoadingComponents"
-                                :url="route('api.media.upload')"
-                                model="User"
-                                :value="form.profile_photo"
-                                @input="form.profile_photo = $event"
-                                message="Drop files here or click to upload profile photo"
-                                acceptedFiles="application/pdf,image/jpeg,image/png"
-                            >
-                            </dropzone>
-                            <div v-else>
-                                <div class="dropzone" ref="dropzone">
-                                    <div class="dz-message needsclick">
-                                        Please Wait
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="invalid-feedback">
-                                {{ form.errors.first_name }}
-                            </div>
-                        </div>
                         <button
                             class="btn btn-primary"
                             @click="createPromise"
@@ -273,10 +303,15 @@ let {
                     <div class="d-flex flex-row gap-3">
                         <select2
                             style="width: 200px"
-                            :settings="{allowClear:true, minimumResultsForSearch: -1}"
+                            :settings="{
+                                allowClear: true,
+                                minimumResultsForSearch: -1,
+                            }"
                             v-model="serverQuery.role"
                             placeholder="Filter By Role"
-                            @update:modelValue="handleServerQuery('role',  $event)"
+                            @update:modelValue="
+                                handleServerQuery('role', $event)
+                            "
                             :options="['Coach', 'Admin']"
                         >
                         </select2>
@@ -288,11 +323,11 @@ let {
                                     class="form-control"
                                     :value="serverQuery.query"
                                     @input="
-                                    handleServerQuery(
-                                        'query',
-                                        $event.target.value
-                                    )
-                                "
+                                        handleServerQuery(
+                                            'query',
+                                            $event.target.value
+                                        )
+                                    "
                                 />
                             </div>
                         </div>
@@ -303,104 +338,149 @@ let {
         <div class="table-responsive text-nowrap">
             <table class="table">
                 <thead class="table-light">
-                <tr>
-                    <th class="sortable">Photo</th>
-                    <th class="sortable" @click="handleServerQuery('sort', 'name')">
-                        Name
-                        <i class="ti ti-arrow-up"
-                           v-if="  serverQuery.sort == 'name' && serverQuery.order == 'desc' "></i>
-                        <i class="ti ti-arrow-down"
-                           v-if=" serverQuery.sort == 'name' && serverQuery.order == 'asc' "></i>
-                    </th>
-                    <th @click="handleServerQuery('sort', 'role')"> Role</th>
-                    <th class="sortable" @click="handleServerQuery('sort', 'email')">
-                        Email
-                        <i class="ti ti-arrow-up"
-                           v-if=" serverQuery.sort == 'email' &&  serverQuery.order == 'desc' "></i>
-                        <i class="ti ti-arrow-down"
-                           v-if=" serverQuery.sort == 'email' && serverQuery.order == 'asc' "></i>
-                    </th>
-                    <th class="sortable" @click="handleServerQuery('sort', 'phone')">
-                        Phone
-                        <i class="ti ti-arrow-up"
-                           v-if=" serverQuery.sort == 'phone' &&  serverQuery.order == 'desc' "></i>
-                        <i class="ti ti-arrow-down"
-                           v-if=" serverQuery.sort == 'phone' &&  serverQuery.order == 'asc' "></i>
-                    </th>
-                    <th class="sortable" @click="handleServerQuery('sort', 'status')">
-                        Status
-                        <i class="ti ti-arrow-up"
-                           v-if=" serverQuery.sort == 'status' && serverQuery.order == 'desc' "></i>
-                        <i class="ti ti-arrow-down"
-                           v-if="  serverQuery.sort == 'status' && serverQuery.order == 'asc' "></i>
-                    </th>
-                    <th>Actions</th>
-                </tr>
+                    <tr>
+                        <th class="sortable">Photo</th>
+                        <th
+                            class="sortable"
+                            @click="handleServerQuery('sort', 'name')"
+                        >
+                            Name
+                            <i
+                                class="ti ti-arrow-up"
+                                v-if="
+                                    serverQuery.sort == 'name' &&
+                                    serverQuery.order == 'desc'
+                                "
+                            ></i>
+                            <i
+                                class="ti ti-arrow-down"
+                                v-if="
+                                    serverQuery.sort == 'name' &&
+                                    serverQuery.order == 'asc'
+                                "
+                            ></i>
+                        </th>
+                        <th @click="handleServerQuery('sort', 'role')">Role</th>
+                        <th
+                            class="sortable"
+                            @click="handleServerQuery('sort', 'email')"
+                        >
+                            Email
+                            <i
+                                class="ti ti-arrow-up"
+                                v-if="
+                                    serverQuery.sort == 'email' &&
+                                    serverQuery.order == 'desc'
+                                "
+                            ></i>
+                            <i
+                                class="ti ti-arrow-down"
+                                v-if="
+                                    serverQuery.sort == 'email' &&
+                                    serverQuery.order == 'asc'
+                                "
+                            ></i>
+                        </th>
+                        <th
+                            class="sortable"
+                            @click="handleServerQuery('sort', 'phone')"
+                        >
+                            Phone
+                            <i
+                                class="ti ti-arrow-up"
+                                v-if="
+                                    serverQuery.sort == 'phone' &&
+                                    serverQuery.order == 'desc'
+                                "
+                            ></i>
+                            <i
+                                class="ti ti-arrow-down"
+                                v-if="
+                                    serverQuery.sort == 'phone' &&
+                                    serverQuery.order == 'asc'
+                                "
+                            ></i>
+                        </th>
+                        <th
+                            class="sortable"
+                            @click="handleServerQuery('sort', 'status')"
+                        >
+                            Status
+                            <i
+                                class="ti ti-arrow-up"
+                                v-if="
+                                    serverQuery.sort == 'status' &&
+                                    serverQuery.order == 'desc'
+                                "
+                            ></i>
+                            <i
+                                class="ti ti-arrow-down"
+                                v-if="
+                                    serverQuery.sort == 'status' &&
+                                    serverQuery.order == 'asc'
+                                "
+                            ></i>
+                        </th>
+                        <th>Actions</th>
+                    </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                <tr v-if="paginatedData.data.length <= 0">
-                    <td colspan="999999" class="text-center">
-                        No item found
-                    </td>
-                </tr>
-                <tr
-                    v-for="tableData in paginatedData.data"
-                    :key="tableData"
-                >
-                    <td>
-                        <div class="avatar avatar-lg" v-if="tableData.profile_photo && tableData.profile_photo.src">
-                            <img
-                                :src="tableData.profile_photo.src"
-                                alt="Avatar"
-                                class="rounded-circle"
-                            />
-                        </div>
-                        <div class="avatar avatar-lg" v-else>
-                            <img
-                                style="object-fit: contain"
-                                src="/assets/img/image_not_available.png"
-                                alt="Avatar"
-                                class="rounded-circle shadow-sm"
-                            />
-                        </div>
-                    </td>
-                    <td>{{ tableData.name }}</td>
-                    <td>{{ tableData.role }}</td>
-                    <td>{{ tableData.email }}</td>
-                    <td>{{ tableData.phone }}</td>
-                    <td>
+                    <tr v-if="paginatedData.data.length <= 0">
+                        <td colspan="999999" class="text-center">
+                            No item found
+                        </td>
+                    </tr>
+                    <tr
+                        v-for="tableData in paginatedData.data"
+                        :key="tableData"
+                    >
+                        <td>
+                            <div class="avatar avatar-lg">
+                                <img
+                                    :src="tableData.profile_photo_url"
+                                    alt="Avatar"
+                                    class="rounded-circle"
+                                />
+                            </div>
+                        </td>
+                        <td>{{ tableData.name }}</td>
+                        <td>{{ tableData.role }}</td>
+                        <td>{{ tableData.email }}</td>
+                        <td>{{ tableData.phone }}</td>
+                        <td>
                             <span
                                 v-if="tableData.status == 1"
                                 class="badge bg-label-success"
-                            >Active</span
+                                >Active</span
                             >
-                        <span v-else class="badge bg-label-danger"
-                        >In-active</span
-                        >
-                    </td>
-                    <td>
-                        <div class="d-flex gap-2">
-
-                            <inertia-link
-                                class="btn btn-icon btn-label-info waves-effect"
-                                :href="route('user.coaches.show',tableData.id)"
-                            ><i class="ti ti-eye"></i>
-                            </inertia-link>
-                            <a
-                                class="btn btn-icon btn-label-primary waves-effect"
-                                @click="handleEdit(tableData)"
-                                href="javascript:void(0);"
-                            ><i class="ti ti-pencil"></i>
-                            </a>
-                            <a
-                                class="btn btn-icon btn-label-danger waves-effect"
-                                href="javascript:void(0);"
-                                @click="deletePromise(tableData.id)"
-                            ><i class="ti ti-trash"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
+                            <span v-else class="badge bg-label-danger"
+                                >In-active</span
+                            >
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <inertia-link
+                                    class="btn btn-icon btn-label-info waves-effect"
+                                    :href="
+                                        route('user.coaches.show', tableData.id)
+                                    "
+                                    ><i class="ti ti-eye"></i>
+                                </inertia-link>
+                                <a
+                                    class="btn btn-icon btn-label-primary waves-effect"
+                                    @click="handleEdit(tableData)"
+                                    href="javascript:void(0);"
+                                    ><i class="ti ti-pencil"></i>
+                                </a>
+                                <a
+                                    class="btn btn-icon btn-label-danger waves-effect"
+                                    href="javascript:void(0);"
+                                    @click="deletePromise(tableData.id)"
+                                    ><i class="ti ti-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

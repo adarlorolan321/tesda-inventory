@@ -121,11 +121,21 @@ class UserController extends Controller
     public function validateInput(Request $request, $type)
     {
         return $type;
-//        $rules = [
-//            'email' => 'email|unique:users,email',
-//        ];
-//        $validator = Validator::make($request->all(), $rules);
-//
-//        return $validator->passes();
+        //        $rules = [
+        //            'email' => 'email|unique:users,email',
+        //        ];
+        //        $validator = Validator::make($request->all(), $rules);
+        //
+        //        return $validator->passes();
+    }
+
+    public function profile()
+    {
+        return Inertia::render('Admin/User/Profile/Show');
+    }
+
+    public function changePassword()
+    {
+        return Inertia::render('Admin/User/Profile/Show');
     }
 }

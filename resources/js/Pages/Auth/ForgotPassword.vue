@@ -1,4 +1,7 @@
+
+
 <script setup>
+// import Swal from "sweetalert2";
 import { Head, useForm } from "@inertiajs/vue3";
 
 defineProps({
@@ -9,13 +12,29 @@ const form = useForm({
     email: "",
 });
 
+
 const submit = () => {
-    form.post(route("password.email"));
+    form.post(route("password.email"), {
+        onSuccess: () => {
+            // Swal.fire("Email sent!", "A valid email address with an existing account has been submitted by user","success" );
+        },
+        onError: () => {
+            // Swal.fire("Email not sent!", "Incorrect email address /Invalid email address","error" )
+        }
+    });
+    
 };
+
 </script>
+
+
+
+
 
 <template>
     <div class="container-xxl">
+
+
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner py-4">
                 <!-- Forgot Password -->
@@ -62,7 +81,7 @@ const submit = () => {
                                 </span>
                                 <span
                                     class="app-brand-text demo text-body fw-bold"
-                                    >Vuexy</span
+                                    >Sportsaas</span
                                 >
                             </a>
                         </div>
@@ -73,25 +92,29 @@ const submit = () => {
                             reset your password
                         </p>
 
+
                         <div
                             v-if="status"
-                            class="mb-4 font-medium text-sm text-green-600"
-                        >
-                            {{ status }}
+                            class="alert alert-success"
+                        >  
+                            {{ status?"A valid email address with an existing account has been submitted by user":""  }}
                         </div>
                         <form @submit.prevent="submit">
                             <div class="form-group mb-3">
                                 <label for="">Email</label>
                                 <input
+                                    @input=" form.clearErrors('email')"
                                     class="form-control"
                                     type="email"
                                     v-model="form.email"
+                                    :class="{
+                                    'is-invalid': form.errors.email,
+                                }"
                                 />
-                                <span class="text-danger">{{
+                                <div v-if="form.errors.email"   class="invalid-feedback">{{
                                     form.errors.email
-                                }}</span>
+                                }}</div>
                             </div>
-
                             <button
                                 type="submit"
                                 class="btn btn-primary d-grid w-100 mb-3"
@@ -117,3 +140,4 @@ const submit = () => {
         </div>
     </div>
 </template>
+

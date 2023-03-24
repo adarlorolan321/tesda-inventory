@@ -45,7 +45,6 @@ export function useCrud(formObject = {}, routeName) {
         offCanvas.value = new bootstrap.Offcanvas(myOffcanvas);
     });
 
-
     const handleServerQuery = (key, value) => {
         if (key == "perPage" || key == "query") {
             serverQuery.value["page"] = 1;
@@ -76,17 +75,18 @@ export function useCrud(formObject = {}, routeName) {
 
     const handleDebouncedServerQuery = debounce(() => {
         router.get(
-            route(`${routeName}.index`, serverQuery.value), {}, {
+            route(`${routeName}.index`, serverQuery.value),
+            {},
+            {
                 preserveState: true,
                 preventScroll: true,
                 only: ["data", "params"],
             }
-        )
+        );
     }, 500);
 
     // Promise
-    const createPromise = async() => {
-        $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+    const createPromise = async () => {
         form.clearErrors();
         form.post(route(`${routeName}.store`), {
             preserveState: true,
@@ -100,7 +100,7 @@ export function useCrud(formObject = {}, routeName) {
         });
     };
 
-    const updatePromise = async() => {
+    const updatePromise = async () => {
         form.clearErrors();
         form.patch(route(`${routeName}.update`, form.id), {
             preserveState: true,
@@ -114,7 +114,7 @@ export function useCrud(formObject = {}, routeName) {
         });
     };
 
-    const deletePromise = async(id) => {
+    const deletePromise = async (id) => {
         Swal.fire({
             icon: "warning",
             title: "Are you sure?",

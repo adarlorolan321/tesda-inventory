@@ -1,12 +1,17 @@
 <template>
     <div class="dropzone" ref="dropzone">
-        <div class="dz-message needsclick">
+        <div class="dz-message needsclick" v-if="type == 'file'">
             Drop files here or click to upload
             <span class="note needsclick"
                 >(This is just a demo dropzone. Selected files are
                 <strong>not</strong> actually uploaded.)</span
             >
         </div>
+
+        <div class="dz-message needsclick" v-if="type == 'profile'">
+            Drop files here or click to upload
+        </div>
+
         <div class="fallback">
             <input name="file" type="file" />
         </div>
@@ -17,6 +22,9 @@
 import Dropzone from "dropzone";
 export default {
     props: {
+        type: {
+            default: "file",
+        },
         value: {
             default: null,
         },
@@ -68,21 +76,21 @@ export default {
             let refDropzone = this.$refs.dropzone;
 
             const previewTemplate = `<div class="dz-preview dz-file-preview">
-        <div class="dz-details">
-        <div class="dz-thumbnail">
-            <img data-dz-thumbnail>
-            <span class="dz-nopreview">No preview</span>
-            <div class="dz-success-mark"></div>
-            <div class="dz-error-mark"></div>
-            <div class="dz-error-message"><span data-dz-errormessage></span></div>
-            <div class="progress">
-            <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-dz-uploadprogress></div>
-            </div>
-        </div>
-        <div class="dz-filename" data-dz-name></div>
-        <div class="dz-size" data-dz-size></div>
-        </div>
-        </div>`;
+                <div class="dz-details">
+                <div class="dz-thumbnail">
+                    <img data-dz-thumbnail>
+                    <span class="dz-nopreview">No preview</span>
+                    <div class="dz-success-mark"></div>
+                    <div class="dz-error-mark"></div>
+                    <div class="dz-error-message"><span data-dz-errormessage></span></div>
+                    <div class="progress">
+                    <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-dz-uploadprogress></div>
+                    </div>
+                </div>
+                <div class="dz-filename" data-dz-name></div>
+                <div class="dz-size" data-dz-size></div>
+                </div>
+                </div>`;
 
             this.myDropzone = new Dropzone(refDropzone, {
                 url: self.url,
@@ -207,3 +215,34 @@ export default {
     },
 };
 </script>
+<style lang="scss">
+.dropzone-profile-photo {
+    .dropzone {
+        padding: 15px;
+        width: 200px;
+        min-height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .dz-message {
+        font-size: 0.85rem !important;
+        margin-top: auto;
+        margin-bottom: auto;
+
+        &:before {
+            display: none;
+        }
+    }
+    .dz-preview {
+        margin: 0px;
+    }
+    .dz-filename,
+    .dz-size {
+        display: none;
+    }
+    .dz-remove {
+        color: #ea5455 !important;
+    }
+}
+</style>

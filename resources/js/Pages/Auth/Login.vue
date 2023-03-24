@@ -1,6 +1,8 @@
 <script setup>
 import { useLogin } from "../../Composables/Login";
+import { ref } from "vue";
 const { login, form } = useLogin();
+const password = ref(true);
 </script>
 <template>
     <div class="container-xxl">
@@ -50,12 +52,12 @@ const { login, form } = useLogin();
                                 </span>
                                 <span
                                     class="app-brand-text demo text-body fw-bold ms-1"
-                                    >Vuexy</span
+                                    >SportSaas</span
                                 >
                             </a>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-1 pt-2">Welcome to Vuexy! 👋</h4>
+                        <h4 class="mb-1 pt-2">Welcome to SportSaas! 👋</h4>
                         <p class="mb-4">
                             Please sign-in to your account and start the
                             adventure
@@ -101,7 +103,7 @@ const { login, form } = useLogin();
                                 </div>
                                 <div class="input-group input-group-merge">
                                     <input
-                                        type="password"
+                                        :type="password ? 'password' : 'text'"
                                         id="password"
                                         class="form-control"
                                         :class="{
@@ -115,7 +117,14 @@ const { login, form } = useLogin();
                                     />
                                     <span
                                         class="input-group-text cursor-pointer"
-                                        ><i class="ti ti-eye-off"></i
+                                        @click="password = !password"
+                                        ><i
+                                            :class="[
+                                                password
+                                                    ? 'ti ti-eye-off'
+                                                    : 'ti ti-eye',
+                                            ]"
+                                        ></i
                                     ></span>
                                 </div>
                                 <div
@@ -152,7 +161,7 @@ const { login, form } = useLogin();
 
                         <p class="text-center">
                             <span>New on our platform?</span>&nbsp;
-                            <inertia-link >
+                            <inertia-link>
                                 <span>Create an account</span>
                             </inertia-link>
                         </p>

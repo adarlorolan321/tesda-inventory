@@ -1,25 +1,25 @@
-import {ref} from "vue";
+import { ref } from "vue";
 
 export function useMenu() {
     const menus = [
-        {label: "Staff", route: "user.coaches.index", icon: "ti ti-users"},
-        {label: "Parents", route: "user.parents.index", icon: "ti ti-user"},
-        {label: "Players", route: "players.index", icon: "ti ti-ball-tennis"},
-        {label: "Enrolments", route: "enrolments.index", icon: "ti ti-file-pencil"},
-        {label: "Payments", route: "payments.index", icon: "ti ti-cash-banknote"},
-        {label: "Waitlist", route: "waitlists.index", icon: "ti ti-clock"},
-        {label: "Trials", route: "trials.index", icon: "ti ti-clipboard"},
-        {label: "Orders", route: "orders.index", icon: "ti ti-shopping-cart"},
-        {label: "Messages", route: "messages.index", icon: "ti ti-message-2"},
-        {label: "Merchandise", route: "merchandises.index", icon: "ti ti-building-store",},
+        { label: "Staff", route: "user.coaches.index", icon: "ti ti-users", only: ["data", "params"] },
+        { label: "Parents", route: "user.parents.index", icon: "ti ti-user", only: ["data", "params"] },
+        { label: "Players", route: "players.index", icon: "ti ti-ball-tennis", only: ["data", "params"] },
+        { label: "Enrolments", route: "enrolments.index", icon: "ti ti-file-pencil", only: ["data", "params"] },
+        { label: "Payments", route: "payments.index", icon: "ti ti-cash-banknote", only: ["data", "params"] },
+        { label: "Waitlist", route: "waitlists.index", icon: "ti ti-clock", only: ["data", "params"] },
+        { label: "Trials", route: "trials.index", icon: "ti ti-clipboard", only: ["data", "params"] },
+        { label: "Orders", route: "orders.index", icon: "ti ti-shopping-cart", only: ["data", "params"] },
+        { label: "Messages", route: "messages.index", icon: "ti ti-message-2", only: ["data", "params"] },
+        { label: "Merchandise", route: "merchandises.index", icon: "ti ti-building-store", only: ["data", "params"] },
 
         {
             label: "Settings",
             route: "settings.*",
             icon: "ti ti-settings",
             sub_menu: [
-                {label: "Services", route: "settings.services.index", icon: "ti ti-smart-home",},
-                {label: "Venues", route: "settings.venues.index", icon: "ti ti-home"},
+                { label: "Services", route: "settings.services.index", icon: "ti ti-smart-home", only: ["data", "params"] },
+                { label: "Venues", route: "settings.venues.index", icon: "ti ti-home", only: ["data", "params"] },
                 // {
                 //     label: "Embed Codes",
                 //     route: "user.parent.index",

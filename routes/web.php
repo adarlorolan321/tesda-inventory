@@ -24,82 +24,68 @@ use App\Http\Controllers\User\StudentController;
 
 
 
+
+
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::middleware(['role:Admin'])->group(function () {
 
         Route::get('/', function () {
             return Inertia::render('Welcome', []);
         });
-        Route::get('/auth/login', function(){
-            return Inertia::render('Auth/Login');
-        })->name('auth.login');
 
-        Route::get('/user/profile', function(){
-            return Inertia::render('Admin/Profile/Show');
-        })->name('user.index');
+        Route::name('user.')->prefix('user')->group(function () {
+            Route::resource('coaches', CoachController::class);
+            Route::resource('parents', ParentController::class);
+            Route::resource('students', StudentController::class);
 
-        Route::name('user.')->prefix('user')->group(function (){
-            Route::resource('coaches',CoachController::class);
-            Route::resource('parents',ParentController::class);
-            Route::resource('students',StudentController::class);
-            Route::get('validate/{type}',[UserController::class,'validateInput'])->name('validate');
+            Route::get('profile', [UserController::class, 'profile'])->name('profile.index');
+            Route::get('profile/change-password', [UserController::class, 'changePassword'])->name('profile.change_password');
+
+            Route::get('validate/{type}', [UserController::class, 'validateInput'])->name('validate');
         });
 
-        Route::name('settings.')->prefix('settings')->group(function (){
+        Route::name('settings.')->prefix('settings')->group(function () {
             Route::resources([
                 'services' => PageController\Setting\ServiceController::class,
                 'venues' => PageController\Setting\VenueController::class,
             ]);
         });
 
-        Route::get('/players', [CoachController::class,'index'])->name('players.index');
-        Route::get('/enrolments', [CoachController::class,'index'])->name('enrolments.index');
-        Route::get('/payments', [CoachController::class,'index'])->name('payments.index');
-        Route::get('/waitlists', [CoachController::class,'index'])->name('waitlists.index');
-        Route::get('/trials', [CoachController::class,'index'])->name('trials.index');
-        Route::get('/orders', [CoachController::class,'index'])->name('orders.index');
-        Route::get('/messages', [CoachController::class,'index'])->name('messages.index');
-        Route::get('/merchandises', [CoachController::class,'index'])->name('merchandises.index');
+        Route::get('/players', [CoachController::class, 'index'])->name('players.index');
+        Route::get('/enrolments', [CoachController::class, 'index'])->name('enrolments.index');
+        Route::get('/payments', [CoachController::class, 'index'])->name('payments.index');
+        Route::get('/waitlists', [CoachController::class, 'index'])->name('waitlists.index');
+        Route::get('/trials', [CoachController::class, 'index'])->name('trials.index');
+        Route::get('/orders', [CoachController::class, 'index'])->name('orders.index');
+        Route::get('/messages', [CoachController::class, 'index'])->name('messages.index');
+        Route::get('/merchandises', [CoachController::class, 'index'])->name('merchandises.index');
 
-        Route::get('/account', function(){
+        Route::get('/account', function () {
             return Inertia::render('Admin/Organisation/Create');
         })->name('account.index');
 
-        Route::get('/account/security', function(){
+        Route::get('/account/security', function () {
             return Inertia::render('Admin/Organisation/Security');
         })->name('account.security.index');
 
-        Route::get('/account-settings', function(){
+        Route::get('/account-settings', function () {
             return Inertia::render('Admin/account-settings/Account');
         })->name('account-settings.index');
 
-        Route::get('/account-settings/security', function(){
+        Route::get('/account-settings/security', function () {
             return Inertia::render('Admin/account-settings/Security');
         })->name('account-settings.security.index');
-
-        Route::get('/user/teams', function(){
-            return Inertia::render('Admin/Profile/Teams');
-        })->name('user.teams.index');
-
-        Route::get('/user/projects', function(){
-            return Inertia::render('Admin/Profile/Projects');
-        })->name('user.projects.index');
-
-        Route::get('/user/conns', function(){
-            return Inertia::render('Admin/Profile/Connections');
-        })->name('user.conns');
-
     });
 
-    Route::get('test-mail',function (){
+    Route::get('test-mail', function () {
         $user = [
-          'first_name' => 'Jayvee',
-          'last_name' => 'Osapdin',
-          'email' => 'jayvee.osapdin@gmail.com',
-          'password' => '6sHsbhY8',
+            'first_name' => 'Jayvee',
+            'last_name' => 'Osapdin',
+            'email' => 'jayvee.osapdin@gmail.com',
+            'password' => '6sHsbhY8',
         ];
 
         return new \App\Mail\Notification\WelcomeUserNotification($user);
     });
-
 });
