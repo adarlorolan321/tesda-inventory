@@ -73,7 +73,7 @@
                         <li
                             v-if="!menu.sub_menu"
                             class="menu-item"
-                            :class="{ active: route().current(menu.route) }"
+                            :class="{ active: route().current(menu.route) || route().current(menu.route.replace(/[^.]*$/, '*'))}"
                         >
                             <inertia-link
                                 :href="route(menu.route)"
