@@ -17,32 +17,32 @@ class StoreClassRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, 
+     * @return array<string,
      * \Illuminate\Contracts\Validation\Rule|array|string>
      */
     public function rules(): array
     {
         return [
-            "name" => ["required"], 
-            "service_id" => ["required"], 
-            "start_date" => ["required"], 
-            "end_date" => ["required"], 
-            "start_time" => ["required"], 
-            "end_time" => ["required"], 
-            "days" => ["required"], 
-            "repeat" => ["required"], 
-            "capacity" => ["required"], 
-            "price_type" => ["required"], 
-            "price" => ["required"], 
-            "venue_id" => ["required"], 
-            "status" => ["required"], 
-            "coach_id" => ["required"], 
-            "additional_coach" => ["required"], 
-            "default_email" => ["required"], 
-            "custom_email_text" => ["required"], 
-            "custom_email_subject" => ["required"], 
-            "enrolments" => ["required"], 
-            "tags" => ["required"],
+            "name" => ["required"],
+            "service_id" => ["required"],
+            "start_date" => ["nullable"],
+            "end_date" => ["nullable"],
+            "start_time" => ["nullable"],
+            "end_time" => ["nullable"],
+            "days" => ["required_if:repeat,true"],
+            "repeat" => ["nullable"],
+            "capacity" => ["nullable"],
+            "price_type" => ["nullable"],
+            "price" => ["required_if:price_type,true"],
+            "venue_id" => ["required"],
+            "status" => ["required"],
+            "coach_id" => ["nullable"],
+            "additional_coach" => ["nullable"],
+            "default_email" => ["nullable"],
+            "custom_email_text" => ["nullable"],
+            "custom_email_subject" => ["nullable"],
+            "enrolments" => ["nullable"],
+            "tags" => ["nullable"],
         ];
     }
 }

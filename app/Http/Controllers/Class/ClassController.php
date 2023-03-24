@@ -8,6 +8,9 @@ use App\Models\Class\ClassModel;
 use App\Http\Requests\Class\StoreClassRequest;
 use App\Http\Requests\Class\UpdateClassRequest;
 
+use App\Models\Setting\Service;
+use App\Models\Setting\Venue;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -23,12 +26,12 @@ class ClassController extends Controller
         $queryString = $request->input('query', null);
 
         $data = ClassModel::query()
-            ->with([])
+            ->with(['service','venue','coach'])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
-                    // $query->where('column', 'like', '%' . $queryString . '%')
-                    //     ->orWhere('column', 'like', '%' . $queryString . '%');
+                     $query->where('column', 'like', '%' . $queryString . '%')
+                         ->orWhere('column', 'like', '%' . $queryString . '%');
                 }
             })
             ->orderBy('name', 'ASC')
@@ -52,7 +55,30 @@ class ClassController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Class/Create');
+        return Inertia::render('Admin/Class/Create', [
+            'services' => Service::get(['id', 'name'])
+                ->map(function ($parent) {
+                    return [
+                        'id' => $parent->id,
+                        'text' => $parent->name
+                    ];
+                }),
+            'venues' => Venue::where('status', 1)->get(['id', 'name'])
+                ->map(function ($parent) {
+                    return [
+                        'id' => $parent->id,
+                        'text' => $parent->name
+                    ];
+                }),
+            'coaches' => User::whereHas('roles', function ($query) {$query->where('name', 'Coach');})
+                ->get(['id', 'name'])
+                ->map(function ($parent) {
+                    return [
+                        'id' => $parent->id,
+                        'text' => $parent->name
+                    ];
+                })
+        ]);
     }
 
     /**
@@ -93,7 +119,29 @@ class ClassController extends Controller
             return new ClassListResource($data);
         }
         return Inertia::render('Admin/Class/Edit', [
-            'data' => $data
+            'data' => $data,
+            'services' => Service::get(['id', 'name'])
+                ->map(function ($parent) {
+                    return [
+                        'id' => $parent->id,
+                        'text' => $parent->name
+                    ];
+                }),
+            'venues' => Venue::where('status', 1)->get(['id', 'name'])
+                ->map(function ($parent) {
+                    return [
+                        'id' => $parent->id,
+                        'text' => $parent->name
+                    ];
+                }),
+            'coaches' => User::whereHas('roles', function ($query) {$query->where('name', 'Coach');})
+                ->get(['id', 'name'])
+                ->map(function ($parent) {
+                    return [
+                        'id' => $parent->id,
+                        'text' => $parent->name
+                    ];
+                })
         ]);
     }
 

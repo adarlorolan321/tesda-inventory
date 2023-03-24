@@ -141,23 +141,16 @@ let {
                         :key="tableData"
                     >
                         <td style="width: 60%">{{ tableData.name }}</td>
-                        <td>{{ tableData.code }}</td>
-                        <td class="">
-                            <a href="#"
-                                ><i
-                                    class="fa-regular fa-copy ms-4"
-                                    style="font-size: 22px"
-                                ></i
-                            ></a>
-                        </td>
+                        <td>{{ tableData.days ? tableData.days : '-' }}</td>
+                        <td>{{ tableData.service.name  }}</td>
+                        <td>{{ tableData.coach.name  }}</td>
                         <td>
                             <div class="d-flex gap-2">
-                                <a
+                                <inertia-link
                                     class="btn btn-icon btn-label-primary waves-effect"
-                                    @click="handleEdit(tableData)"
-                                    href="javascript:void(0);"
+                                    :href="route('classes.edit',tableData.id)"
                                     ><i class="ti ti-pencil"></i>
-                                </a>
+                                </inertia-link>
                                 <a
                                     class="btn btn-icon btn-label-danger waves-effect"
                                     href="javascript:void(0);"

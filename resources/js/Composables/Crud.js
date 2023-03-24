@@ -171,7 +171,7 @@ export function useCrud(formObject = {}, routeName) {
             form[key] = itemValue;
         }
         formState.value = "update";
-        offCanvas.value.show();
+        hideOffCanvas();
 
         isLoadingComponents.value = false;
         setTimeout(() => {
