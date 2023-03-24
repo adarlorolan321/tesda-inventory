@@ -1,5 +1,5 @@
 <script setup>
-import { useForm } from '@inertiajs/vue3';
+import { useForm, router } from '@inertiajs/vue3';
 import { ref } from 'vue'
 
 const props = defineProps({
@@ -16,6 +16,9 @@ const form = useForm({
 
 const submit = () => {
     form.post(route('password.update'), {
+        onSuccess: () => {
+            // router.get('/login');
+        },
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
 };
