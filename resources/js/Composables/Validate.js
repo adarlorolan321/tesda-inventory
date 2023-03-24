@@ -1,13 +1,11 @@
-import {debounce} from "lodash";
-import {router} from "@inertiajs/vue3";
-import {useCrud} from "@/Composables/Crud";
+import { debounce } from "lodash";
+import { router } from "@inertiajs/vue3";
+import { useCrud } from "@/Composables/Crud";
 
 export function useValidateForm() {
     const validateEmail = debounce((email) => {
         router.get(
-            route(`user.validate`, 'email'),
-            {email: email},
-            {
+            route(`user.validate`, 'email'), { email: email }, {
                 onSuccess: (response) => {
                     console.log(response)
                 }
@@ -21,29 +19,47 @@ export function useValidateForm() {
         var charCode = (evt.which) ? evt.which : evt.keyCode;
         if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
             evt.preventDefault();
-        }
-        else if(charCode == 46 || charCode == 190){
+        } else if (charCode == 46 || charCode == 190) {
             evt.preventDefault();
         } else {
             return true;
         }
     }
 
-    const validateForm = (validationRule, form, value, key) => {
-        if(validationRule.indexOf('required') >= 0){
-            if(!value || value == "")
-            {
+    const validateForm = debounce((validationRule, form, value, key) => {
+
+        if (validationRule.indexOf('required') >= 0) {
+            if (!value || value == "") {
                 form.errors[key] = 'This is a required field';
-            }
-        }
-        if(validationRule.indexOf('number') >= 0){
-            if(isNaN(value))
-            {
-                form.errors[key] = `The ${key} must be a number`;
+                return;
             }
         }
 
-    }
+        if (validationRule.indexOf('number') >= 0) {
+            if (isNaN(value)) {
+                form.errors[key] = `The ${key} must be a number`;
+                return;
+            }
+        }
+
+        if (validationRule.indexOf('number') >= 0) {
+            if (isNaN(value)) {
+                form.errors[key] = `The ${key} must be a number`;
+                return;
+            }
+        }
+
+
+        if (validationRule.indexOf('email') >= 0) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(value)) {
+                form.errors[key] = `Invalid email address`;
+                return;
+            }
+        }
+
+
+    }, 1000);
 
     return {
         validateEmail,

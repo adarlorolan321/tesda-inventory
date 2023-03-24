@@ -93,6 +93,9 @@ const isPassword = ref({ password: true, password_confirmation: true });
                                 <div class="custom-invalid-feedback" v-if="form.errors.password">
                                     {{ form.errors.password }}
                                 </div>
+                                <div class="custom-invalid-feedback" v-if="form.errors.email">
+                                    {{ form.errors.email }}
+                                </div>
                             </div>
                         </div>
                         <div class="mb-3 form-password-toggle">
