@@ -7,6 +7,7 @@ export default {
 </script>
 
 <script setup>
+import { usePage, Head } from "@inertiajs/vue3";
 import { useCrud } from "@/Composables/Crud.js";
 
 const formObject = {
@@ -34,6 +35,7 @@ let {
 </script>
 
 <template>
+    <Head title="Venues"></Head>
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">

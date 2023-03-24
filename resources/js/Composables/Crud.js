@@ -20,30 +20,40 @@ export function useCrud(formObject = {}, routeName) {
     });
 
     onMounted(() => {
-        if (serverParams.value.page) {
-            serverQuery.value.page = serverParams.value.page;
-        }
-        if (serverParams.value.perPage) {
-            serverQuery.value.perPage = serverParams.value.perPage;
-        }
-        if (serverParams.value.query) {
-            serverQuery.value.query = serverParams.value.query;
-        }
-        if (serverParams.value.sort) {
-            serverQuery.value.sort = serverParams.value.sort;
-        }
-        if (serverParams.value.order) {
-            serverQuery.value.order = serverParams.value.order;
-        }
-        if (serverParams.value.role) {
-            serverQuery.value.role = serverParams.value.role;
+        if (serverParams.value) {
+            if (serverParams.value.page) {
+                serverQuery.value.page = serverParams.value.page;
+            }
+            if (serverParams.value.perPage) {
+                serverQuery.value.perPage = serverParams.value.perPage;
+            }
+            if (serverParams.value.query) {
+                serverQuery.value.query = serverParams.value.query;
+            }
+            if (serverParams.value.sort) {
+                serverQuery.value.sort = serverParams.value.sort;
+            }
+            if (serverParams.value.order) {
+                serverQuery.value.order = serverParams.value.order;
+            }
+            if (serverParams.value.role) {
+                serverQuery.value.role = serverParams.value.role;
+            }
         }
     });
 
     onMounted(() => {
         var myOffcanvas = document.getElementById("offCanvasForm");
-        offCanvas.value = new bootstrap.Offcanvas(myOffcanvas);
+        if (myOffcanvas) {
+            offCanvas.value = new bootstrap.Offcanvas(myOffcanvas);
+        }
     });
+
+    const hideOffCanvas = () => {
+        if (offCanvas.value) {
+            offCanvas.value.hide();
+        }
+    }
 
     const handleServerQuery = (key, value) => {
         if (key == "perPage" || key == "query") {
@@ -75,9 +85,7 @@ export function useCrud(formObject = {}, routeName) {
 
     const handleDebouncedServerQuery = debounce(() => {
         router.get(
-            route(`${routeName}.index`, serverQuery.value),
-            {},
-            {
+            route(`${routeName}.index`, serverQuery.value), {}, {
                 preserveState: true,
                 preventScroll: true,
                 only: ["data", "params"],
@@ -86,7 +94,7 @@ export function useCrud(formObject = {}, routeName) {
     }, 500);
 
     // Promise
-    const createPromise = async () => {
+    const createPromise = async() => {
         form.clearErrors();
         form.post(route(`${routeName}.store`), {
             preserveState: true,
@@ -95,26 +103,26 @@ export function useCrud(formObject = {}, routeName) {
             onSuccess: () => {
                 toastr.success("Record saved");
                 form.reset();
-                offCanvas.value.hide();
+                hideOffCanvas();
             },
         });
     };
 
-    const updatePromise = async () => {
+    const updatePromise = async() => {
         form.clearErrors();
         form.patch(route(`${routeName}.update`, form.id), {
             preserveState: true,
             preventScroll: true,
             only: ["data", "params", "errors"],
             onSuccess: () => {
-                toastr.success("Record saved");
+                toastr.info("Record updated");
                 form.reset();
-                offCanvas.value.hide();
+                hideOffCanvas();
             },
         });
     };
 
-    const deletePromise = async (id) => {
+    const deletePromise = async(id) => {
         Swal.fire({
             icon: "warning",
             title: "Are you sure?",
@@ -134,7 +142,7 @@ export function useCrud(formObject = {}, routeName) {
                     preventScroll: true,
                     only: ["data", "params"],
                     onSuccess: () => {
-                        toastr.success("Record deleted");
+                        toastr.error("Record deleted");
                     },
                 });
             }

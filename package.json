@@ -20,12 +20,14 @@
         "vue": "^3.2.31"
     },
     "dependencies": {
+        "cleave.js": "^1.6.0",
         "dropzone": "^6.0.0-beta.2",
         "jquery": "^3.6.4",
         "lodash": "^4.17.21",
         "select2": "^4.1.0-rc.0",
         "sweetalert2": "^11.4.8",
         "toastr": "^2.1.4",
+        "vue-flatpickr-component": "^11.0.3",
         "vue-plugin-load-script": "^2.1.1",
         "vue3-select2-component": "^0.1.7"
     }

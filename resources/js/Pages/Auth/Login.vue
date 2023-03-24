@@ -1,10 +1,16 @@
 <script setup>
 import { useLogin } from "../../Composables/Login";
+import { Head } from '@inertiajs/vue3'
 import { ref } from "vue";
 const { login, form } = useLogin();
 const password = ref(true);
+defineProps({
+    status: String,
+});
+
 </script>
 <template>
+    <Head title="Login"></Head>
     <div class="container-xxl">
         <div class="authentication-wrapper authentication-basic container-p-y">
             <div class="authentication-inner py-4">
@@ -62,7 +68,9 @@ const password = ref(true);
                             Please sign-in to your account and start the
                             adventure
                         </p>
-
+                        <div v-if="status" class="alert alert-success"> 
+                            {{ status }}
+                        </div>
                         <form
                             @submit.prevent="login()"
                             id="formAuthentication"

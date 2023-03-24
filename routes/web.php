@@ -10,6 +10,8 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\ParentController;
 use App\Http\Controllers\User\CoachController;
 use App\Http\Controllers\User\StudentController;
+use App\Http\Controllers\Class\ClassSessionController;
+use App\Http\Controllers\Class\ClassController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +45,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::get('profile/change-password', [UserController::class, 'changePassword'])->name('profile.change_password');
 
             Route::get('validate/{type}', [UserController::class, 'validateInput'])->name('validate');
+        });
+
+        Route::resource('classes', ClassController::class);
+        Route::resource('students', StudentController::class);
+
+        Route::name('classes.')->prefix('classes')->group(function () {
+            Route::resource('sessions', ClassSessionController::class);
         });
 
         Route::name('settings.')->prefix('settings')->group(function () {

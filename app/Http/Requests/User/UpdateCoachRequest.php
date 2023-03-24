@@ -23,10 +23,10 @@ class UpdateCoachRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['required'],
-            'last_name' => ['required'],
+            'first_name' => ['required','max:100'],
+            'last_name' => ['required','max:100'],
             'email' => ['required', 'email:rfc,dns', Rule::unique('users')->ignore($this->id)],
-            'phone' => ['required', 'numeric',Rule::unique('users')->ignore($this->id)],
+            'phone' => ['required', 'numeric'],
             'role' => ['required'],
             'status' => ['required'],
             'profile_photo' => ['nullable'],

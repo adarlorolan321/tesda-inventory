@@ -1,42 +1,39 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Class;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\User\StudentListResource;
-use App\Models\User\Student;
-use App\Http\Requests\User\StoreStudentRequest;
-use App\Http\Requests\User\UpdateStudentRequest;
-use App\Models\User;
+use App\Http\Resources\Class\ClassSessionListResource;
+use App\Models\Class\ClassSession;
+use App\Http\Requests\Class\StoreClassSessionRequest;
+use App\Http\Requests\Class\UpdateClassSessionRequest;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
-class StudentController extends Controller
+class ClassSessionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        
+
         $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
         $sort = explode('.', $request->input('sort', 'id'));
         $order = $request->input('order', 'asc');
 
-        $data = Student::query()
+        $data = ClassSession::query()
             ->with([])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
-                    $query->where(DB::raw("CONCAT(students.first_name,' ',students.last_name)"), 'like', '%' . $queryString . '%')
-                        ->orWhere('users.name', 'like', '%' . $queryString . '%');
+                    // $query->where('column', 'like', '%' . $queryString . '%')
+                    //     ->orWhere('column', 'like', '%' . $queryString . '%');
                 }
             })
-            ->leftJoin('users', 'students.parent_id', '=', 'users.id')
-            ->select('students.*', 'users.name as parent_name', DB::raw("CONCAT(students.first_name,' ',students.last_name) as name"))
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
                 $query->orderBy($sort[0], $order);
             })
@@ -44,19 +41,8 @@ class StudentController extends Controller
             ->withQueryString();
 
         $props = [
-            'data' => StudentListResource::collection($data),
+            'data' => ClassSessionListResource::collection($data),
             'params' => $request->all(),
-            'parents' => User::whereHas('roles', function ($query) {
-                        $query->where('name', 'Client');
-                    })
-                    ->orderBy('name', 'ASC')
-                    ->get(['id', 'name'])
-                    ->map(function($parent) {
-                        return [
-                            'id' => $parent->id,
-                            'text' => $parent->name
-                        ];
-                    })
         ];
 
         if ($request->wantsJson()) {
@@ -65,10 +51,10 @@ class StudentController extends Controller
 
         if(count($data) <= 0 && $page > 1)
         {
-            return redirect()->route('students.index', ['page' => 1]);
+            return redirect()->route('classes.sessions.index', ['page' => 1]);
         }
 
-        return Inertia::render('Admin/Student/Index', $props);
+        return Inertia::render('Admin/Class/Session/Index', $props);
     }
 
     /**
@@ -76,19 +62,19 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Student/Create');
+        return Inertia::render('Admin/ClassSession/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreStudentRequest $request)
+    public function store(StoreClassSessionRequest $request)
     {
-        $data = Student::create($request->validated());
+        $data = ClassSession::create($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return new StudentListResource($data);
+            return new ClassSessionListResource($data);
         }
         return redirect()->back();
     }
@@ -98,11 +84,11 @@ class StudentController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $data = Student::findOrFail($id);
+        $data = ClassSession::findOrFail($id);
         if ($request->wantsJson()) {
-            return new StudentListResource($data);
+            return new ClassSessionListResource($data);
         }
-        return Inertia::render('Admin/Student/Show', [
+        return Inertia::render('Admin/ClassSession/Show', [
             'data' => $data
         ]);
     }
@@ -112,11 +98,11 @@ class StudentController extends Controller
      */
     public function edit(Request $request, string $id)
     {
-        $data = Student::findOrFail($id);
+        $data = ClassSession::findOrFail($id);
         if ($request->wantsJson()) {
-            return new StudentListResource($data);
+            return new ClassSessionListResource($data);
         }
-        return Inertia::render('Admin/Student/Edit', [
+        return Inertia::render('Admin/ClassSession/Edit', [
             'data' => $data
         ]);
     }
@@ -124,14 +110,14 @@ class StudentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateStudentRequest $request, string $id)
+    public function update(UpdateClassSessionRequest $request, string $id)
     {
-        $data = Student::findOrFail($id);
+        $data = ClassSession::findOrFail($id);
         $data->update($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return (new StudentListResource($data))
+            return (new ClassSessionListResource($data))
                 ->response()
                 ->setStatusCode(201);
         }
@@ -144,7 +130,7 @@ class StudentController extends Controller
      */
     public function destroy(Request $request, string $id)
     {
-        $data = Student::findOrFail($id);
+        $data = ClassSession::findOrFail($id);
         $data->delete();
         sleep(1);
 

@@ -44,7 +44,7 @@ class ClassController extends Controller
             return json_encode($props);
         }
 
-        return Inertia::render('Admin/Class', $props);
+        return Inertia::render('Admin/Class/Index', $props);
     }
 
     /**

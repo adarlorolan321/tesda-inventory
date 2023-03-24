@@ -3,6 +3,7 @@
 <script setup>
 // import Swal from "sweetalert2";
 import { Head, useForm } from "@inertiajs/vue3";
+import { useValidateForm } from "@/Composables/Validate.js";
 
 defineProps({
     status: String,
@@ -25,6 +26,7 @@ const submit = () => {
     
 };
 
+const { validateForm } = useValidateForm();
 </script>
 
 
@@ -81,7 +83,7 @@ const submit = () => {
                                 </span>
                                 <span
                                     class="app-brand-text demo text-body fw-bold"
-                                    >Sportsaas</span
+                                    >SportSaas</span
                                 >
                             </a>
                         </div>
@@ -93,19 +95,20 @@ const submit = () => {
                         </p>
 
 
-                        <div
-                            v-if="status"
-                            class="alert alert-success"
-                        >  
-                            {{ status?"A valid email address with an existing account has been submitted by user":""  }}
+                        <div v-if="status" class="alert alert-success"> 
+                            {{ status }}
                         </div>
                         <form @submit.prevent="submit">
                             <div class="form-group mb-3">
                                 <label for="">Email</label>
                                 <input
-                                    @input=" form.clearErrors('email')"
+                                    @input="($event) => {
+                                        form.clearErrors('email'); 
+                                        validateForm(['required', 'email'], form, $event.target.value, 'email');
+                                    }"
                                     class="form-control"
-                                    type="email"
+                                    type="text"
+                                    
                                     v-model="form.email"
                                     :class="{
                                     'is-invalid': form.errors.email,

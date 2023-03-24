@@ -1,21 +1,34 @@
 <script>
-import AdminLayout from "@/Layouts/AdminLayout.vue"; 
+import AdminLayout from "@/Layouts/AdminLayout.vue";
+
 export default {
     layout: AdminLayout,
 };
 </script>
 
 <script setup>
-import { useCrud } from "@/Composables/Crud.js"; 
+import { useCrud } from "@/Composables/Crud.js";
 import { useValidateForm } from "@/Composables/Validate.js";
-import { usePage, Head } from "@inertiajs/vue3";
-const { props } = usePage();
+import { userInputFormat } from "@/Composables/InputFormat.js";
+import {  Head } from "@inertiajs/vue3";
 const formObject = {
-    name: null,
-    code: null,
+    first_name: null,
+    last_name: null,
+    parent_id: null,
+    dob: null,
+    email: null,
+    phone: null,
+    gender: null,
 };
+
 const { validateForm } = useValidateForm();
-const routeName = "settings.services";
+const { dateFormat, timeFormat } = userInputFormat();
+
+defineProps({
+    parents: Array,
+});
+
+const routeName = "students";
 let {
     paginatedData,
     form,
@@ -31,11 +44,11 @@ let {
 </script>
 
 <template>
-    <Head title="Services"></Head>
+    <Head title="Players"></Head>
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">
-                <h5 class="card-title">SERVICES</h5>
+                <h5 class="card-title">PLAYERS</h5>
             </div>
             <div class="card-action-element">
                 <button
@@ -46,7 +59,7 @@ let {
                     data-bs-target="#offCanvasForm"
                     aria-controls="offCanvasForm"
                 >
-                    Add Service
+                    Add Player
                 </button>
                 <div
                     class="offcanvas offcanvas-end"
@@ -58,7 +71,7 @@ let {
                     <div class="offcanvas-header">
                         <h5 id="offCanvasFormLabel" class="offcanvas-title">
                             {{ formState == "create" ? "Add" : "Update" }}
-                            Service
+                            Player
                         </h5>
                         <button
                             type="button"
@@ -70,38 +83,158 @@ let {
                     </div>
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
                         <div class="form-group mb-3">
-                            <label for="">Service Name <span class="required">*</span></label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                v-model="form.name"
-                                @input="($event) => {
-                                    form.clearErrors('name'); 
-                                    validateForm(['required'], form, $event.target.value, 'name');
-                                }" 
-                                placeholder="Enter name"
-                                :class="{
-                                    'is-invalid': form.errors.name,
-                                }"
-                            />
+                            <label>Parent <span class="required">*</span></label>
+                            <select2
+                                :class="{ 'is-invalid': form.errors.parent_id }"
+                                v-model="form.parent_id"
+                                placeholder="Select Parent"
+                                @update:modelValue="
+                                    form.clearErrors('parent_id')
+                                "
+                                :options="parents"
+                            >
+                            </select2>
                             <div class="invalid-feedback">
-                                {{ form.errors.name }}
+                                {{ form.errors.parent_id }}
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="">Code</label>
+                            <label for=""
+                                >First Name
+                                <span class="required">*</span></label
+                            >
                             <input
                                 type="text"
                                 class="form-control"
-                                placeholder="Enter code"
-                                v-model="form.code"
+                                v-model="form.first_name"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('first_name');
+                                        validateForm(
+                                            ['required'],
+                                            form,
+                                            $event.target.value,
+                                            'first_name'
+                                        );
+                                    }
+                                "
+                                placeholder="Enter First Name"
                                 :class="{
-                                    'is-invalid': form.errors.code,
+                                    'is-invalid': form.errors.first_name,
                                 }"
-                                @input="form.clearErrors('code')"
                             />
                             <div class="invalid-feedback">
-                                {{ form.errors.code }}
+                                {{ form.errors.first_name }}
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="">Last Name</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                v-model="form.last_name"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('last_name');
+                                        validateForm(
+                                            ['required'],
+                                            form,
+                                            $event.target.value,
+                                            'last_name'
+                                        );
+                                    }
+                                "
+                                placeholder="Enter Last Name"
+                                :class="{
+                                    'is-invalid': form.errors.last_name,
+                                }"
+                            />
+                            <div class="invalid-feedback">
+                                {{ form.errors.last_name }}
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="">Date Of Birth</label>
+                            <flat-pickr
+                                :config="dateFormat"
+                                class="form-control"
+                                :class="{
+                                    'is-invalid': form.errors.dob,
+                                }"
+                                placeholder="Enter Date of Birth"
+                                v-model="form.dob"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('dob');
+                                    }
+                                "
+                            />
+                            <div class="invalid-feedback">
+                                {{ form.errors.dob }}
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="">Email</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                v-model="form.email"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('email');
+                                        validateForm(
+                                            ['email'],
+                                            form,
+                                            $event.target.value,
+                                            'email'
+                                        );
+                                    }
+                                "
+                                placeholder="Enter Email"
+                                :class="{
+                                    'is-invalid': form.errors.email,
+                                }"
+                            />
+                            <div class="invalid-feedback">
+                                {{ form.errors.email }}
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label>Phone</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                v-model="form.phone"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('phone');
+                                    }
+                                "
+                                placeholder="Enter Phone"
+                                :class="{
+                                    'is-invalid': form.errors.phone,
+                                }"
+                            />
+                            <div class="invalid-feedback">
+                                {{ form.errors.phone }}
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="gender">Gender </label>
+                            <select2
+                                :class="{ 'is-invalid': form.errors.gender }"
+                                v-model="form.gender"
+                                placeholder="Select Gender"
+                                @update:modelValue="form.clearErrors('gender')"
+                                :options="['Boy', 'Girl', 'Prefer not to say']"
+                            >
+                            </select2>
+                            <div
+                                class="v-invalid-feedback"
+                                v-if="form.errors.gender"
+                            >
+                                {{ form.errors.gender }}
                             </div>
                         </div>
                         <button
@@ -190,20 +323,23 @@ let {
                 <thead class="table-light">
                     <tr>
                         <table-header
+                            style="min-width: 200px"
                             @click="handleServerQuery('sort', 'name')"
                             :serverQuery="serverQuery"
                             serverQueryKey="name"
                         >
-                            Service Name
+                            Name
                         </table-header>
                         <table-header
-                            @click="handleServerQuery('sort', 'code')"
+                            style="min-width: 200px"
+                            @click="
+                                handleServerQuery('sort', 'parent_name')
+                            "
                             :serverQuery="serverQuery"
-                            serverQueryKey="code"
+                            serverQueryKey="parent_name"
                         >
-                            Code
+                            Parent Name
                         </table-header>
-                        <th>Embed Code</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -217,18 +353,18 @@ let {
                         v-for="tableData in paginatedData.data"
                         :key="tableData"
                     >
-                        <td style="width: 60%">{{ tableData.name }}</td>
-                        <td>{{ tableData.code }}</td>
-                        <td class="">
-                            <a href="#"
-                                ><i
-                                    class="fa-regular fa-copy ms-4"
-                                    style="font-size: 22px"
-                                ></i
-                            ></a>
+                        <td>{{ tableData.first_name }}&nbsp;{{ tableData.last_name }}</td>
+                        <td>
+                            <inertia-link :href="route('user.parents.show', tableData.id)">{{ tableData.parent_name }}</inertia-link>
                         </td>
                         <td>
                             <div class="d-flex gap-2">
+                                <a
+                                    class="btn btn-icon btn-label-info waves-effect"
+                                    @click="handleEdit(tableData)"
+                                    href="javascript:void(0);"
+                                    ><i class="ti ti-eye"></i>
+                                </a>
                                 <a
                                     class="btn btn-icon btn-label-primary waves-effect"
                                     @click="handleEdit(tableData)"
@@ -237,6 +373,7 @@ let {
                                 </a>
                                 <a
                                     class="btn btn-icon btn-label-danger waves-effect"
+                                    id="confirm-text"
                                     href="javascript:void(0);"
                                     @click="deletePromise(tableData.id)"
                                     ><i class="ti ti-trash"></i>

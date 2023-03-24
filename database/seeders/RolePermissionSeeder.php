@@ -51,6 +51,23 @@ class RolePermissionSeeder extends Seeder
                 'update venue',
                 'destroy venue',
                 'show venue',
+
+                'access class',
+                'create class',
+                'store class',
+                'edit class',
+                'update class',
+                'destroy class',
+                'show class',
+
+                'access student',
+                'create student',
+                'store student',
+                'edit student',
+                'update student',
+                'destroy student',
+                'show student',
+
             ],
             'Coach' => [
                 'access user',

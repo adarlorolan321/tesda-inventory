@@ -1,5 +1,13 @@
-<template>
-    <AdminLayout>
+
+<script setup> 
+import { usePage, Head } from "@inertiajs/vue3"; 
+const { props } = usePage(); 
+</script>
+
+
+<template> 
+    <Head title="Profile"></Head>
+    <AdminLayout> 
         <div class="content-wrapper">
             <!-- Content -->
             <div class="container-xxl flex-grow-1 container-p-y">
@@ -130,8 +138,9 @@
         </div>
     </AdminLayout>
 </template>
+
 <script>
-import AdminLayout from "@/Layouts/AdminLayout.vue";
+import AdminLayout from "@/Layouts/AdminLayout.vue"; 
 export default {
     components: {
         AdminLayout,

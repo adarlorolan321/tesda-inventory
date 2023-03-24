@@ -1,20 +1,20 @@
 <script>
-import AdminLayout from "@/Layouts/AdminLayout.vue"; 
+import AdminLayout from "@/Layouts/AdminLayout.vue";
+import { usePage } from "@inertiajs/vue3";
+import { reactive, computed, onMounted } from "vue";
 export default {
     layout: AdminLayout,
 };
 </script>
 
 <script setup>
-import { useCrud } from "@/Composables/Crud.js"; 
-import { useValidateForm } from "@/Composables/Validate.js";
-import { usePage, Head } from "@inertiajs/vue3";
+import { useCrud } from "@/Composables/Crud.js";
 const { props } = usePage();
 const formObject = {
     name: null,
     code: null,
 };
-const { validateForm } = useValidateForm();
+
 const routeName = "settings.services";
 let {
     paginatedData,
@@ -31,11 +31,10 @@ let {
 </script>
 
 <template>
-    <Head title="Services"></Head>
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">
-                <h5 class="card-title">SERVICES</h5>
+                <h5 class="card-title">SESSIONS</h5>
             </div>
             <div class="card-action-element">
                 <button
@@ -70,15 +69,12 @@ let {
                     </div>
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
                         <div class="form-group mb-3">
-                            <label for="">Service Name <span class="required">*</span></label>
+                            <label for="">Service Name</label>
                             <input
                                 type="text"
                                 class="form-control"
                                 v-model="form.name"
-                                @input="($event) => {
-                                    form.clearErrors('name'); 
-                                    validateForm(['required'], form, $event.target.value, 'name');
-                                }" 
+                                @input="form.clearErrors('name')"
                                 placeholder="Enter name"
                                 :class="{
                                     'is-invalid': form.errors.name,
@@ -107,7 +103,7 @@ let {
                         <button
                             class="btn btn-primary"
                             @click="createPromise"
-                            :disabled="form.processing || form.hasErrors"
+                            :disabled="form.processing"
                             v-if="formState == 'create'"
                         >
                             <span
@@ -121,7 +117,7 @@ let {
                         <button
                             class="btn btn-primary"
                             @click="updatePromise"
-                            :disabled="form.processing || form.hasErrors"
+                            :disabled="form.processing"
                             v-if="formState == 'update'"
                         >
                             <span

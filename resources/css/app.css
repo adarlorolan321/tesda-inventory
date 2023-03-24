@@ -15,6 +15,7 @@
     cursor: pointer;
 }
 
+
 /* .select-custom > .select2-container {
     z-index: 99999;
 } */
@@ -49,6 +50,19 @@ body {
     overflow-x: hidden;
 }
 
+.input-group:focus-within {
+    box-shadow: unset !important;
+}
+
+.v-invalid-feedback,
+.custom-invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.8125rem;
+    color: #ea5455;
+}
+
 .swal2-icon .swal2-icon-content {
     font-size: 4rem !important;
 }
@@ -58,10 +72,6 @@ body {
     height: 60px !important;
 }
 
-.v-invalid-feedback {
-    display: block;
-    width: 100%;
-    margin-top: 0.25rem;
-    font-size: 0.8125rem;
-    color: #ea5455;
+.btn-link-primary{
+    color: white!important;
 }
