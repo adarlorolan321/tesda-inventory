@@ -20,23 +20,25 @@ export function useCrud(formObject = {}, routeName) {
     });
 
     onMounted(() => {
-        if (serverParams.value.page) {
-            serverQuery.value.page = serverParams.value.page;
-        }
-        if (serverParams.value.perPage) {
-            serverQuery.value.perPage = serverParams.value.perPage;
-        }
-        if (serverParams.value.query) {
-            serverQuery.value.query = serverParams.value.query;
-        }
-        if (serverParams.value.sort) {
-            serverQuery.value.sort = serverParams.value.sort;
-        }
-        if (serverParams.value.order) {
-            serverQuery.value.order = serverParams.value.order;
-        }
-        if (serverParams.value.role) {
-            serverQuery.value.role = serverParams.value.role;
+        if(serverParams.value){
+            if (serverParams.value.page) {
+                serverQuery.value.page = serverParams.value.page;
+            }
+            if (serverParams.value.perPage) {
+                serverQuery.value.perPage = serverParams.value.perPage;
+            }
+            if (serverParams.value.query) {
+                serverQuery.value.query = serverParams.value.query;
+            }
+            if (serverParams.value.sort) {
+                serverQuery.value.sort = serverParams.value.sort;
+            }
+            if (serverParams.value.order) {
+                serverQuery.value.order = serverParams.value.order;
+            }
+            if (serverParams.value.role) {
+                serverQuery.value.role = serverParams.value.role;
+            }
         }
     });
 
