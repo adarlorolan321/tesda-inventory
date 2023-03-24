@@ -42,8 +42,16 @@ export function useCrud(formObject = {}, routeName) {
 
     onMounted(() => {
         var myOffcanvas = document.getElementById("offCanvasForm");
-        offCanvas.value = new bootstrap.Offcanvas(myOffcanvas);
+        if (myOffcanvas) {
+            offCanvas.value = new bootstrap.Offcanvas(myOffcanvas);
+        }
     });
+
+    const hideOffCanvas = () => {
+        if (offCanvas.value) {
+            offCanvas.value.hide();
+        }
+    }
 
     const handleServerQuery = (key, value) => {
         if (key == "perPage" || key == "query") {
@@ -75,9 +83,7 @@ export function useCrud(formObject = {}, routeName) {
 
     const handleDebouncedServerQuery = debounce(() => {
         router.get(
-            route(`${routeName}.index`, serverQuery.value),
-            {},
-            {
+            route(`${routeName}.index`, serverQuery.value), {}, {
                 preserveState: true,
                 preventScroll: true,
                 only: ["data", "params"],
@@ -86,7 +92,7 @@ export function useCrud(formObject = {}, routeName) {
     }, 500);
 
     // Promise
-    const createPromise = async () => {
+    const createPromise = async() => {
         form.clearErrors();
         form.post(route(`${routeName}.store`), {
             preserveState: true,
@@ -95,12 +101,12 @@ export function useCrud(formObject = {}, routeName) {
             onSuccess: () => {
                 toastr.success("Record saved");
                 form.reset();
-                offCanvas.value.hide();
+                hideOffCanvas();
             },
         });
     };
 
-    const updatePromise = async () => {
+    const updatePromise = async() => {
         form.clearErrors();
         form.patch(route(`${routeName}.update`, form.id), {
             preserveState: true,
@@ -109,12 +115,12 @@ export function useCrud(formObject = {}, routeName) {
             onSuccess: () => {
                 toastr.success("Record saved");
                 form.reset();
-                offCanvas.value.hide();
+                hideOffCanvas();
             },
         });
     };
 
-    const deletePromise = async (id) => {
+    const deletePromise = async(id) => {
         Swal.fire({
             icon: "warning",
             title: "Are you sure?",

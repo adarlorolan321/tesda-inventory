@@ -355,7 +355,9 @@ let {
                         :key="tableData"
                     >
                         <td>{{ tableData.first_name }}&nbsp;{{ tableData.last_name }}</td>
-                        <td>{{ tableData.parent_name }}</td>
+                        <td>
+                            <inertia-link :href="route('user.parents.show', tableData.id)">{{ tableData.parent_name }}</inertia-link>
+                        </td>
                         <td>
                             <div class="d-flex gap-2">
                                 <a
