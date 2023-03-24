@@ -1,17 +1,13 @@
 export function userInputFormat() {
-    const dateFormat = () => {
-        return {
-            altFormat: 'd/m/Y',
-            altInput: true,
-            dateFormat: 'Y-m-d',
-        }
+    const dateFormat = {
+        altFormat: 'd/m/Y',
+        altInput: true,
+        dateFormat: 'Y-m-d',
     }
-    const timeFormat = () => {
-        return {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: 'H:i'
-        }
+    const timeFormat = {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: 'H:i'
     }
 
     return {

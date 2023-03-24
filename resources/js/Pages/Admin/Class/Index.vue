@@ -37,99 +37,13 @@ let {
                 <h5 class="card-title">CLASS</h5>
             </div>
             <div class="card-action-element">
-                <button
-                    class="btn btn-primary"
+                <inertia-link
                     type="button"
-                    @click="handleCreate"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#offCanvasForm"
-                    aria-controls="offCanvasForm"
+                    class="btn btn-link-primary btn-primary"
+                    :href="route('classes.create')"
                 >
-                    Add Service
-                </button>
-                <div
-                    class="offcanvas offcanvas-end"
-                    tabindex="-1"
-                    id="offCanvasForm"
-                    data-bs-backdrop="static"
-                    aria-labelledby="offCanvasFormLabel"
-                >
-                    <div class="offcanvas-header">
-                        <h5 id="offCanvasFormLabel" class="offcanvas-title">
-                            {{ formState == "create" ? "Add" : "Update" }}
-                            Service
-                        </h5>
-                        <button
-                            type="button"
-                            class="btn-close text-reset"
-                            data-bs-dismiss="offcanvas"
-                            aria-label="Close"
-                            v-if="!form.processing"
-                        ></button>
-                    </div>
-                    <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
-                        <div class="form-group mb-3">
-                            <label for="">Service Name</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                v-model="form.name"
-                                @input="form.clearErrors('name')"
-                                placeholder="Enter name"
-                                :class="{
-                                    'is-invalid': form.errors.name,
-                                }"
-                            />
-                            <div class="invalid-feedback">
-                                {{ form.errors.name }}
-                            </div>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="">Code</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                placeholder="Enter code"
-                                v-model="form.code"
-                                :class="{
-                                    'is-invalid': form.errors.code,
-                                }"
-                                @input="form.clearErrors('code')"
-                            />
-                            <div class="invalid-feedback">
-                                {{ form.errors.code }}
-                            </div>
-                        </div>
-                        <button
-                            class="btn btn-primary"
-                            @click="createPromise"
-                            :disabled="form.processing"
-                            v-if="formState == 'create'"
-                        >
-                            <span
-                                v-if="form.processing"
-                                class="spinner-border me-1"
-                                role="status"
-                                aria-hidden="true"
-                            ></span>
-                            Save
-                        </button>
-                        <button
-                            class="btn btn-primary"
-                            @click="updatePromise"
-                            :disabled="form.processing"
-                            v-if="formState == 'update'"
-                        >
-                            <span
-                                v-if="form.processing"
-                                class="spinner-border me-1"
-                                role="status"
-                                aria-hidden="true"
-                            ></span>
-                            Save changes
-                        </button>
-                    </div>
-                </div>
+                    Add Class
+                </inertia-link>
             </div>
         </div>
         <div class="card-body">

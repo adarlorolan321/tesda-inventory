@@ -42,7 +42,9 @@ export function useCrud(formObject = {}, routeName) {
 
     onMounted(() => {
         var myOffcanvas = document.getElementById("offCanvasForm");
-        offCanvas.value = new bootstrap.Offcanvas(myOffcanvas);
+        if(myOffcanvas){
+            offCanvas.value = new bootstrap.Offcanvas(myOffcanvas);
+        }
     });
 
     const handleServerQuery = (key, value) => {
