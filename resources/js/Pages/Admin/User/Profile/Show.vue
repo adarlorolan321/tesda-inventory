@@ -3,6 +3,7 @@ import ProfileLayout from "@/Layouts/ProfileLayout.vue";
 export default {
     layout: ProfileLayout,
 };
+
 </script>
 
 <template>

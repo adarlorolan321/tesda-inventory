@@ -136,6 +136,6 @@ class UserController extends Controller
 
     public function changePassword()
     {
-        return Inertia::render('Admin/User/Profile/Show');
+        return Inertia::render('Admin/User/Profile/ChangePassword');
     }
 }
