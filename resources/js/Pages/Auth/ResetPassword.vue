@@ -1,5 +1,5 @@
 <script setup>
-import { useForm } from '@inertiajs/vue3';
+import { useForm, router } from '@inertiajs/vue3';
 import { ref } from 'vue'
 
 const props = defineProps({
@@ -16,6 +16,9 @@ const form = useForm({
 
 const submit = () => {
     form.post(route('password.update'), {
+        onSuccess: () => {
+            // router.get('/login');
+        },
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
 };
@@ -92,6 +95,9 @@ const isPassword = ref({ password: true, password_confirmation: true });
                                 </div>
                                 <div class="custom-invalid-feedback" v-if="form.errors.password">
                                     {{ form.errors.password }}
+                                </div>
+                                <div class="custom-invalid-feedback" v-if="form.errors.email">
+                                    {{ form.errors.email }}
                                 </div>
                             </div>
                         </div>

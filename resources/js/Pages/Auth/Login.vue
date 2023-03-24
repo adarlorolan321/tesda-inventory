@@ -3,6 +3,10 @@ import { useLogin } from "../../Composables/Login";
 import { ref } from "vue";
 const { login, form } = useLogin();
 const password = ref(true);
+defineProps({
+    status: String,
+});
+
 </script>
 <template>
     <div class="container-xxl">
@@ -62,7 +66,9 @@ const password = ref(true);
                             Please sign-in to your account and start the
                             adventure
                         </p>
-
+                        <div v-if="status" class="alert alert-success"> 
+                            {{ status }}
+                        </div>
                         <form
                             @submit.prevent="login()"
                             id="formAuthentication"

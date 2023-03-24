@@ -13,6 +13,8 @@ import TableHeader from "@/Components/TableHeader.vue";
 let doc = window.document.getElementsByTagName("title")[0];
 const appName = doc ? doc.innerText : "Laravel";
 
+import cleave from "./Directives/cleave";
+
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) =>
@@ -23,6 +25,7 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         return createApp({ render: () => h(App, props) })
             .use(plugin)
+            .directive('cleave', cleave)
             .component("Select2", Select2)
             .component("TableHeader", TableHeader)
             .component("Dropzone", Dropzone)

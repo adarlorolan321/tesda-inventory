@@ -97,6 +97,7 @@ class ParentController extends Controller
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
+            throw $th;
         }
         sleep(1);
         if ($request->wantsJson()) {

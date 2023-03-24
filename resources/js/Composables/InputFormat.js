@@ -3,6 +3,7 @@ export function userInputFormat() {
         altFormat: 'd/m/Y',
         altInput: true,
         dateFormat: 'Y-m-d',
+        allowInput: true
     }
     const timeFormat = {
         enableTime: true,
@@ -11,6 +12,7 @@ export function userInputFormat() {
     }
 
     return {
-        dateFormat,timeFormat
+        dateFormat,
+        timeFormat
     }
 }
