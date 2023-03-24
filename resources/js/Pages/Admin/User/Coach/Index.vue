@@ -127,7 +127,7 @@ let {
                                 id="first_name"
                                 class="form-control"
                                 v-model="form.first_name"
-                                @input="form.clearErrors('first_name')"
+                                @input="($event) => {form.clearErrors('first_name'); validateForm(['required'], form, $event.target.value, 'first_name');}"
                                 placeholder="Enter First Name"
                                 :class="{
                                     'is-invalid': form.errors.first_name,
@@ -147,7 +147,7 @@ let {
                                 id="last_name"
                                 class="form-control"
                                 v-model="form.last_name"
-                                @input="form.clearErrors('last_name')"
+                                @input="($event) => {form.clearErrors('last_name'); validateForm(['required'], form, $event.target.value, 'last_name');}"
                                 placeholder="Enter Last Name"
                                 :class="{
                                     'is-invalid': form.errors.last_name,
@@ -166,7 +166,7 @@ let {
                                 id="email"
                                 class="form-control"
                                 v-model="form.email"
-                                @input="form.clearErrors('email')"
+                                @input="($event) => {form.clearErrors('email'); validateForm(['required'], form, $event.target.value, 'email');}"
                                 placeholder="Enter Email"
                                 :class="{
                                     'is-invalid': form.errors.email,
@@ -187,7 +187,8 @@ let {
                                 v-model="form.phone"
                                 @input="($event) => {
                                     form.clearErrors('phone');
-                                    validateForm(['number'], form, $event.target.value, 'phone')
+                                    validateForm(['required'], form, $event.target.value, 'phone');
+                                    validateForm(['number'], form, $event.target.value, 'phone');
                                 }"
                                 placeholder="Enter Phone"
                                 :class="{
