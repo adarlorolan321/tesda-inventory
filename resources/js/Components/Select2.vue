@@ -6,6 +6,7 @@
             :name="name"
             :disabled="disabled"
             :required="required"
+            :multiple="multiple"
         ></select>
     </div>
 </template>
@@ -38,6 +39,10 @@ export default {
             default: () => [],
         },
         disabled: {
+            type: Boolean,
+            default: false,
+        },
+        multiple: {
             type: Boolean,
             default: false,
         },
