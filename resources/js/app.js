@@ -1,7 +1,7 @@
 import "./bootstrap";
 import "../css/app.css";
 import { createApp, h } from "vue";
-import { createInertiaApp, Link } from "@inertiajs/vue3";
+import { createInertiaApp, Link, router } from "@inertiajs/vue3";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
 import flatPickr from 'vue-flatpickr-component';
@@ -38,3 +38,10 @@ createInertiaApp({
         color: "#4B5563",
     },
 });
+
+router.on('finish', () => {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+})
