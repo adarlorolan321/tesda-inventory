@@ -147,12 +147,12 @@ let {
                         <td>
                             <div class="d-flex gap-2">
                                 <inertia-link
-                                    class="btn btn-icon btn-label-primary waves-effect"
+                                    class="btn btn-icon btn-label-primary waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" title="Edit"
                                     :href="route('classes.edit', tableData.id)"
                                     ><i class="ti ti-pencil"></i>
                                 </inertia-link>
                                 <a
-                                    class="btn btn-icon btn-label-danger waves-effect"
+                                    class="btn btn-icon btn-label-danger waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-danger" title="Delete"
                                     href="javascript:void(0);"
                                     @click="deletePromise(tableData.id)"
                                     ><i class="ti ti-trash"></i>
