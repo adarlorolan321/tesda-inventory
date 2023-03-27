@@ -11,7 +11,7 @@ class StoreClassSessionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->can("store class_session");
+        return auth()->user()->can("store class");
     }
 
     /**

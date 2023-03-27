@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Class;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Class\ClassListResource;
+use App\Http\Resources\Class\ClassSessionListResource;
 use App\Models\Class\ClassModel;
 use App\Http\Requests\Class\StoreClassRequest;
 use App\Http\Requests\Class\UpdateClassRequest;
 
+use App\Models\Class\ClassSession;
 use App\Models\Setting\Service;
 use App\Models\Setting\Venue;
 use App\Models\User;
@@ -124,12 +126,28 @@ class ClassController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $data = ClassModel::findOrFail($id);
+        $data = ClassModel::with(['venue','coach'])->findOrFail($id);
         if ($request->wantsJson()) {
             return new ClassListResource($data);
         }
+
+        $request = request()->merge(['class_id' => $id]);
+        $data['additional_coach'] = User::whereIn('id',$data['additional_coach'])->get(['id','name'])->makeHidden(['profile_photo','profile_photo_url','role']);
+
         return Inertia::render('Admin/Class/Show', [
-            'data' => $data
+            'classModel' => $data,
+            'data' => (new ClassSessionController)->index($request,true)['data'],
+            'coaches' => User::whereHas('roles', function ($query) {
+                $query->where('name', 'Coach');
+            })
+                ->orderBy('name','ASC')
+                ->get(['id', 'name'])
+                ->map(function ($parent) {
+                    return [
+                        'id' => $parent->id,
+                        'text' => $parent->name
+                    ];
+                })
         ]);
     }
 

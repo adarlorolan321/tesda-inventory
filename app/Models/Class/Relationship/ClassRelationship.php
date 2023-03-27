@@ -2,6 +2,7 @@
 
 namespace App\Models\Class\Relationship;
 
+use App\Models\Class\ClassSession;
 use App\Models\Setting\Service;
 use App\Models\Setting\Venue;
 use App\Models\User;
@@ -17,7 +18,7 @@ trait ClassRelationship
     public function coach(){
         return $this->belongsTo(User::class);
     }
-    public function tags(){
-        return $this->belongsTo(T::class);
+    public function classSessions(){
+        return $this->hasMany(ClassSession::class,'class_id');
     }
 }

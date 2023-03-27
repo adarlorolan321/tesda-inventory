@@ -10,7 +10,7 @@ use App\Http\Controllers\User\CoachController;
 use App\Http\Controllers\User\StudentController;
 use App\Http\Controllers\Class\ClassSessionController;
 use App\Http\Controllers\Class\ClassController;
-use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\Class\TabController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +46,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         });
 
+        Route::get('classes/{id}/sessions', [TabController::class, 'sessions'])->name('classes.sessions-tab');
+        Route::get('classes/{id}/update', [TabController::class, 'update'])->name('classes.update-tab');
+
+
         Route::resource('classes', ClassController::class);
+
+
         Route::resource('students', StudentController::class);
 
         Route::name('classes.')->prefix('classes')->group(function () {
