@@ -388,6 +388,7 @@ onMounted(() => {
                         >
                         <select2
                             id="days"
+                            :disabled="form.repeat == 0"
                             :class="{ 'is-invalid': form.errors.days }"
                             v-model="form.days"
                             multiple="multiple"
