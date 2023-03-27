@@ -6,14 +6,13 @@ export function userInputFormat() {
     //     allowInput: true,
     //     minDate: "today",
     // };
-    const dateFormat = (minDate, maxDate = null) => {
+    const dateFormat = (config) => {
         return {
             altFormat: "d/m/Y",
             altInput: true,
             dateFormat: "Y-m-d",
             allowInput: true,
-            minDate: minDate,
-            maxDate: maxDate,
+            ...config,
         };
     };
     const timeFormat = {

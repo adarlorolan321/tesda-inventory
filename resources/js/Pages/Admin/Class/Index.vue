@@ -141,12 +141,21 @@ let {
                         :key="tableData"
                     >
                         <td style="width: 60%">
-                            <inertia-link :href="route('classes.sessions-tab',tableData.id)">
+                            <inertia-link
+                                :href="
+                                    route('classes.sessions-tab', tableData.id)
+                                "
+                            >
                                 {{ tableData.name }}
                             </inertia-link>
                         </td>
                         <td>
-                            <span v-for="days in tableData.days" :key="days" class="badge bg-label-info me-2" >{{days}}</span>
+                            <span
+                                v-for="days in tableData.days"
+                                :key="days"
+                                class="badge bg-label-info me-2"
+                                >{{ days }}</span
+                            >
                         </td>
                         <td>{{ tableData.service_name }}</td>
                         <td>{{ tableData.coach_name }}</td>
@@ -154,12 +163,19 @@ let {
                             <div class="d-flex gap-2">
                                 <inertia-link
                                     class="btn btn-icon btn-label-info waves-effect"
-                                    :href="route('classes.sessions-tab', tableData.id)"
-                                ><i class="ti ti-eye"></i>
+                                    :href="
+                                        route(
+                                            'classes.sessions-tab',
+                                            tableData.id
+                                        )
+                                    "
+                                    ><i class="ti ti-eye"></i>
                                 </inertia-link>
                                 <inertia-link
                                     class="btn btn-icon btn-label-primary waves-effect"
-                                    :href="route('classes.edit', tableData.id)"
+                                    :href="
+                                        route('classes.update', tableData.id)
+                                    "
                                     ><i class="ti ti-pencil"></i>
                                 </inertia-link>
                                 <a

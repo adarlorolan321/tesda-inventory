@@ -196,7 +196,11 @@ let {
                         <label for="start_time">Start Date</label>
                         <flat-pickr
                             id="start_date"
-                            :config="dateFormat('today')"
+                            :config="
+                                dateFormat({
+                                    minDate: 'today',
+                                })
+                            "
                             :class="{ 'is-invalid': form.errors.start_date }"
                             class="form-control"
                             placeholder="Select Start Date"
