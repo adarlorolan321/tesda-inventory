@@ -340,7 +340,7 @@ let {
                         >
                             Parent Name
                         </table-header>
-                        <th>Actions</th>
+                        <th style="width: 10px;">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">

@@ -317,7 +317,7 @@ let {
                         <!--                            <i  class="ti ti-arrow-up"  v-if=" serverQuery.sort == 'status' && serverQuery.order == 'desc' "  ></i>-->
                         <!--                            <i class="ti ti-arrow-down" v-if="  serverQuery.sort == 'status' && serverQuery.order == 'asc' "></i>-->
                         <!--                        </th>-->
-                        <th>Actions</th>
+                        <th style="width: 10px;">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
