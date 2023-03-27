@@ -1,0 +1,1 @@
+function m(){return{dateFormat:(t,a=null)=>({altFormat:"d/m/Y",altInput:!0,dateFormat:"Y-m-d",allowInput:!0,minDate:t,maxDate:a}),timeFormat:{enableTime:!0,noCalendar:!0,dateFormat:"H:i"}}}export{m as u};
