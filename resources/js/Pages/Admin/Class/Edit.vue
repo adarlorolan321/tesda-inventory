@@ -312,7 +312,7 @@ onMounted(() => {
                             type="text"
                             :disabled="!form.repeat"
                             class="form-control"
-                            placeholder="Enter Price"
+                            placeholder="Enter Days"
                             v-model="form.days"
                             :class="{ 'is-days': form.errors.days }"
                             @input="($event) => { form.clearErrors('days'); validateForm(['number'], form, $event.target.value, 'days');}"
