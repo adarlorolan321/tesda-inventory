@@ -127,7 +127,7 @@ let {
                         >
                             Coach
                         </table-header>
-                        <th>Actions</th>
+                        <th style="width: 1px;">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">

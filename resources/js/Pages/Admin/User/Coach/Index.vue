@@ -380,9 +380,9 @@ let {
             </div>
         </div>
         <div class="table-responsive text-nowrap">
-            <table class="table">
-                <thead class="table-light">
-                    <tr>
+  <table class="table" >
+    <thead class="table-light">
+      <tr>
                         <th class="sortable">Photo</th>
                         <th
                             class="sortable"
@@ -465,7 +465,7 @@ let {
                                 "
                             ></i>
                         </th>
-                        <th>Actions</th>
+                        <th style="width: 150px;">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
