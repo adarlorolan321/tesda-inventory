@@ -5,7 +5,7 @@ import { ref, computed, onMounted } from "vue";
 import toastr from "toastr";
 // import Swal from "sweetalert2";
 
-export function useCrud(formObject = {}, routeName) {
+export function useCrud(formObject = {}, routeName, routeIndex = null) {
     const form = useForm(formObject);
     const formState = ref("create");
     const paginatedData = computed(() => usePage().props.data);
@@ -89,10 +89,22 @@ export function useCrud(formObject = {}, routeName) {
     };
 
     const handleDebouncedServerQuery = debounce(() => {
+        let routeValue = route(`${routeName}.index`, serverQuery.value);
+
+        if (routeIndex) {
+            routeValue = route(routeIndex.routeName, { id: routeIndex.routeId })
+        }
+
+        let params = {};
+
+        for (const key in serverQuery.value) {
+            if (serverQuery.value[key] && serverQuery.value[key] != "") {
+                params[key] = serverQuery.value[key]
+            }
+        }
+
         router.get(
-            route(`${routeName}.index`, serverQuery.value),
-            {},
-            {
+            routeValue, params, {
                 preserveState: true,
                 preventScroll: true,
                 only: ["data", "params"],
@@ -101,7 +113,7 @@ export function useCrud(formObject = {}, routeName) {
     }, 500);
 
     // Promise
-    const createPromise = async () => {
+    const createPromise = async() => {
         form.clearErrors();
         form.post(route(`${routeName}.store`), {
             preserveState: true,
@@ -115,7 +127,7 @@ export function useCrud(formObject = {}, routeName) {
         });
     };
 
-    const updatePromise = async () => {
+    const updatePromise = async() => {
         form.clearErrors();
         form.patch(route(`${routeName}.update`, form.id), {
             preserveState: true,
@@ -129,7 +141,7 @@ export function useCrud(formObject = {}, routeName) {
         });
     };
 
-    const deletePromise = async (id) => {
+    const deletePromise = async(id) => {
         Swal.fire({
             icon: "warning",
             title: "Are you sure?",
