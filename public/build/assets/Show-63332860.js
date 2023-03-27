@@ -1,0 +1,1 @@
+import{_ as o}from"./ProfileLayout-8ea07f0e.js";import{_ as r,t as s}from"./app-2ce31667.js";import"./AdminLayout-8783e2f5.js";const a={layout:o};function p(t,e,n,_,c,i){return s(t.$page.props.auth)}const $=r(a,[["render",p]]);export{$ as default};
