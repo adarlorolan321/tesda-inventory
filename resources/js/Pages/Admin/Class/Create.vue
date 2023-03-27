@@ -1,7 +1,7 @@
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import {usePage} from "@inertiajs/vue3";
-import {reactive, computed, onMounted} from "vue";
+import { usePage } from "@inertiajs/vue3";
+import { reactive, computed, onMounted } from "vue";
 
 export default {
     layout: AdminLayout,
@@ -9,11 +9,11 @@ export default {
 </script>
 
 <script setup>
-import {useCrud} from "@/Composables/Crud.js";
-import {userInputFormat} from "@/Composables/InputFormat.js";
-import {useValidateForm} from "@/Composables/Validate.js";
+import { useCrud } from "@/Composables/Crud.js";
+import { userInputFormat } from "@/Composables/InputFormat.js";
+import { useValidateForm } from "@/Composables/Validate.js";
 
-const {props} = usePage();
+const { props } = usePage();
 const formObject = {
     id: null,
     name: null,
@@ -34,10 +34,10 @@ const formObject = {
     status: "Active",
 };
 
-const routeName = "classes"
+const routeName = "classes";
 
-const {dateFormat, timeFormat} = userInputFormat();
-const {validateForm} = useValidateForm();
+const { dateFormat, timeFormat } = userInputFormat();
+const { validateForm } = useValidateForm();
 let {
     paginatedData,
     form,
@@ -72,7 +72,9 @@ let {
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group mb-3">
-                        <label for="name">Name <span class="required">*</span></label>
+                        <label for="name"
+                            >Name <span class="required">*</span></label
+                        >
                         <input
                             type="text"
                             id="name"
@@ -80,8 +82,8 @@ let {
                             placeholder="Enter Name"
                             v-model="form.name"
                             :class="{
-                                    'is-invalid': form.errors.name,
-                                }"
+                                'is-invalid': form.errors.name,
+                            }"
                             @input="form.clearErrors('name')"
                         />
                         <div class="invalid-feedback">
@@ -92,7 +94,7 @@ let {
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="service_id"
-                        >Service <span class="required">*</span></label
+                            >Service <span class="required">*</span></label
                         >
                         <select2
                             id="service_id"
@@ -101,7 +103,6 @@ let {
                             placeholder="Select Service"
                             :settings="{
                                 allowClear: true,
-                                minimumResultsForSearch: -1,
                             }"
                             @select="form.clearErrors('service_id')"
                             :options="props.services"
@@ -118,7 +119,7 @@ let {
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="venue_id"
-                        >Venue <span class="required">*</span></label
+                            >Venue <span class="required">*</span></label
                         >
                         <select2
                             id="venue_id"
@@ -126,7 +127,6 @@ let {
                             v-model="form.venue_id"
                             :settings="{
                                 allowClear: true,
-                                minimumResultsForSearch: -1,
                             }"
                             placeholder="Select Venue"
                             @select="form.clearErrors('venue_id')"
@@ -145,12 +145,10 @@ let {
                     <div class="form-group mb-3">
                         <label for="coach_id">Coach</label>
                         <select2
-
                             :class="{ 'is-invalid': form.errors.coach_id }"
                             v-model="form.coach_id"
                             :settings="{
                                 allowClear: true,
-                                minimumResultsForSearch: -1,
                             }"
                             placeholder="Select Coach"
                             @select="form.clearErrors('coach_id')"
@@ -167,17 +165,16 @@ let {
                 </div>
                 <div class="col-md-6">
                     <div class="form-group mb-3">
-                        <label for="additional_coach"
-                        >Additional Coach </label
-                        >
+                        <label for="additional_coach">Additional Coach </label>
                         <select2
                             multiple="multiple"
                             id="additional_coach"
-                            :class="{ 'is-invalid': form.errors.additional_coach }"
+                            :class="{
+                                'is-invalid': form.errors.additional_coach,
+                            }"
                             v-model="form.additional_coach"
                             :settings="{
                                 allowClear: true,
-                                minimumResultsForSearch: -1,
                             }"
                             placeholder="Select Additional Coach"
                             @select="form.clearErrors('additional_coach')"
@@ -195,10 +192,18 @@ let {
                 <div class="col-md-3">
                     <div class="form-group mb-3">
                         <label for="start_time">Start Date</label>
-                        <flat-pickr id="start_date" :config="dateFormat"
-                                    :class="{ 'is-invalid': form.errors.start_date }" class="form-control"
-                                    placeholder="Select Start Date" v-model="form.start_date"/>
-                        <div class="v-invalid-feedback" v-if="form.errors.start_date">
+                        <flat-pickr
+                            id="start_date"
+                            :config="dateFormat"
+                            :class="{ 'is-invalid': form.errors.start_date }"
+                            class="form-control"
+                            placeholder="Select Start Date"
+                            v-model="form.start_date"
+                        />
+                        <div
+                            class="v-invalid-feedback"
+                            v-if="form.errors.start_date"
+                        >
                             {{ form.errors.start_date }}
                         </div>
                     </div>
@@ -206,10 +211,18 @@ let {
                 <div class="col-md-3">
                     <div class="form-group mb-3">
                         <label for="start_time">Start Time</label>
-                        <flat-pickr id="start_time" :config="timeFormat"
-                                    :class="{ 'is-invalid': form.errors.start_time }" class="form-control"
-                                    placeholder="Select End Time" v-model="form.start_time"/>
-                        <div class="v-invalid-feedback" v-if="form.errors.start_time">
+                        <flat-pickr
+                            id="start_time"
+                            :config="timeFormat"
+                            :class="{ 'is-invalid': form.errors.start_time }"
+                            class="form-control"
+                            placeholder="Select End Time"
+                            v-model="form.start_time"
+                        />
+                        <div
+                            class="v-invalid-feedback"
+                            v-if="form.errors.start_time"
+                        >
                             {{ form.errors.start_time }}
                         </div>
                     </div>
@@ -217,10 +230,18 @@ let {
                 <div class="col-md-3">
                     <div class="form-group mb-3">
                         <label for="end_date">End Date</label>
-                        <flat-pickr id="end_date" :config="dateFormat"
-                                    :class="{ 'is-invalid': form.errors.end_date }" class="form-control"
-                                    placeholder="Select End Time" v-model="form.end_date"/>
-                        <div class="v-invalid-feedback" v-if="form.errors.end_date">
+                        <flat-pickr
+                            id="end_date"
+                            :config="dateFormat"
+                            :class="{ 'is-invalid': form.errors.end_date }"
+                            class="form-control"
+                            placeholder="Select End Time"
+                            v-model="form.end_date"
+                        />
+                        <div
+                            class="v-invalid-feedback"
+                            v-if="form.errors.end_date"
+                        >
                             {{ form.errors.end_date }}
                         </div>
                     </div>
@@ -228,10 +249,18 @@ let {
                 <div class="col-md-3">
                     <div class="form-group mb-3">
                         <label for="end_time">End Time</label>
-                        <flat-pickr id="end_time" :config="timeFormat"
-                                    :class="{ 'is-invalid': form.errors.end_time }" class="form-control"
-                                    placeholder="Select End Time" v-model="form.end_time"/>
-                        <div class="v-invalid-feedback" v-if="form.errors.end_time">
+                        <flat-pickr
+                            id="end_time"
+                            :config="timeFormat"
+                            :class="{ 'is-invalid': form.errors.end_time }"
+                            class="form-control"
+                            placeholder="Select End Time"
+                            v-model="form.end_time"
+                        />
+                        <div
+                            class="v-invalid-feedback"
+                            v-if="form.errors.end_time"
+                        >
                             {{ form.errors.end_time }}
                         </div>
                     </div>
@@ -247,21 +276,35 @@ let {
                             <input
                                 id="price_type"
                                 type="checkbox"
-                                :class="{ 'is-invalid': form.errors.price_type }"
+                                :class="{
+                                    'is-invalid': form.errors.price_type,
+                                }"
                                 v-model="form.price_type"
                                 :checked="form.price_type"
-                                @input="($event)=>{form.clearErrors('price_type','price'); form.price = null }"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('price_type', 'price');
+                                        form.price = null;
+                                    }
+                                "
                                 class="switch-input"
                             />
                             <span class="switch-toggle-slider">
-                                    <span class="switch-on"></span>
-                                    <span class="switch-off"></span>
-                                </span>
-                            <span class="switch-label">{{ form.price_type == 1 ? 'Paid' : 'Free' }}</span>
+                                <span class="switch-on"></span>
+                                <span class="switch-off"></span>
+                            </span>
+                            <span class="switch-label">{{
+                                form.price_type == 1 ? "Paid" : "Free"
+                            }}</span>
                         </label>
                     </div>
                     <div style="width: 100%" class="form-group">
-                        <label for="price">Price <span class="required" v-if="form.price_type">*</span></label>
+                        <label for="price"
+                            >Price
+                            <span class="required" v-if="form.price_type"
+                                >*</span
+                            ></label
+                        >
                         <input
                             id="price"
                             type="text"
@@ -270,7 +313,17 @@ let {
                             placeholder="Enter Price"
                             v-model="form.price"
                             :class="{ 'is-invalid': form.errors.price }"
-                            @input="($event) => { form.clearErrors('price'); validateForm(['number'], form, $event.target.value, 'price');}"
+                            @input="
+                                ($event) => {
+                                    form.clearErrors('price');
+                                    validateForm(
+                                        ['number'],
+                                        form,
+                                        $event.target.value,
+                                        'price'
+                                    );
+                                }
+                            "
                         />
                         <div class="invalid-feedback">
                             {{ form.errors.price }}
@@ -279,9 +332,7 @@ let {
                 </div>
                 <div class="col-md-6 d-flex flex-row gap-4 mb-3">
                     <div class="form-group">
-                        <div class=" ">
-                            Repeat
-                        </div>
+                        <div class=" ">Repeat</div>
                         <label for="repeat" class="switch">
                             <input
                                 id="repeat"
@@ -289,18 +340,30 @@ let {
                                 :class="{ 'is-invalid': form.errors.repeat }"
                                 v-model="form.repeat"
                                 :checked="form.repeat"
-                                @input="($event)=>{form.clearErrors('repeat','days'); form.days = null }"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('repeat', 'days');
+                                        form.days = null;
+                                    }
+                                "
                                 class="switch-input"
                             />
                             <span class="switch-toggle-slider">
-                                    <span class="switch-on"></span>
-                                    <span class="switch-off"></span>
-                                </span>
-                            <span class="switch-label">{{ form.repeat == 1 ? 'Yes' : 'No' }}</span>
+                                <span class="switch-on"></span>
+                                <span class="switch-off"></span>
+                            </span>
+                            <span class="switch-label">{{
+                                form.repeat == 1 ? "Yes" : "No"
+                            }}</span>
                         </label>
                     </div>
                     <div style="width: 100%" class="form-group">
-                        <label for="days">Days <span class="required" v-if="form.repeat">*</span></label>
+                        <label for="days"
+                            >Days
+                            <span class="required" v-if="form.repeat"
+                                >*</span
+                            ></label
+                        >
                         <input
                             id="days"
                             type="text"
@@ -309,12 +372,19 @@ let {
                             placeholder="Enter Days"
                             v-model="form.days"
                             :class="{ 'is-days': form.errors.days }"
-                            @input="($event) => { form.clearErrors('days'); validateForm(['number'], form, $event.target.value, 'days');}"
+                            @input="
+                                ($event) => {
+                                    form.clearErrors('days');
+                                    validateForm(
+                                        ['number'],
+                                        form,
+                                        $event.target.value,
+                                        'days'
+                                    );
+                                }
+                            "
                         />
-                        <div
-                            class="v-invalid-feedback"
-                            v-if="form.errors.days"
-                        >
+                        <div class="v-invalid-feedback" v-if="form.errors.days">
                             {{ form.errors.days }}
                         </div>
                     </div>
@@ -331,9 +401,19 @@ let {
                             placeholder="Enter Capacity"
                             v-model="form.capacity"
                             :class="{
-                                    'is-invalid': form.errors.capacity,
-                                }"
-                            @input="($event) => { form.clearErrors('capacity'); validateForm(['number'], form, $event.target.value, 'capacity');}"
+                                'is-invalid': form.errors.capacity,
+                            }"
+                            @input="
+                                ($event) => {
+                                    form.clearErrors('capacity');
+                                    validateForm(
+                                        ['number'],
+                                        form,
+                                        $event.target.value,
+                                        'capacity'
+                                    );
+                                }
+                            "
                         />
                         <div class="invalid-feedback">
                             {{ form.errors.capacity }}
@@ -351,16 +431,13 @@ let {
                             :settings="{
                                 tags: true,
                                 allowClear: true,
-                                 minimumResultsForSearch: -1,
+                                minimumResultsForSearch: -1,
                             }"
                             placeholder="Select tags"
                             @select="form.clearErrors('tags')"
                         >
                         </select2>
-                        <div
-                            class="v-invalid-feedback"
-                            v-if="form.errors.tags"
-                        >
+                        <div class="v-invalid-feedback" v-if="form.errors.tags">
                             {{ form.errors.tags }}
                         </div>
                     </div>
@@ -368,7 +445,7 @@ let {
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="status"
-                        >Status <span class="required">*</span></label
+                            >Status <span class="required">*</span></label
                         >
                         <select2
                             id="status"
@@ -400,12 +477,12 @@ let {
                         :disabled="form.processing || form.hasErrors"
                         v-if="!form.id"
                     >
-                            <span
-                                v-if="form.processing"
-                                class="spinner-border me-1"
-                                role="status"
-                                aria-hidden="true"
-                            ></span>
+                        <span
+                            v-if="form.processing"
+                            class="spinner-border me-1"
+                            role="status"
+                            aria-hidden="true"
+                        ></span>
                         Save
                     </button>
                     <button
@@ -414,12 +491,12 @@ let {
                         :disabled="form.processing || form.hasErrors"
                         v-else
                     >
-                            <span
-                                v-if="form.processing"
-                                class="spinner-border me-1"
-                                role="status"
-                                aria-hidden="true"
-                            ></span>
+                        <span
+                            v-if="form.processing"
+                            class="spinner-border me-1"
+                            role="status"
+                            aria-hidden="true"
+                        ></span>
                         Save changes
                     </button>
                 </div>

@@ -158,6 +158,8 @@ class CoachController extends Controller
                 ->update([
                     'model_id' => $data->id
                 ]);
+        } else {
+            $data->clearMediaCollection('profile_photo');
         }
 
         if ($prevEmail != $userArr['email']) {

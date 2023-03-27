@@ -1,5 +1,5 @@
 <script>
-import AdminLayout from "@/Layouts/AdminLayout.vue"; 
+import AdminLayout from "@/Layouts/AdminLayout.vue";
 export default {
     layout: AdminLayout,
 };
@@ -87,14 +87,23 @@ let {
                                 type="profile"
                                 model="User"
                                 :value="form.profile_photo"
-                                @input="form.profile_photo = $event"
+                                @input="
+                                    ($event) => {
+                                        form.profile_photo = $event;
+                                        form.clearErrors('profile_photo');
+                                    }
+                                "
                                 message="Drop files here or click to upload profile photo"
                                 acceptedFiles="image/jpeg,image/png"
                                 @error="
-                                    form.setError(
-                                        'profile_photo',
-                                        $event && $event[0] ? $event[0] : $event
-                                    )
+                                    ($event) => {
+                                        if ($event && $event[0]) {
+                                            form.setError(
+                                                'profile_photo',
+                                                $event[0]
+                                            );
+                                        }
+                                    }
                                 "
                             >
                             </dropzone>
@@ -113,7 +122,6 @@ let {
                                 {{ form.errors.profile_photo }}
                             </div>
                         </div>
-
                         <div class="form-group mb-3">
                             <label for="name"
                                 >First Name
@@ -124,10 +132,17 @@ let {
                                 id="first_name"
                                 class="form-control"
                                 v-model="form.first_name"
-                                @input="($event) => {
-                                    form.clearErrors('first_name'); 
-                                    validateForm(['required'], form, $event.target.value, 'first_name');
-                                }"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('first_name');
+                                        validateForm(
+                                            ['required'],
+                                            form,
+                                            $event.target.value,
+                                            'first_name'
+                                        );
+                                    }
+                                "
                                 placeholder="Enter First Name"
                                 :class="{
                                     'is-invalid': form.errors.first_name,
@@ -147,10 +162,17 @@ let {
                                 id="last_name"
                                 class="form-control"
                                 v-model="form.last_name"
-                                @input="($event) => {
-                                    form.clearErrors('last_name'); 
-                                    validateForm(['required'], form, $event.target.value, 'last_name');
-                                }"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('last_name');
+                                        validateForm(
+                                            ['required'],
+                                            form,
+                                            $event.target.value,
+                                            'last_name'
+                                        );
+                                    }
+                                "
                                 placeholder="Enter Last Name"
                                 :class="{
                                     'is-invalid': form.errors.last_name,
@@ -169,10 +191,17 @@ let {
                                 id="email"
                                 class="form-control"
                                 v-model="form.email"
-                                @input="($event) => {
-                                    form.clearErrors('email'); 
-                                    validateForm(['required', 'email'], form, $event.target.value, 'email');
-                                }"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('email');
+                                        validateForm(
+                                            ['required', 'email'],
+                                            form,
+                                            $event.target.value,
+                                            'email'
+                                        );
+                                    }
+                                "
                                 placeholder="Enter Email"
                                 :class="{
                                     'is-invalid': form.errors.email,
@@ -191,10 +220,17 @@ let {
                                 id="phone"
                                 class="form-control"
                                 v-model="form.phone"
-                                @input="($event) => {
-                                    form.clearErrors('phone');
-                                    validateForm(['required', 'number'], form, $event.target.value, 'phone');
-                                }"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('phone');
+                                        validateForm(
+                                            ['required', 'number'],
+                                            form,
+                                            $event.target.value,
+                                            'phone'
+                                        );
+                                    }
+                                "
                                 placeholder="Enter Phone"
                                 :class="{
                                     'is-invalid': form.errors.phone,
