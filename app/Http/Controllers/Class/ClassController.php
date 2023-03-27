@@ -72,6 +72,7 @@ class ClassController extends Controller
     {
         return Inertia::render('Admin/Class/Create', [
             'services' => Service::get(['id', 'name'])
+                ->orderBy('name','ASC')
                 ->map(function ($parent) {
                     return [
                         'id' => $parent->id,
@@ -79,6 +80,7 @@ class ClassController extends Controller
                     ];
                 }),
             'venues' => Venue::where('status', 1)->get(['id', 'name'])
+                ->orderBy('name','ASC')
                 ->map(function ($parent) {
                     return [
                         'id' => $parent->id,
@@ -88,6 +90,7 @@ class ClassController extends Controller
             'coaches' => User::whereHas('roles', function ($query) {
                 $query->where('name', 'Coach');
             })
+                ->orderBy('name','ASC')
                 ->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
@@ -137,14 +140,14 @@ class ClassController extends Controller
         }
         return Inertia::render('Admin/Class/Edit', [
             'data' => $data,
-            'services' => Service::get(['id', 'name'])
+            'services' => Service::orderBy('name','ASC')->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
                         'id' => $parent->id,
                         'text' => $parent->name
                     ];
                 }),
-            'venues' => Venue::where('status', 1)->get(['id', 'name'])
+            'venues' => Venue::where('status', 1)->orderBy('name','ASC')->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
                         'id' => $parent->id,
@@ -154,6 +157,7 @@ class ClassController extends Controller
             'coaches' => User::whereHas('roles', function ($query) {
                 $query->where('name', 'Coach');
             })
+                ->orderBy('name','ASC')
                 ->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [

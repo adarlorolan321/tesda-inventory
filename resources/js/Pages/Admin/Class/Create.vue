@@ -369,7 +369,7 @@ let {
                             type="text"
                             :disabled="!form.repeat"
                             class="form-control"
-                            placeholder="Enter Price"
+                            placeholder="Enter Days"
                             v-model="form.days"
                             :class="{ 'is-days': form.errors.days }"
                             @input="
