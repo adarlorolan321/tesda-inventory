@@ -87,7 +87,6 @@
     @routes
     @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
     @inertiaHead
-
 </head>
 
 <body>
