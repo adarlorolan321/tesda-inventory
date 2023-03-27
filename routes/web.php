@@ -1,11 +1,7 @@
 <?php
 
 use App\Http\Controllers as PageController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Account\AccountController;
-use App\Http\Controllers\Account\PasswordUpdateController;
 use Inertia\Inertia;
 
 use App\Http\Controllers\User\UserController;
@@ -14,6 +10,7 @@ use App\Http\Controllers\User\CoachController;
 use App\Http\Controllers\User\StudentController;
 use App\Http\Controllers\Class\ClassSessionController;
 use App\Http\Controllers\Class\ClassController;
+use App\Http\Controllers\User\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,15 +34,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
         });
 
         Route::name('user.')->prefix('user')->group(function () {
-            Route::post('change-password', PasswordUpdateController::class, 'update')->name('profile.change-password');
             Route::resource('coaches', CoachController::class);
             Route::resource('parents', ParentController::class);
             Route::resource('students', StudentController::class);
-
-            Route::get('profile', [UserController::class, 'profile'])->name('profile.index');
-            Route::get('profile/change-password', [UserController::class, 'changePassword'])->name('profile.change_password');
-
             Route::get('validate/{type}', [UserController::class, 'validateInput'])->name('validate');
+
+            // Profile Controller
+            Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+            Route::get('profile/change-password', [ProfileController::class, 'changePasswordIndex'])->name('profile.change_password');
+            Route::post('profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change_password');
+
         });
 
         Route::resource('classes', ClassController::class);

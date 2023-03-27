@@ -13,11 +13,7 @@ export default {
             password_confirmation: '',
         });
         const submit = async () => {
-            form.post(route('user.profile.change-password'), {
-                current_password: form.current_password,
-                password: form.password,
-                password_confirmation: form.password_confirmation,
-            })
+            form.post(route('user.profile.change_password'))
         }
         return {
             isPassword,

@@ -129,13 +129,5 @@ class UserController extends Controller
         //        return $validator->passes();
     }
 
-    public function profile()
-    {
-        return Inertia::render('Admin/User/Profile/Show');
-    }
-
-    public function changePassword()
-    {
-        return Inertia::render('Admin/User/Profile/ChangePassword');
-    }
+   
 }
