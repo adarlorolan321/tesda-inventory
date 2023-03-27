@@ -174,7 +174,10 @@ let {
                                 <inertia-link
                                     class="btn btn-icon btn-label-primary waves-effect"
                                     :href="
-                                        route('classes.update', tableData.id)
+                                        route(
+                                            'classes.update-tab',
+                                            tableData.id
+                                        )
                                     "
                                     ><i class="ti ti-pencil"></i>
                                 </inertia-link>
