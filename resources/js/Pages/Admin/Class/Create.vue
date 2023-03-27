@@ -196,7 +196,7 @@ let {
                         <label for="start_time">Start Date</label>
                         <flat-pickr
                             id="start_date"
-                            :config="dateFormat"
+                            :config="dateFormat('today')"
                             :class="{ 'is-invalid': form.errors.start_date }"
                             class="form-control"
                             placeholder="Select Start Date"
@@ -234,7 +234,8 @@ let {
                         <label for="end_date">End Date</label>
                         <flat-pickr
                             id="end_date"
-                            :config="dateFormat"
+                            :disabled="!form.start_date"
+                            :config="dateFormat(form.start_date)"
                             :class="{ 'is-invalid': form.errors.end_date }"
                             class="form-control"
                             placeholder="Select End Time"
@@ -368,6 +369,7 @@ let {
                         >
                         <select2
                             id="days"
+                            :disabled="form.repeat == 0"
                             :class="{ 'is-invalid': form.errors.days }"
                             v-model="form.days"
                             multiple="multiple"
