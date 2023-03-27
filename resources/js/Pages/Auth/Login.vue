@@ -1,13 +1,12 @@
 <script setup>
 import { useLogin } from "../../Composables/Login";
-import { Head } from '@inertiajs/vue3'
+import { Head } from "@inertiajs/vue3";
 import { ref } from "vue";
 const { login, form } = useLogin();
 const password = ref(true);
 defineProps({
     status: String,
 });
-
 </script>
 <template>
     <Head title="Login"></Head>
@@ -121,7 +120,7 @@ defineProps({
                                         v-model="form.password"
                                         placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                         aria-describedby="password"
-                                        @input="form.clearErrors('email')"
+                                        @input="form.clearErrors('password')"
                                     />
                                     <span
                                         class="input-group-text cursor-pointer"

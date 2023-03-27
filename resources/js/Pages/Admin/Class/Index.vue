@@ -1,5 +1,5 @@
 <script>
-import AdminLayout from "@/Layouts/AdminLayout.vue"; 
+import AdminLayout from "@/Layouts/AdminLayout.vue";
 export default {
     layout: AdminLayout,
 };
@@ -7,7 +7,7 @@ export default {
 
 <script setup>
 import { useCrud } from "@/Composables/Crud.js";
-import { usePage, Head } from "@inertiajs/vue3"; 
+import { usePage, Head } from "@inertiajs/vue3";
 const { props } = usePage();
 const formObject = {
     name: null,
@@ -30,7 +30,7 @@ let {
 </script>
 
 <template>
-     <Head title="Class"></Head>
+    <Head title="Class"></Head>
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">
@@ -107,23 +107,23 @@ let {
                             Name
                         </table-header>
                         <table-header
-                            @click="handleServerQuery('sort', 'day')"
+                            @click="handleServerQuery('sort', 'days')"
                             :serverQuery="serverQuery"
-                            serverQueryKey="day"
+                            serverQueryKey="days"
                         >
                             Day
                         </table-header>
                         <table-header
-                            @click="handleServerQuery('sort', 'service')"
+                            @click="handleServerQuery('sort', 'service_name')"
                             :serverQuery="serverQuery"
-                            serverQueryKey="service"
+                            serverQueryKey="service_name"
                         >
                             Service
                         </table-header>
                         <table-header
-                            @click="handleServerQuery('sort', 'coach')"
+                            @click="handleServerQuery('sort', 'coach_name')"
                             :serverQuery="serverQuery"
-                            serverQueryKey="coach"
+                            serverQueryKey="coach_name"
                         >
                             Coach
                         </table-header>
@@ -141,23 +141,16 @@ let {
                         :key="tableData"
                     >
                         <td style="width: 60%">{{ tableData.name }}</td>
-                        <td>{{ tableData.code }}</td>
-                        <td class="">
-                            <a href="#"
-                                ><i
-                                    class="fa-regular fa-copy ms-4"
-                                    style="font-size: 22px"
-                                ></i
-                            ></a>
-                        </td>
+                        <td>{{ tableData.days ? tableData.days : "-" }}</td>
+                        <td>{{ tableData.service_name }}</td>
+                        <td>{{ tableData.coach_name }}</td>
                         <td>
                             <div class="d-flex gap-2">
-                                <a
+                                <inertia-link
                                     class="btn btn-icon btn-label-primary waves-effect"
-                                    @click="handleEdit(tableData)"
-                                    href="javascript:void(0);"
+                                    :href="route('classes.edit', tableData.id)"
                                     ><i class="ti ti-pencil"></i>
-                                </a>
+                                </inertia-link>
                                 <a
                                     class="btn btn-icon btn-label-danger waves-effect"
                                     href="javascript:void(0);"

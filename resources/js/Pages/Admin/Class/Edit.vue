@@ -12,8 +12,8 @@ export default {
 import { useCrud } from "@/Composables/Crud.js";
 import { userInputFormat } from "@/Composables/InputFormat.js";
 import { useValidateForm } from "@/Composables/Validate.js";
+import { onMounted } from "vue";
 
-const { props } = usePage();
 const formObject = {
     id: null,
     name: null,
@@ -30,7 +30,7 @@ const formObject = {
     days: null,
     price_type: false,
     price: null,
-    tags: [],
+    tags: null,
     status: "Active",
 };
 
@@ -50,13 +50,19 @@ let {
     handleEdit,
     formState,
 } = useCrud(formObject, routeName);
+
+const { props } = usePage();
+
+onMounted(() => {
+    handleEdit(props.data);
+});
 </script>
 
 <template>
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">
-                <h5 class="card-title">ADD CLASS</h5>
+                <h5 class="card-title">EDIT CLASS</h5>
             </div>
             <div class="card-action-element">
                 <inertia-link
@@ -429,12 +435,13 @@ let {
                             :class="{ 'is-invalid': form.errors.tags }"
                             v-model="form.tags"
                             :settings="{
-                                tags: true,
                                 allowClear: true,
+                                tags: true,
                                 minimumResultsForSearch: -1,
                             }"
                             placeholder="Select tags"
                             @select="form.clearErrors('tags')"
+                            :options="form.tags"
                         >
                         </select2>
                         <div class="v-invalid-feedback" v-if="form.errors.tags">

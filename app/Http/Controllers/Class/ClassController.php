@@ -8,6 +8,9 @@ use App\Models\Class\ClassModel;
 use App\Http\Requests\Class\StoreClassRequest;
 use App\Http\Requests\Class\UpdateClassRequest;
 
+use App\Models\Setting\Service;
+use App\Models\Setting\Venue;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -19,17 +22,28 @@ class ClassController extends Controller
     public function index(Request $request)
     {
 
+        $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
+        $sort = explode('.', $request->input('sort', 'id'));
+        $order = $request->input('order', 'asc');
 
         $data = ClassModel::query()
-            ->with([])
+            ->with(['service', 'venue', 'coach'])
+            ->leftJoin('users', 'classes.coach_id', '=', 'users.id')
+            ->leftJoin('services', 'classes.service_id', '=', 'services.id')
+            ->select('classes.name', 'classes.days', 'services.name as service_name', 'users.name as coach_name', 'classes.id')
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
-                    // $query->where('column', 'like', '%' . $queryString . '%')
-                    //     ->orWhere('column', 'like', '%' . $queryString . '%');
+                    $query->where('classes.name', 'like', '%' . $queryString . '%')
+                        ->orWhere('classes.days', 'like', '%' . $queryString . '%')
+                        ->orWhere('services.name', 'like', '%' . $queryString . '%')
+                        ->orWhere('users.name', 'like', '%' . $queryString . '%');
                 }
+            })
+            ->when(count($sort) == 1, function ($query) use ($sort, $order) {
+                $query->orderBy($sort[0], $order);
             })
             ->orderBy('name', 'ASC')
             ->paginate($perPage)
@@ -44,6 +58,10 @@ class ClassController extends Controller
             return json_encode($props);
         }
 
+        if (count($data) <= 0 && $page > 1) {
+            return redirect()->route('classes.index', ['page' => 1]);
+        }
+
         return Inertia::render('Admin/Class/Index', $props);
     }
 
@@ -52,7 +70,32 @@ class ClassController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Class/Create');
+        return Inertia::render('Admin/Class/Create', [
+            'services' => Service::get(['id', 'name'])
+                ->map(function ($parent) {
+                    return [
+                        'id' => $parent->id,
+                        'text' => $parent->name
+                    ];
+                }),
+            'venues' => Venue::where('status', 1)->get(['id', 'name'])
+                ->map(function ($parent) {
+                    return [
+                        'id' => $parent->id,
+                        'text' => $parent->name
+                    ];
+                }),
+            'coaches' => User::whereHas('roles', function ($query) {
+                $query->where('name', 'Coach');
+            })
+                ->get(['id', 'name'])
+                ->map(function ($parent) {
+                    return [
+                        'id' => $parent->id,
+                        'text' => $parent->name
+                    ];
+                })
+        ]);
     }
 
     /**
@@ -93,7 +136,31 @@ class ClassController extends Controller
             return new ClassListResource($data);
         }
         return Inertia::render('Admin/Class/Edit', [
-            'data' => $data
+            'data' => $data,
+            'services' => Service::get(['id', 'name'])
+                ->map(function ($parent) {
+                    return [
+                        'id' => $parent->id,
+                        'text' => $parent->name
+                    ];
+                }),
+            'venues' => Venue::where('status', 1)->get(['id', 'name'])
+                ->map(function ($parent) {
+                    return [
+                        'id' => $parent->id,
+                        'text' => $parent->name
+                    ];
+                }),
+            'coaches' => User::whereHas('roles', function ($query) {
+                $query->where('name', 'Coach');
+            })
+                ->get(['id', 'name'])
+                ->map(function ($parent) {
+                    return [
+                        'id' => $parent->id,
+                        'text' => $parent->name
+                    ];
+                })
         ]);
     }
 

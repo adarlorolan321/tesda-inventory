@@ -5,7 +5,7 @@ import { ref, computed, onMounted } from "vue";
 import toastr from "toastr";
 // import Swal from "sweetalert2";
 
-export function useCrud(formObject = {}, routeName) {
+export function useCrud(formObject = {}, routeName, routeIndex = null) {
     const form = useForm(formObject);
     const formState = ref("create");
     const paginatedData = computed(() => usePage().props.data);
@@ -53,7 +53,12 @@ export function useCrud(formObject = {}, routeName) {
         if (offCanvas.value) {
             offCanvas.value.hide();
         }
-    }
+    };
+    const showOffCanvas = () => {
+        if (offCanvas.value) {
+            offCanvas.value.toggle();
+        }
+    };
 
     const handleServerQuery = (key, value) => {
         if (key == "perPage" || key == "query") {
@@ -84,8 +89,22 @@ export function useCrud(formObject = {}, routeName) {
     };
 
     const handleDebouncedServerQuery = debounce(() => {
+        let routeValue = route(`${routeName}.index`, serverQuery.value);
+
+        if (routeIndex) {
+            routeValue = route(routeIndex.routeName, { id: routeIndex.routeId })
+        }
+
+        let params = {};
+
+        for (const key in serverQuery.value) {
+            if (serverQuery.value[key] && serverQuery.value[key] != "") {
+                params[key] = serverQuery.value[key]
+            }
+        }
+
         router.get(
-            route(`${routeName}.index`, serverQuery.value), {}, {
+            routeValue, params, {
                 preserveState: true,
                 preventScroll: true,
                 only: ["data", "params"],
@@ -171,7 +190,7 @@ export function useCrud(formObject = {}, routeName) {
             form[key] = itemValue;
         }
         formState.value = "update";
-        offCanvas.value.show();
+        showOffCanvas();
 
         isLoadingComponents.value = false;
         setTimeout(() => {

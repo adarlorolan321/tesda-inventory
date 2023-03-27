@@ -9,7 +9,8 @@ use App\Models\Media;
 use App\Models\User;
 use App\Http\Requests\User\StoreParentRequest;
 use App\Http\Requests\User\UpdateParentRequest;
-
+use App\Http\Resources\User\StudentListResource;
+use App\Models\User\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -111,12 +112,42 @@ class ParentController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $data = User::findOrFail($id);
+        $parent = User::findOrFail($id);
         if ($request->wantsJson()) {
-            return new CoachListResource($data);
+            return new ParentListResource($parent);
         }
-        return Inertia::render('Admin/User/Parent/Show', ['data' => $data]);
+        
+        $page = $request->input('page', 1); // default 1
+        $perPage = $request->input('perPage', 50); // default 50
+        $queryString = $request->input('query', null);
+        $sort = explode('.', $request->input('sort', 'first_name'));
+        $order = $request->input('order', 'asc');
+        $students = Student::where('parent_id', $parent->id)
+                        ->with([])
+                        ->where(function ($query) use ($queryString) {
+                            if ($queryString && $queryString != '') {
+                                // filter result
+                                $query->where(DB::raw("CONCAT(students.first_name,' ',students.last_name)"), 'like', '%' . $queryString . '%')
+                                    ->orWhere('users.name', 'like', '%' . $queryString . '%');
+                            }
+                        })
+                        ->leftJoin('users', 'students.parent_id', '=', 'users.id')
+                        ->select('students.*', 'users.name as parent_name', DB::raw("CONCAT(students.first_name,' ',students.last_name) as name"))
+                        ->when(count($sort) == 1, function ($query) use ($sort, $order) {
+                            $query->orderBy($sort[0], $order);
+                        })
+                        ->paginate($perPage)
+                        ->withQueryString();
 
+        if(count($students) <= 0 && $page > 1)
+        {
+            return redirect()->route('parents.show', ['page' => 1, 'id' => $id]);
+        }
+                
+        return Inertia::render('Admin/User/Parent/Show', [
+            'parent' => $parent,
+            'data' => StudentListResource::collection($students)
+        ]);
     }
 
     /**
@@ -126,7 +157,7 @@ class ParentController extends Controller
     {
         $data = User::findOrFail($id);
         if ($request->wantsJson()) {
-            return new CoachListResource($data);
+            return new ParentListResource($data);
         }
         return Inertia::render('Admin/Coach/Edit', [
             'data' => $data
@@ -153,16 +184,18 @@ class ParentController extends Controller
                 ->update([
                     'model_id' => $data->id
                 ]);
+        } else {
+            $data->clearMediaCollection('profile_photo');
         }
 
-        if($prevEmail != $userArr['email']){
-            $data->sendUpdateEmailNotication(array_merge($userArr,['password' => 'Your current password']));
+        if ($prevEmail != $userArr['email']) {
+            $data->sendUpdateEmailNotication(array_merge($userArr, ['password' => 'Your current password']));
         }
 
         sleep(1);
 
         if ($request->wantsJson()) {
-            return (new CoachListResource($data))
+            return (new ParentListResource($data))
                 ->response()
                 ->setStatusCode(201);
         }
