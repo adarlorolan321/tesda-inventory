@@ -26,12 +26,12 @@ class ClassController extends Controller
         $queryString = $request->input('query', null);
 
         $data = ClassModel::query()
-            ->with(['service','venue','coach'])
+            ->with(['service', 'venue', 'coach'])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
-                     $query->where('column', 'like', '%' . $queryString . '%')
-                         ->orWhere('column', 'like', '%' . $queryString . '%');
+                    $query->where('column', 'like', '%' . $queryString . '%')
+                        ->orWhere('column', 'like', '%' . $queryString . '%');
                 }
             })
             ->orderBy('name', 'ASC')
@@ -56,21 +56,25 @@ class ClassController extends Controller
     public function create()
     {
         return Inertia::render('Admin/Class/Create', [
-            'services' => Service::get(['id', 'name'])
+            'services' => Service::orderBy('name', 'ASC')
+                ->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
                         'id' => $parent->id,
                         'text' => $parent->name
                     ];
                 }),
-            'venues' => Venue::where('status', 1)->get(['id', 'name'])
+            'venues' => Venue::where('status', 1)->orderBy('name', 'ASC')->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
                         'id' => $parent->id,
                         'text' => $parent->name
                     ];
                 }),
-            'coaches' => User::whereHas('roles', function ($query) {$query->where('name', 'Coach');})
+            'coaches' => User::whereHas('roles', function ($query) {
+                $query->where('name', 'Coach');
+            })
+                ->orderBy('name', 'ASC')
                 ->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
@@ -120,21 +124,25 @@ class ClassController extends Controller
         }
         return Inertia::render('Admin/Class/Edit', [
             'data' => $data,
-            'services' => Service::get(['id', 'name'])
+            'services' => Service::orderBy('name', 'ASC')
+                ->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
                         'id' => $parent->id,
                         'text' => $parent->name
                     ];
                 }),
-            'venues' => Venue::where('status', 1)->get(['id', 'name'])
+            'venues' => Venue::where('status', 1)->orderBy('name', 'ASC')->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
                         'id' => $parent->id,
                         'text' => $parent->name
                     ];
                 }),
-            'coaches' => User::whereHas('roles', function ($query) {$query->where('name', 'Coach');})
+            'coaches' => User::whereHas('roles', function ($query) {
+                $query->where('name', 'Coach');
+            })
+                ->orderBy('name', 'ASC')
                 ->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
