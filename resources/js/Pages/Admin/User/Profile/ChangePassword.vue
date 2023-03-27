@@ -2,6 +2,7 @@
 import ProfileLayout from "@/Layouts/ProfileLayout.vue";
 import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import toastr from "toastr";
 
 export default {
     layout: ProfileLayout,
@@ -13,7 +14,11 @@ export default {
             password_confirmation: '',
         });
         const submit = async () => {
-            form.post(route('user.profile.change_password'))
+            form.post(route('user.profile.change_password'),{
+                onSuccess:()=>{
+                    toastr.success("Record saved");
+                    form.reset();
+            }})
         }
         return {
             isPassword,
