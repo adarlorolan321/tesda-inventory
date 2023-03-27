@@ -204,7 +204,7 @@ let {
                             Code
                         </table-header>
                         <th>Embed Code</th>
-                        <th>Actions</th>
+                        <th class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -228,7 +228,7 @@ let {
                             ></a>
                         </td>
                         <td>
-                            <div class="d-flex gap-2">
+                            <div class="d-flex gap-2 justify-content-center">
                                 <a
                                     class="btn btn-icon btn-label-primary waves-effect"
                                     @click="handleEdit(tableData)"
