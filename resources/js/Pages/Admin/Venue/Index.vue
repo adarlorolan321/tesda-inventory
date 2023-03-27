@@ -302,7 +302,7 @@ let {
                         >
                             Status
                         </table-header>
-                        <th class="text-center">Actions</th>
+                        <th style= "width: 100px;">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -341,7 +341,7 @@ let {
                             >
                         </td>
                         <td>
-                            <div class="d-flex gap-2 justify-content-center">
+                            <div class="d-flex gap-2">
                                 <a
                                     class="btn btn-icon btn-label-primary waves-effect"
                                     @click="handleEdit(tableData)"
