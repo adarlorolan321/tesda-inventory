@@ -4,6 +4,8 @@ use App\Http\Controllers as PageController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Account\AccountController;
+use App\Http\Controllers\Account\PasswordUpdateController;
 use Inertia\Inertia;
 
 use App\Http\Controllers\User\UserController;
@@ -27,8 +29,6 @@ use App\Http\Controllers\Class\ClassController;
 
 
 
-
-
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::middleware(['role:Admin'])->group(function () {
 
@@ -37,6 +37,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         });
 
         Route::name('user.')->prefix('user')->group(function () {
+            Route::post('change-password', PasswordUpdateController::class, 'update')->name('profile.change-password');
             Route::resource('coaches', CoachController::class);
             Route::resource('parents', ParentController::class);
             Route::resource('students', StudentController::class);

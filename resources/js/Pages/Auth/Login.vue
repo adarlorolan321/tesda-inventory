@@ -68,7 +68,7 @@ defineProps({
                             Please sign-in to your account and start the
                             adventure
                         </p>
-                        <div v-if="status" class="alert alert-success"> 
+                        <div v-if="status" class="alert alert-success">
                             {{ status }}
                         </div>
                         <form

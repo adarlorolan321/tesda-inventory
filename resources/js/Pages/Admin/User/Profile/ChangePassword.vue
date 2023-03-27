@@ -1,30 +1,28 @@
 <script>
 import ProfileLayout from "@/Layouts/ProfileLayout.vue";
-import { useForm, usePage } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 export default {
     layout: ProfileLayout,
     setup() {
-        const page = usePage();
-        const props = page.props;
         const isPassword = ref({ current_password: true, password: true, password_confirmation: true });
         const form = useForm({
-            current_password: props.current_password,
+            current_password: '',
             password: '',
             password_confirmation: '',
         });
-
-        const submit =  () => {
-            form.post(route('password.update'), {
-                onFinish: () => form.reset('current_password', 'password', 'password_confirmation'),
-            });
+        const submit = async () => {
+            form.post(route('user.profile.change-password'), {
+                current_password: form.current_password,
+                password: form.password,
+                password_confirmation: form.password_confirmation,
+            })
         }
-
         return {
             isPassword,
             form,
-            submit
+            submit,
         };
     },
 };
@@ -36,7 +34,7 @@ export default {
         <div class="card mb-4">
             <h5 class="card-header">Change Password</h5>
             <div class="card-body">
-                <form @submit.prevent="submit" id="formAccountSettings">
+                <form @submit.prevent="submit()" >
                     <div class="row">
                         <!-- Current Password -->
                         <div class="mb-3 col-md-6 form-password-toggle">
@@ -91,7 +89,11 @@ export default {
                                 />
                                 <span class="input-group-text cursor-pointer"><i :class="!isPassword.password_confirmation?'ti ti-eye':'ti ti-eye-off'"></i></span>
                             </div>
+                            <div class="custom-invalid-feedback" v-if="form.errors.password_confirmation">
+                                {{ form.errors.password_confirmation }}
+                            </div>
                         </div>
+
                         <div class="col-12 mb-4">
                             <h6>Password Requirements:</h6>
                             <ul class="ps-3 mb-0">
