@@ -16,6 +16,7 @@ class ClassModel extends Model
     ];
     protected $casts = [
         'tags' => 'array',
+        'days' => 'array',
         'additional_coach' => 'array',
         'repeat' => 'boolean',
         'payment_type' => 'boolean',

@@ -13,6 +13,7 @@ import { useCrud } from "@/Composables/Crud.js";
 import { userInputFormat } from "@/Composables/InputFormat.js";
 import { useValidateForm } from "@/Composables/Validate.js";
 import { onMounted } from "vue";
+import { userGlobalFunction } from "../../../Composables/GlobalFunction.js";
 
 const formObject = {
     id: null,
@@ -38,6 +39,7 @@ const routeName = "classes";
 
 const { dateFormat, timeFormat } = userInputFormat();
 const { validateForm } = useValidateForm();
+const { weekDays } = userGlobalFunction();
 let {
     paginatedData,
     form,
@@ -313,7 +315,7 @@ onMounted(() => {
                         >
                         <input
                             id="price"
-                            type="text"
+                            type="number"
                             :disabled="!form.price_type"
                             class="form-control"
                             placeholder="Enter Price"
@@ -370,26 +372,19 @@ onMounted(() => {
                                 >*</span
                             ></label
                         >
-                        <input
+                        <select2
                             id="days"
-                            type="text"
-                            :disabled="!form.repeat"
-                            class="form-control"
-                            placeholder="Enter Price"
+                            :class="{ 'is-invalid': form.errors.days }"
                             v-model="form.days"
-                            :class="{ 'is-days': form.errors.days }"
-                            @input="
-                                ($event) => {
-                                    form.clearErrors('days');
-                                    validateForm(
-                                        ['number'],
-                                        form,
-                                        $event.target.value,
-                                        'days'
-                                    );
-                                }
-                            "
-                        />
+                            multiple="multiple"
+                            placeholder="Select Days"
+                            :settings="{
+                                allowClear: true,
+                            }"
+                            @select="form.clearErrors('days')"
+                            :options="weekDays"
+                        >
+                        </select2>
                         <div class="v-invalid-feedback" v-if="form.errors.days">
                             {{ form.errors.days }}
                         </div>
@@ -402,7 +397,7 @@ onMounted(() => {
                         <label for="capacity">Capacity</label>
                         <input
                             id="capacity"
-                            type="text"
+                            type="number"
                             class="form-control"
                             placeholder="Enter Capacity"
                             v-model="form.capacity"
