@@ -10,6 +10,7 @@ use App\Http\Controllers\User\CoachController;
 use App\Http\Controllers\User\StudentController;
 use App\Http\Controllers\Class\ClassSessionController;
 use App\Http\Controllers\Class\ClassController;
+use App\Http\Controllers\Class\TabController;
 use App\Http\Controllers\User\ProfileController;
 
 /*
@@ -31,7 +32,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::get('/', function () {
             return Inertia::render('Welcome', []);
-        });
+        })->name('home');
+        Route::get('/dashboard', function () {
+            return Inertia::render('Welcome', []);
+        })->name('dashboard');
 
         Route::name('user.')->prefix('user')->group(function () {
             Route::resource('coaches', CoachController::class);
@@ -43,10 +47,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
             Route::get('profile/change-password', [ProfileController::class, 'changePasswordIndex'])->name('profile.change_password');
             Route::post('profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change_password');
-
         });
 
+        Route::get('classes/{id}/sessions', [TabController::class, 'sessions'])->name('classes.sessions-tab');
+        Route::get('classes/{id}/update', [TabController::class, 'update'])->name('classes.update-tab');
+
+
         Route::resource('classes', ClassController::class);
+
+
         Route::resource('students', StudentController::class);
 
         Route::name('classes.')->prefix('classes')->group(function () {

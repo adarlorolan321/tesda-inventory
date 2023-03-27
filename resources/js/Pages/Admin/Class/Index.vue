@@ -127,7 +127,7 @@ let {
                         >
                             Coach
                         </table-header>
-                        <th style="width: 1px;">Actions</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -140,21 +140,30 @@ let {
                         v-for="tableData in paginatedData.data"
                         :key="tableData"
                     >
-                        <td style="width: 60%">{{ tableData.name }}</td>
+                        <td style="width: 60%">
+                            <inertia-link :href="route('classes.sessions-tab',tableData.id)">
+                                {{ tableData.name }}
+                            </inertia-link>
+                        </td>
                         <td>
-                              <span v-for="days in tableData.days" :key="days" class="badge bg-label-info me-2" >{{days}}</span>
+                            <span v-for="days in tableData.days" :key="days" class="badge bg-label-info me-2" >{{days}}</span>
                         </td>
                         <td>{{ tableData.service_name }}</td>
                         <td>{{ tableData.coach_name }}</td>
                         <td>
                             <div class="d-flex gap-2">
                                 <inertia-link
-                                    class="btn btn-icon btn-label-primary waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" title="Edit"
+                                    class="btn btn-icon btn-label-info waves-effect"
+                                    :href="route('classes.sessions-tab', tableData.id)"
+                                ><i class="ti ti-eye"></i>
+                                </inertia-link>
+                                <inertia-link
+                                    class="btn btn-icon btn-label-primary waves-effect"
                                     :href="route('classes.edit', tableData.id)"
                                     ><i class="ti ti-pencil"></i>
                                 </inertia-link>
                                 <a
-                                    class="btn btn-icon btn-label-danger waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-danger" title="Delete"
+                                    class="btn btn-icon btn-label-danger waves-effect"
                                     href="javascript:void(0);"
                                     @click="deletePromise(tableData.id)"
                                     ><i class="ti ti-trash"></i>

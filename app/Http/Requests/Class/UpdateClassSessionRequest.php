@@ -11,7 +11,7 @@ class UpdateClassSessionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->can("update class_session");
+        return auth()->user()->can("update class");
     }
 
     /**

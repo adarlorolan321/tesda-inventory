@@ -4,17 +4,23 @@ import { usePage } from "@inertiajs/vue3";
 import { reactive, computed, onMounted } from "vue";
 
 export default {
-    layout: AdminLayout,
+    props: {
+        has_back: {
+            type: Boolean,
+            default: false
+        }
+    }
 };
 </script>
 
 <script setup>
-import { useCrud } from "../../../Composables/Crud.js";
-import { userInputFormat } from "../../../Composables/InputFormat.js";
-import { useValidateForm } from "../../../Composables/Validate.js";
-import { userGlobalFunction } from "../../../Composables/GlobalFunction.js";
+import { useCrud } from "@/Composables/Crud.js";
+import { userInputFormat } from "@/Composables/InputFormat.js";
+import { useValidateForm } from "@/Composables/Validate.js";
+import { onMounted } from "vue";
+import { userGlobalFunction } from "@/Composables/GlobalFunction.js";
 
-const { props } = usePage();
+
 const formObject = {
     id: null,
     name: null,
@@ -31,7 +37,7 @@ const formObject = {
     days: null,
     price_type: false,
     price: null,
-    tags: [],
+    tags: null,
     status: "Active",
 };
 
@@ -52,16 +58,29 @@ let {
     handleEdit,
     formState,
 } = useCrud(formObject, routeName);
+
+const { props } = usePage();
+
+onMounted(() => {
+    if(props.classModel){
+        console.log('lll')
+        handleEdit(props.classModel);
+    }else{
+        handleEdit(props.data);
+    }
+
+});
 </script>
 
 <template>
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">
-                <h5 class="card-title">ADD CLASS</h5>
+                <h5 class="card-title">EDIT CLASS</h5>
             </div>
             <div class="card-action-element">
                 <inertia-link
+                    v-if="has_back"
                     type="button"
                     class="btn btn-link-primary btn-primary"
                     :href="route('classes.index')"
@@ -75,7 +94,7 @@ let {
                 <div class="col-md-12">
                     <div class="form-group mb-3">
                         <label for="name"
-                            >Name <span class="required">*</span></label
+                        >Name <span class="required">*</span></label
                         >
                         <input
                             type="text"
@@ -96,7 +115,7 @@ let {
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="service_id"
-                            >Service <span class="required">*</span></label
+                        >Service <span class="required">*</span></label
                         >
                         <select2
                             id="service_id"
@@ -121,7 +140,7 @@ let {
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="venue_id"
-                            >Venue <span class="required">*</span></label
+                        >Venue <span class="required">*</span></label
                         >
                         <select2
                             id="venue_id"
@@ -297,15 +316,15 @@ let {
                                 <span class="switch-off"></span>
                             </span>
                             <span class="switch-label">{{
-                                form.price_type == 1 ? "Paid" : "Free"
-                            }}</span>
+                                    form.price_type == 1 ? "Paid" : "Free"
+                                }}</span>
                         </label>
                     </div>
                     <div style="width: 100%" class="form-group">
                         <label for="price"
-                            >Price
+                        >Price
                             <span class="required" v-if="form.price_type"
-                                >*</span
+                            >*</span
                             ></label
                         >
                         <input
@@ -356,15 +375,15 @@ let {
                                 <span class="switch-off"></span>
                             </span>
                             <span class="switch-label">{{
-                                form.repeat == 1 ? "Yes" : "No"
-                            }}</span>
+                                    form.repeat == 1 ? "Yes" : "No"
+                                }}</span>
                         </label>
                     </div>
                     <div style="width: 100%" class="form-group">
                         <label for="days"
-                            >Days
+                        >Days
                             <span class="required" v-if="form.repeat"
-                                >*</span
+                            >*</span
                             ></label
                         >
                         <select2
@@ -426,12 +445,13 @@ let {
                             :class="{ 'is-invalid': form.errors.tags }"
                             v-model="form.tags"
                             :settings="{
-                                tags: true,
                                 allowClear: true,
+                                tags: true,
                                 minimumResultsForSearch: -1,
                             }"
                             placeholder="Select tags"
                             @select="form.clearErrors('tags')"
+                            :options="form.tags"
                         >
                         </select2>
                         <div class="v-invalid-feedback" v-if="form.errors.tags">
@@ -442,7 +462,7 @@ let {
                 <div class="col-md-6">
                     <div class="form-group mb-3">
                         <label for="status"
-                            >Status <span class="required">*</span></label
+                        >Status <span class="required">*</span></label
                         >
                         <select2
                             id="status"
@@ -501,3 +521,4 @@ let {
         </div>
     </div>
 </template>
+

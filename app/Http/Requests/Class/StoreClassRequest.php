@@ -29,7 +29,7 @@ class StoreClassRequest extends FormRequest
             "end_date" => ["nullable"],
             "start_time" => ["nullable"],
             "end_time" => ["nullable"],
-            "days" => ["required_if:repeat,true",'array'],
+            "days" => ["required_if:repeat,true"],
             "repeat" => ["nullable"],
             "capacity" => ["nullable"],
             "price_type" => ["nullable"],

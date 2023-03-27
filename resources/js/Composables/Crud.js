@@ -142,6 +142,7 @@ export function useCrud(formObject = {}, routeName, routeIndex = null) {
     };
 
     const deletePromise = async(id) => {
+        console.log(routeIndex)
         Swal.fire({
             icon: "warning",
             title: "Are you sure?",
