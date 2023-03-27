@@ -231,15 +231,17 @@ let {
                             <div class="d-flex gap-2">
                                 <a
                                     class="btn btn-icon btn-label-primary waves-effect"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" title="Edit"
                                     @click="handleEdit(tableData)"
                                     href="javascript:void(0);"
-                                    ><i class="ti ti-pencil" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-info" title="Edit"></i>
+                                    ><i class="ti ti-pencil"></i>
                                 </a>
                                 <a
                                     class="btn btn-icon btn-label-danger waves-effect"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-danger" title="Delete"
                                     href="javascript:void(0);"
                                     @click="deletePromise(tableData.id)"
-                                    ><i class="ti ti-trash" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-danger" title="Delete"></i>
+                                    ><i class="ti ti-trash" ></i>
                                 </a>
                             </div>
                         </td>
