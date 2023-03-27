@@ -45,7 +45,7 @@
                             </svg>
                         </span>
                         <span class="app-brand-text demo menu-text fw-bold"
-                            >Vuexy</span
+                            >Sportsaas</span
                         >
                     </a>
 
@@ -73,7 +73,7 @@
                         <li
                             v-if="!menu.sub_menu"
                             class="menu-item"
-                            :class="{ active: route().current(menu.route) }"
+                            :class="{ active: route().current(menu.route) || route().current(menu.route.replace(/[^.]*$/, '*'))}"
                         >
                             <inertia-link
                                 :href="route(menu.route)"
@@ -365,6 +365,7 @@ import { loadScript } from "vue-plugin-load-script";
 import { onMounted, ref } from "vue";
 import { useMenu } from "@/Composables/Menus";
 import { router } from "@inertiajs/vue3";
+
 
 const { menus } = useMenu();
 

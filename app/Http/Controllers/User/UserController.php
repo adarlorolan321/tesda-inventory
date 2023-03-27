@@ -92,14 +92,11 @@ class UserController extends Controller
 
     public function update(Request $request, string $id)
     {
-       
-      
+
+
         $data = User::findOrFail($id);
-      
-      $data->update($request->all());
+        $data->update($request->all());
         sleep(1);
-      
-       
 
         if ($request->wantsJson()) {
             return (new UserListResource($data))
@@ -132,15 +129,5 @@ class UserController extends Controller
         //        $validator = Validator::make($request->all(), $rules);
         //
         //        return $validator->passes();
-    }
-
-    public function profile()
-    {
-        return Inertia::render('Admin/User/Profile/Show');
-    }
-
-    public function changePassword()
-    {
-        return Inertia::render('Admin/User/Profile/Show');
     }
 }

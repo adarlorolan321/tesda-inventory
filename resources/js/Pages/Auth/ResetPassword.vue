@@ -15,7 +15,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('password.update'), {
+    form.post(route('user.profile.change_password'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
 };
@@ -73,7 +73,6 @@ const isPassword = ref({ password: true, password_confirmation: true });
 
                 <h4 class="mb-1 pt-2">Reset Password 🔒</h4>
                 <p class="mb-4">for <span class="fw-bold">{{ form.email }}</span></p>
-                {{  form }}
                     <form @submit.prevent="submit()">
                         <div class="mb-3 form-password-toggle">
                             <div class="form-group mb-3">
@@ -83,6 +82,9 @@ const isPassword = ref({ password: true, password_confirmation: true });
                                         :type="isPassword.password?'password':'text'"
                                         id="password"
                                         class="form-control"
+                                        :class="{
+                                            'is-invalid': form.errors.password,
+                                        }"
                                         v-model="form.password"
                                         @input="form.clearErrors('password')"
                                     />
@@ -91,9 +93,11 @@ const isPassword = ref({ password: true, password_confirmation: true });
                                 <div class="custom-invalid-feedback" v-if="form.errors.password">
                                     {{ form.errors.password }}
                                 </div>
+                                <div class="custom-invalid-feedback" v-if="form.errors.email">
+                                    {{ form.errors.email }}
+                                </div>
                             </div>
                         </div>
-                        {{ form.errors }}
                         <div class="mb-3 form-password-toggle">
                             <div class="form-group mb-3">
                                 <label for="name">Confirm Password <span class="required">*</span></label>
@@ -102,6 +106,9 @@ const isPassword = ref({ password: true, password_confirmation: true });
                                         :type="isPassword.password_confirmation?'password':'text'"
                                         id="password_confirmation"
                                         class="form-control"
+                                        :class="{
+                                            'is-invalid': form.errors.password_confirmation,
+                                        }"
                                         v-model="form.password_confirmation"
                                         @input="form.clearErrors('password_confirmation')"
                                     />

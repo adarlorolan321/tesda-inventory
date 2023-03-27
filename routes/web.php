@@ -1,15 +1,17 @@
 <?php
 
 use App\Http\Controllers as PageController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\AuthController;
 use Inertia\Inertia;
 
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\ParentController;
 use App\Http\Controllers\User\CoachController;
 use App\Http\Controllers\User\StudentController;
+use App\Http\Controllers\Class\ClassSessionController;
+use App\Http\Controllers\Class\ClassController;
+use App\Http\Controllers\Class\TabController;
+use App\Http\Controllers\User\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,27 +27,42 @@ use App\Http\Controllers\User\StudentController;
 
 
 
-
-
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::middleware(['role:Admin'])->group(function () {
 
         Route::get('/', function () {
             return Inertia::render('Welcome', []);
-        });
+        })->name('home');
+        Route::get('/dashboard', function () {
+            return Inertia::render('Welcome', []);
+        })->name('dashboard');
 
         Route::name('user.')->prefix('user')->group(function () {
             Route::resource('coaches', CoachController::class);
             Route::resource('parents', ParentController::class);
             Route::resource('students', StudentController::class);
 
-            Route::get('profile', [UserController::class, 'profile'])->name('profile.index');
+            Route::get('validate/{type}', [UserController::class, 'validateInput'])->name('validate');
+
+            // Profile Controller
 
             Route::put('profile/{id}', [UserController::class, 'update'])->name('profile.update');
+            Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+            Route::get('profile/change-password', [ProfileController::class, 'changePasswordIndex'])->name('profile.change_password');
+            Route::post('profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change_password');
+        });
 
-            Route::get('profile/change-password', [UserController::class, 'changePassword'])->name('profile.change_password');
+        Route::get('classes/{id}/sessions', [TabController::class, 'sessions'])->name('classes.sessions-tab');
+        Route::get('classes/{id}/update', [TabController::class, 'update'])->name('classes.update-tab');
 
-            Route::get('validate/{type}', [UserController::class, 'validateInput'])->name('validate');
+
+        Route::resource('classes', ClassController::class);
+
+
+        Route::resource('students', StudentController::class);
+
+        Route::name('classes.')->prefix('classes')->group(function () {
+            Route::resource('sessions', ClassSessionController::class);
         });
 
         Route::name('settings.')->prefix('settings')->group(function () {
@@ -64,19 +81,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/messages', [CoachController::class, 'index'])->name('messages.index');
         Route::get('/merchandises', [CoachController::class, 'index'])->name('merchandises.index');
 
-        Route::get('/account', function(){
+        Route::get('/account', function () {
             return Inertia::render('Admin/Organisation/Create');
         })->name('account.index');
 
-        Route::get('/account/security', function(){
+        Route::get('/account/security', function () {
             return Inertia::render('Admin/Organisation/Security');
         })->name('account.security.index');
 
-        Route::get('/account-settings', function(){
+        Route::get('/account-settings', function () {
             return Inertia::render('Admin/account-settings/Account');
         })->name('account-settings.index');
 
-        Route::get('/account-settings/security', function(){
+        Route::get('/account-settings/security', function () {
             return Inertia::render('Admin/account-settings/Security');
         })->name('account-settings.security.index');
     });

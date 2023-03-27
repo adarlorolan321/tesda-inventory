@@ -3,8 +3,9 @@ import { ref } from "vue";
 export function useMenu() {
     const menus = [
         { label: "Staff", route: "user.coaches.index", icon: "ti ti-users", only: ["data", "params"] },
+        { label: "Class", route: "classes.index", icon: "ti ti-users", only: ["data", "params"] },
         { label: "Parents", route: "user.parents.index", icon: "ti ti-user", only: ["data", "params"] },
-        { label: "Players", route: "players.index", icon: "ti ti-ball-tennis", only: ["data", "params"] },
+        { label: "Players", route: "students.index", icon: "ti ti-ball-tennis", only: ["data", "params"] },
         { label: "Enrolments", route: "enrolments.index", icon: "ti ti-file-pencil", only: ["data", "params"] },
         { label: "Payments", route: "payments.index", icon: "ti ti-cash-banknote", only: ["data", "params"] },
         { label: "Waitlist", route: "waitlists.index", icon: "ti ti-clock", only: ["data", "params"] },

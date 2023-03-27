@@ -1,8 +1,5 @@
 <script>
-import AdminLayout from "@/Layouts/AdminLayout.vue";
-import { usePage } from "@inertiajs/vue3";
-import { reactive, computed, onMounted } from "vue";
-
+import AdminLayout from "@/Layouts/AdminLayout.vue"; 
 export default {
     layout: AdminLayout,
 };
@@ -10,7 +7,8 @@ export default {
 
 <script setup>
 import { useCrud } from "@/Composables/Crud.js";
-
+import { useValidateForm } from "@/Composables/Validate.js";
+import { usePage, Head } from "@inertiajs/vue3"; 
 const { props } = usePage();
 const formObject = {
     id: null,
@@ -24,6 +22,8 @@ const formObject = {
 };
 
 const routeName = "user.parents";
+
+const {validateForm } = useValidateForm();
 let {
     isLoadingComponents,
     paginatedData,
@@ -40,6 +40,7 @@ let {
 </script>
 
 <template>
+    <Head title="Parents"></Head>
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">
@@ -81,7 +82,7 @@ let {
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
                         <div class="form-group mb-3">
                             <label for="name"
-                                >First Name
+                            >First Name
                                 <span class="required">*</span></label
                             >
                             <input
@@ -89,7 +90,7 @@ let {
                                 id="first_name"
                                 class="form-control"
                                 v-model="form.first_name"
-                                @input="form.clearErrors('first_name')"
+                                @input="($event) => {form.clearErrors('first_name'); validateForm(['required'], form, $event.target.value, 'first_name');}"
                                 placeholder="Enter First Name"
                                 :class="{
                                     'is-invalid': form.errors.first_name,
@@ -101,7 +102,7 @@ let {
                         </div>
                         <div class="form-group mb-3">
                             <label for="name"
-                                >Last Name
+                            >Last Name
                                 <span class="required">*</span></label
                             >
                             <input
@@ -109,7 +110,7 @@ let {
                                 id="last_name"
                                 class="form-control"
                                 v-model="form.last_name"
-                                @input="form.clearErrors('last_name')"
+                                @input="($event) => {form.clearErrors('last_name'); validateForm(['required'], form, $event.target.value, 'last_name');}"
                                 placeholder="Enter Last Name"
                                 :class="{
                                     'is-invalid': form.errors.last_name,
@@ -121,14 +122,17 @@ let {
                         </div>
                         <div class="form-group mb-3">
                             <label for="name"
-                                >Email <span class="required">*</span></label
+                            >Email <span class="required">*</span></label
                             >
                             <input
                                 type="text"
                                 id="email"
                                 class="form-control"
                                 v-model="form.email"
-                                @input="form.clearErrors('email')"
+                                @input="($event) => {
+                                    form.clearErrors('email'); 
+                                    validateForm(['required', 'email'], form, $event.target.value, 'email');
+                                }"
                                 placeholder="Enter Email"
                                 :class="{
                                     'is-invalid': form.errors.email,
@@ -145,7 +149,10 @@ let {
                                 id="phone"
                                 class="form-control"
                                 v-model="form.phone"
-                                @input="form.clearErrors('phone')"
+                                @input="($event) => {
+                                    form.clearErrors('phone');
+                                    validateForm(['number'], form, $event.target.value, 'phone')
+                                }"
                                 placeholder="Enter Phone"
                                 :class="{
                                     'is-invalid': form.errors.phone,
@@ -159,7 +166,7 @@ let {
                         <button
                             class="btn btn-primary"
                             @click="createPromise"
-                            :disabled="form.processing"
+                            :disabled="form.processing || form.hasErrors"
                             v-if="formState == 'create'"
                         >
                             <span
@@ -173,7 +180,7 @@ let {
                         <button
                             class="btn btn-primary"
                             @click="updatePromise"
-                            :disabled="form.processing"
+                            :disabled="form.processing || form.hasErrors"
                             v-if="formState == 'update'"
                         >
                             <span
@@ -310,7 +317,7 @@ let {
                         <!--                            <i  class="ti ti-arrow-up"  v-if=" serverQuery.sort == 'status' && serverQuery.order == 'desc' "  ></i>-->
                         <!--                            <i class="ti ti-arrow-down" v-if="  serverQuery.sort == 'status' && serverQuery.order == 'asc' "></i>-->
                         <!--                        </th>-->
-                        <th>Actions</th>
+                        <th style="width: 10px;">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -357,20 +364,20 @@ let {
                         <td>
                             <div class="d-flex gap-2">
                                 <inertia-link
-                                    class="btn btn-icon btn-label-info waves-effect"
+                                    class="btn btn-icon btn-label-info waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-info" data-bs-original-title="View"
                                     :href="
                                         route('user.parents.show', tableData.id)
                                     "
                                     ><i class="ti ti-eye"></i>
                                 </inertia-link>
                                 <a
-                                    class="btn btn-icon btn-label-primary waves-effect"
+                                    class="btn btn-icon btn-label-primary waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" data-bs-original-title="Edit"
                                     @click="handleEdit(tableData)"
                                     href="javascript:void(0);"
                                     ><i class="ti ti-pencil"></i>
                                 </a>
                                 <a
-                                    class="btn btn-icon btn-label-danger waves-effect"
+                                    class="btn btn-icon btn-label-danger waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-danger" data-bs-original-title="Delete"
                                     href="javascript:void(0);"
                                     @click="deletePromise(tableData.id)"
                                     ><i class="ti ti-trash"></i>
