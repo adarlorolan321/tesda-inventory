@@ -269,20 +269,26 @@ let {
                                     v-model="form.status"
                                     :checked="form.status"
                                     class="switch-input"
+                                    @input="form.clearErrors('status')"
                                 />
                                 <span class="switch-toggle-slider">
                                     <span class="switch-on"></span>
                                     <span class="switch-off"></span>
                                 </span>
-                                <span
-                                    class="switch-label"
-                                    v-if="form.status == 1"
+                                <span class="switch-label" v-if="form.status"
                                     >Active</span
                                 >
                                 <span class="switch-label" v-else
                                     >In-active</span
                                 >
                             </label>
+
+                            <div
+                                class="v-invalid-feedback"
+                                v-if="form.errors.status"
+                            >
+                                {{ form.errors.status }}
+                            </div>
                         </div>
                         <button
                             class="btn btn-primary"
@@ -380,9 +386,9 @@ let {
             </div>
         </div>
         <div class="table-responsive text-nowrap">
-  <table class="table" >
-    <thead class="table-light">
-      <tr>
+            <table class="table">
+                <thead class="table-light">
+                    <tr>
                         <th class="sortable">Photo</th>
                         <th
                             class="sortable"
@@ -465,7 +471,7 @@ let {
                                 "
                             ></i>
                         </th>
-                        <th style="width: 150px;">Actions</th>
+                        <th style="width: 150px">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -494,7 +500,7 @@ let {
                         <td>{{ tableData.phone }}</td>
                         <td>
                             <span
-                                v-if="tableData.status == 1"
+                                v-if="tableData.status"
                                 class="badge bg-label-success"
                                 >Active</span
                             >
@@ -505,20 +511,32 @@ let {
                         <td>
                             <div class="d-flex gap-2">
                                 <inertia-link
-                                    class="btn btn-icon btn-label-info waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-info" title="View"
+                                    class="btn btn-icon btn-label-info waves-effect"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    data-bs-custom-class="tooltip-info"
+                                    title="View"
                                     :href="
                                         route('user.coaches.show', tableData.id)
                                     "
                                     ><i class="ti ti-eye"></i>
                                 </inertia-link>
                                 <a
-                                    class="btn btn-icon btn-label-primary waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" title="Edit"
+                                    class="btn btn-icon btn-label-primary waves-effect"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    data-bs-custom-class="tooltip-primary"
+                                    title="Edit"
                                     @click="handleEdit(tableData)"
                                     href="javascript:void(0);"
                                     ><i class="ti ti-pencil"></i>
                                 </a>
                                 <a
-                                    class="btn btn-icon btn-label-danger waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-danger" title="Delete"
+                                    class="btn btn-icon btn-label-danger waves-effect"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    data-bs-custom-class="tooltip-danger"
+                                    title="Delete"
                                     href="javascript:void(0);"
                                     @click="deletePromise(tableData.id)"
                                     ><i class="ti ti-trash"></i>

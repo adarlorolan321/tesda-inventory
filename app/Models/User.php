@@ -61,6 +61,7 @@ class User extends Authenticatable implements HasMedia
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'status' => 'boolean'
     ];
 
     /**
@@ -69,7 +70,7 @@ class User extends Authenticatable implements HasMedia
      * @var array<int, string>
      */
     protected $appends = [
-        'profile_photo','role', 'profile_photo_url'
+        'profile_photo', 'role', 'profile_photo_url'
     ];
 
     public function getRoleAttribute()
@@ -91,7 +92,6 @@ class User extends Authenticatable implements HasMedia
     public function getProfilePhotoUrlAttribute()
     {
         $media = $this->getMedia('profile_photo')->first();
-        return $media ? $media->getUrl() : 'https://ui-avatars.com/api/?name='. $this->name .'&color=8176f2&background=F8F7FA';
+        return $media ? $media->getUrl() : 'https://ui-avatars.com/api/?name=' . $this->name . '&color=8176f2&background=F8F7FA';
     }
-
 }
