@@ -141,7 +141,9 @@ let {
                         :key="tableData"
                     >
                         <td style="width: 60%">{{ tableData.name }}</td>
-                        <td>{{ tableData.days ? tableData.days : "-" }}</td>
+                        <td>
+                              <span v-for="days in tableData.days" :key="days" class="badge bg-label-info me-2" >{{days}}</span>
+                        </td>
                         <td>{{ tableData.service_name }}</td>
                         <td>{{ tableData.coach_name }}</td>
                         <td>

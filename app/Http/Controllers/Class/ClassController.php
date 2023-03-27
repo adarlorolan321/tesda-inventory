@@ -11,6 +11,7 @@ use App\Http\Requests\Class\UpdateClassRequest;
 use App\Models\Setting\Service;
 use App\Models\Setting\Venue;
 use App\Models\User;
+use App\Service\ClassSessionService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -71,14 +72,14 @@ class ClassController extends Controller
     public function create()
     {
         return Inertia::render('Admin/Class/Create', [
-            'services' => Service::get(['id', 'name'])
+            'services' => Service::orderBy('name','ASC')->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
                         'id' => $parent->id,
                         'text' => $parent->name
                     ];
                 }),
-            'venues' => Venue::where('status', 1)->get(['id', 'name'])
+            'venues' => Venue::where('status', 1)->orderBy('name','ASC')->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
                         'id' => $parent->id,
@@ -88,6 +89,7 @@ class ClassController extends Controller
             'coaches' => User::whereHas('roles', function ($query) {
                 $query->where('name', 'Coach');
             })
+                ->orderBy('name','ASC')
                 ->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
@@ -105,6 +107,11 @@ class ClassController extends Controller
     {
         $data = ClassModel::create($request->validated());
         sleep(1);
+
+        if($request['repeat'] && $request['days']){
+            $request['id'] = $data->id;
+            ClassSessionService::addSession($request->only(['id','start_date','end_date','days','additional_coach','start_time','end_time','coach_id']));
+        }
 
         if ($request->wantsJson()) {
             return new ClassListResource($data);
@@ -137,14 +144,14 @@ class ClassController extends Controller
         }
         return Inertia::render('Admin/Class/Edit', [
             'data' => $data,
-            'services' => Service::get(['id', 'name'])
+            'services' => Service::orderBy('name','ASC')->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
                         'id' => $parent->id,
                         'text' => $parent->name
                     ];
                 }),
-            'venues' => Venue::where('status', 1)->get(['id', 'name'])
+            'venues' => Venue::where('status', 1)->orderBy('name','ASC')->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
                         'id' => $parent->id,
@@ -154,6 +161,7 @@ class ClassController extends Controller
             'coaches' => User::whereHas('roles', function ($query) {
                 $query->where('name', 'Coach');
             })
+                ->orderBy('name','ASC')
                 ->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
