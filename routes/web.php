@@ -31,7 +31,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::get('/', function () {
             return Inertia::render('Welcome', []);
-        });
+        })->name('home');
+        Route::get('/dashboard', function () {
+            return Inertia::render('Welcome', []);
+        })->name('dashboard');
 
         Route::name('user.')->prefix('user')->group(function () {
             Route::resource('coaches', CoachController::class);
@@ -43,7 +46,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
             Route::get('profile/change-password', [ProfileController::class, 'changePasswordIndex'])->name('profile.change_password');
             Route::post('profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change_password');
-
         });
 
         Route::get('classes/{id}/sessions', [TabController::class, 'sessions'])->name('classes.sessions-tab');
