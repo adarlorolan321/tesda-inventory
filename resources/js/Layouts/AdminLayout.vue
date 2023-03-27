@@ -366,6 +366,7 @@ import { onMounted, ref } from "vue";
 import { useMenu } from "@/Composables/Menus";
 import { router } from "@inertiajs/vue3";
 
+
 const { menus } = useMenu();
 
 onMounted(() => {
