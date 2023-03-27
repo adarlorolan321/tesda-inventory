@@ -364,20 +364,20 @@ let {
                         <td>
                             <div class="d-flex gap-2">
                                 <inertia-link
-                                    class="btn btn-icon btn-label-info waves-effect"
+                                    class="btn btn-icon btn-label-info waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-info" data-bs-original-title="View"
                                     :href="
                                         route('user.parents.show', tableData.id)
                                     "
                                     ><i class="ti ti-eye"></i>
                                 </inertia-link>
                                 <a
-                                    class="btn btn-icon btn-label-primary waves-effect"
+                                    class="btn btn-icon btn-label-primary waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" data-bs-original-title="Edit"
                                     @click="handleEdit(tableData)"
                                     href="javascript:void(0);"
                                     ><i class="ti ti-pencil"></i>
                                 </a>
                                 <a
-                                    class="btn btn-icon btn-label-danger waves-effect"
+                                    class="btn btn-icon btn-label-danger waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-danger" data-bs-original-title="Delete"
                                     href="javascript:void(0);"
                                     @click="deletePromise(tableData.id)"
                                     ><i class="ti ti-trash"></i>
