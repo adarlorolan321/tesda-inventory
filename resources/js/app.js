@@ -6,6 +6,7 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy/dist/vue.m";
 import flatPickr from 'vue-flatpickr-component';
 
+
 import Dropzone from "@/Components/Dropzone.vue";
 import Select2 from "@/Components/Select2.vue";
 import TableHeader from "@/Components/TableHeader.vue";

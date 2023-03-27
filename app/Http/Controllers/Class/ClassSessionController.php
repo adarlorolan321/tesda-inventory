@@ -9,6 +9,7 @@ use App\Http\Requests\Class\StoreClassSessionRequest;
 use App\Http\Requests\Class\UpdateClassSessionRequest;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ClassSessionController extends Controller
@@ -16,23 +17,26 @@ class ClassSessionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request,$json = false)
     {
 
         $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
-        $sort = explode('.', $request->input('sort', 'id'));
+        $sort = explode('.', $request->input('sort', 'date'));
         $order = $request->input('order', 'asc');
 
         $data = ClassSession::query()
             ->with([])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
-                    // filter result
-                    // $query->where('column', 'like', '%' . $queryString . '%')
-                    //     ->orWhere('column', 'like', '%' . $queryString . '%');
+                    $query->where(DB::raw("(DATE_FORMAT(date,'%d/%m/%Y'))"), 'like', '%' . $queryString . '%');
+                    $query->orWhere(DB::raw("(DATE_FORMAT(start_time,'%H/%i/%s'))"), 'like', '%' . $queryString . '%');
+                    $query->orWhere(DB::raw("(DATE_FORMAT(end_time,'%H/%i/%s'))"), 'like', '%' . $queryString . '%');
                 }
+            })
+            ->when($request['class_id'], function ($query) use ($request) {
+                $query->where('class_id', $request['class_id']);
             })
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
                 $query->orderBy($sort[0], $order);
@@ -45,8 +49,8 @@ class ClassSessionController extends Controller
             'params' => $request->all(),
         ];
 
-        if ($request->wantsJson()) {
-            return json_encode($props);
+        if ($request->wantsJson() || $json) {
+            return $props;
         }
 
         if(count($data) <= 0 && $page > 1)
