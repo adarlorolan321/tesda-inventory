@@ -24,6 +24,9 @@
             <button class="ql-blockquote"></button>
             <button class="ql-code-block"></button>
         </span>
+        <span class="ql-formats">
+            <button class="ql-clean"></button>
+        </span>
     </div>
     <div ref="quillEditor" v-show="!isLoading">
         <p v-html="loadedValue"></p>
