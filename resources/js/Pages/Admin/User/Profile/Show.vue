@@ -11,10 +11,11 @@ import { useCrud } from "@/Composables/Crud.js";
 import { useValidateForm } from "@/Composables/Validate.js";
 import { usePage } from "@inertiajs/vue3";
 
+
+
 const routeName = "user.profile";
 const page = usePage();
 const user = page.props.auth.user;
-
 
 
 const formObject = {
@@ -30,19 +31,18 @@ const formObject = {
             status:user.status
 };
 
+
 const { validateForm } = useValidateForm();
 let {
     form,
     updatePromise, 
     isLoadingComponents,
-    handleEdit,
-    formState
+    handleEdit
 } = useCrud(formObject, routeName);
 handleEdit(user.id);
 </script>
 
 <template>
-    <!-- {{ $page.props.auth }} -->
     <div class="row">
         <div class="col-md-12">
             <div class="card mb-4">
@@ -54,7 +54,6 @@ handleEdit(user.id);
                     >
                     <div class="form-group mb-4 dropzone-profile-photo">
                             <label for="name">Profile Photo</label>
-                          
                             <dropzone
                                 collection="profile_photo"
                                 v-if="isLoadingComponents"
@@ -223,7 +222,7 @@ handleEdit(user.id);
                                 }"
                             />
                             <div class="invalid-feedback">
-                                {{ form.errors.last_name }}
+                                {{ form.errors.phone }}
                             </div>
                                 </div>
                             </div>

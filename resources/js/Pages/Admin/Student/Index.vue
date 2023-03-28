@@ -227,66 +227,52 @@ let {
             </div>
         </div>
         <div class="table-responsive text-nowrap">
-            <table class="table">
-                <thead class="table-light" style="min-width: 200px;">
-                    <tr>
-                        <table-header
-                            style="min-width: 200px; width: 30%"
-                            @click="handleServerQuery('sort', 'name')"
-                            :serverQuery="serverQuery" serverQueryKey="name">
-                            Name
-                        </table-header>
-                        <table-header
-                            style="min-width: 200px; width: 30%"
-                            @click="handleServerQuery('sort', 'parent_name')"
-                            :serverQuery="serverQuery" serverQueryKey="parent_name">
-                            Parent Name
-                        </table-header>
-                        <th style="width: 150px;">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="table-border-bottom-0">
-                    <tr v-if="paginatedData.data.length <= 0">
-                        <td colspan="999999" class="text-center">
-                            No item found
-                        </td>
-                    </tr>
-                    <tr v-for="tableData in paginatedData.data" :key="tableData">
-                        <td>
-                            {{ tableData.first_name }}&nbsp;{{
-                                tableData.last_name
-                            }}
-                        </td>
-                        <td>
-                            <inertia-link :href="
-                                route(
-                                    'user.parents.show',
-                                    tableData.parent_id
-                                )
-                            ">{{ tableData.parent_name }}</inertia-link>
-                        </td>
-                        <td>
-                            <div class="d-flex gap-2">
-                                <a class="btn btn-icon btn-label-info waves-effect" data-bs-toggle="tooltip"
-                                    data-bs-placement="top" data-bs-custom-class="tooltip-info"
-                                    data-bs-original-title="View" @click="handleEdit(tableData)"
-                                    href="javascript:void(0);"><i class="ti ti-eye"></i>
-                                </a>
-                                <a class="btn btn-icon btn-label-primary waves-effect" data-bs-toggle="tooltip"
-                                    data-bs-placement="top" data-bs-custom-class="tooltip-primary"
-                                    data-bs-original-title="Edit" @click="handleEdit(tableData)"
-                                    href="javascript:void(0);"><i class="ti ti-pencil"></i>
-                                </a>
-                                <a class="btn btn-icon btn-label-danger waves-effect" data-bs-toggle="tooltip"
-                                    data-bs-placement="top" data-bs-custom-class="tooltip-danger"
-                                    data-bs-original-title="Delete" id="confirm-text" href="javascript:void(0);"
-                                    @click="deletePromise(tableData.id)"><i class="ti ti-trash"></i>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <table  class="table" style="table-layout: fixed; width: auto;">
+  <thead class="table-light">
+    <tr>
+      <th style="width: 30%;">Name</th>
+      <th style="width: 30%;">Parent Name</th>
+      <th style="width: 8%;">Actions</th>
+    </tr>
+  </thead>
+  <tbody class="table-border-bottom-0">
+    <tr v-if="paginatedData.data.length <= 0">
+      <td colspan="999999" style="width: 100vw;" class="text-center">
+        No item found
+      </td>
+    </tr>
+    <tr v-for="tableData in paginatedData.data" :key="tableData">
+      <td>
+        {{ tableData.first_name }}&nbsp;{{ tableData.last_name }}
+      </td>
+      <td>
+        <inertia-link :href="route('user.parents.show', tableData.parent_id)">
+          {{ tableData.parent_name }}
+        </inertia-link>
+      </td>
+      <td>
+        <div class="d-flex gap-2">
+          <a class="btn btn-icon btn-label-info waves-effect" data-bs-toggle="tooltip"
+            data-bs-placement="top" data-bs-custom-class="tooltip-info"
+            data-bs-original-title="View" @click="handleEdit(tableData)"
+            href="javascript:void(0);"><i class="ti ti-eye"></i>
+          </a>
+          <a class="btn btn-icon btn-label-primary waves-effect" data-bs-toggle="tooltip"
+            data-bs-placement="top" data-bs-custom-class="tooltip-primary"
+            data-bs-original-title="Edit" @click="handleEdit(tableData)"
+            href="javascript:void(0);"><i class="ti ti-pencil"></i>
+          </a>
+          <a class="btn btn-icon btn-label-danger waves-effect" data-bs-toggle="tooltip"
+            data-bs-placement="top" data-bs-custom-class="tooltip-danger"
+            data-bs-original-title="Delete" id="confirm-text" href="javascript:void(0);"
+            @click="deletePromise(tableData.id)"><i class="ti ti-trash"></i>
+          </a>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
         </div>
         <div class="card-footer py-3 border-top" v-if="paginatedData && paginatedData.meta.links">
             <div class="row justify-content-between">

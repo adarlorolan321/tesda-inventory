@@ -118,7 +118,8 @@ class UserController extends Controller
                 ->response()
                 ->setStatusCode(201);
         }
-         return redirect()->back();
+      return redirect()->back();
+       
     
        
     }

@@ -5,7 +5,12 @@ import { ref, computed, onMounted } from "vue";
 import toastr from "toastr";
 // import Swal from "sweetalert2";
 
-export function useCrud(formObject = {}, routeName, routeIndex = null, redirect = null) {
+export function useCrud(
+    formObject = {},
+    routeName,
+    routeIndex = null,
+    redirect = null
+) {
     const form = useForm(formObject);
     const formState = ref("create");
     const paginatedData = computed(() => usePage().props.data);
@@ -41,10 +46,12 @@ export function useCrud(formObject = {}, routeName, routeIndex = null, redirect 
             }
 
             if (serverParams.value.coach_filter) {
-                serverQuery.value.coach_filter = serverParams.value.coach_filter;
+                serverQuery.value.coach_filter =
+                    serverParams.value.coach_filter;
             }
             if (serverParams.value.service_filter) {
-                serverQuery.value.service_filter = serverParams.value.service_filter;
+                serverQuery.value.service_filter =
+                    serverParams.value.service_filter;
             }
         }
     });
@@ -99,28 +106,28 @@ export function useCrud(formObject = {}, routeName, routeIndex = null, redirect 
         let routeValue = route(`${routeName}.index`, serverQuery.value);
 
         if (routeIndex) {
-            routeValue = route(routeIndex.routeName, { id: routeIndex.routeId })
+            routeValue = route(routeIndex.routeName, {
+                id: routeIndex.routeId,
+            });
         }
 
         let params = {};
 
         for (const key in serverQuery.value) {
             if (serverQuery.value[key] && serverQuery.value[key] != "") {
-                params[key] = serverQuery.value[key]
+                params[key] = serverQuery.value[key];
             }
         }
 
-        router.get(
-            routeValue, params, {
-                preserveState: true,
-                preventScroll: true,
-                only: ["data", "params"],
-            }
-        );
+        router.get(routeValue, params, {
+            preserveState: true,
+            preventScroll: true,
+            only: ["data", "params"],
+        });
     }, 500);
 
     // Promise
-    const createPromise = async() => {
+    const createPromise = async () => {
         form.clearErrors();
         form.post(route(`${routeName}.store`), {
             preserveState: true,
@@ -128,27 +135,27 @@ export function useCrud(formObject = {}, routeName, routeIndex = null, redirect 
             only: ["data", "params", "errors"],
             onSuccess: () => {
                 toastr.success("Record saved");
-                if(redirect){
+                if (redirect) {
                     form.reset();
-                    router.visit(route(redirect.redirectTo,redirect.id))
-                }else{
+                    router.visit(route(redirect.redirectTo, redirect.id));
+                } else {
                     hideOffCanvas();
                 }
             },
         });
     };
 
-    const updatePromise = async() => {
+    const updatePromise = async () => {
         form.clearErrors();
         form.patch(route(`${routeName}.update`, form.id), {
             preserveState: true,
             preventScroll: true,
-            only: ["data", "params", "errors"],
+            only: ["data", "params", "errors", "auth"],
             onSuccess: () => {
                 toastr.info("Record updated");
-                if(redirect){
-                    router.visit(route(redirect.redirectTo,redirect.id))
-                }else{
+                if (redirect) {
+                    router.visit(route(redirect.redirectTo, redirect.id));
+                } else {
                     form.reset();
                     hideOffCanvas();
                 }
@@ -156,8 +163,7 @@ export function useCrud(formObject = {}, routeName, routeIndex = null, redirect 
         });
     };
 
-    const deletePromise = async(id) => {
-        console.log(routeIndex)
+    const deletePromise = async (id) => {
         Swal.fire({
             icon: "warning",
             title: "Are you sure?",
