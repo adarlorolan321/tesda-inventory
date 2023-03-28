@@ -79,7 +79,6 @@ onMounted(() => {
             <div class="card-action-element">
                 <inertia-link
                     v-if="has_back"
-                    type="button"
                     class="btn btn-link-primary btn-primary"
                     :href="route('classes.index')"
                 >
