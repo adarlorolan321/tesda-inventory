@@ -108,18 +108,21 @@ let {
                     </div>
                     <div class="d-flex gap-2 align-items-center">
                         <div class="flex-1">
-                            <input
-                                type="search"
-                                placeholder="Search"
-                                class="form-control"
-                                :value="serverQuery.query"
-                                @input="
-                                    handleServerQuery(
-                                        'query',
-                                        $event.target.value
-                                    )
-                                "
-                            />
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text" id="basic-addon-search31"><i class="ti ti-search"></i></span>
+                                <input
+                                    type="search"
+                                    placeholder="Search"
+                                    class="form-control"
+                                    :value="serverQuery.query"
+                                    @input="
+                                        handleServerQuery(
+                                            'query',
+                                            $event.target.value
+                                        )
+                                    "
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
