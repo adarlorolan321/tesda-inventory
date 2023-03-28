@@ -28,7 +28,7 @@ class ClassController extends Controller
         $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
-        $sort = explode('.', $request->input('sort', 'id'));
+        $sort = explode('.', $request->input('sort', 'name'));
         $order = $request->input('order', 'asc');
 
         $data = ClassModel::query()
@@ -43,16 +43,16 @@ class ClassController extends Controller
                         ->orWhere('users.name', 'like', '%' . $queryString . '%');
                 }
             })
-//            ->when($request->has('coach_filter'), function ($query) use ($request) {
-//                $query->where('users.id',$request['coach_filter']);
-//            })
+            //            ->when($request->has('coach_filter'), function ($query) use ($request) {
+            //                $query->where('users.id',$request['coach_filter']);
+            //            })
             ->where(function ($query) use ($queryString, $request) {
-                $query-> when($request->has('service_filter'), function ($query) use ($request) {
+                $query->when($request->has('service_filter'), function ($query) use ($request) {
                     $query->where('services.id', $request['service_filter']);
                 });
             })
             ->where(function ($query) use ($queryString, $request) {
-                $query-> when($request->has('coach_filter'), function ($query) use ($request) {
+                $query->when($request->has('coach_filter'), function ($query) use ($request) {
                     $query->where('users.id', $request['coach_filter']);
                 });
             })
@@ -68,7 +68,7 @@ class ClassController extends Controller
             'coaches' => User::whereHas('roles', function ($query) {
                 $query->where('name', 'Coach');
             })
-                ->where('status',1)
+                ->where('status', 1)
                 ->orderBy('name', 'ASC')
                 ->get(['id', 'name'])
                 ->map(function ($parent) {
@@ -124,7 +124,7 @@ class ClassController extends Controller
             'coaches' => User::whereHas('roles', function ($query) {
                 $query->where('name', 'Coach');
             })
-                ->where('status',1)
+                ->where('status', 1)
                 ->orderBy('name', 'ASC')
                 ->get(['id', 'name'])
                 ->map(function ($parent) {
@@ -215,7 +215,7 @@ class ClassController extends Controller
             'coaches' => User::whereHas('roles', function ($query) {
                 $query->where('name', 'Coach');
             })
-                ->where('status',1)
+                ->where('status', 1)
                 ->orderBy('name', 'ASC')
                 ->get(['id', 'name'])
                 ->map(function ($parent) {
