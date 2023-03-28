@@ -62,9 +62,14 @@
     <!-- Page -->
     <link rel="stylesheet" href="/assets/vendor/css/pages/page-auth.css"/>
     <link rel="stylesheet" href="/assets/vendor/css/pages/page-profile.css"/>
+    
+    <link rel="stylesheet" href="/assets/vendor/libs/quill/typography.css" />
+    <link rel="stylesheet" href="/assets/vendor/libs/quill/katex.css" />
+    <link rel="stylesheet" href="/assets/vendor/libs/quill/editor.css" />
 
     <script src="/assets/vendor/js/helpers.js" defer></script>
     <script src="/assets/js/config.js" defer></script>
+
 
 
     <script src="/assets/vendor/libs/jquery/jquery.js"></script>
@@ -83,6 +88,9 @@
     <script src="/assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js"></script>
 
     <script src="/assets/vendor/libs/sweetalert2/sweetalert2.js"></script>
+
+    <script src="/assets/vendor/libs/quill/katex.js"></script>
+    <script src="/assets/vendor/libs/quill/quill.js"></script>
 
     @routes
     @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])

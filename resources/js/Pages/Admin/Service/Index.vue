@@ -1,12 +1,12 @@
 <script>
-import AdminLayout from "@/Layouts/AdminLayout.vue"; 
+import AdminLayout from "@/Layouts/AdminLayout.vue";
 export default {
     layout: AdminLayout,
 };
 </script>
 
 <script setup>
-import { useCrud } from "@/Composables/Crud.js"; 
+import { useCrud } from "@/Composables/Crud.js";
 import { useValidateForm } from "@/Composables/Validate.js";
 import { usePage, Head } from "@inertiajs/vue3";
 const { props } = usePage();
@@ -76,9 +76,9 @@ let {
                                 class="form-control"
                                 v-model="form.name"
                                 @input="($event) => {
-                                    form.clearErrors('name'); 
+                                    form.clearErrors('name');
                                     validateForm(['required'], form, $event.target.value, 'name');
-                                }" 
+                                }"
                                 placeholder="Enter name"
                                 :class="{
                                     'is-invalid': form.errors.name,
@@ -187,9 +187,10 @@ let {
         </div>
         <div class="table-responsive text-nowrap">
             <table class="table">
-                <thead class="table-light">
+                <thead class="table-light" style="min-width: 200px;">
                     <tr>
                         <table-header
+                            style="min-width: 200px; width: 30%"
                             @click="handleServerQuery('sort', 'name')"
                             :serverQuery="serverQuery"
                             serverQueryKey="name"
@@ -197,6 +198,7 @@ let {
                             Service Name
                         </table-header>
                         <table-header
+                            style="min-width: 200px; width: 30%"
                             @click="handleServerQuery('sort', 'code')"
                             :serverQuery="serverQuery"
                             serverQueryKey="code"
@@ -204,7 +206,7 @@ let {
                             Code
                         </table-header>
                         <th>Embed Code</th>
-                        <th style= "width: 100px;">Actions</th>
+                        <th style= "width: 150px;">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">

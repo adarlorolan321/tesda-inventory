@@ -387,10 +387,11 @@ let {
         </div>
         <div class="table-responsive text-nowrap">
             <table class="table">
-                <thead class="table-light">
+                <thead class="table-light" style="min-width: 200px;">
                     <tr>
                         <th class="sortable">Photo</th>
                         <th
+                            style="min-width: 200px; width: 30%"
                             class="sortable"
                             @click="handleServerQuery('sort', 'name')"
                         >
@@ -410,8 +411,13 @@ let {
                                 "
                             ></i>
                         </th>
-                        <th @click="handleServerQuery('sort', 'role')">Role</th>
                         <th
+                            style="min-width: 200px; width: 30%"
+                            @click="handleServerQuery('sort', 'role')">
+                            Role
+                        </th>
+                        <th
+                            style="min-width: 200px; width: 30%"
                             class="sortable"
                             @click="handleServerQuery('sort', 'email')"
                         >
@@ -432,6 +438,7 @@ let {
                             ></i>
                         </th>
                         <th
+                            style="min-width: 200px; width: 30%"
                             class="sortable"
                             @click="handleServerQuery('sort', 'phone')"
                         >
@@ -452,6 +459,7 @@ let {
                             ></i>
                         </th>
                         <th
+                            style="min-width: 200px; width: 30%"
                             class="sortable"
                             @click="handleServerQuery('sort', 'status')"
                         >
