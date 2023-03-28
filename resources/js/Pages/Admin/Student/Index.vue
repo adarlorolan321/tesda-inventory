@@ -237,7 +237,7 @@ let {
   </thead>
   <tbody class="table-border-bottom-0">
     <tr v-if="paginatedData.data.length <= 0">
-      <td colspan="999999" class="text-center">
+      <td colspan="999999" style="width: 100vw;" class="text-center">
         No item found
       </td>
     </tr>
