@@ -57,14 +57,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
         Route::resource('classes', ClassController::class);
+        Route::resource('email_template', PageController\Email\EmailTemplateController::class);
 
-
+    
         Route::resource('students', StudentController::class);
 
         Route::name('classes.')->prefix('classes')->group(function () {
             Route::resource('sessions', ClassSessionController::class);
         });
-
+        
         Route::name('settings.')->prefix('settings')->group(function () {
             Route::resources([
                 'services' => PageController\Setting\ServiceController::class,

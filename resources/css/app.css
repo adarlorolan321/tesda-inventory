@@ -109,6 +109,11 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #7367f0;
 }
+.is-invalid .ql-container, .is-invalid .ql-toolbar{
+    
+    border: 0.0625rem solid #ea5455 !important;
+
+}
 
 /*.select2-selection__clear{*/
 /*    color: red;*/
