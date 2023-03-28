@@ -380,7 +380,6 @@ let {
                                                 $event.target.value
                                             )
                                         "
-                                        style="focus:color: red"
                                     />
                                 </div>
                             </div>
