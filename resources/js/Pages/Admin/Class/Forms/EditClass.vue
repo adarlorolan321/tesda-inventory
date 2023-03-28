@@ -17,7 +17,7 @@ export default {
 import {useCrud} from "@/Composables/Crud.js";
 import {userInputFormat} from "@/Composables/InputFormat.js";
 import {useValidateForm} from "@/Composables/Validate.js";
-import {onMounted} from "vue";
+import {onMounted,ref} from "vue";
 import {userGlobalFunction} from "@/Composables/GlobalFunction.js";
 
 
@@ -67,7 +67,6 @@ onMounted(() => {
     } else {
         handleEdit(props.data);
     }
-
 });
 </script>
 
@@ -214,7 +213,7 @@ onMounted(() => {
                         <label for="start_time">Start Date <span class="required">*</span></label>
                         <flat-pickr
                             id="start_date"
-                            :config="dateFormat({minDate: 'today'})"
+                            :config="dateFormat({minDate: start_date})"
                             :class="{ 'is-invalid': form.errors.start_date }"
                             class="form-control"
                             placeholder="Select Start Date"
@@ -253,7 +252,7 @@ onMounted(() => {
                         <flat-pickr
                             id="end_date"
                             :disabled="!form.start_date"
-                            :config="dateFormat( {minDate: form.start_date})"
+                            :config="dateFormat()"
                             :class="{ 'is-invalid': form.errors.end_date }"
                             class="form-control"
                             placeholder="Select End Time"

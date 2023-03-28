@@ -68,6 +68,7 @@ class ClassController extends Controller
             'coaches' => User::whereHas('roles', function ($query) {
                 $query->where('name', 'Coach');
             })
+                ->where('status',1)
                 ->orderBy('name', 'ASC')
                 ->get(['id', 'name'])
                 ->map(function ($parent) {
@@ -123,6 +124,7 @@ class ClassController extends Controller
             'coaches' => User::whereHas('roles', function ($query) {
                 $query->where('name', 'Coach');
             })
+                ->where('status',1)
                 ->orderBy('name', 'ASC')
                 ->get(['id', 'name'])
                 ->map(function ($parent) {
@@ -213,6 +215,7 @@ class ClassController extends Controller
             'coaches' => User::whereHas('roles', function ($query) {
                 $query->where('name', 'Coach');
             })
+                ->where('status',1)
                 ->orderBy('name', 'ASC')
                 ->get(['id', 'name'])
                 ->map(function ($parent) {
