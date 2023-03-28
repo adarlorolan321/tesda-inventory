@@ -399,13 +399,26 @@
                 </tbody>
             </table>
         </div>
+       
     </div>
+
+    <button class="btn btn-primary" @click="defaultValue = '<p>Hello world</p>'">Set default</button>
+    <QuillEditor :defaultValue="defaultValue" v-model="defaultValue"></QuillEditor>
 </template>
 <script lang="js">
 import AdminLayout from '@/Layouts/AdminLayout.vue'
+import QuillEditor from '../Components/QuillEditor.vue';
 
 export default {
     layout: AdminLayout,
+    components: {
+        QuillEditor
+    },
+    data: function(){
+        return {
+            defaultValue: '<p>Hello world<p>'
+        }
+    },
     mounted: function () {
 
     }

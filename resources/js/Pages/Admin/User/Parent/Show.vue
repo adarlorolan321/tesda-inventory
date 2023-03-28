@@ -64,7 +64,7 @@ let {
                     Add Player
                 </button>
 
-                
+
                 <div
                     class="offcanvas offcanvas-end"
                     tabindex="-1"
@@ -309,7 +309,7 @@ let {
         </div>
         <div class="table-responsive text-nowrap">
             <table class="table">
-                <thead class="table-light">
+                <thead class="table-light" style="min-width: 200px;">
                     <tr>
                         <table-header
                             style="min-width: 200px; width: 90%"
@@ -319,7 +319,7 @@ let {
                         >
                             Name
                         </table-header>
-                        <th>Actions</th>
+                        <th style="width: 150px;">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">

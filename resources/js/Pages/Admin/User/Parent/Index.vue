@@ -1,5 +1,5 @@
 <script>
-import AdminLayout from "@/Layouts/AdminLayout.vue"; 
+import AdminLayout from "@/Layouts/AdminLayout.vue";
 export default {
     layout: AdminLayout,
 };
@@ -8,7 +8,7 @@ export default {
 <script setup>
 import { useCrud } from "@/Composables/Crud.js";
 import { useValidateForm } from "@/Composables/Validate.js";
-import { usePage, Head } from "@inertiajs/vue3"; 
+import { usePage, Head } from "@inertiajs/vue3";
 const { props } = usePage();
 const formObject = {
     id: null,
@@ -130,7 +130,7 @@ let {
                                 class="form-control"
                                 v-model="form.email"
                                 @input="($event) => {
-                                    form.clearErrors('email'); 
+                                    form.clearErrors('email');
                                     validateForm(['required', 'email'], form, $event.target.value, 'email');
                                 }"
                                 placeholder="Enter Email"
@@ -245,7 +245,7 @@ let {
         </div>
         <div class="table-responsive text-nowrap">
             <table class="table">
-                <thead class="table-light">
+                <thead class="table-light" style="min-width: 200px;">
                     <tr>
                         <!--                        <th class="sortable">Photo</th>-->
                         <th
@@ -317,7 +317,7 @@ let {
                         <!--                            <i  class="ti ti-arrow-up"  v-if=" serverQuery.sort == 'status' && serverQuery.order == 'desc' "  ></i>-->
                         <!--                            <i class="ti ti-arrow-down" v-if="  serverQuery.sort == 'status' && serverQuery.order == 'asc' "></i>-->
                         <!--                        </th>-->
-                        <th style="width: 10px;">Actions</th>
+                        <th style="width: 150px;">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
