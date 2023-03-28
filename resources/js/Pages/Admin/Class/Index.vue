@@ -1,14 +1,16 @@
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
+
 export default {
     layout: AdminLayout,
 };
 </script>
 
 <script setup>
-import { useCrud } from "@/Composables/Crud.js";
-import { usePage, Head } from "@inertiajs/vue3";
-const { props } = usePage();
+import {useCrud} from "@/Composables/Crud.js";
+import {usePage, Head} from "@inertiajs/vue3";
+
+const {props} = usePage();
 const formObject = {
     name: null,
     code: null,
@@ -74,9 +76,38 @@ let {
                         <div class="w-auto">entries</div>
                     </div>
                 </div>
-                <div class="col-auto">
+                <div class="col-auto d-flex gap-2">
+                    <div>
+                        <select2
+                            style="width: 250px"
+                            id="filter_service"
+                            v-model="serverQuery.coach_filter"
+                            :settings="{
+                                allowClear: true,
+                                 minimumResultsForSearch: -1,
+                            }"
+                            @update:modelValue="handleServerQuery('coach_filter', $event)"
+                            placeholder="Filter By Coach"
+                            :options="props.coaches"
+                        >
+                        </select2>
+                    </div>
+                    <div>
+                        <select2
+                            style="width: 250px"
+                            id="filter_coach"
+                            v-model="serverQuery.service_filter"
+                            :settings="{
+                                allowClear: true,
+                                 minimumResultsForSearch: -1,
+                            }"
+                            @update:modelValue="handleServerQuery('service_filter', $event)"
+                            placeholder="Filter By Service"
+                            :options="props.services"
+                        >
+                        </select2>
+                    </div>
                     <div class="d-flex gap-2 align-items-center">
-                        <div class="w-auto">Search:</div>
                         <div class="flex-1">
                             <input
                                 type="search"
@@ -97,103 +128,99 @@ let {
         </div>
         <div class="table-responsive text-nowrap">
             <table class="table">
-                <thead class="table-light" style="min-width: 200px;">
-                    <tr>
-                        <table-header
-                            style="min-width: 200px; width: 30%"
-                            @click="handleServerQuery('sort', 'name')"
-                            :serverQuery="serverQuery"
-                            serverQueryKey="name"
-                        >
-                            Name
-                        </table-header>
-                        <table-header
-                            style="min-width: 200px; width: 30%"
-                            @click="handleServerQuery('sort', 'days')"
-                            :serverQuery="serverQuery"
-                            serverQueryKey="days"
-                        >
-                            Day
-                        </table-header>
-                        <table-header
-                            style="min-width: 200px; width: 30%"
-                            @click="handleServerQuery('sort', 'service_name')"
-                            :serverQuery="serverQuery"
-                            serverQueryKey="service_name"
-                        >
-                            Service
-                        </table-header>
-                        <table-header
-                            style="min-width: 200px; width: 30%"
-                            @click="handleServerQuery('sort', 'coach_name')"
-                            :serverQuery="serverQuery"
-                            serverQueryKey="coach_name"
-                        >
-                            Coach
-                        </table-header>
-                        <th style="width: 150px;">Actions</th>
-                    </tr>
+                <thead class="table-light">
+                <tr>
+                    <table-header
+                        @click="handleServerQuery('sort', 'name')"
+                        :serverQuery="serverQuery"
+                        serverQueryKey="name"
+                    >
+                        Name
+                    </table-header>
+                    <table-header
+                        @click="handleServerQuery('sort', 'days')"
+                        :serverQuery="serverQuery"
+                        serverQueryKey="days"
+                    >
+                        Day
+                    </table-header>
+                    <table-header
+                        @click="handleServerQuery('sort', 'service_name')"
+                        :serverQuery="serverQuery"
+                        serverQueryKey="service_name"
+                    >
+                        Service
+                    </table-header>
+                    <table-header
+                        @click="handleServerQuery('sort', 'coach_name')"
+                        :serverQuery="serverQuery"
+                        serverQueryKey="coach_name"
+                    >
+                        Coach
+                    </table-header>
+                    <th>Actions</th>
+                </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                    <tr v-if="paginatedData.data.length <= 0">
-                        <td colspan="999999" class="text-center">
-                            No item found
-                        </td>
-                    </tr>
-                    <tr
-                        v-for="tableData in paginatedData.data"
-                        :key="tableData"
-                    >
-                        <td style="width: 60%">
-                            <inertia-link
-                                :href="
+                <tr v-if="paginatedData.data.length <= 0">
+                    <td colspan="999999" class="text-center">
+                        No item found
+                    </td>
+                </tr>
+                <tr
+                    v-for="tableData in paginatedData.data"
+                    :key="tableData"
+                >
+                    <td style="width: 60%">
+                        <inertia-link
+                            :href="
                                     route('classes.sessions-tab', tableData.id)
                                 "
-                            >
-                                {{ tableData.name }}
-                            </inertia-link>
-                        </td>
-                        <td>
+                        >
+                            {{ tableData.name }}
+                        </inertia-link>
+                    </td>
+                    <td>
                             <span
                                 v-for="days in tableData.days"
                                 :key="days"
                                 class="badge bg-label-info me-2"
-                                >{{ days }}</span
+                            >{{ days }}</span
                             >
-                        </td>
-                        <td>{{ tableData.service_name }}</td>
-                        <td>{{ tableData.coach_name }}</td>
-                        <td>
-                            <div class="d-flex gap-2">
-                                <inertia-link
-                                    class="btn btn-icon btn-label-info waves-effect"
-                                    :href="
+                    </td>
+                    <td>{{ tableData.service_name }}</td>
+                    <td>{{ tableData.coach_name }}</td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            <inertia-link
+                                class="btn btn-icon btn-label-info waves-effect"
+                                :href="
                                         route(
                                             'classes.sessions-tab',
                                             tableData.id
                                         )
                                     "
-                                    ><i class="ti ti-eye"></i>
-                                </inertia-link>
-                                <inertia-link
-                                    class="btn btn-icon btn-label-primary waves-effect"
-                                    :href="
+                            ><i class="ti ti-eye"></i>
+                            </inertia-link>
+                            <inertia-link
+                                class="btn btn-icon btn-label-primary waves-effect"
+                                :href="
                                         route(
                                             'classes.update-tab',
                                             tableData.id
                                         )
                                     "
-                                    ><i class="ti ti-pencil"></i>
-                                </inertia-link>
-                                <a
-                                    class="btn btn-icon btn-label-danger waves-effect"
-                                    href="javascript:void(0);"
-                                    @click="deletePromise(tableData.id)"
-                                    ><i class="ti ti-trash"></i>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
+                            ><i class="ti ti-pencil"></i>
+                            </inertia-link>
+                            <a
+                                class="btn btn-icon btn-label-danger waves-effect"
+                                href="javascript:void(0);"
+                                @click="deletePromise(tableData.id)"
+                            ><i class="ti ti-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>

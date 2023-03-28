@@ -403,7 +403,10 @@
     </div>
 
     <button class="btn btn-primary" @click="defaultValue = '<p>Hello world</p>'">Set default</button>
-    <QuillEditor :defaultValue="defaultValue" v-model="defaultValue"></QuillEditor>
+    <div>
+        <QuillEditor v-model="defaultValue" :defaultValue="defaultValue"></QuillEditor>
+    </div>
+    {{  defaultValue }}
 </template>
 <script lang="js">
 import AdminLayout from '@/Layouts/AdminLayout.vue'
