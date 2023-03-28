@@ -4,6 +4,7 @@ import {computed} from "vue";
 
 const {props} = usePage();
 const classModel = computed(() => usePage().props.classModel);
+const title = computed(() => usePage().props.title);
 </script>
 
 <template>
@@ -12,7 +13,7 @@ const classModel = computed(() => usePage().props.classModel);
         <div class="">
             <h4 class="fw-bold py-3 mb-4">
                 <span class="text-muted fw-light">Class / Details /</span>
-                {{ classModel?.name }}
+                {{ classModel?.name }} / {{ title }}
             </h4>
             <div class="row">
                 <!-- User Sidebar -->

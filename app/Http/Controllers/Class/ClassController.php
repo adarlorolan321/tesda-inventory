@@ -32,7 +32,6 @@ class ClassController extends Controller
         $order = $request->input('order', 'asc');
 
         $data = ClassModel::query()
-            ->with(['service', 'venue', 'coach'])
             ->leftJoin('users', 'classes.coach_id', '=', 'users.id')
             ->leftJoin('services', 'classes.service_id', '=', 'services.id')
             ->select('classes.name', 'classes.days', 'services.name as service_name', 'users.name as coach_name', 'classes.id')
@@ -74,14 +73,16 @@ class ClassController extends Controller
     public function create()
     {
         return Inertia::render('Admin/Class/Create', [
-            'services' => Service::orderBy('name','ASC')->get(['id', 'name'])
+            'services' => Service::orderBy('name', 'ASC')
+                ->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
                         'id' => $parent->id,
                         'text' => $parent->name
                     ];
                 }),
-            'venues' => Venue::where('status', 1)->orderBy('name','ASC')->get(['id', 'name'])
+            'venues' => Venue::where('status', 1)->orderBy('name', 'ASC')
+                ->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
                         'id' => $parent->id,
@@ -91,7 +92,7 @@ class ClassController extends Controller
             'coaches' => User::whereHas('roles', function ($query) {
                 $query->where('name', 'Coach');
             })
-                ->orderBy('name','ASC')
+                ->orderBy('name', 'ASC')
                 ->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
@@ -111,16 +112,16 @@ class ClassController extends Controller
         sleep(1);
 
         $request['id'] = $data->id;
-        if($request['repeat'] && $request['days']){
-            ClassSessionService::addMultipleSession($request->only(['id','start_date','end_date','days','additional_coach','start_time','end_time','coach_id']));
+        if ($request['repeat'] && $request['days']) {
+            ClassSessionService::saveMultipleSession($request->only(['id', 'start_date', 'end_date', 'days', 'additional_coach', 'start_time', 'end_time', 'coach_id']));
         }else{
-            ClassSessionService::saveSession($request->only(['id','start_date','end_date','days','additional_coach','start_time','end_time','coach_id']));
+            ClassSessionService::saveSession($request->only(['id', 'start_date', 'end_date', 'days', 'additional_coach', 'start_time', 'end_time', 'coach_id']));
         }
 
         if ($request->wantsJson()) {
             return new ClassListResource($data);
         }
-        return redirect()->route('classes.index')->with('message', 'Record Saved');
+        return redirect()->back();
     }
 
     /**
@@ -128,21 +129,21 @@ class ClassController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $data = ClassModel::with(['venue','coach'])->findOrFail($id);
+        $data = ClassModel::with(['venue', 'coach'])->findOrFail($id);
         if ($request->wantsJson()) {
             return new ClassListResource($data);
         }
 
         $request = request()->merge(['class_id' => $id]);
-        $data['additional_coach'] = User::whereIn('id',$data['additional_coach'])->get(['id','name'])->makeHidden(['profile_photo','profile_photo_url','role']);
+        $data['additional_coach'] = User::whereIn('id', $data['additional_coach'])->get(['id', 'name'])->makeHidden(['profile_photo', 'profile_photo_url', 'role']);
 
         return Inertia::render('Admin/Class/Show', [
             'classModel' => $data,
-            'data' => (new ClassSessionController)->index($request,true)['data'],
+            'data' => (new ClassSessionController)->index($request, true)['data'],
             'coaches' => User::whereHas('roles', function ($query) {
                 $query->where('name', 'Coach');
             })
-                ->orderBy('name','ASC')
+                ->orderBy('name', 'ASC')
                 ->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
@@ -164,14 +165,14 @@ class ClassController extends Controller
         }
         return Inertia::render('Admin/Class/Edit', [
             'data' => $data,
-            'services' => Service::orderBy('name','ASC')->get(['id', 'name'])
+            'services' => Service::orderBy('name', 'ASC')->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
                         'id' => $parent->id,
                         'text' => $parent->name
                     ];
                 }),
-            'venues' => Venue::where('status', 1)->orderBy('name','ASC')->get(['id', 'name'])
+            'venues' => Venue::where('status', 1)->orderBy('name', 'ASC')->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
                         'id' => $parent->id,
@@ -181,7 +182,7 @@ class ClassController extends Controller
             'coaches' => User::whereHas('roles', function ($query) {
                 $query->where('name', 'Coach');
             })
-                ->orderBy('name','ASC')
+                ->orderBy('name', 'ASC')
                 ->get(['id', 'name'])
                 ->map(function ($parent) {
                     return [
@@ -207,7 +208,7 @@ class ClassController extends Controller
                 ->setStatusCode(201);
         }
 
-        return redirect()->route('classes.index')->with('message', 'Record Saved');
+        return redirect()->back();
     }
 
     /**
@@ -222,6 +223,6 @@ class ClassController extends Controller
         if ($request->wantsJson()) {
             return response(null, 204);
         }
-        return redirect()->route('classes.index')->with('message', 'Record Removed');
+        return redirect()->back();
     }
 }

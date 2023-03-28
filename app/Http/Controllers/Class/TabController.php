@@ -24,6 +24,7 @@ class TabController extends Controller
         $data['additional_coach_name'] = User::whereIn('id',$data['additional_coach'])->get(['id','name'])->makeHidden(['profile_photo','profile_photo_url','role'])->pluck('name');
 
         return Inertia::render('Admin/Class/Show', [
+            'title' => 'Session',
             'classModel' => $data,
             'data' => (new ClassSessionController)->index($request,true)['data'],
             'coaches' => User::whereHas('roles', function ($query) {

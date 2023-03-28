@@ -17,7 +17,7 @@ class ClassSessionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request,$json = false)
+    public function index(Request $request, $json = false)
     {
 
         $page = $request->input('page', 1); // default 1
@@ -53,8 +53,7 @@ class ClassSessionController extends Controller
             return $props;
         }
 
-        if(count($data) <= 0 && $page > 1)
-        {
+        if (count($data) <= 0 && $page > 1) {
             return redirect()->route('classes.sessions.index', ['page' => 1]);
         }
 

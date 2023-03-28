@@ -23,24 +23,7 @@ class ClassSessionService
             'status' => 'Scheduled'
         ]);
     }
-    public static function saveMultipleSession($sessionDates, $request)
-    {
-        foreach ($sessionDates as $date) {
-            $session = ClassSession::create([
-                'uuid' => Str::uuid(),
-                'class_id' => $request['id'],
-                'date' => $date,
-                'type' => 'Regular',
-                'start_time' => $request['start_time'],
-                'end_time' => $request['start_time'],
-                'coach_id' => $request['coach_id'],
-                'additional_coaches' => $request['additional_coach'],
-                'status' => 'Scheduled'
-            ]);
-        }
-    }
-
-    public static function addMultipleSession($request)
+    public static function saveMultipleSession($request)
     {
         $startDate = Carbon::parse($request['start_date']);
         $endDate = Carbon::parse($request['end_date']);
@@ -56,7 +39,19 @@ class ClassSessionService
             $startDate->addDay();
         }
 
-        self::saveMultipleSession($sessionDates,$request);
+        foreach ($sessionDates as $date) {
+            $session = ClassSession::create([
+                'uuid' => Str::uuid(),
+                'class_id' => $request['id'],
+                'date' => $date,
+                'type' => 'Regular',
+                'start_time' => $request['start_time'],
+                'end_time' => $request['start_time'],
+                'coach_id' => $request['coach_id'],
+                'additional_coaches' => $request['additional_coach'],
+                'status' => 'Scheduled'
+            ]);
+        }
     }
 
 }

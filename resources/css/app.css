@@ -15,7 +15,6 @@
     cursor: pointer;
 }
 
-
 /* .select-custom > .select2-container {
     z-index: 99999;
 } */
@@ -63,16 +62,15 @@ body {
     color: #ea5455;
 }
 
-.swal2-icon .swal2-icon-content {
+/* .swal2-icon .swal2-icon-content {
     font-size: 4rem !important;
 }
 
 .swal2-icon {
     width: 60px !important;
     height: 60px !important;
-}
+} */
 
-.btn-link-primary{
-    color: white!important;
+.btn-link-primary {
+    color: white !important;
 }
-
