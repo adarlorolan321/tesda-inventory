@@ -10,10 +10,13 @@ export default {
 import { useCrud } from "@/Composables/Crud.js";
 import { useValidateForm } from "@/Composables/Validate.js";
 import { usePage } from "@inertiajs/vue3";
+import toastr from "toastr"
+
 
 const routeName = "user.profile";
 const page = usePage();
 const user = page.props.auth.user;
+
 
 
 
@@ -29,7 +32,6 @@ const formObject = {
             role: user.role,
             status:user.status
 };
-
 const { validateForm } = useValidateForm();
 let {
     form,

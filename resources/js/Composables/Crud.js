@@ -146,6 +146,7 @@ export function useCrud(formObject = {}, routeName, routeIndex = null, redirect 
             only: ["data", "params", "errors"],
             onSuccess: () => {
                 toastr.info("Record updated");
+                window.location.reload();
                 if(redirect){
                     router.visit(route(redirect.redirectTo,redirect.id))
                 }else{
