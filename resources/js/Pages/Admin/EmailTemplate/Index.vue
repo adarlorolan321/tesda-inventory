@@ -156,6 +156,10 @@ let {
                         <td>
                             <div class="d-flex gap-2">
                                 <a
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    data-bs-custom-class="tooltip-primary"
+                                    title="Edit"
                                     class="btn btn-icon btn-label-primary waves-effect"
                                     :href="
                                         route(

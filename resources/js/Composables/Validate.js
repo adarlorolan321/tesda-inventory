@@ -27,9 +27,8 @@ export function useValidateForm() {
     }
 
     const validateForm = debounce((validationRule, form, value, key) => {
-
         if (validationRule.indexOf('required') >= 0) {
-            if (!value || value == "") {
+            if (!value || value == "" || value == "<p><br></p>") {
                 form.setError(key, 'This is a required field')
                     // form.errors[key] = 'This is a required field';
                 return;

@@ -64,7 +64,9 @@ let {
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group mb-3">
-                        <label for="name">Name</label>
+                        <label for="name"
+                            >Name <span class="required">*</span></label
+                        >
                         <input
                             type="text"
                             id="name"
@@ -74,7 +76,17 @@ let {
                             :class="{
                                 'is-invalid': form.errors.name,
                             }"
-                            @input="form.clearErrors('name')"
+                            @input="
+                                ($event) => {
+                                    form.clearErrors('name');
+                                    validateForm(
+                                        ['required'],
+                                        form,
+                                        $event.target.value,
+                                        'name'
+                                    );
+                                }
+                            "
                         />
                         <div class="invalid-feedback" v-if="form.errors.name">
                             {{ form.errors.name }}
@@ -94,7 +106,17 @@ let {
                             class="form-control"
                             aria-label="With textarea"
                             v-model="form.subject"
-                            @input="form.clearErrors('subject')"
+                            @input="
+                                ($event) => {
+                                    form.clearErrors('subject');
+                                    validateForm(
+                                        ['required'],
+                                        form,
+                                        $event.target.value,
+                                        'subject'
+                                    );
+                                }
+                            "
                         ></textarea>
                         <div
                             class="v-invalid-feedback"
@@ -115,9 +137,19 @@ let {
                             >Body <span class="required">*</span></label
                         >
                         <QuillEditor
-                            :defaultValue="form.body"
+                            :defaultValue="defaultValue"
                             v-model="form.body"
-                            @update:modelValue="form.clearErrors('body')"
+                            @update:modelValue="
+                                ($event) => {
+                                    form.clearErrors('body');
+                                    validateForm(
+                                        ['required'],
+                                        form,
+                                        $event,
+                                        'body'
+                                    );
+                                }
+                            "
                         ></QuillEditor>
                         <div class="v-invalid-feedback" v-if="form.errors.body">
                             {{ form.errors.body }}
@@ -151,9 +183,9 @@ let {
                                 <span
                                     class="switch-label"
                                     v-if="form.default == 1"
-                                    >True</span
+                                    >Yes</span
                                 >
-                                <span class="switch-label" v-else>False</span>
+                                <span class="switch-label" v-else>No</span>
                             </label>
                         </div>
                         <div class="form-group mb-5">
