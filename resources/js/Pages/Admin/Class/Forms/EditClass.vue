@@ -1,7 +1,7 @@
 <script>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
-import { usePage } from "@inertiajs/vue3";
-import { reactive, computed, onMounted } from "vue";
+import {usePage} from "@inertiajs/vue3";
+import {reactive, computed, onMounted} from "vue";
 
 export default {
     props: {
@@ -14,11 +14,11 @@ export default {
 </script>
 
 <script setup>
-import { useCrud } from "@/Composables/Crud.js";
-import { userInputFormat } from "@/Composables/InputFormat.js";
-import { useValidateForm } from "@/Composables/Validate.js";
-import { onMounted } from "vue";
-import { userGlobalFunction } from "@/Composables/GlobalFunction.js";
+import {useCrud} from "@/Composables/Crud.js";
+import {userInputFormat} from "@/Composables/InputFormat.js";
+import {useValidateForm} from "@/Composables/Validate.js";
+import {onMounted} from "vue";
+import {userGlobalFunction} from "@/Composables/GlobalFunction.js";
 
 
 const formObject = {
@@ -43,9 +43,9 @@ const formObject = {
 
 const routeName = "classes";
 
-const { dateFormat, timeFormat } = userInputFormat();
-const { validateForm } = useValidateForm();
-const { weekDays } = userGlobalFunction();
+const {dateFormat, timeFormat} = userInputFormat();
+const {validateForm} = useValidateForm();
+const {weekDays} = userGlobalFunction();
 let {
     paginatedData,
     form,
@@ -59,13 +59,13 @@ let {
     formState,
 } = useCrud(formObject, routeName);
 
-const { props } = usePage();
+const {props} = usePage();
 
 onMounted(() => {
-    if(props.classModel){
+    if (props.classModel) {
         console.log('lll')
         handleEdit(props.classModel);
-    }else{
+    } else {
         handleEdit(props.data);
     }
 
@@ -212,10 +212,10 @@ onMounted(() => {
                 </div>
                 <div class="col-md-3">
                     <div class="form-group mb-3">
-                        <label for="start_time">Start Date</label>
+                        <label for="start_time">Start Date <span class="required">*</span></label>
                         <flat-pickr
                             id="start_date"
-                            :config="dateFormat('today')"
+                            :config="dateFormat({minDate: 'today'})"
                             :class="{ 'is-invalid': form.errors.start_date }"
                             class="form-control"
                             placeholder="Select Start Date"
@@ -254,7 +254,7 @@ onMounted(() => {
                         <flat-pickr
                             id="end_date"
                             :disabled="!form.start_date"
-                            :config="dateFormat(form.start_date)"
+                            :config="dateFormat( {minDate: form.start_date})"
                             :class="{ 'is-invalid': form.errors.end_date }"
                             class="form-control"
                             placeholder="Select End Time"

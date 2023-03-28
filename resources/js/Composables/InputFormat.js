@@ -19,6 +19,8 @@ export function userInputFormat() {
         enableTime: true,
         noCalendar: true,
         dateFormat: "H:i",
+        altInput: true,
+        altFormat: "h:i K",
     };
 
     return {
