@@ -1,8 +1,37 @@
 <template>
-    <div ref="quillEditor" v-show="!isLoading"></div>
-    <div v-show="isLoading" class="loading-quill">
-        Loading Texteditor. . .
+    <div  class="quill"  v-show="!isLoading">
+        <span class="ql-formats">
+            <select class="ql-font"></select>
+            <select class="ql-size"></select>
+        </span>
+        <span class="ql-formats">
+            <button class="ql-bold"></button>
+            <button class="ql-italic"></button>
+            <button class="ql-underline"></button>
+            <button class="ql-strike"></button>
+        </span>
+        <span class="ql-formats">
+            <select class="ql-color"></select>
+            <select class="ql-background"></select>
+        </span>
+        <span class="ql-formats">
+            <button class="ql-script" value="sub"></button>
+            <button class="ql-script" value="super"></button>
+        </span>
+        <span class="ql-formats">
+            <button class="ql-header" value="1"></button>
+            <button class="ql-header" value="2"></button>
+            <button class="ql-blockquote"></button>
+            <button class="ql-code-block"></button>
+        </span>
+        <span class="ql-formats">
+            <button class="ql-clean"></button>
+        </span>
     </div>
+    <div ref="quillEditor" v-show="!isLoading">
+        <p v-html="loadedValue"></p>
+    </div>
+    <div v-show="isLoading" class="loading-quill">Loading</div>
 </template>
 <script>
 export default {
@@ -14,49 +43,29 @@ export default {
             default: null
         },
     },
-    // watch: {
-    //     defaultValue: function(val)
-    //     {
-    //         if(val != this.modelValue)
-    //         {
-    //             this.setContent();
-    //         }
-    //     }
-    // },
     data: function () {
         return {
             isLoading: true,
             editor: null,
-            toolBar: [
-                [{ font: [] }, { size: [] }],
-                ["bold", "italic", "underline", "strike"],
-                [{ color: [], }, { background: [] }],
-                [{ script: "super", }, { script: "sub", }],
-                [{ header: "1", }, { header: "2", }, "blockquote", "code-block"],
-                [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
-                ["direction", { align: [] }],
-                ["link", "image", "video", "formula"],
-                ["clean"],
-            ],
+            loadedValue: null
         };
     },
-    mounted: function () {
+    mounted: function(){
+        this.setContent();
         this.isLoading = true;
             setTimeout(() => {
             this.initialize()
-            this.setContent();
             this.isLoading = false
         }, 1000);
     },
     methods: {
         initialize: function(){
             var self = this;
-            self.editor = new Quill(self.$refs.quillEditor, {
-                bounds: self.$refs.quillEditor,
-                placeholder: "Type Something...",
+            self.editor = new Quill(this.$refs.quillEditor, {
+                bounds: this.$refs.quillEditor,
                 modules: {
                     formula: true,
-                    toolbar: self.toolBar,
+                    toolbar: '.quill',
                 },
                 theme: "snow",
             });
@@ -66,14 +75,10 @@ export default {
             });
         },
         setContent: function(){
-            var self = this;
-            if(!self.editor) {
-                self.initialize()
-            }
-            self.editor.clipboard.dangerouslyPasteHTML(self.defaultValue)
+            this.loadedValue = this.defaultValue
         }
     }
-};
+}
 </script>
 <style>
     .loading-quill {
