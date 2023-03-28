@@ -11,6 +11,7 @@ use App\Http\Requests\User\UpdateUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
+use App\Models\Media;
 
 class UserController extends Controller
 {
@@ -92,10 +93,24 @@ class UserController extends Controller
 
     public function update(Request $request, string $id)
     {
-
-
+        
         $data = User::findOrFail($id);
-        $data->update($request->all());
+        $userArr = $request->all();
+        $userArr['name'] = $request['first_name'] . ' ' . $request['last_name'];
+        $data->update($userArr);
+        
+        //Upload Profile Photo
+        if (isset($request->input('profile_photo', [])['id'])) {
+            if ($request->input('profile_photo', [])['model_id'] != $data->id) {
+                $data->clearMediaCollection('profile_photo');
+            }
+            Media::where('id', $request->input('profile_photo', [])['id'])
+                ->update([
+                    'model_id' => $data->id
+                ]);
+        } else {
+            $data->clearMediaCollection('profile_photo');
+        }
         sleep(1);
 
         if ($request->wantsJson()) {
@@ -103,8 +118,9 @@ class UserController extends Controller
                 ->response()
                 ->setStatusCode(201);
         }
-
-        return redirect()->route('user.profile.index')->with('message', 'Record Saved');
+         return redirect()->back();
+    
+       
     }
 
 
