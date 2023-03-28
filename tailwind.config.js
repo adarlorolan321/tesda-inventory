@@ -9,7 +9,7 @@ module.exports = {
         './resources/views/**/*.blade.php',
         './resources/js/**/*.vue',
     ],
-
+        
     theme: {
         extend: {
             fontFamily: {
@@ -17,6 +17,5 @@ module.exports = {
             },
         },
     },
-
     plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 };
