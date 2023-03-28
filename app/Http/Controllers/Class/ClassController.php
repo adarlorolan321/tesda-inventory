@@ -110,9 +110,11 @@ class ClassController extends Controller
         $data = ClassModel::create($request->validated());
         sleep(1);
 
+        $request['id'] = $data->id;
         if($request['repeat'] && $request['days']){
-            $request['id'] = $data->id;
-            ClassSessionService::addSession($request->only(['id','start_date','end_date','days','additional_coach','start_time','end_time','coach_id']));
+            ClassSessionService::addMultipleSession($request->only(['id','start_date','end_date','days','additional_coach','start_time','end_time','coach_id']));
+        }else{
+            ClassSessionService::saveSession($request->only(['id','start_date','end_date','days','additional_coach','start_time','end_time','coach_id']));
         }
 
         if ($request->wantsJson()) {
