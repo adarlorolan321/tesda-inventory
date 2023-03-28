@@ -1,5 +1,5 @@
 <template>
-    <div  ref="quillEditorToolbar" v-show="!isLoading">
+    <div ref="quillEditorToolbar" v-show="!isLoading">
         <span class="ql-formats">
             <select class="ql-font"></select>
             <select class="ql-size"></select>
@@ -37,29 +37,33 @@
 export default {
     props: {
         modelValue: {
-            default: null
+            default: null,
         },
         defaultValue: {
-            default: null
+            default: null,
         },
     },
     data: function () {
         return {
             isLoading: true,
             editor: null,
-            loadedValue: null
+            loadedValue: null,
         };
     },
-    mounted: function(){
+    mounted: function () {
         this.setContent();
         this.isLoading = true;
-            setTimeout(() => {
-            this.initialize()
-            this.isLoading = false
+        console.log("Initialized");
+        setTimeout(() => {
+            this.isLoading = false;
+            this.initialize();
         }, 1000);
     },
+    unmounted: function () {
+        // this.editor.destory();
+    },
     methods: {
-        initialize: function(){
+        initialize: function () {
             var self = this;
             self.editor = new Quill(this.$refs.quillEditor, {
                 bounds: this.$refs.quillEditor,
@@ -69,25 +73,28 @@ export default {
                 },
                 theme: "snow",
             });
-            self.editor.on('text-change', function(delta, oldDelta, source) {
-                var editorContent = self.$refs.quillEditor.querySelector('.ql-editor').innerHTML
-                self.$emit('update:modelValue', editorContent)
+            self.editor.on("text-change", function (delta, oldDelta, source) {
+                var editorContent =
+                    self.$refs.quillEditor.querySelector(
+                        ".ql-editor"
+                    ).innerHTML;
+                self.$emit("update:modelValue", editorContent);
             });
         },
-        setContent: function(){
-            this.loadedValue = this.defaultValue
-            console.log("not loading")
-        }
-    }
-}
+        setContent: function () {
+            this.loadedValue = this.defaultValue;
+            console.log("not loading");
+        },
+    },
+};
 </script>
 <style>
-    .loading-quill {
-        min-height: 240px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #fff;
-        border: 0.0625rem solid #dbdade;
-    }
+.loading-quill {
+    min-height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border: 0.0625rem solid #dbdade;
+}
 </style>
