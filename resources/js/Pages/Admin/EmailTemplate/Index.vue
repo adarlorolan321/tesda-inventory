@@ -75,93 +75,98 @@ let {
         </div>
         <div class="col-auto">
           <div class="d-flex gap-2 align-items-center">
-            <div class="w-auto">Search:</div>
             <div class="flex-1">
-              <input
-                type="search"
-                placeholder="Search"
-                class="form-control"
-                :value="serverQuery.query"
-                @input="handleServerQuery('query', $event.target.value)"
-              />
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text" id="basic-addon-search31"><i class="ti ti-search"></i></span>
+                    <input
+                        type="search"
+                        placeholder="Search"
+                        class="form-control"
+                        :value="serverQuery.query"
+                        @input="handleServerQuery('query', $event.target.value)"
+                    />
+                </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
     <div class="table-responsive text-nowrap">
-      <table class="table">
-        <thead class="table-light">
-          <tr>
-            <table-header
-              @click="handleServerQuery('sort', 'name')"
-              :serverQuery="serverQuery"
-              serverQueryKey="name"
-            >
-              Name
-            </table-header>
-            <table-header
-              @click="handleServerQuery('sort', 'subject')"
-              :serverQuery="serverQuery"
-              serverQueryKey="subject"
-            >
-              Subject
-            </table-header>
+        <table class="table">
+            <thead class="table-light" style="min-width: 200px;">
+            <tr>
+                <table-header
+                    style="min-width: 200px; width: 30%"
+                    @click="handleServerQuery('sort', 'name')"
+                    :serverQuery="serverQuery"
+                    serverQueryKey="name"
+                >
+                    Name
+                </table-header>
+                <table-header
+                    style="min-width: 200px; width: 30%"
+                    @click="handleServerQuery('sort', 'subject')"
+                    :serverQuery="serverQuery"
+                    serverQueryKey="subject"
+                >
+                    Subject
+                </table-header>
+                <table-header
+                    style="min-width: 200px; width: 30%"
+                    @click="handleServerQuery('sort', 'status')"
+                    :serverQuery="serverQuery"
+                    serverQueryKey="status"
+                >
+                    Status
+                </table-header>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+            <tr v-if="paginatedData.data.length <= 0">
+                <td colspan="999999" class="text-center">No item found</td>
+            </tr>
+            <tr v-for="tableData in paginatedData.data" :key="tableData">
+                <td>{{ tableData.name }}</td>
+                <td>
+                {{ tableData.subject }}
+                </td>
 
-            <table-header
-              @click="handleServerQuery('sort', 'status')"
-              :serverQuery="serverQuery"
-              serverQueryKey="status"
-            >
-              Status
-            </table-header>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody class="table-border-bottom-0">
-          <tr v-if="paginatedData.data.length <= 0">
-            <td colspan="999999" class="text-center">No item found</td>
-          </tr>
-          <tr v-for="tableData in paginatedData.data" :key="tableData">
-            <td>{{ tableData.name }}</td>
-            <td>
-              {{ tableData.subject }}
-            </td>
-
-            <td>
-              <span v-if="tableData.status == 1" class="badge bg-label-success"
-                >Active</span
-              >
-              <span v-else class="badge bg-label-danger">In-active</span>
-            </td>
-            <td>
-              <div class="d-flex gap-2">
-                <inertia-link
-                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" title="Edit"
-                  class="btn btn-icon btn-label-primary waves-effect"
-                  :href="route('email_template.edit', tableData.id)"
-                  ><i class="ti ti-pencil"></i>
-                </inertia-link>
-                <a
-                  class="btn btn-icon btn-label-danger waves-effect"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  data-bs-custom-class="tooltip-danger"
-                  title="Delete"
-                  id="confirm-text"
-                  href="javascript:void(0);"
-                  @click="deletePromise(tableData.id)"
-                  ><i class="ti ti-trash"></i>
-                </a>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                <td>
+                <span v-if="tableData.status == 1" class="badge bg-label-success"
+                    >Active</span
+                >
+                <span v-else class="badge bg-label-danger">In-active</span>
+                </td>
+                <td>
+                <div class="d-flex gap-2">
+                    <inertia-link
+                    data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" title="Edit"
+                    class="btn btn-icon btn-label-primary waves-effect"
+                    :href="route('email_template.edit', tableData.id)"
+                    ><i class="ti ti-pencil"></i>
+                    </inertia-link>
+                    <a
+                    class="btn btn-icon btn-label-danger waves-effect"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    data-bs-custom-class="tooltip-danger"
+                    title="Delete"
+                    id="confirm-text"
+                    href="javascript:void(0);"
+                    @click="deletePromise(tableData.id)"
+                    ><i class="ti ti-trash"></i>
+                    </a>
+                </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
     <div
-      class="card-footer py-3 border-top"
-      v-if="paginatedData && paginatedData.meta.links"
+        class="card-footer py-3 border-top"
+        v-if="paginatedData && paginatedData.meta.links"
     >
       <div class="row justify-content-between">
         <div class="col-auto">
