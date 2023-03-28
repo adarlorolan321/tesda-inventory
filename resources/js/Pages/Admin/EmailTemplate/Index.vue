@@ -42,16 +42,14 @@ let {
         <h5 class="card-title">VENUES</h5>
       </div>
       <div class="card-action-element">
-        <button
-          class="btn btn-primary"
+        <inertia-link
+        class="btn btn-link-primary btn-primary"
           type="button"
-          @click="handleCreate"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offCanvasForm"
-          aria-controls="offCanvasForm"
+          :href="route('email_template.create')"
+         
         >
-          Add Email template
-        </button>
+          Add Email Template
+        </inertia-link>
       </div>
     </div>
     <div class="card-body">
@@ -131,6 +129,7 @@ let {
             <td>
               {{ tableData.subject }}
             </td>
+
             <td>
               <span class="badge bg-label-success">{{ tableData.status }}</span>
             </td>
