@@ -137,6 +137,7 @@ let {
             <td>
               <div class="d-flex gap-2">
                 <inertia-link
+                data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" title="Edit"
                   class="btn btn-icon btn-label-primary waves-effect"
                   :href="route('email_template.edit', tableData.id)"
                   ><i class="ti ti-pencil"></i>
