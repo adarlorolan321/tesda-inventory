@@ -84,7 +84,7 @@ let {
                             v-model="serverQuery.coach_filter"
                             :settings="{
                                 allowClear: true,
-                                 minimumResultsForSearch: -1,
+
                             }"
                             @update:modelValue="handleServerQuery('coach_filter', $event)"
                             placeholder="Filter By Coach"
@@ -99,7 +99,7 @@ let {
                             v-model="serverQuery.service_filter"
                             :settings="{
                                 allowClear: true,
-                                 minimumResultsForSearch: -1,
+
                             }"
                             @update:modelValue="handleServerQuery('service_filter', $event)"
                             placeholder="Filter By Service"
