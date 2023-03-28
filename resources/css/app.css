@@ -90,6 +90,7 @@ body {
 /* width */
 ::-webkit-scrollbar {
     width: 5px;
+    height: 5px;
 }
 
 /* Track */
@@ -108,4 +109,8 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: #7367f0;
 }
+
+/*.select2-selection__clear{*/
+/*    color: red;*/
+/*}*/
 

@@ -62,7 +62,6 @@ let {
             </div>
             <div class="card-action-element">
                 <inertia-link
-                    type="button"
                     class="btn btn-link-primary btn-primary"
                     :href="route('classes.index')"
                 >
