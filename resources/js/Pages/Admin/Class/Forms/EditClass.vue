@@ -213,7 +213,7 @@ onMounted(() => {
                         <label for="start_time">Start Date <span class="required">*</span></label>
                         <flat-pickr
                             id="start_date"
-                            :config="dateFormat({minDate: start_date})"
+                            :config="dateFormat()"
                             :class="{ 'is-invalid': form.errors.start_date }"
                             class="form-control"
                             placeholder="Select Start Date"
