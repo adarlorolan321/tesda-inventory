@@ -18,7 +18,7 @@ return new class extends Migration
             $table->longText('body');
             $table->longText('attachments')->nullable();
             $table->boolean('default')->default('1');
-            $table->string('status')->default('Active');
+            $table->string('status')->default('1');
             $table->timestamps();
         });
     }

@@ -43,10 +43,9 @@ let {
       </div>
       <div class="card-action-element">
         <inertia-link
-        class="btn btn-link-primary btn-primary"
+          class="btn btn-link-primary btn-primary"
           type="button"
           :href="route('email_template.create')"
-         
         >
           Add Email Template
         </inertia-link>
@@ -117,7 +116,7 @@ let {
             >
               Status
             </table-header>
-            <th >Actions</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
@@ -131,7 +130,10 @@ let {
             </td>
 
             <td>
-              <span class="badge bg-label-success">{{ tableData.status }}</span>
+              <span v-if="tableData.status == 1" class="badge bg-label-success"
+                >Active</span
+              >
+              <span v-else class="badge bg-label-danger">In-active</span>
             </td>
             <td>
               <div class="d-flex gap-2">
