@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('classes', function (Blueprint $table) {
-            $table->string('days')->default('[]')->change();
-            $table->string('additional_coach')->default('[]')->change();
+            $table->string('days')->nullable()->default('[]')->change();
+            $table->string('additional_coach')->nullable()->default('[]')->change();
         });
     }
 
