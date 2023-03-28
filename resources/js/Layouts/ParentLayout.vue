@@ -3,6 +3,7 @@ import { usePage, Head } from "@inertiajs/vue3";
 import { computed } from "vue";
 const { props } = usePage();
 const parent = computed(() => usePage().props.parent);
+const title = computed(() => usePage().props.title);
 </script>
 
 <template>
@@ -10,8 +11,8 @@ const parent = computed(() => usePage().props.parent);
     <AdminLayout>
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="fw-bold py-3 mb-4">
-                <span class="text-muted fw-light">Parent / View /</span>
-                {{ parent?.first_name }}
+                <span class="text-muted fw-light"> <a href="/user/parents">Parent</a> / View /
+                {{ parent?.first_name }} /</span> {{ title }}
             </h4>
             <div class="row">
                 <!-- User Sidebar -->
