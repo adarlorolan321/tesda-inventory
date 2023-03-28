@@ -5,7 +5,7 @@ import { ref, computed, onMounted } from "vue";
 import toastr from "toastr";
 // import Swal from "sweetalert2";
 
-export function useCrud(formObject = {}, routeName, routeIndex = null) {
+export function useCrud(formObject = {}, routeName, routeIndex = null, redirect = null) {
     const form = useForm(formObject);
     const formState = ref("create");
     const paginatedData = computed(() => usePage().props.data);
@@ -128,8 +128,12 @@ export function useCrud(formObject = {}, routeName, routeIndex = null) {
             only: ["data", "params", "errors"],
             onSuccess: () => {
                 toastr.success("Record saved");
-                form.reset();
-                hideOffCanvas();
+                if(redirect){
+                    form.reset();
+                    router.visit(route(redirect.redirectTo,redirect.id))
+                }else{
+                    hideOffCanvas();
+                }
             },
         });
     };
@@ -142,8 +146,12 @@ export function useCrud(formObject = {}, routeName, routeIndex = null) {
             only: ["data", "params", "errors"],
             onSuccess: () => {
                 toastr.info("Record updated");
-                form.reset();
-                hideOffCanvas();
+                if(redirect){
+                    router.visit(route(redirect.redirectTo,redirect.id))
+                }else{
+                    form.reset();
+                    hideOffCanvas();
+                }
             },
         });
     };

@@ -51,7 +51,7 @@ let {
     handleServerQuery,
     handleEdit,
     formState,
-} = useCrud(formObject, routeName);
+} = useCrud(formObject, routeName,null,{redirectTo : 'classes.index'});
 </script>
 
 <template>

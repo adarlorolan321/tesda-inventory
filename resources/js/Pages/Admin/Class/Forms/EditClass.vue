@@ -46,6 +46,8 @@ const routeName = "classes";
 const {dateFormat, timeFormat} = userInputFormat();
 const {validateForm} = useValidateForm();
 const {weekDays} = userGlobalFunction();
+const {props} = usePage();
+
 let {
     paginatedData,
     form,
@@ -57,13 +59,10 @@ let {
     handleServerQuery,
     handleEdit,
     formState,
-} = useCrud(formObject, routeName);
-
-const {props} = usePage();
+} = useCrud(formObject, routeName, null , {redirectTo: 'classes.update-tab',id: props.classModel ? props.classModel.id  : props.data.id});
 
 onMounted(() => {
     if (props.classModel) {
-        console.log('lll')
         handleEdit(props.classModel);
     } else {
         handleEdit(props.data);
