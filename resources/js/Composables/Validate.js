@@ -26,20 +26,13 @@ export function useValidateForm() {
         }
     }
 
-    const validateForm = debounce((validationRule, form, value, key,{option_key,option_value}) => {
+    const validateForm = debounce((validationRule, form, value, key) => {
 
         if (validationRule.indexOf('required') >= 0) {
             if (!value || value == "") {
                 form.setError(key, 'This is a required field')
                     // form.errors[key] = 'This is a required field';
                 return;
-            }
-        }
-        if (validationRule.indexOf('min') >= 0) {
-            if(option_key && option_value){
-                if ( option_key == 'time') {
-
-                }
             }
         }
 

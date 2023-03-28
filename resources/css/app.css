@@ -110,3 +110,7 @@ body {
     background: #7367f0;
 }
 
+.select2-selection__clear{
+    color: red;
+}
+
