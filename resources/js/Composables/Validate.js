@@ -38,7 +38,7 @@ export function useValidateForm() {
         if (validationRule.indexOf('min') >= 0) {
             if(option_key && option_value){
                 if ( option_key == 'time') {
-                   
+
                 }
             }
         }

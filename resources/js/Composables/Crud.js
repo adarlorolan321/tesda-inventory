@@ -39,6 +39,13 @@ export function useCrud(formObject = {}, routeName, routeIndex = null) {
             if (serverParams.value.role) {
                 serverQuery.value.role = serverParams.value.role;
             }
+
+            if (serverParams.value.coach_filter) {
+                serverQuery.value.coach_filter = serverParams.value.coach_filter;
+            }
+            if (serverParams.value.service_filter) {
+                serverQuery.value.service_filter = serverParams.value.service_filter;
+            }
         }
     });
 
