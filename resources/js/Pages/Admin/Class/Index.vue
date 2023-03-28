@@ -97,9 +97,10 @@ let {
         </div>
         <div class="table-responsive text-nowrap">
             <table class="table">
-                <thead class="table-light">
+                <thead class="table-light" style="min-width: 200px;">
                     <tr>
                         <table-header
+                            style="min-width: 200px; width: 30%"
                             @click="handleServerQuery('sort', 'name')"
                             :serverQuery="serverQuery"
                             serverQueryKey="name"
@@ -107,6 +108,7 @@ let {
                             Name
                         </table-header>
                         <table-header
+                            style="min-width: 200px; width: 30%"
                             @click="handleServerQuery('sort', 'days')"
                             :serverQuery="serverQuery"
                             serverQueryKey="days"
@@ -114,6 +116,7 @@ let {
                             Day
                         </table-header>
                         <table-header
+                            style="min-width: 200px; width: 30%"
                             @click="handleServerQuery('sort', 'service_name')"
                             :serverQuery="serverQuery"
                             serverQueryKey="service_name"
@@ -121,13 +124,14 @@ let {
                             Service
                         </table-header>
                         <table-header
+                            style="min-width: 200px; width: 30%"
                             @click="handleServerQuery('sort', 'coach_name')"
                             :serverQuery="serverQuery"
                             serverQueryKey="coach_name"
                         >
                             Coach
                         </table-header>
-                        <th>Actions</th>
+                        <th style="width: 150px;">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
