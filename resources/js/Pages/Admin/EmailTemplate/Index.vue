@@ -101,9 +101,10 @@ let {
         </div>
         <div class="table-responsive text-nowrap">
             <table class="table">
-                <thead class="table-light">
+                <thead class="table-light" style="min-width: 200px;">
                     <tr>
                         <table-header
+                            style="min-width: 200px; width: 30%"
                             @click="handleServerQuery('sort', 'name')"
                             :serverQuery="serverQuery"
                             serverQueryKey="name"
@@ -111,14 +112,15 @@ let {
                             Name
                         </table-header>
                         <table-header
+                            style="min-width: 200px; width: 30%"
                             @click="handleServerQuery('sort', 'subject')"
                             :serverQuery="serverQuery"
                             serverQueryKey="subject"
                         >
                             Subject
                         </table-header>
-
                         <table-header
+                            style="min-width: 200px; width: 30%"
                             @click="handleServerQuery('sort', 'status')"
                             :serverQuery="serverQuery"
                             serverQueryKey="status"
