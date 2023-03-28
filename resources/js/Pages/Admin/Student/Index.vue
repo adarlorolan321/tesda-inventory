@@ -226,17 +226,21 @@ let {
         </div>
         <div class="table-responsive text-nowrap">
             <table class="table">
-                <thead class="table-light">
+                <thead class="table-light" style="min-width: 200px;">
                     <tr>
-                        <table-header style="min-width: 200px" @click="handleServerQuery('sort', 'name')"
+                        <table-header
+                            style="min-width: 200px; width: 30%"
+                            @click="handleServerQuery('sort', 'name')"
                             :serverQuery="serverQuery" serverQueryKey="name">
                             Name
                         </table-header>
-                        <table-header style="min-width: 200px" @click="handleServerQuery('sort', 'parent_name')"
+                        <table-header
+                            style="min-width: 200px; width: 30%"
+                            @click="handleServerQuery('sort', 'parent_name')"
                             :serverQuery="serverQuery" serverQueryKey="parent_name">
                             Parent Name
                         </table-header>
-                        <th style="width: 10px;">Actions</th>
+                        <th style="width: 150px;">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
