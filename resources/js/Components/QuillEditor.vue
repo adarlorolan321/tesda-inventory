@@ -14,15 +14,15 @@ export default {
             default: null
         },
     },
-    watch: {
-        defaultValue: function(val)
-        {
-            if(val != this.modelValue)
-            {
-                this.setContent();
-            }
-        }
-    },
+    // watch: {
+    //     defaultValue: function(val)
+    //     {
+    //         if(val != this.modelValue)
+    //         {
+    //             this.setContent();
+    //         }
+    //     }
+    // },
     data: function () {
         return {
             isLoading: true,
@@ -42,11 +42,11 @@ export default {
     },
     mounted: function () {
         this.isLoading = true;
-       setTimeout(() => {
-        this.initialize()
-        this.setContent();
-        this.isLoading = false
-       }, 1000);
+            setTimeout(() => {
+            this.initialize()
+            this.setContent();
+            this.isLoading = false
+        }, 1000);
     },
     methods: {
         initialize: function(){
