@@ -15,15 +15,16 @@ import { useValidateForm } from "../../../Composables/Validate.js";
 import { userGlobalFunction } from "../../../Composables/GlobalFunction.js";
 
 const { props } = usePage();
-const formObject = {
-  name: null,
-  subject: null,
-  body: null,
-  attachments: null,
-  default: true,
-  status: true,
-};
 
+const formObject = {
+  id: props.data.id,
+  name: props.data.name,
+  subject: props.data.subject,
+  body: props.data.body,
+  attachments: props.data.attachments,
+  default: props.data.default==1?true:false,
+  status: props.data.status==1?true:false,
+};
 
 const routeName = "email_template";
 
@@ -41,18 +42,23 @@ let {
   handleServerQuery,
   handleEdit,
   formState,
-} = useCrud(formObject, routeName,null,{redirectTo : 'email_template.index'});
+} = useCrud(formObject, routeName, null, {
+  redirectTo: "email_template.index",
+});
+onMounted(() => {     
+        // handleEdit(props.data);   
+});
 </script>
 
 <template>
   <div class="card card-action">
     <div class="card-header">
       <div class="card-action-title align-items-center">
-        <h5 class="card-title">ADD EMAIL TEMPLATE</h5>
+        <h5 class="card-title">EDIT EMAIL TEMPLATE</h5>
       </div>
       <div class="card-action-element">
         <inertia-link
-        
+         
           class="btn btn-link-primary btn-primary"
           :href="route('email_template.index')"
         >
@@ -60,6 +66,7 @@ let {
         </inertia-link>
       </div>
     </div>
+  
     <div class="card-body">
       <div class="row">
         <div class="col-md-12">
@@ -81,14 +88,15 @@ let {
             </div>
           </div>
         </div>
+
         <div class="col-md-12">
           <div class="form-group mb-3">
-            <label for="status" >Subject <span class="required">*</span></label>
+            <label for="status">Subject <span class="required">*</span></label>
             <textarea
-            :class="{
+              :class="{
                 'is-invalid': form.errors.subject,
               }"
-            rows="4"
+              rows="4"
               class="form-control"
               aria-label="With textarea"
               v-model="form.subject"
@@ -100,13 +108,15 @@ let {
           </div>
         </div>
         <div class="col-md-12">
-          <div class="form-group mb-3" :class="{
-                'is-invalid': form.errors.body,
-              }">
+          <div
+            class="form-group mb-3"
+            :class="{
+              'is-invalid': form.errors.body,
+            }"
+          >
             <label for="body">Body <span class="required">*</span></label>
             <QuillEditor
-            
-              :defaultValue="defaultValue"
+              :defaultValue="form.body"
               v-model="form.body"
               @update:modelValue="form.clearErrors('body')"
             ></QuillEditor>
@@ -119,7 +129,7 @@ let {
           <div class="form-group mb-3">
             <label for="attachments">Attachments</label>
             <QuillEditor
-              :defaultValue="defaultValue"
+              :defaultValue="form.attachments"
               v-model="form.attachments"
             ></QuillEditor>
           </div>
@@ -127,12 +137,13 @@ let {
         <div class="col-md-6">
           <div class="d-flex">
             <div class="form-group mb-5 me-5">
+               
               <div class=" ">Default</div>
               <label class="switch">
                 <input
                   type="checkbox"
                   v-model="form.default"
-                  :checked="form.default"
+                  :checked="true"
                   class="switch-input"
                 />
                 <span class="switch-toggle-slider">
@@ -149,7 +160,7 @@ let {
                 <input
                   type="checkbox"
                   v-model="form.status"
-                  :checked="form.status"
+                  :checked="form.status==1"
                   class="switch-input"
                 />
                 <span class="switch-toggle-slider">

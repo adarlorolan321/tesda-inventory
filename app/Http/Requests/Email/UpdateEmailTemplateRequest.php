@@ -22,7 +22,7 @@ class UpdateEmailTemplateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["nullable"],
+            "name" => ["required"],
             "subject" => ["required"],
             "default" => ["required"],
             "body" => ["required"],

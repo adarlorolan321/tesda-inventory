@@ -1,5 +1,5 @@
 <template>
-    <div  class="quill"  v-show="!isLoading">
+    <div  ref="quillEditorToolbar" v-show="!isLoading">
         <span class="ql-formats">
             <select class="ql-font"></select>
             <select class="ql-size"></select>
@@ -65,7 +65,7 @@ export default {
                 bounds: this.$refs.quillEditor,
                 modules: {
                     formula: true,
-                    toolbar: '.quill',
+                    toolbar: this.$refs.quillEditorToolbar,
                 },
                 theme: "snow",
             });
@@ -76,6 +76,7 @@ export default {
         },
         setContent: function(){
             this.loadedValue = this.defaultValue
+            console.log("not loading")
         }
     }
 }

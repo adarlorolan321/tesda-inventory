@@ -106,6 +106,8 @@ class EmailTemplateController extends Controller
         if ($request->wantsJson()) {
             return new EmailTemplateListResource($data);
         }
+
+        // dd($data);
         return Inertia::render('Admin/EmailTemplate/Edit', [
             'data' => $data
         ]);

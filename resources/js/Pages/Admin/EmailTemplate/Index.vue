@@ -39,12 +39,11 @@ let {
   <div class="card card-action">
     <div class="card-header">
       <div class="card-action-title align-items-center">
-        <h5 class="card-title">VENUES</h5>
+        <h5 class="card-title">EMAIL TEMPLATES</h5>
       </div>
       <div class="card-action-element">
         <inertia-link
           class="btn btn-link-primary btn-primary"
-          type="button"
           :href="route('email_template.create')"
         >
           Add Email Template
@@ -137,16 +136,11 @@ let {
             </td>
             <td>
               <div class="d-flex gap-2">
-                <a
+                <inertia-link
                   class="btn btn-icon btn-label-primary waves-effect"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  data-bs-custom-class="tooltip-primary"
-                  title="Edit"
-                  @click="handleEdit(tableData)"
-                  href="javascript:void(0);"
+                  :href="route('email_template.edit', tableData.id)"
                   ><i class="ti ti-pencil"></i>
-                </a>
+                </inertia-link>
                 <a
                   class="btn btn-icon btn-label-danger waves-effect"
                   data-bs-toggle="tooltip"

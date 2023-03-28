@@ -13,7 +13,7 @@ export function useMenu() {
         { label: "Orders", route: "orders.index", icon: "ti ti-shopping-cart", only: ["data", "params"] },
         { label: "Messages", route: "messages.index", icon: "ti ti-message-2", only: ["data", "params"] },
         { label: "Merchandise", route: "merchandises.index", icon: "ti ti-building-store", only: ["data", "params"] },
-
+        { label: "Email Templates", route: "email_template.index", icon: "ti ti-building-store", only: ["data", "params"] },
         {
             label: "Settings",
             route: "settings.*",
