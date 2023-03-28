@@ -14,15 +14,15 @@ export default {
             default: null
         },
     },
-    watch: {
-        defaultValue: function(val)
-        {
-            if(val != this.modelValue)
-            {
-                this.setContent();
-            }
-        }
-    },
+    // watch: {
+    //     defaultValue: function(val)
+    //     {
+    //         if(val != this.modelValue)
+    //         {
+    //             this.setContent();
+    //         }
+    //     }
+    // },
     data: function () {
         return {
             isLoading: true,
