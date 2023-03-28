@@ -34,15 +34,27 @@ class ClassController extends Controller
         $data = ClassModel::query()
             ->leftJoin('users', 'classes.coach_id', '=', 'users.id')
             ->leftJoin('services', 'classes.service_id', '=', 'services.id')
-            ->select('classes.name', 'classes.days', 'services.name as service_name', 'users.name as coach_name', 'classes.id')
-            ->where(function ($query) use ($queryString) {
+            ->select('classes.name', 'classes.days', 'services.id as service_id', 'services.name as service_name', 'users.name as coach_name', 'classes.id')
+            ->where(function ($query) use ($queryString, $request) {
                 if ($queryString && $queryString != '') {
-                    // filter result
                     $query->where('classes.name', 'like', '%' . $queryString . '%')
                         ->orWhere('classes.days', 'like', '%' . $queryString . '%')
                         ->orWhere('services.name', 'like', '%' . $queryString . '%')
                         ->orWhere('users.name', 'like', '%' . $queryString . '%');
                 }
+            })
+//            ->when($request->has('coach_filter'), function ($query) use ($request) {
+//                $query->where('users.id',$request['coach_filter']);
+//            })
+            ->where(function ($query) use ($queryString, $request) {
+                $query-> when($request->has('service_filter'), function ($query) use ($request) {
+                    $query->where('services.id', $request['service_filter']);
+                });
+            })
+            ->where(function ($query) use ($queryString, $request) {
+                $query-> when($request->has('coach_filter'), function ($query) use ($request) {
+                    $query->where('users.id', $request['coach_filter']);
+                });
             })
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
                 $query->orderBy($sort[0], $order);
@@ -53,6 +65,25 @@ class ClassController extends Controller
 
         $props = [
             'data' => ClassListResource::collection($data),
+            'coaches' => User::whereHas('roles', function ($query) {
+                $query->where('name', 'Coach');
+            })
+                ->orderBy('name', 'ASC')
+                ->get(['id', 'name'])
+                ->map(function ($parent) {
+                    return [
+                        'id' => $parent->id,
+                        'text' => $parent->name
+                    ];
+                }),
+            'services' => Service::orderBy('name', 'ASC')
+                ->get(['id', 'name'])
+                ->map(function ($parent) {
+                    return [
+                        'id' => $parent->id,
+                        'text' => $parent->name
+                    ];
+                }),
             'params' => $request->all(),
         ];
 
@@ -111,9 +142,11 @@ class ClassController extends Controller
         $data = ClassModel::create($request->validated());
         sleep(1);
 
+        $request['id'] = $data->id;
         if ($request['repeat'] && $request['days']) {
-            $request['id'] = $data->id;
-            ClassSessionService::addSession($request->only(['id', 'start_date', 'end_date', 'days', 'additional_coach', 'start_time', 'end_time', 'coach_id']));
+            ClassSessionService::saveMultipleSession($request->only(['id', 'start_date', 'end_date', 'days', 'additional_coach', 'start_time', 'end_time', 'coach_id']));
+        } else {
+            ClassSessionService::saveSession($request->only(['id', 'start_date', 'end_date', 'days', 'additional_coach', 'start_time', 'end_time', 'coach_id']));
         }
 
         if ($request->wantsJson()) {
