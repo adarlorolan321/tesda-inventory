@@ -368,7 +368,11 @@ let {
                         <div class="d-flex gap-2 align-items-center">
                             <div class="flex-1">
                                 <div class="input-group input-group-merge">
-                                    <span class="input-group-text" id="basic-addon-search31"><i class="ti ti-search"></i></span>
+                                    <span
+                                        class="input-group-text"
+                                        id="basic-addon-search31"
+                                        ><i class="ti ti-search"></i
+                                    ></span>
                                     <input
                                         type="search"
                                         placeholder="Search"
@@ -390,7 +394,7 @@ let {
         </div>
         <div class="table-responsive text-nowrap">
             <table class="table">
-                <thead class="table-light" style="min-width: 200px;">
+                <thead class="table-light" style="min-width: 200px">
                     <tr>
                         <th class="sortable">Photo</th>
                         <th
@@ -414,11 +418,7 @@ let {
                                 "
                             ></i>
                         </th>
-                        <th
-                            style="min-width: 200px; width: 30%"
-                            @click="handleServerQuery('sort', 'role')">
-                            Role
-                        </th>
+                        <th style="min-width: 200px; width: 30%">Role</th>
                         <th
                             style="min-width: 200px; width: 30%"
                             class="sortable"
