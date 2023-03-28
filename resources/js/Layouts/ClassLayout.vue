@@ -12,8 +12,8 @@ const title = computed(() => usePage().props.title);
     <AdminLayout>
         <div class="">
             <h4 class="fw-bold py-3 mb-4">
-                <span class="text-muted fw-light">Class / Details /</span>
-                {{ classModel?.name }} / {{ title }}
+                <span class="text-muted fw-light"> <a href="/classes"> Class</a> / Details /
+                {{ classModel?.name }} /</span> {{ title }}
             </h4>
             <div class="row">
                 <!-- User Sidebar -->
