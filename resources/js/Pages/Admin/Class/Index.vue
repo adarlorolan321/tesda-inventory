@@ -40,7 +40,6 @@ let {
             </div>
             <div class="card-action-element">
                 <inertia-link
-                    type="button"
                     class="btn btn-link-primary btn-primary"
                     :href="route('classes.create')"
                 >
@@ -84,7 +83,7 @@ let {
                             v-model="serverQuery.coach_filter"
                             :settings="{
                                 allowClear: true,
-                                 minimumResultsForSearch: -1,
+
                             }"
                             @update:modelValue="handleServerQuery('coach_filter', $event)"
                             placeholder="Filter By Coach"
@@ -99,7 +98,7 @@ let {
                             v-model="serverQuery.service_filter"
                             :settings="{
                                 allowClear: true,
-                                 minimumResultsForSearch: -1,
+
                             }"
                             @update:modelValue="handleServerQuery('service_filter', $event)"
                             placeholder="Filter By Service"
@@ -109,18 +108,21 @@ let {
                     </div>
                     <div class="d-flex gap-2 align-items-center">
                         <div class="flex-1">
-                            <input
-                                type="search"
-                                placeholder="Search"
-                                class="form-control"
-                                :value="serverQuery.query"
-                                @input="
-                                    handleServerQuery(
-                                        'query',
-                                        $event.target.value
-                                    )
-                                "
-                            />
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text" id="basic-addon-search31"><i class="ti ti-search"></i></span>
+                                <input
+                                    type="search"
+                                    placeholder="Search"
+                                    class="form-control"
+                                    :value="serverQuery.query"
+                                    @input="
+                                        handleServerQuery(
+                                            'query',
+                                            $event.target.value
+                                        )
+                                    "
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -128,38 +130,42 @@ let {
         </div>
         <div class="table-responsive text-nowrap">
             <table class="table">
-                <thead class="table-light">
-                <tr>
-                    <table-header
-                        @click="handleServerQuery('sort', 'name')"
-                        :serverQuery="serverQuery"
-                        serverQueryKey="name"
-                    >
-                        Name
-                    </table-header>
-                    <table-header
-                        @click="handleServerQuery('sort', 'days')"
-                        :serverQuery="serverQuery"
-                        serverQueryKey="days"
-                    >
-                        Day
-                    </table-header>
-                    <table-header
-                        @click="handleServerQuery('sort', 'service_name')"
-                        :serverQuery="serverQuery"
-                        serverQueryKey="service_name"
-                    >
-                        Service
-                    </table-header>
-                    <table-header
-                        @click="handleServerQuery('sort', 'coach_name')"
-                        :serverQuery="serverQuery"
-                        serverQueryKey="coach_name"
-                    >
-                        Coach
-                    </table-header>
-                    <th>Actions</th>
-                </tr>
+                <thead class="table-light" style="min-width: 200px;">
+                    <tr>
+                        <table-header
+                            style="min-width: 200px; width: 30%"
+                            @click="handleServerQuery('sort', 'name')"
+                            :serverQuery="serverQuery"
+                            serverQueryKey="name"
+                        >
+                            Name
+                        </table-header>
+                        <table-header
+                            style="min-width: 200px; width: 30%"
+                            @click="handleServerQuery('sort', 'days')"
+                            :serverQuery="serverQuery"
+                            serverQueryKey="days"
+                        >
+                            Day
+                        </table-header>
+                        <table-header
+                            style="min-width: 200px; width: 30%"
+                            @click="handleServerQuery('sort', 'service_name')"
+                            :serverQuery="serverQuery"
+                            serverQueryKey="service_name"
+                        >
+                            Service
+                        </table-header>
+                        <table-header
+                            style="min-width: 200px; width: 30%"
+                            @click="handleServerQuery('sort', 'coach_name')"
+                            :serverQuery="serverQuery"
+                            serverQueryKey="coach_name"
+                        >
+                            Coach
+                        </table-header>
+                        <th>Actions</th>
+                    </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
                 <tr v-if="paginatedData.data.length <= 0">
@@ -193,7 +199,7 @@ let {
                     <td>
                         <div class="d-flex gap-2">
                             <inertia-link
-                                class="btn btn-icon btn-label-info waves-effect"
+                                class="btn btn-icon btn-label-info waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-info" data-bs-original-title="View"
                                 :href="
                                         route(
                                             'classes.sessions-tab',
@@ -203,7 +209,7 @@ let {
                             ><i class="ti ti-eye"></i>
                             </inertia-link>
                             <inertia-link
-                                class="btn btn-icon btn-label-primary waves-effect"
+                                class="btn btn-icon btn-label-primary waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" data-bs-original-title="Edit"
                                 :href="
                                         route(
                                             'classes.update-tab',
@@ -213,7 +219,7 @@ let {
                             ><i class="ti ti-pencil"></i>
                             </inertia-link>
                             <a
-                                class="btn btn-icon btn-label-danger waves-effect"
+                                class="btn btn-icon btn-label-danger waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-danger" data-bs-original-title="Delete"
                                 href="javascript:void(0);"
                                 @click="deletePromise(tableData.id)"
                             ><i class="ti ti-trash"></i>

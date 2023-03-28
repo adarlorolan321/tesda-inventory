@@ -90,6 +90,7 @@ body {
 /* width */
 ::-webkit-scrollbar {
     width: 5px;
+    height: 5px;
 }
 
 /* Track */
@@ -113,4 +114,8 @@ body {
     border: 0.0625rem solid #ea5455 !important;
 
 }
+
+/*.select2-selection__clear{*/
+/*    color: red;*/
+/*}*/
 

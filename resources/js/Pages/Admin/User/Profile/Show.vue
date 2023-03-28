@@ -1,63 +1,44 @@
+
 <script>
 import ProfileLayout from "@/Layouts/ProfileLayout.vue";
-
-import { useCrud } from "@/Composables/Crud.js";
-import Swal from "sweetalert2";
-import { useForm, router, usePage } from "@inertiajs/vue3";
-import { ref } from "vue";
-// Swal.fire("Email sent!", "A valid email address with an existing account has been submitted by user","success" );
 export default {
-    setup() {
-        const routeName = "user.profile";
-        // const { form, updatePromise } = useCrud(formObject,routeName);
-        const page = usePage();
-        const user = page.props.auth.user;
-        const form = useForm({
+    layout: ProfileLayout,
+};
+</script>
+
+<script setup>
+import { useCrud } from "@/Composables/Crud.js";
+import { useValidateForm } from "@/Composables/Validate.js";
+import { usePage } from "@inertiajs/vue3";
+
+const routeName = "user.profile";
+const page = usePage();
+const user = page.props.auth.user;
+
+
+
+const formObject = {
+            name:user.first_name+" "+user.last_name,
             first_name: user.first_name,
             last_name: user.last_name,
             email: user.email,
             profile_photo_url: user.profile_photo_url,
             phone: user.phone,
             profile_photo: user.profile_photo,
-        });
-
-        const submitForm = () => {
-            form.put(route("user.profile.update", { id: user.id }), {
-                onSuccess: (response) => {
-                    Swal.fire("Records saved.", "", "success");
-                },
-                onError: (error) => {
-                    console.table(error);
-                },
-            });
-        };
-
-        return {
-            // routeName,
-            form,
-            submitForm,
-        };
-    },
-
-    layout: ProfileLayout,
-    data() {
-        return {
-            imageUrl: null,
-        };
-    },
-    methods: {
-        loadImage() {
-            const file = this.$refs.fileInput.files[0];
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                this.imageUrl = event.target.result;
-            };
-            reader.readAsDataURL(file);
-        },
-
-        uploadImage() {},
-    },
+            id: user.id,
+            role: user.role,
+            status:user.status
 };
+
+const { validateForm } = useValidateForm();
+let {
+    form,
+    updatePromise, 
+    isLoadingComponents,
+    handleEdit,
+    formState
+} = useCrud(formObject, routeName);
+handleEdit(user.id);
 </script>
 
 <template>
@@ -69,94 +50,147 @@ export default {
                 <!-- Account -->
                 <div class="card-body">
                     <div
-                        class="d-flex align-items-start align-items-sm-center gap-4"
+                        class="offcanvas-body mt-4 mx-0 flex-grow-0"
                     >
-                        <img
-                            :src="
-                                imageUrl
-                                    ? imageUrl
-                                    : $page.props.auth.user.profile_photo_url
-                            "
-                            alt="user-avatar"
-                            class="d-block w-px-100 h-px-100 rounded"
-                            id="uploadedAvatar"
-                        />
-                        <div class="button-wrapper">
-                            <label
-                                for="upload"
-                                class="btn btn-primary me-2 mb-3"
-                                tabindex="0"
+                    <div class="form-group mb-4 dropzone-profile-photo">
+                            <label for="name">Profile Photo</label>
+                          
+                            <dropzone
+                                collection="profile_photo"
+                                v-if="isLoadingComponents"
+                                :url="route('api.media.upload')"
+                                type="profile"
+                                model="User"
+                                :value="form.profile_photo"
+                                @input="
+                                    ($event) => {
+                                        form.profile_photo = $event;
+                                        form.clearErrors('profile_photo');
+                                    }
+                                "
+                                message="Drop files here or click to upload profile photo"
+                                acceptedFiles="image/jpeg,image/png"
+                                @error="
+                                    ($event) => {
+                                        if ($event && $event[0]) {
+                                            form.setError(
+                                                'profile_photo',
+                                                $event[0]
+                                            );
+                                        }
+                                    }
+                                "
                             >
-                                <span class="d-none d-sm-block"
-                                    >Upload new photo</span
-                                >
-                                <i class="ti ti-upload d-block d-sm-none"></i>
-                                <input
-                                    @change="loadImage"
-                                    type="file"
-                                    id="upload"
-                                    class="account-file-input"
-                                    hidden
-                                    ref="fileInput"
-                                />
-                            </label>
-                            <button
-                                @click="imageUrl = null"
-                                type="button"
-                                class="btn btn-label-secondary account-image-reset mb-3"
-                            >
-                                <i
-                                    class="ti ti-refresh-dot d-block d-sm-none"
-                                ></i>
-                                <span class="d-none d-sm-block">Reset</span>
-                            </button>
+                            </dropzone>
+                            <div v-else>
+                                <div class="dropzone" ref="dropzone">
+                                    <div class="dz-message needsclick">
+                                        Please Wait
+                                    </div>
+                                </div>
+                            </div>
 
-                            <div class="text-muted">
-                                Allowed JPG, GIF or PNG. Max size of 800K
+                            <div
+                                class="v-invalid-feedback"
+                                v-if="form.errors.profile_photo"
+                            >
+                                {{ form.errors.profile_photo }}
                             </div>
                         </div>
+              
+
                     </div>
                 </div>
                 <hr class="my-0" />
                 <div class="card-body">
-                    <form id="formAccountSettings" @submit.prevent="submitForm">
                         <div class="row">
                             <div class="mb-3 col-md-6">
                                 <label for="firstName" class="form-label"
                                     >First Name</label
                                 >
                                 <input
-                                    class="form-control"
-                                    type="text"
-                                    id="firstName"
-                                    name="firstName"
-                                    v-model="form.first_name"
-                                    autofocus
-                                />
+                                type="text"
+                                id="last_name"
+                                class="form-control"
+                                v-model="form.first_name"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('first_name');
+                                        validateForm(
+                                            ['required'],
+                                            form,
+                                            $event.target.value,
+                                            'first_name'
+                                        );
+                                    }
+                                "
+                                placeholder="Enter First Name"
+                                :class="{
+                                    'is-invalid': form.errors.first_name,
+                                }"
+                            />
+                            <div class="invalid-feedback">
+                                {{ form.errors.last_name }}
+                            </div>
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="lastName" class="form-label"
                                     >Last Name</label
                                 >
                                 <input
-                                    class="form-control"
-                                    type="text"
-                                    name="lastName"
-                                    id="lastName"
-                                    v-model="form.last_name"
-                                />
+                                type="text"
+                                id="last_name"
+                                class="form-control"
+                                v-model="form.last_name"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('last_name');
+                                        validateForm(
+                                            ['required'],
+                                            form,
+                                            $event.target.value,
+                                            'last_name'
+                                        );
+                                    }
+                                "
+                                placeholder="Enter Last Name"
+                                :class="{
+                                    'is-invalid': form.errors.last_name,
+                                }"
+                            />
+                            <div class="invalid-feedback">
+                                {{ form.errors.last_name }}
+                            </div>
+
                             </div>
                             <div class="mb-3 col-md-6">
                                 <label for="email" class="form-label"
                                     >E-mail</label
                                 >
-                                <input
-                                    class="form-control"
-                                    type="text"
-                                    id="email"
-                                    name="email"
-                                    v-model="form.email"
-                                />
+                                  <input
+                                type="text"
+                                id="last_name"
+                                class="form-control"
+                                v-model="form.email"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('email');
+                                        validateForm(
+                                            ['required'],
+                                            form,
+                                            $event.target.value,
+                                            'email'
+                                        );
+                                    }
+                                "
+                                placeholder="Enter email"
+                                :class="{
+                                    'is-invalid': form.errors.email,
+                                }"
+                            />
+                            <div class="invalid-feedback">
+                                {{ form.errors.email }}
+                            </div>
                             </div>
 
                             <div class="mb-3 col-md-6">
@@ -168,12 +202,29 @@ export default {
                                         >US (+1)</span
                                     >
                                     <input
-                                        type="text"
-                                        id="phoneNumber"
-                                        name="phoneNumber"
-                                        class="form-control"
-                                        v-model="form.phone"
-                                    />
+                                type="text"
+                                id="last_name"
+                                class="form-control"
+                                v-model="form.phone"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('phone');
+                                        validateForm(
+                                            ['required'],
+                                            form,
+                                            $event.target.value,
+                                            'phone'
+                                        );
+                                    }
+                                "
+                                placeholder="Enter Phone Number"
+                                :class="{
+                                    'is-invalid': form.errors.phone,
+                                }"
+                            />
+                            <div class="invalid-feedback">
+                                {{ form.errors.last_name }}
+                            </div>
                                 </div>
                             </div>
                             <div class="mb-3 col-md-6">
@@ -187,16 +238,6 @@ export default {
                                     disabled
                                     :value="$page.props.auth.user.role"
                                 />
-
-                                <!-- <select  id="role" class="select2 form-select">
-                              <option value="">Select Role</option>
-                              <option :selected="$page.props.auth.user.role == 'Admin'" value="Admin">Admin</option>
-                              <option :selected="$page.props.auth.user.role == 'Coach'"  value="Coach">Coach</option>
-                              <option :selected="$page.props.auth.user.role == 'Staff'" value="Staff">Staff</option>
-                              <option :selected="$page.props.auth.user.role == 'Student'" value="Student">Student</option>
-                              <option :selected="$page.props.auth.user.role == 'Parent'" value="Parent">Parent</option>
-                              <option :selected="$page.props.auth.user.role == 'Client'" value="Client">Client</option>
-                            </select> -->
                             </div>
 
                             <div class="mb-3 col-md-6">
@@ -208,24 +249,28 @@ export default {
                                     class="form-control"
                                     disabled
                                     :value="
-                                        $page.props.auth.user.status == null
+                                        $page.props.auth.user.status
                                             ? 'Active'
-                                            : $page.props.auth.user.status
+                                            : 'In-active'
                                     "
                                 />
-                                <!-- <select id="currency" class="select2 form-select">
-                              <option value="">Select Status</option>
-                              <option :selected="$page.props.auth.user.status == 'Active'" value="usd" selected>Active</option>
-                              <option :selected="$page.props.auth.user.status == 'InActive'" value="euro">InActive</option>
-                            </select> -->
                             </div>
                         </div>
                         <div style="float: right" class="mt-2 mr-24">
-                            <button type="submit" class="btn btn-primary me-2">
-                                Update
-                            </button>
+                            <button
+                                class="btn btn-primary me-2"
+                                @click="updatePromise"
+                                :disabled="form.processing || form.hasErrors"
+                        >
+                            <span
+                                v-if="form.processing"
+                                class="spinner-border me-1"
+                                role="status"
+                                aria-hidden="true"
+                            ></span>
+                            Save changes
+                        </button>
                         </div>
-                    </form>
                 </div>
                 <!-- /Account -->
             </div>

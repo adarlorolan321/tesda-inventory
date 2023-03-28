@@ -145,6 +145,7 @@ class ParentController extends Controller
         }
                 
         return Inertia::render('Admin/User/Parent/Show', [
+            'title' => 'Players',
             'parent' => $parent,
             'data' => StudentListResource::collection($students)
         ]);

@@ -53,6 +53,7 @@ class TabController extends Controller
             return new ClassListResource($data);
         }
         return Inertia::render('Admin/Class/Show', [
+            'title' => 'Update',
             'classModel' => $data,
             'services' => Service::orderBy('name','ASC')->get(['id', 'name'])
                 ->map(function ($parent) {

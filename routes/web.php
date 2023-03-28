@@ -46,7 +46,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
             // Profile Controller
 
-            Route::put('profile/{id}', [UserController::class, 'update'])->name('profile.update');
+            Route::patch('profile/{id}', [UserController::class, 'update'])->name('profile.update');
             Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
             Route::get('profile/change-password', [ProfileController::class, 'changePasswordIndex'])->name('profile.change_password');
             Route::post('profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change_password');
