@@ -30,8 +30,12 @@ class EmailTemplateController extends Controller
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
-                    // $query->where('column', 'like', '%' . $queryString . '%')
-                    //     ->orWhere('column', 'like', '%' . $queryString . '%');
+                    $query->where('name', 'like', '%' . $queryString . '%')
+                        ->orWhere('subject', 'like', '%' . $queryString . '%')
+                        ->orWhere('default', 'like', '%' . $queryString . '%')
+                        ->orWhere('status', 'like', '%' . $queryString . '%')
+                        ->orWhere('attachments', 'like', '%' . $queryString . '%')
+                        ->orWhere('body', 'like', '%' . $queryString . '%');
                 }
             })
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
@@ -54,7 +58,7 @@ class EmailTemplateController extends Controller
             return redirect()->route('email_templates.index', ['page' => 1]);
         }
 
-        return Inertia::render('Admin/EmailTemplate', $props);
+        return Inertia::render('Admin/EmailTemplate/Index', $props);
     }
 
     /**
