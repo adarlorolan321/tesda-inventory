@@ -147,9 +147,10 @@ class CoachController extends Controller
         $data = User::findOrFail($id);
         $prevEmail = $data->email;
         $userArr = $request->all();
+       
         $userArr['name'] = $request['first_name'] . ' ' . $request['last_name'];
         $data->update($userArr);
-        $data->removeRole();
+        $data->removeRole($data->role);
         $data->assignRole($request['role']);
         //Upload Profile Photo
         if (isset($request->input('profile_photo', [])['id'])) {
