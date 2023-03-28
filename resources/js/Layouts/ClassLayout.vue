@@ -2,6 +2,11 @@
 import {usePage, Head} from "@inertiajs/vue3";
 import {computed} from "vue";
 
+import dayjs from 'dayjs';
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+dayjs.extend(customParseFormat)
+
 const {props} = usePage();
 const classModel = computed(() => usePage().props.classModel);
 const title = computed(() => usePage().props.title);
@@ -13,7 +18,7 @@ const title = computed(() => usePage().props.title);
         <div class="">
             <h4 class="fw-bold py-3 mb-4">
                 <span class="text-muted fw-light">Class / Details /</span>
-                {{ classModel?.name }} / {{ title }}
+                {{ classModel?.name }} {{ title ? '/'+title: '' }}
             </h4>
             <div class="row">
                 <!-- User Sidebar -->
@@ -41,11 +46,11 @@ const title = computed(() => usePage().props.title);
                                 <table>
                                     <tr>
                                         <td class="pb-2"><span class="fw-semibold me-2">Date:</span></td>
-                                        <td class="pb-2"><span>{{ classModel?.start_date }} - {{ classModel?.end_date }}</span></td>
+                                        <td class="pb-2"><span>{{classModel.start_date ?  dayjs(classModel.start_date).format('DD/MM/YYYY') : ''}} {{classModel.end_date ?  ' - '+dayjs(classModel.end_date).format('DD/MM/YYYY') : ''}}</span></td>
                                     </tr>
                                     <tr>
                                         <td class="pb-2"><span class="fw-semibold me-2">Time:</span></td>
-                                        <td class="pb-2"><span>{{ classModel?.start_time }} - {{ classModel?.end_time }}</span></td>
+                                        <td class="pb-2"><span>{{ classModel.start_time ? dayjs(`2000-01-01T${classModel.start_time}`).format('hh:mm A') : '' }}  {{ classModel.start_time ? ' - '+dayjs(`2000-01-01T${classModel.end_time}`).format('hh:mm A') : '' }}</span></td>
                                     </tr>
                                     <tr>
                                         <td class="pb-2"><span class="fw-semibold me-2">Status:</span></td>
@@ -53,7 +58,7 @@ const title = computed(() => usePage().props.title);
                                              <span class="badge" :class="{
                                                  'bg-label-success': classModel?.status == 'Active',
                                                  'bg-label-warning': classModel?.status == 'Closed',
-                                                 'bg-label-danger':classModel?.status == 'Archived'}"
+                                                 'bg-label-danger':classModel?.status == 'Archive'}"
                                              >{{ classModel.status }}</span>
                                         </td>
                                     </tr>

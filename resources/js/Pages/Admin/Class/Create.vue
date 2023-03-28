@@ -21,14 +21,14 @@ const formObject = {
     service_id: null,
     venue_id: null,
     coach_id: null,
-    additional_coach: null,
+    additional_coach: [],
     start_date: null,
     end_date: null,
     start_time: null,
     end_time: null,
     repeat: false,
     capacity: null,
-    days: null,
+    days: [],
     price_type: false,
     price: null,
     tags: [],
@@ -51,7 +51,7 @@ let {
     handleServerQuery,
     handleEdit,
     formState,
-} = useCrud(formObject, routeName);
+} = useCrud(formObject, routeName,null,{redirectTo : 'classes.index'});
 </script>
 
 <template>
@@ -193,7 +193,7 @@ let {
                 </div>
                 <div class="col-md-3">
                     <div class="form-group mb-3">
-                        <label for="start_time">Start Date</label>
+                        <label for="start_time">Start Date <span class="required">*</span></label>
                         <flat-pickr
                             id="start_date"
                             :config="
@@ -239,7 +239,7 @@ let {
                         <flat-pickr
                             id="end_date"
                             :disabled="!form.start_date"
-                            :config="dateFormat(form.start_date)"
+                            :config="dateFormat( {minDate: form.start_date})"
                             :class="{ 'is-invalid': form.errors.end_date }"
                             class="form-control"
                             placeholder="Select End Time"

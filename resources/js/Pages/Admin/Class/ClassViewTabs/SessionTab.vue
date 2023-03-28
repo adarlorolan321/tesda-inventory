@@ -328,14 +328,14 @@ let {
                         @click="handleServerQuery('sort', 'start_time')"
                         :serverQuery="serverQuery"
                         serverQueryKey="start_time">
-                        Time
+                        Start Time
                     </table-header>
                     <table-header
                         style="min-width: 200px; width: 30%"
                         @click="handleServerQuery('sort', 'end_time')"
                         :serverQuery="serverQuery"
                         serverQueryKey="end_time">
-                        Time
+                        End Time
                     </table-header>
                     <th style="width: 150px;">Actions</th>
                 </tr>
@@ -351,8 +351,8 @@ let {
                     :key="tableData"
                 >
                     <td>{{ dayjs(tableData.date).format('DD/MM/YYYY') }}</td>
-                    <td>{{ tableData.start_time }}</td>
-                    <td>{{ tableData.end_time }}</td>
+                    <td>{{ dayjs(`2000-01-01T${tableData.start_time}`).format('hh:mm A') }}</td>
+                    <td>{{ dayjs(`2000-01-01T${tableData.end_time}`).format('hh:mm A') }}</td>
                     <td>
                         <div class="d-flex gap-2">
                             <a
