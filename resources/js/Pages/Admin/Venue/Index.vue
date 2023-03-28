@@ -74,7 +74,7 @@ let {
                     </div>
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
                         <div class="form-group mb-3">
-                            <label for="">Venue Name</label>
+                            <label for="">Venue Name <span class="required">*</span></label>
                             <input
                                 type="text"
                                 class="form-control"

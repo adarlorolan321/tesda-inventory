@@ -130,38 +130,42 @@ let {
         </div>
         <div class="table-responsive text-nowrap">
             <table class="table">
-                <thead class="table-light">
-                <tr>
-                    <table-header
-                        @click="handleServerQuery('sort', 'name')"
-                        :serverQuery="serverQuery"
-                        serverQueryKey="name"
-                    >
-                        Name
-                    </table-header>
-                    <table-header
-                        @click="handleServerQuery('sort', 'days')"
-                        :serverQuery="serverQuery"
-                        serverQueryKey="days"
-                    >
-                        Day
-                    </table-header>
-                    <table-header
-                        @click="handleServerQuery('sort', 'service_name')"
-                        :serverQuery="serverQuery"
-                        serverQueryKey="service_name"
-                    >
-                        Service
-                    </table-header>
-                    <table-header
-                        @click="handleServerQuery('sort', 'coach_name')"
-                        :serverQuery="serverQuery"
-                        serverQueryKey="coach_name"
-                    >
-                        Coach
-                    </table-header>
-                    <th>Actions</th>
-                </tr>
+                <thead class="table-light" style="min-width: 200px;">
+                    <tr>
+                        <table-header
+                            style="min-width: 200px; width: 30%"
+                            @click="handleServerQuery('sort', 'name')"
+                            :serverQuery="serverQuery"
+                            serverQueryKey="name"
+                        >
+                            Name
+                        </table-header>
+                        <table-header
+                            style="min-width: 200px; width: 30%"
+                            @click="handleServerQuery('sort', 'days')"
+                            :serverQuery="serverQuery"
+                            serverQueryKey="days"
+                        >
+                            Day
+                        </table-header>
+                        <table-header
+                            style="min-width: 200px; width: 30%"
+                            @click="handleServerQuery('sort', 'service_name')"
+                            :serverQuery="serverQuery"
+                            serverQueryKey="service_name"
+                        >
+                            Service
+                        </table-header>
+                        <table-header
+                            style="min-width: 200px; width: 30%"
+                            @click="handleServerQuery('sort', 'coach_name')"
+                            :serverQuery="serverQuery"
+                            serverQueryKey="coach_name"
+                        >
+                            Coach
+                        </table-header>
+                        <th>Actions</th>
+                    </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
                 <tr v-if="paginatedData.data.length <= 0">
@@ -216,7 +220,7 @@ let {
                             </inertia-link>
                             <a
                                 class="btn btn-icon btn-label-danger waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-danger" data-bs-original-title="Delete"
-                                href="javascript:void(0);" 
+                                href="javascript:void(0);"
                                 @click="deletePromise(tableData.id)"
                             ><i class="ti ti-trash"></i>
                             </a>
