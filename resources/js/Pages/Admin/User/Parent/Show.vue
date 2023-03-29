@@ -10,14 +10,13 @@ import { useCrud } from "@/Composables/Crud.js";
 import { useValidateForm } from "@/Composables/Validate.js";
 import { userInputFormat } from "@/Composables/InputFormat.js";
 import { Head, usePage } from "@inertiajs/vue3";
-import { computed } from 'vue'
-
+import { computed } from "vue";
 
 const { validateForm } = useValidateForm();
 const { dateFormat, timeFormat } = userInputFormat();
 const parent = computed(() => {
-    return usePage().props.parent
-})
+    return usePage().props.parent;
+});
 
 const routeName = "students";
 const formObject = {
@@ -42,8 +41,8 @@ let {
     handleEdit,
     formState,
 } = useCrud(formObject, routeName, {
-    routeName: 'user.parents.show',
-    routeId: parent.value.id
+    routeName: "user.parents.show",
+    routeId: parent.value.id,
 });
 </script>
 
@@ -57,13 +56,13 @@ let {
                 <button
                     class="btn btn-primary"
                     type="button"
+                    @click="handleCreate"
                     data-bs-toggle="offcanvas"
                     data-bs-target="#offCanvasForm"
                     aria-controls="offCanvasForm"
                 >
                     Add Player
                 </button>
-
 
                 <div
                     class="offcanvas offcanvas-end"
@@ -255,7 +254,6 @@ let {
                         </button>
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="card-body">
@@ -290,7 +288,11 @@ let {
                     <div class="d-flex gap-2 align-items-center">
                         <div class="flex-1">
                             <div class="input-group input-group-merge">
-                                <span class="input-group-text" id="basic-addon-search31"><i class="ti ti-search"></i></span>
+                                <span
+                                    class="input-group-text"
+                                    id="basic-addon-search31"
+                                    ><i class="ti ti-search"></i
+                                ></span>
                                 <input
                                     type="search"
                                     placeholder="Search"
@@ -311,7 +313,7 @@ let {
         </div>
         <div class="table-responsive text-nowrap">
             <table class="table">
-                <thead class="table-light" style="min-width: 200px;">
+                <thead class="table-light" style="min-width: 200px">
                     <tr>
                         <table-header
                             style="min-width: 200px; width: 90%"
@@ -321,7 +323,7 @@ let {
                         >
                             Name
                         </table-header>
-                        <th style="width: 150px;">Actions</th>
+                        <th style="width: 150px">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
@@ -342,19 +344,31 @@ let {
                         <td>
                             <div class="d-flex gap-2">
                                 <a
-                                    class="btn btn-icon btn-label-info waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-info" data-bs-original-title="View"
+                                    class="btn btn-icon btn-label-info waves-effect"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    data-bs-custom-class="tooltip-info"
+                                    data-bs-original-title="View"
                                     @click="handleEdit(tableData)"
                                     href="javascript:void(0);"
                                     ><i class="ti ti-eye"></i>
                                 </a>
                                 <a
-                                    class="btn btn-icon btn-label-primary waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-primary" data-bs-original-title="Edit"
+                                    class="btn btn-icon btn-label-primary waves-effect"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    data-bs-custom-class="tooltip-primary"
+                                    data-bs-original-title="Edit"
                                     @click="handleEdit(tableData)"
                                     href="javascript:void(0);"
                                     ><i class="ti ti-pencil"></i>
                                 </a>
                                 <a
-                                    class="btn btn-icon btn-label-danger waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="tooltip-danger" data-bs-original-title="Delete"
+                                    class="btn btn-icon btn-label-danger waves-effect"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    data-bs-custom-class="tooltip-danger"
+                                    data-bs-original-title="Delete"
                                     id="confirm-text"
                                     href="javascript:void(0);"
                                     @click="deletePromise(tableData.id)"
