@@ -66,7 +66,7 @@ const isPassword = ref({ password: true, password_confirmation: true });
                             />
                             </svg>
                         </span>
-                        <span class="app-brand-text demo text-body fw-bold ms-1">Sportsaas</span>
+                        <span class="app-brand-text demo text-body fw-bold ms-1">Tesda</span>
                     </a>
                 </div>
                 <!-- /Logo -->

@@ -75,6 +75,14 @@ class RolePermissionSeeder extends Seeder
                 'update email_template',
                 'destroy email_template',
                 'show email_template',
+
+                'access supply',
+                'create supply',
+                'store supply',
+                'edit supply',
+                'update supply',
+                'destroy supply',
+                'show supply',
             ],
             'Coach' => [
                 'access user',

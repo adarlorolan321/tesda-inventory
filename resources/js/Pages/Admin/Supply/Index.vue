@@ -11,19 +11,16 @@ import { useValidateForm } from "@/Composables/Validate.js";
 import { usePage, Head } from "@inertiajs/vue3";
 const { props } = usePage();
 const formObject = {
-    id: null,
-    first_name: null,
-    last_name: null,
-    phone: null,
-    email: null,
-    status: true,
-    role: null,
-    profile_photo: null,
+    
+    label: null,
+    type: null,
+    description: null,
+    item_code: null,
 };
 
 const { validateForm } = useValidateForm();
 
-const routeName = "user.coaches";
+const routeName = "user.supplies";
 let {
     isLoadingComponents,
     paginatedData,
@@ -44,7 +41,7 @@ let {
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">
-                <h5 class="card-title">COACHES / STAFF</h5>
+                <h5 class="card-title">Supplies</h5>
             </div>
             <div class="card-action-element">
                 <button
@@ -55,7 +52,7 @@ let {
                     data-bs-target="#offCanvasForm"
                     aria-controls="offCanvasForm"
                 >
-                    Add Coach / Staff
+                    Add Supply
                 </button>
                 <div
                     class="offcanvas offcanvas-end"
@@ -66,8 +63,7 @@ let {
                 >
                     <div class="offcanvas-header">
                         <h5 id="offCanvasFormLabel" class="offcanvas-title">
-                            {{ formState == "create" ? "Add" : "Update" }} Coach
-                            / Staff
+                            {{ formState == "create" ? "Add" : "Update" }} Supply
                         </h5>
                         <button
                             type="button"
@@ -78,218 +74,129 @@ let {
                         ></button>
                     </div>
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
-                        <div class="form-group mb-4 dropzone-profile-photo">
-                            <label for="name">Profile Photo</label>
-                            <dropzone
-                                collection="profile_photo"
-                                v-if="isLoadingComponents"
-                                :url="route('api.media.upload')"
-                                type="profile"
-                                model="User"
-                                :value="form.profile_photo"
-                                @input="
-                                    ($event) => {
-                                        form.profile_photo = $event;
-                                        form.clearErrors('profile_photo');
-                                    }
-                                "
-                                message="Drop files here or click to upload profile photo"
-                                acceptedFiles="image/jpeg,image/png"
-                                @error="
-                                    ($event) => {
-                                        if ($event && $event[0]) {
-                                            form.setError(
-                                                'profile_photo',
-                                                $event[0]
-                                            );
-                                        }
-                                    }
-                                "
-                            >
-                            </dropzone>
-                            <div v-else>
-                                <div class="dropzone" ref="dropzone">
-                                    <div class="dz-message needsclick">
-                                        Please Wait
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div
-                                class="v-invalid-feedback"
-                                v-if="form.errors.profile_photo"
-                            >
-                                {{ form.errors.profile_photo }}
-                            </div>
-                        </div>
                         <div class="form-group mb-3">
                             <label for="name"
-                                >First Name
-                                <span class="required">*</span></label
+                                >Label <span class="required">*</span></label
                             >
                             <input
                                 type="text"
-                                id="first_name"
+                                id="label"
                                 class="form-control"
-                                v-model="form.first_name"
+                                v-model="form.label"
                                 @input="
                                     ($event) => {
-                                        form.clearErrors('first_name');
+                                        form.clearErrors('label');
                                         validateForm(
                                             ['required'],
                                             form,
                                             $event.target.value,
-                                            'first_name'
+                                            'label'
                                         );
                                     }
                                 "
-                                placeholder="Enter First Name"
+                                placeholder="Enter Label"
                                 :class="{
-                                    'is-invalid': form.errors.first_name,
+                                    'is-invalid': form.errors.label,
                                 }"
                             />
                             <div class="invalid-feedback">
-                                {{ form.errors.first_name }}
+                                {{ form.errors.label }}
                             </div>
                         </div>
                         <div class="form-group mb-3">
                             <label for="name"
-                                >Last Name
-                                <span class="required">*</span></label
+                                >Type <span class="required">*</span></label
                             >
                             <input
                                 type="text"
-                                id="last_name"
+                                id="type"
                                 class="form-control"
-                                v-model="form.last_name"
+                                v-model="form.type"
                                 @input="
                                     ($event) => {
-                                        form.clearErrors('last_name');
+                                        form.clearErrors('type');
                                         validateForm(
                                             ['required'],
                                             form,
                                             $event.target.value,
-                                            'last_name'
+                                            'type'
                                         );
                                     }
                                 "
-                                placeholder="Enter Last Name"
+                                placeholder="Enter Type"
                                 :class="{
-                                    'is-invalid': form.errors.last_name,
+                                    'is-invalid': form.errors.type,
                                 }"
                             />
                             <div class="invalid-feedback">
-                                {{ form.errors.last_name }}
+                                {{ form.errors.type }}
                             </div>
                         </div>
-                        <div class="form-group mb-3">
-                            <label for="name"
-                                >Email <span class="required">*</span></label
-                            >
-                            <input
-                                type="text"
-                                id="email"
-                                class="form-control"
-                                v-model="form.email"
-                                @input="
-                                    ($event) => {
-                                        form.clearErrors('email');
-                                        validateForm(
-                                            ['required', 'email'],
-                                            form,
-                                            $event.target.value,
-                                            'email'
-                                        );
-                                    }
-                                "
-                                placeholder="Enter Email"
-                                :class="{
-                                    'is-invalid': form.errors.email,
-                                }"
-                            />
-                            <div class="invalid-feedback">
-                                {{ form.errors.email }}
-                            </div>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="name"
-                                >Phone <span class="required">*</span></label
-                            >
-                            <input
-                                type="text"
-                                id="phone"
-                                class="form-control"
-                                v-model="form.phone"
-                                @input="
-                                    ($event) => {
-                                        form.clearErrors('phone');
-                                        validateForm(
-                                            ['required', 'number'],
-                                            form,
-                                            $event.target.value,
-                                            'phone'
-                                        );
-                                    }
-                                "
-                                placeholder="Enter Phone"
-                                :class="{
-                                    'is-invalid': form.errors.phone,
-                                }"
-                            />
-                            <div class="invalid-feedback">
-                                {{ form.errors.phone }}
-                            </div>
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="role"
-                                >Role <span class="required">*</span></label
-                            >
-                            <select2
-                                :class="{ 'is-invalid': form.errors.role }"
-                                v-model="form.role"
-                                placeholder="Select Role"
-                                @select="form.clearErrors('role')"
-                                :options="['Coach', 'Admin']"
-                            >
-                            </select2>
-                            <div
-                                class="v-invalid-feedback"
-                                v-if="form.errors.role"
-                            >
-                                {{ form.errors.role }}
-                            </div>
-                        </div>
-                        <div class="form-group mb-3">
-                            <div class=" ">
-                                Status <span class="required">*</span>
-                            </div>
-                            <label class="switch">
-                                <input
-                                    type="checkbox"
-                                    v-model="form.status"
-                                    :checked="form.status"
-                                    class="switch-input"
-                                    @input="form.clearErrors('status')"
-                                />
-                                <span class="switch-toggle-slider">
-                                    <span class="switch-on"></span>
-                                    <span class="switch-off"></span>
-                                </span>
-                                <span class="switch-label" v-if="form.status"
-                                    >Active</span
-                                >
-                                <span class="switch-label" v-else
-                                    >In-active</span
-                                >
-                            </label>
 
-                            <div
-                                class="v-invalid-feedback"
-                                v-if="form.errors.status"
+                        <div class="form-group mb-3">
+                            <label for="name"
+                                >Description
+                                <span class="required">*</span></label
                             >
-                                {{ form.errors.status }}
+                            <textarea
+                            class="form-control"
+                                name=""
+                                id=""
+                                cols="30"
+                                rows="10"
+                                placeholder="Enter Description"
+                                v-model="form.description"
+                                :class="{
+                                    'is-invalid': form.errors.description,
+                                }"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('description');
+                                        validateForm(
+                                            ['required'],
+                                            form,
+                                            $event.target.value,
+                                            'description'
+                                        );
+                                    }
+                                "
+                            ></textarea>
+                            <div class="invalid-feedback">
+                                {{ form.errors.description }}
                             </div>
                         </div>
+                        <div class="form-group mb-3">
+                            <label for="name"
+                                >Item Code <span class="required">*</span></label
+                            >
+                            <input
+                                type="text"
+                                id="item_code"
+                                class="form-control"
+                                v-model="form.item_code"
+                                
+                                placeholder="Enter Item Code"
+                                :class="{
+                                    'is-invalid': form.errors.item_code,
+                                }"
+                                @input="
+                                    ($event) => {
+                                        form.clearErrors('item_code');
+                                        validateForm(
+                                            ['required'],
+                                            form,
+                                            $event.target.value,
+                                            'item_code'
+                                        );
+                                    }
+                                "
+                            />
+                            <div class="invalid-feedback">
+                                {{ form.errors.item_code }}
+                            </div>
+                        </div>
+                   
+                     
                         <button
                             class="btn btn-primary"
                             @click="createPromise"
@@ -351,20 +258,7 @@ let {
                 </div>
                 <div class="col-auto">
                     <div class="d-flex flex-row gap-3">
-                        <select2
-                            style="width: 200px"
-                            :settings="{
-                                allowClear: true,
-                                minimumResultsForSearch: -1,
-                            }"
-                            v-model="serverQuery.role"
-                            placeholder="Filter By Role"
-                            @update:modelValue="
-                                handleServerQuery('role', $event)
-                            "
-                            :options="['Coach', 'Admin']"
-                        >
-                        </select2>
+                        
                         <div class="d-flex gap-2 align-items-center">
                             <div class="flex-1">
                                 <div class="input-group input-group-merge">
@@ -396,92 +290,52 @@ let {
             <table class="table">
                 <thead class="table-light" style="min-width: 200px">
                     <tr>
-                        <th class="sortable">Photo</th>
+                        <th class="sortable"  @click="handleServerQuery('sort', 'label')">Label</th>
                         <th
                             style="min-width: 200px; width: 30%"
                             class="sortable"
-                            @click="handleServerQuery('sort', 'name')"
+                            @click="handleServerQuery('sort', 'type')"
                         >
-                            Name
+                            Type
                             <i
                                 class="ti ti-arrow-up"
                                 v-if="
-                                    serverQuery.sort == 'name' &&
+                                    serverQuery.sort == 'type' &&
                                     serverQuery.order == 'desc'
                                 "
                             ></i>
                             <i
                                 class="ti ti-arrow-down"
                                 v-if="
-                                    serverQuery.sort == 'name' &&
+                                    serverQuery.sort == 'type' &&
                                     serverQuery.order == 'asc'
                                 "
                             ></i>
                         </th>
-                        <th style="min-width: 200px; width: 30%">Role</th>
+                       
                         <th
                             style="min-width: 200px; width: 30%"
                             class="sortable"
-                            @click="handleServerQuery('sort', 'email')"
+                            @click="handleServerQuery('sort', 'item_code')"
                         >
-                            Email
+                            Item Code
                             <i
                                 class="ti ti-arrow-up"
                                 v-if="
-                                    serverQuery.sort == 'email' &&
+                                    serverQuery.sort == 'item_code' &&
                                     serverQuery.order == 'desc'
                                 "
                             ></i>
                             <i
                                 class="ti ti-arrow-down"
                                 v-if="
-                                    serverQuery.sort == 'email' &&
+                                    serverQuery.sort == 'item_code' &&
                                     serverQuery.order == 'asc'
                                 "
                             ></i>
                         </th>
-                        <th
-                            style="min-width: 200px; width: 30%"
-                            class="sortable"
-                            @click="handleServerQuery('sort', 'phone')"
-                        >
-                            Phone
-                            <i
-                                class="ti ti-arrow-up"
-                                v-if="
-                                    serverQuery.sort == 'phone' &&
-                                    serverQuery.order == 'desc'
-                                "
-                            ></i>
-                            <i
-                                class="ti ti-arrow-down"
-                                v-if="
-                                    serverQuery.sort == 'phone' &&
-                                    serverQuery.order == 'asc'
-                                "
-                            ></i>
-                        </th>
-                        <th
-                            style="min-width: 200px; width: 30%"
-                            class="sortable"
-                            @click="handleServerQuery('sort', 'status')"
-                        >
-                            Status
-                            <i
-                                class="ti ti-arrow-up"
-                                v-if="
-                                    serverQuery.sort == 'status' &&
-                                    serverQuery.order == 'desc'
-                                "
-                            ></i>
-                            <i
-                                class="ti ti-arrow-down"
-                                v-if="
-                                    serverQuery.sort == 'status' &&
-                                    serverQuery.order == 'asc'
-                                "
-                            ></i>
-                        </th>
+                        
+                        
                         <th style="width: 150px">Actions</th>
                     </tr>
                 </thead>
@@ -495,30 +349,11 @@ let {
                         v-for="tableData in paginatedData.data"
                         :key="tableData"
                     >
-                        <td>
-                            <div class="avatar avatar-lg">
-                                <img
-                                    style="object-fit: cover"
-                                    :src="tableData.profile_photo_url"
-                                    alt="Avatar"
-                                    class="rounded-circle"
-                                />
-                            </div>
-                        </td>
-                        <td>{{ tableData.name }}</td>
-                        <td>{{ tableData.role }}</td>
-                        <td>{{ tableData.email }}</td>
-                        <td>{{ tableData.phone }}</td>
-                        <td>
-                            <span
-                                v-if="tableData.status"
-                                class="badge bg-label-success"
-                                >Active</span
-                            >
-                            <span v-else class="badge bg-label-danger"
-                                >In-active</span
-                            >
-                        </td>
+                       
+                        <td>{{ tableData.label }}</td>
+                        <td>{{ tableData.type }}</td>
+                        <td>{{ tableData.item_code }}</td>
+                        
                         <td>
                             <div class="d-flex gap-2">
                                 <inertia-link

@@ -11,6 +11,7 @@ use App\Http\Controllers\User\StudentController;
 use App\Http\Controllers\Class\ClassSessionController;
 use App\Http\Controllers\Class\ClassController;
 use App\Http\Controllers\Class\TabController;
+use App\Http\Controllers\Supply\SupplyController;
 use App\Http\Controllers\User\ProfileController;
 
 /*
@@ -38,6 +39,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         })->name('dashboard');
 
         Route::name('user.')->prefix('user')->group(function () {
+            Route::resource('supplies', SupplyController::class);
             Route::resource('coaches', CoachController::class);
             Route::resource('parents', ParentController::class);
             Route::resource('students', StudentController::class);
