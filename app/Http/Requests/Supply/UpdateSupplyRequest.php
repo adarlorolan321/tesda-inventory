@@ -25,7 +25,7 @@ class UpdateSupplyRequest extends FormRequest
         'label' => ['required'],
         'type' => ['required'],
         'description' => ['required'],
-        'item_code' => ['required', 'unique:table_name,item_code'],
+        'item_code' => ['required'],
     ];
 }
 }
