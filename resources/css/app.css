@@ -32,8 +32,8 @@
 
 .swal2-confirm {
     color: #fff !important;
-    background-color: #7367f0 !important;
-    border-color: #7367f0 !important;
+    background-color: #052569 !important;
+    border-color: #052569 !important;
 }
 
 .swal2-html-container {
@@ -107,7 +107,7 @@ body {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #7367f0;
+    background: #052569;
 }
 .is-invalid .ql-container, .is-invalid .ql-toolbar{
     
