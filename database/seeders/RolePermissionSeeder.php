@@ -92,7 +92,15 @@ class RolePermissionSeeder extends Seeder
                 'update supplier',
                 'destroy supplier',
                 'show supplier',
-                
+
+                'access ppe',
+                'create ppe',
+                'store ppe',
+                'edit ppe',
+                'update ppe',
+                'destroy ppe',
+                'show ppe',
+            
             ],
             'Coach' => [
                 'access user',

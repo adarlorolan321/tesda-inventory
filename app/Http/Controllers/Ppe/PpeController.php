@@ -1,41 +1,42 @@
 <?php
 
-namespace App\Http\Controllers\Supplier;
+namespace App\Http\Controllers\Ppe;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Supplier\SupplierListResource;
-use App\Models\Supplier\Supplier;
-use App\Http\Requests\Supplier\StoreSupplierRequest;
-use App\Http\Requests\Supplier\UpdateSupplierRequest;
+use App\Http\Resources\Ppe\PpeListResource;
+use App\Models\Ppe\Ppe;
+use App\Http\Requests\Ppe\StorePpeRequest;
+use App\Http\Requests\Ppe\UpdatePpeRequest;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class SupplierController extends Controller
+class PpeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-
+        
         $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
         $sort = explode('.', $request->input('sort', 'id'));
         $order = $request->input('order', 'asc');
 
-        $data = Supplier::query()
+        $data = Ppe::query()
             ->with([])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
-                    $query->where('full_name', 'like', '%' . $queryString . '%')
-                        ->orWhere('supplier_id_number', 'like', '%' . $queryString . '%')
-                        ->orWhere('email', 'like', '%' . $queryString . '%')
-                        ->orWhere('barangay', 'like', '%' . $queryString . '%')
-                        ->orWhere('district', 'like', '%' . $queryString . '%')
-                        ->orWhere('city', 'like', '%' . $queryString . '%');
+                    $query->where('item_name', 'like', '%' . $queryString . '%')
+                    ->orWhere('description', 'like', '%' . $queryString . '%')
+                    ->orWhere('item_code', 'like', '%' . $queryString . '%')
+                    ->orWhere('stocks', 'like', '%' . $queryString . '%')
+                    ->orWhere('unit_price', 'like', '%' . $queryString . '%')
+                    ->orWhere('quantity', 'like', '%' . $queryString . '%')
+                        ->orWhere('total_price', 'like', '%' . $queryString . '%');
                 }
             })
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
@@ -45,7 +46,7 @@ class SupplierController extends Controller
             ->withQueryString();
 
         $props = [
-            'data' => SupplierListResource::collection($data),
+            'data' => PpeListResource::collection($data),
             'params' => $request->all(),
         ];
 
@@ -53,11 +54,12 @@ class SupplierController extends Controller
             return json_encode($props);
         }
 
-        if (count($data) <= 0 && $page > 1) {
-            return redirect()->route('suppliers.index', ['page' => 1]);
+        if(count($data) <= 0 && $page > 1)
+        {
+            return redirect()->route('ppes.index', ['page' => 1]);
         }
 
-        return Inertia::render('Admin/Supplier/Index', $props);
+        return Inertia::render('Admin/Ppe/Index', $props);
     }
 
     /**
@@ -65,19 +67,19 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Supplier/Create');
+        return Inertia::render('Admin/Ppe/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSupplierRequest $request)
+    public function store(StorePpeRequest $request)
     {
-        $data = Supplier::create($request->validated());
+        $data = Ppe::create($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return new SupplierListResource($data);
+            return new PpeListResource($data);
         }
         return redirect()->back();
     }
@@ -87,11 +89,11 @@ class SupplierController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $data = Supplier::findOrFail($id);
+        $data = Ppe::findOrFail($id);
         if ($request->wantsJson()) {
-            return new SupplierListResource($data);
+            return new PpeListResource($data);
         }
-        return Inertia::render('Admin/Supplier/Show', [
+        return Inertia::render('Admin/Ppe/Show', [
             'data' => $data
         ]);
     }
@@ -101,11 +103,11 @@ class SupplierController extends Controller
      */
     public function edit(Request $request, string $id)
     {
-        $data = Supplier::findOrFail($id);
+        $data = Ppe::findOrFail($id);
         if ($request->wantsJson()) {
-            return new SupplierListResource($data);
+            return new PpeListResource($data);
         }
-        return Inertia::render('Admin/Supplier/Edit', [
+        return Inertia::render('Admin/Ppe/Edit', [
             'data' => $data
         ]);
     }
@@ -113,14 +115,14 @@ class SupplierController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSupplierRequest $request, string $id)
+    public function update(UpdatePpeRequest $request, string $id)
     {
-        $data = Supplier::findOrFail($id);
+        $data = Ppe::findOrFail($id);
         $data->update($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return (new SupplierListResource($data))
+            return (new PpeListResource($data))
                 ->response()
                 ->setStatusCode(201);
         }
@@ -133,7 +135,7 @@ class SupplierController extends Controller
      */
     public function destroy(Request $request, string $id)
     {
-        $data = Supplier::findOrFail($id);
+        $data = Ppe::findOrFail($id);
         $data->delete();
         sleep(1);
 

@@ -1,23 +1,22 @@
 <?php
 
-namespace App\Models\Supply;
+namespace App\Models\Ppe;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Supply extends Model
+class Ppe extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        "label",
-        "type",
-        "description",
         "item_code",
-        "stocks",
+        "item_name",
+        "description",
         "quantity",
         "unit_price",
         "total_price",
         "date_purchased",
+        "stocks",
     ];
 }

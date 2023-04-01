@@ -11,8 +11,7 @@ import { useValidateForm } from "@/Composables/Validate.js";
 import { usePage, Head } from "@inertiajs/vue3";
 const { props } = usePage();
 const formObject = {
-    label: null,
-    type: null,
+    item_name: null,
     description: null,
     item_code: null,
     stocks: null,
@@ -24,7 +23,7 @@ const formObject = {
 
 const { validateForm } = useValidateForm();
 
-const routeName = "user.supplies";
+const routeName = "user.ppes";
 let {
     isLoadingComponents,
     paginatedData,
@@ -130,63 +129,33 @@ let {
                     <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
                         <div class="form-group mb-3">
                             <label for="name"
-                                >Label <span class="required">*</span></label
+                                >Item Name <span class="required">*</span></label
                             >
                             <input
                                 type="text"
                                 id="label"
                                 class="form-control"
-                                v-model="form.label"
+                                v-model="form.item_name"
                                 @input="
                                     ($event) => {
-                                        form.clearErrors('label');
+                                        form.clearErrors('item_name');
                                         validateForm(
                                             ['required'],
                                             form,
                                             $event.target.value,
-                                            'label'
+                                            'item_name'
                                         );
                                     }
                                 "
-                                placeholder="Enter Label"
+                                placeholder="Enter Item Name"
                                 :class="{
-                                    'is-invalid': form.errors.label,
+                                    'is-invalid': form.errors.item_name,
                                 }"
                             />
                             <div class="invalid-feedback">
-                                {{ form.errors.label }}
+                                {{ form.errors.item_name }}
                             </div>
                         </div>
-                        <div class="form-group mb-3">
-                            <label for="name"
-                                >Type <span class="required">*</span></label
-                            >
-                            <input
-                                type="text"
-                                id="type"
-                                class="form-control"
-                                v-model="form.type"
-                                @input="
-                                    ($event) => {
-                                        form.clearErrors('type');
-                                        validateForm(
-                                            ['required'],
-                                            form,
-                                            $event.target.value,
-                                            'type'
-                                        );
-                                    }
-                                "
-                                placeholder="Enter Type"
-                                :class="{
-                                    'is-invalid': form.errors.type,
-                                }"
-                            />
-                            <div class="invalid-feedback">
-                                {{ form.errors.type }}
-                            </div>
-                        </div>
-
                         <div class="form-group mb-3">
                             <label for="name"
                                 >Description
@@ -491,45 +460,25 @@ let {
                     <tr>
                         <th
                             class="sortable"
-                            @click="handleServerQuery('sort', 'label')"
+                            @click="handleServerQuery('sort', 'item_name')"
                         >
-                            Label
+                            Item Name
                             <i
                                 class="ti ti-arrow-up"
                                 v-if="
-                                    serverQuery.sort == 'label' &&
+                                    serverQuery.sort == 'item_name' &&
                                     serverQuery.order == 'desc'
                                 "
                             ></i>
                             <i
                                 class="ti ti-arrow-down"
                                 v-if="
-                                    serverQuery.sort == 'label' &&
+                                    serverQuery.sort == 'item_name' &&
                                     serverQuery.order == 'asc'
                                 "
                             ></i>
                         </th>
-                        <th
-                            style="min-width: 200px; width: 30%"
-                            class="sortable"
-                            @click="handleServerQuery('sort', 'type')"
-                        >
-                            Type
-                            <i
-                                class="ti ti-arrow-up"
-                                v-if="
-                                    serverQuery.sort == 'type' &&
-                                    serverQuery.order == 'desc'
-                                "
-                            ></i>
-                            <i
-                                class="ti ti-arrow-down"
-                                v-if="
-                                    serverQuery.sort == 'type' &&
-                                    serverQuery.order == 'asc'
-                                "
-                            ></i>
-                        </th>
+                       
 
                         <th
                             style="min-width: 200px; width: 30%"
@@ -670,8 +619,7 @@ let {
                         v-for="tableData in paginatedData.data"
                         :key="tableData"
                     >
-                        <td>{{ tableData.label }}</td>
-                        <td>{{ tableData.type }}</td>
+                        <td>{{ tableData.item_name }}</td>
                         <td>{{ tableData.item_code }}</td>
                         <td>{{ tableData.stocks }}</td>
                         <td>{{ tableData.unit_price }}</td>
