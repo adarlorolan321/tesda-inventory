@@ -1,27 +1,31 @@
 import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
   plugins: [
-    vue(),
+    
+    laravel({
+      input: 'resources/js/app.js',
+      refresh: true,
+      
+    }),
+    vue({
+      template: {
+        transformAssetUrls: {
+          base: null,
+          includeAbsolute: false,
+        },
+      },
+    }),
   ],
   server: {
-    https: true,
+    https: true, // enable HTTPS
   },
   build: {
     manifest: true,
-    assetsDir: 'assets',
     rollupOptions: {
       input: 'resources/js/app.js',
-      output: {
-        dir: 'public/build/assets',
-        entryFileNames: '[name]-[hash].js',
-        chunkFileNames: '[name]-[hash].js',
-        assetFileNames: '[name]-[hash][extname]',
-        // Use absolute URLs for assets to ensure they are loaded over HTTPS
-        // Replace "https://yourdomain.com" with your actual domain
-        assetUrls: (asset) => `https://tesda-inventory.herokuapp.com/build/assets/${asset.name}${asset.ext}`,
-      },
     },
   },
 });
