@@ -2,7 +2,9 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "lint": "vue-cli-service lint",
+        "postinstall": "npm install"
     },
     "devDependencies": {
         "@inertiajs/vue3": "^1.0.0",
