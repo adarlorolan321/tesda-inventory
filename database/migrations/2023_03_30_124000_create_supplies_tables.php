@@ -16,7 +16,12 @@ return new class extends Migration
             $table->string('label');
             $table->string('type');
             $table->string('description');
-            $table->string('item_code');
+            $table->string('stocks');
+            $table->string('quantity');
+            $table->string('unit_price');
+            $table->string('total_price');
+            $table->date('date_purchased');
+            $table->string('item_code')->unique();
             $table->timestamps();
         });
     }

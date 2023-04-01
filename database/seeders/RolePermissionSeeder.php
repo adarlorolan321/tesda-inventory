@@ -83,6 +83,16 @@ class RolePermissionSeeder extends Seeder
                 'update supply',
                 'destroy supply',
                 'show supply',
+
+
+                'access supplier',
+                'create supplier',
+                'store supplier',
+                'edit supplier',
+                'update supplier',
+                'destroy supplier',
+                'show supplier',
+                
             ],
             'Coach' => [
                 'access user',

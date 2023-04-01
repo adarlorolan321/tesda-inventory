@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Supply;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Validation\Rule;
 class UpdateSupplyRequest extends FormRequest
 {
     /**
@@ -21,11 +21,12 @@ class UpdateSupplyRequest extends FormRequest
      */
    public function rules(): array
 {
+    
     return [
         'label' => ['required'],
         'type' => ['required'],
         'description' => ['required'],
-        'item_code' => ['required'],
+        'item_code' => ['required', Rule::unique('supplies')->ignore($this->id)],
     ];
 }
 }
