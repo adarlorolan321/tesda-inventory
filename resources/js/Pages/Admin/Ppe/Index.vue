@@ -61,20 +61,7 @@ let {
                         aria-label="Close"
                     ></button>
                 </div>
-                <div class="modal-body">
-                    <p>
-                        Croissant jelly beans donut apple pie. Caramels bonbon
-                        lemon drops. Sesame snaps lemon drops lemon drops
-                        liquorice icing bonbon pastry pastry carrot cake. Dragée
-                        sweet sweet roll sugar plum.
-                    </p>
-                    <p>
-                        Jelly-o cookie jelly gummies pudding cheesecake lollipop
-                        macaroon. Sweet chocolate bar sweet roll carrot cake.
-                        Sweet roll sesame snaps fruitcake brownie bear claw
-                        toffee bonbon brownie.
-                    </p>
-                </div>
+               
                 <div class="modal-footer">
                     <button
                         type="button"
