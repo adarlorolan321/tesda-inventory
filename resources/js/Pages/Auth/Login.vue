@@ -181,8 +181,7 @@ defineProps({
     margin-right: -28px;
 }
 .bg-logo{
-    background-image: url(../../assets/img/branding/logo.png);
-  
+   
     background-size: initial;
     background-repeat: no-repeat;
     background-position: center;
