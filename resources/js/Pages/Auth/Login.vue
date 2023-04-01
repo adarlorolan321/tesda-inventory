@@ -18,7 +18,7 @@ defineProps({
                     <div class="card-body">
                         <!-- Logo -->
                         <div class="app-brand justify-content-center mb-4 mt-2">
-                            <a href="index.html" class="app-brand-link ">
+                            <a class="app-brand-link ">
                                 <img class="logo-picture" src="../../assets/img/branding/logo.png" alt="">
                                 <span
                                     class="app-brand-text demo text-body fw-bold "
@@ -175,15 +175,5 @@ defineProps({
     </div>
 </template>
 <style>
-.logo-picture{
-    width: 100px;
-    height: 50px;
-    margin-right: -28px;
-}
-.bg-logo{
-   
-    background-size: initial;
-    background-repeat: no-repeat;
-    background-position: center;
-}
+
 </style>
