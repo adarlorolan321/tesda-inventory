@@ -11,13 +11,13 @@ export default defineConfig({
       
     }),
     vue({
-      template: {
-        transformAssetUrls: {
-          base: null,
-          includeAbsolute: false,
+        template: {
+          transformAssetUrls: {
+            base: null,
+            includeAbsolute: false,
+          },
         },
-      },
-    }),
+      }),
   ],
   server: {
     https: true, // enable HTTPS
@@ -26,6 +26,16 @@ export default defineConfig({
     manifest: true,
     rollupOptions: {
       input: 'resources/js/app.js',
+      output: {
+        dir: 'public/build/assets',
+        entryFileNames: '[name]-[hash].js',
+        chunkFileNames: '[name]-[hash].js',
+        assetFileNames: '[name]-[hash][extname]',
+        assetUrls: (asset) => {
+          const url = asset.url.startsWith('/') ? `https://tesda-inventory.herokuapp.com/${asset.url}` : asset.url;
+          return url.replace(/^http:/, 'https:');
+        },
+      },
     },
   },
 });
