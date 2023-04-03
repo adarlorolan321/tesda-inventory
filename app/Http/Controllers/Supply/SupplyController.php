@@ -113,7 +113,15 @@ class SupplyController extends Controller
     public function update(UpdateSupplyRequest $request, string $id)
     {
         $data = Supply::findOrFail($id);
-        $data->update($request->validated());
+
+        // Get the current stocks
+        $currentStocks = $data->stocks;
+
+        // Add the updated stocks to the current stocks
+        $updatedStocks = $request->validated()['stocks'] + $currentStocks;
+
+        // Update the supply record with the new stocks value
+        $data->update(['stocks' => $updatedStocks]);
         sleep(1);
 
         if ($request->wantsJson()) {
@@ -124,6 +132,7 @@ class SupplyController extends Controller
 
         return redirect()->back();
     }
+
 
     /**
      * Remove the specified resource from storage.

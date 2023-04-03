@@ -22,9 +22,14 @@ class StoreSupplyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "label" => ["required"], 
-            "type" => ["required"],
-             "description" => ["required"], 
+            'label' => ['required'],
+            'type' => ['required'],
+            'description' => ['required'],
+            'stocks' => ['nullable'],
+            'quantity' => ['nullable'],
+            'unit_price' => ['nullable'],
+            'total_price' => ['nullable'],
+            'date_purchased' => ['nullable'],
              'item_code' => ['required', 'unique:supplies,item_code'],
         ];
     }

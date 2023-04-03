@@ -26,7 +26,13 @@ class UpdateSupplyRequest extends FormRequest
         'label' => ['required'],
         'type' => ['required'],
         'description' => ['required'],
-        'item_code' => ['required', Rule::unique('supplies')->ignore($this->id)],
+        'item_code' => ['required'],
+        'stocks' => ['nullable'],
+        'quantity' => ['nullable'],
+        'unit_price' => ['nullable'],
+        'total_price' => ['nullable'],
+        'date_purchased' => ['nullable'],
+
     ];
 }
 }

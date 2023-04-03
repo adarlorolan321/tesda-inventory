@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('quantity')->default(0);
             $table->integer('unit_price')->default(0);
             $table->integer('total_price')->default(0);
-            $table->date('date_purchased');
+            $table->date('date_purchased')->nullable();
             $table->string('item_code')->unique();
             $table->timestamps();
         });

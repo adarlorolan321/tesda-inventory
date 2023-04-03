@@ -144,7 +144,24 @@ export function useCrud(
             },
         });
     };
-
+    const updateStocksPromise = async () => {
+        form.clearErrors();
+        form.patch(route(`${routeName}.update`, form.id), {
+            preserveState: true,
+            preventScroll: true,
+            only: ["data", "params", "errors", "auth"],
+            onSuccess: () => {
+                toastr.info("Record updated");
+                location.reload();
+                if (redirect) {
+                    router.visit(route(redirect.redirectTo, redirect.id));
+                } else {
+                    form.reset();
+                    hideOffCanvas();
+                }
+            },
+        });
+    };
     const updatePromise = async () => {
         form.clearErrors();
         form.patch(route(`${routeName}.update`, form.id), {
@@ -153,6 +170,7 @@ export function useCrud(
             only: ["data", "params", "errors", "auth"],
             onSuccess: () => {
                 toastr.info("Record updated");
+               
                 if (redirect) {
                     router.visit(route(redirect.redirectTo, redirect.id));
                 } else {
@@ -202,6 +220,27 @@ export function useCrud(
         formState.value = "create";
     };
 
+    const handleEditStocks = (item) => {
+        item = JSON.parse(JSON.stringify(item));
+        form.reset();
+        form.clearErrors();
+
+        for (const key in item) {
+            const itemValue = item[key];
+            
+            if (key === "stocks") {
+              form[key] = 0; // Set the value to 0
+            } else {
+              form[key] = itemValue; // Use the original value
+            }
+          }
+          
+        isLoadingComponents.value = false;
+        setTimeout(() => {
+            isLoadingComponents.value = true;
+        }, 1000);
+    };
+
     const handleEdit = (item) => {
         item = JSON.parse(JSON.stringify(item));
         form.reset();
@@ -229,6 +268,7 @@ export function useCrud(
         paginatedData,
         isLoadingComponents,
         form,
+        handleEditStocks,
         createPromise,
         updatePromise,
         deletePromise,
@@ -237,5 +277,6 @@ export function useCrud(
         serverQuery,
         handleServerQuery,
         formState,
+        updateStocksPromise,
     };
 }

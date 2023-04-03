@@ -19,9 +19,6 @@ export default defineConfig({
       },
     }),
   ],
-  server: {
-    https: true, // enable HTTPS
-  },
   build: {
     manifest: true,
     rollupOptions: {

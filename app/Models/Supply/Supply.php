@@ -14,5 +14,10 @@ class Supply extends Model
         "type",
         "description",
         "item_code",
+        "stocks",
+        "quantity",
+        "unit_price",
+        "total_price",
+        "date_purchased",
     ];
 }
