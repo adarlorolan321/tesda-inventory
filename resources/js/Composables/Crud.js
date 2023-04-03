@@ -152,7 +152,7 @@ export function useCrud(
             only: ["data", "params", "errors", "auth"],
             onSuccess: () => {
                 toastr.info("Record updated");
-                location.reload();
+                // location.reload();
                 if (redirect) {
                     router.visit(route(redirect.redirectTo, redirect.id));
                 } else {

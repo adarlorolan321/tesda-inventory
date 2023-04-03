@@ -120,8 +120,12 @@ class SupplyController extends Controller
         // Add the updated stocks to the current stocks
         $updatedStocks = $request->validated()['stocks'] + $currentStocks;
 
-        // Update the supply record with the new stocks value
-        $data->update(['stocks' => $updatedStocks]);
+       
+       // Update the supply record with the new stocks value
+    $data->update(['stocks' => $updatedStocks]);
+
+    // Update the supply record again without including the stocks field
+    $data->update(collect($request->validated())->except('stocks')->toArray());
         sleep(1);
 
         if ($request->wantsJson()) {

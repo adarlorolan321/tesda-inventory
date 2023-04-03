@@ -72,12 +72,18 @@ let {
                 id="label"
                 class="form-control"
                 v-model="form.stocks"
-               
-                
                 placeholder="Enter stocks"
-                
               />
-              
+            </div>
+            <div class="form-group mb-3">
+              <label for="name">Unit Price <span class="required">*</span></label>
+              <input
+                type="number"
+                id="label"
+                class="form-control"
+                v-model="form.unit_price"
+                placeholder="Enter stocks"
+              />
             </div>
         
         </div>
