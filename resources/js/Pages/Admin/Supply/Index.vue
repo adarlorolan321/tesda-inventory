@@ -15,6 +15,11 @@ const formObject = {
     type: null,
     description: null,
     item_code: null,
+    stocks: 0,
+    quantity: 0,
+    unit_price: 0,
+    total_price:0,
+    date_purchased: null,
    
 };
 
