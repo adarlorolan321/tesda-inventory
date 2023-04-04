@@ -17,7 +17,7 @@ export default defineConfig({
           // img: ['src', 'data-src'],
           // source: ['src', 'srcset'],
           // video: ['src', 'poster'],
-          
+          includeAbsolute: false,
         },
       },
     }),
