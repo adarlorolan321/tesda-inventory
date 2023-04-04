@@ -14,10 +14,10 @@ export default defineConfig({
     vue({
       template: {
         transformAssetUrls: {
-          img: ['src', 'data-src'],
-          source: ['src', 'srcset'],
-          video: ['src', 'poster'],
-          includeAbsolute: false,
+          // img: ['src', 'data-src'],
+          // source: ['src', 'srcset'],
+          // video: ['src', 'poster'],
+          
         },
       },
     }),
