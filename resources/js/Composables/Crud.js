@@ -152,7 +152,7 @@ export function useCrud(
             only: ["data", "params", "errors", "auth"],
             onSuccess: () => {
                 toastr.info("Record updated");
-                // location.reload();
+                location.reload();
                 if (redirect) {
                     router.visit(route(redirect.redirectTo, redirect.id));
                 } else {
@@ -228,7 +228,7 @@ export function useCrud(
         for (const key in item) {
             const itemValue = item[key];
             
-            if (key === "stocks") {
+            if (key === "stocks" || key === "unit_price") {
               form[key] = 0; // Set the value to 0
             } else {
               form[key] = itemValue; // Use the original value

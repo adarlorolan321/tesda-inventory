@@ -134,6 +134,28 @@ let {
           </div>
           <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
             <div class="form-group mb-3">
+              <label for="name">Item Code <span class="required">*</span></label>
+              <input
+                type="text"
+                id="item_code"
+                class="form-control"
+                v-model="form.item_code"
+                placeholder="Enter Item Code"
+                :class="{
+                  'is-invalid': form.errors.item_code,
+                }"
+                @input="
+                  ($event) => {
+                    form.clearErrors('item_code');
+                    validateForm(['required'], form, $event.target.value, 'item_code');
+                  }
+                "
+              />
+              <div class="invalid-feedback">
+                {{ form.errors.item_code }}
+              </div>
+            </div>
+            <div class="form-group mb-3">
               <label for="name">Label <span class="required">*</span></label>
               <input
                 type="text"
@@ -202,28 +224,7 @@ let {
                 {{ form.errors.description }}
               </div>
             </div>
-            <div class="form-group mb-3">
-              <label for="name">Item Code <span class="required">*</span></label>
-              <input
-                type="text"
-                id="item_code"
-                class="form-control"
-                v-model="form.item_code"
-                placeholder="Enter Item Code"
-                :class="{
-                  'is-invalid': form.errors.item_code,
-                }"
-                @input="
-                  ($event) => {
-                    form.clearErrors('item_code');
-                    validateForm(['required'], form, $event.target.value, 'item_code');
-                  }
-                "
-              />
-              <div class="invalid-feedback">
-                {{ form.errors.item_code }}
-              </div>
-            </div>
+            
 
             <button
               class="btn btn-primary"
@@ -334,7 +335,36 @@ let {
                 v-if="serverQuery.sort == 'item_code' && serverQuery.order == 'asc'"
               ></i>
             </th>
-
+            <th
+              style="min-width: 200px; width: 30%"
+              class="sortable"
+              @click="handleServerQuery('sort', 'stocks')"
+            >
+              Stocks
+              <i
+                class="ti ti-arrow-up"
+                v-if="serverQuery.sort == 'stocks' && serverQuery.order == 'desc'"
+              ></i>
+              <i
+                class="ti ti-arrow-down"
+                v-if="serverQuery.sort == 'stocks' && serverQuery.order == 'asc'"
+              ></i>
+            </th>
+            <th
+              style="min-width: 200px; width: 30%"
+              class="sortable"
+              @click="handleServerQuery('sort', 'unit_price')"
+            >
+              Unit Price
+              <i
+                class="ti ti-arrow-up"
+                v-if="serverQuery.sort == 'unit_price' && serverQuery.order == 'desc'"
+              ></i>
+              <i
+                class="ti ti-arrow-down"
+                v-if="serverQuery.sort == 'unit_price' && serverQuery.order == 'asc'"
+              ></i>
+            </th>
             <th style="width: 150px">Actions</th>
           </tr>
         </thead>
@@ -346,6 +376,9 @@ let {
             <td>{{ tableData.label }}</td>
             <td>{{ tableData.type }}</td>
             <td>{{ tableData.item_code }}</td>
+            <td>{{ tableData.stocks }}</td>
+            <td>{{ tableData.unit_price }}</td>
+            
 
             <td>
               <div class="d-flex gap-2">

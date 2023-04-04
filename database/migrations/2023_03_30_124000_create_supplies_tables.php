@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('description');
             $table->integer('stocks')->default(0);
             $table->integer('quantity')->default(0);
-            $table->integer('unit_price')->default(0);
-            $table->integer('total_price')->default(0);
+            $table->float('unit_price')->default(0);
+            $table->float('total_price')->default(0);
             $table->date('date_purchased')->nullable();
             $table->string('item_code')->unique();
             $table->timestamps();

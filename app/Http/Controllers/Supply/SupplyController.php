@@ -113,19 +113,21 @@ class SupplyController extends Controller
     public function update(UpdateSupplyRequest $request, string $id)
     {
         $data = Supply::findOrFail($id);
-
-        // Get the current stocks
         $currentStocks = $data->stocks;
+        $currentUnitPrice = $data->unit_price;
 
-        // Add the updated stocks to the current stocks
+        $totalCurrentUnitPrice = ($currentStocks * $currentUnitPrice) + ($request->validated()['stocks'] * $request->validated()['unit_price']);
+
         $updatedStocks = $request->validated()['stocks'] + $currentStocks;
 
-       
-       // Update the supply record with the new stocks value
-    $data->update(['stocks' => $updatedStocks]);
+        $average = $totalCurrentUnitPrice / $updatedStocks;
 
-    // Update the supply record again without including the stocks field
-    $data->update(collect($request->validated())->except('stocks')->toArray());
+        // Update the supply record with the new stocks value
+        $data->update(['stocks' => $updatedStocks]);
+        $data->update(['unit_price' => $average]);
+
+        // Update the supply record again without including the stocks field
+        $data->update(collect($request->validated())->except(['stocks', 'unit_price'])->toArray());
         sleep(1);
 
         if ($request->wantsJson()) {
