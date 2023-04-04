@@ -175,5 +175,16 @@ defineProps({
     </div>
 </template>
 <style>
-
+.logo-picture{
+    width: 100px;
+    height: 50px;
+    margin-right: -28px;
+}
+.bg-logo{
+    background-image: url(../../assets/img/branding/logo.png);
+  
+    background-size: initial;
+    background-repeat: no-repeat;
+    background-position: center;
+}
 </style>
