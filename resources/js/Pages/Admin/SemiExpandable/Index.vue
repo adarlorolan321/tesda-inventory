@@ -23,7 +23,7 @@ const formObject = {
 
 const { validateForm } = useValidateForm();
 
-const routeName = "user.ppes";
+const routeName = "user.semi_expandables";
 let {
     isLoadingComponents,
     paginatedData,
@@ -80,7 +80,7 @@ let {
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">
-                <h5 class="card-title">PPEs</h5>
+                <h5 class="card-title">Semi Expandables</h5>
             </div>
             <div class="card-action-element">
                 <button
@@ -91,7 +91,7 @@ let {
                     data-bs-target="#offCanvasForm"
                     aria-controls="offCanvasForm"
                 >
-                    Add PPE
+                    Add Semi Expandable
                 </button>
                 <div
                     class="offcanvas offcanvas-end"
@@ -103,7 +103,7 @@ let {
                     <div class="offcanvas-header">
                         <h5 id="offCanvasFormLabel" class="offcanvas-title">
                             {{ formState == "create" ? "Add" : "Update" }}
-                            PPE
+                            Semi Expandable
                         </h5>
                         <button
                             type="button"

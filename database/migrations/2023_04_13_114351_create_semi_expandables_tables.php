@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('semi_expandables', function (Blueprint $table) {
+            $table->id();
+            $table->string('item_code');
+$table->string('item_name');
+$table->string('quantity');
+$table->string('unit_price');
+$table->string('total_price');
+$table->string('description');
+$table->string('stock');
+$table->date('date_purchased');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('semi_expandables', function (Blueprint $table) {
+            Schema::dropIfExists('semi_expandables');
+        });
+    }
+};

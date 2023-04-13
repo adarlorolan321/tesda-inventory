@@ -11,6 +11,8 @@ use App\Http\Controllers\User\StudentController;
 use App\Http\Controllers\Class\ClassSessionController;
 use App\Http\Controllers\Class\ClassController;
 use App\Http\Controllers\Class\TabController;
+use App\Http\Controllers\Ppe\PpeController;
+use App\Http\Controllers\Semiexpandable\SemiExpandableController;
 use App\Http\Controllers\Supplier\SupplierController;
 use App\Http\Controllers\Supply\SupplyController;
 use App\Http\Controllers\User\ProfileController;
@@ -42,10 +44,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::name('user.')->prefix('user')->group(function () {
             Route::resource('supplies', SupplyController::class);
+            Route::resource('ppes', PpeController::class);
             Route::resource('suppliers', SupplierController::class);
             Route::resource('coaches', CoachController::class);
             Route::resource('parents', ParentController::class);
             Route::resource('students', StudentController::class);
+            Route::resource('semi_expandables', SemiExpandableController::class);
+
+            
 
             Route::get('validate/{type}', [UserController::class, 'validateInput'])->name('validate');
 
