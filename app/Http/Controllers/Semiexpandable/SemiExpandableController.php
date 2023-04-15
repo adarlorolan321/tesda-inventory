@@ -29,7 +29,7 @@ class SemiExpandableController extends Controller
         $order = $request->input('order', 'asc');
 
         $data = Supply::query()
-            ->with([])
+            ->with(['supplier'])
             ->where('type', 'Semi Expandable')
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {

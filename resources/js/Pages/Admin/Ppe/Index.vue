@@ -439,7 +439,7 @@ let {
             <th
               style="min-width: 200px; width: 30%"
               class="sortable"
-              @click="handleServerQuery('sort', 'stock')"
+              @click="handleServerQuery('sort', 'stocks')"
             >
               Stocks
               <i

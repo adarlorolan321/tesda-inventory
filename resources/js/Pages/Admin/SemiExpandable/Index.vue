@@ -439,7 +439,7 @@ let {
             <th
               style="min-width: 200px; width: 30%"
               class="sortable"
-              @click="handleServerQuery('sort', 'stock')"
+              @click="handleServerQuery('sort', 'stocks')"
             >
               Stocks
               <i
@@ -516,7 +516,7 @@ let {
         </thead>
         
         <tbody class="table-border-bottom-0">
-       
+      
           <tr v-if="paginatedData.data.length <= 0">
             <td colspan="999999" class="text-center">No item found</td>
           </tr>

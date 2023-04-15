@@ -257,6 +257,7 @@ import { router } from "@inertiajs/vue3";
 const { menus } = useMenu();
 
 onMounted(() => {
+ console.log('rolan')
   setTimeout(() => {
     loadScript("/assets/js/main.js");
   }, 1000);

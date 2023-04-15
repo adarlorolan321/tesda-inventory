@@ -413,6 +413,7 @@
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import QuillEditor from '../Components/QuillEditor.vue';
 import { router } from "@inertiajs/vue3";
+
 export default {
     layout: AdminLayout,
     components: {
@@ -424,7 +425,7 @@ export default {
         }
     },
     mounted: function () {
-
+        
     }
 }
 </script>
