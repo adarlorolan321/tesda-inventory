@@ -31,6 +31,8 @@ class StoreSupplyRequest extends FormRequest
             'total_price' => ['nullable'],
             'date_purchased' => ['nullable'],
              'item_code' => ['required', 'unique:supplies,item_code'],
+             'supplier_id'=> ['nullable'],
+
         ];
     }
 }

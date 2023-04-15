@@ -140,7 +140,7 @@ let {
                                 >Email <span class="required">*</span></label
                             >
                             <input
-                                type="text"
+                                type="email"
                                 id="full_name"
                                 class="form-control"
                                 v-model="form.email"

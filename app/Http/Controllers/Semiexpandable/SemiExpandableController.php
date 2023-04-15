@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Semiexpandable;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Semiexpandable\SemiExpandableListResource;
+
 use App\Models\Semiexpandable\SemiExpandable;
 use App\Http\Requests\Semiexpandable\StoreSemiExpandableRequest;
 use App\Http\Requests\Semiexpandable\UpdateSemiExpandableRequest;
-
+use App\Http\Requests\Supply\StoreSupplyRequest;
+use App\Http\Requests\Supply\UpdateSupplyRequest;
+use App\Http\Resources\Supply\SupplyListResource;
+use App\Models\Supply\Supply;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -25,8 +28,9 @@ class SemiExpandableController extends Controller
         $sort = explode('.', $request->input('sort', 'id'));
         $order = $request->input('order', 'asc');
 
-        $data = SemiExpandable::query()
+        $data = Supply::query()
             ->with([])
+            ->where('type', 'Semi Expandable')
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
@@ -41,7 +45,7 @@ class SemiExpandableController extends Controller
             ->withQueryString();
 
         $props = [
-            'data' => SemiExpandableListResource::collection($data),
+            'data' => SupplyListResource::collection($data),
             'params' => $request->all(),
         ];
 
@@ -68,13 +72,13 @@ class SemiExpandableController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSemiExpandableRequest $request)
+    public function store(StoreSupplyRequest $request)
     {
-        $data = SemiExpandable::create($request->validated());
+        $data = Supply::create($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return new SemiExpandableListResource($data);
+            return new SupplyListResource($data);
         }
         return redirect()->back();
     }
@@ -84,9 +88,9 @@ class SemiExpandableController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $data = SemiExpandable::findOrFail($id);
+        $data = Supply::findOrFail($id);
         if ($request->wantsJson()) {
-            return new SemiExpandableListResource($data);
+            return new SupplyListResource($data);
         }
         return Inertia::render('Admin/SemiExpandable/Show', [
             'data' => $data
@@ -98,9 +102,9 @@ class SemiExpandableController extends Controller
      */
     public function edit(Request $request, string $id)
     {
-        $data = SemiExpandable::findOrFail($id);
+        $data = Supply::findOrFail($id);
         if ($request->wantsJson()) {
-            return new SemiExpandableListResource($data);
+            return new SupplyListResource($data);
         }
         return Inertia::render('Admin/SemiExpandable/Edit', [
             'data' => $data
@@ -110,14 +114,14 @@ class SemiExpandableController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSemiExpandableRequest $request, string $id)
+    public function update(UpdateSupplyRequest $request, string $id)
     {
-        $data = SemiExpandable::findOrFail($id);
+        $data = Supply::findOrFail($id);
         $data->update($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return (new SemiExpandableListResource($data))
+            return (new SupplyListResource($data))
                 ->response()
                 ->setStatusCode(201);
         }
@@ -130,7 +134,7 @@ class SemiExpandableController extends Controller
      */
     public function destroy(Request $request, string $id)
     {
-        $data = SemiExpandable::findOrFail($id);
+        $data = Supply::findOrFail($id);
         $data->delete();
         sleep(1);
 

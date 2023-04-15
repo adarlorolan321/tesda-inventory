@@ -1,8 +1,9 @@
 import { useForm, router, usePage } from "@inertiajs/vue3";
-
+import axios from 'axios'
 import { debounce } from "lodash";
 import { ref, computed, onMounted } from "vue";
 import toastr from "toastr";
+import { data } from "jquery";
 // import Swal from "sweetalert2";
 
 export function useCrud(
@@ -11,6 +12,7 @@ export function useCrud(
     routeIndex = null,
     redirect = null
 ) {
+    
     const form = useForm(formObject);
     const formState = ref("create");
     const paginatedData = computed(() => usePage().props.data);
@@ -23,8 +25,19 @@ export function useCrud(
         query: null,
         page: 1,
     });
-
+    const getSuppliers = async () => {
+        try {
+            const response = await axios.get('/user/suppliers/')
+            return response.data
+        } catch (error) {
+            console.error(error)
+            return []
+        }
+    }
     onMounted(() => {
+        getSuppliers().then((data)=>{
+              console.log(data)
+        })
         if (serverParams.value) {
             if (serverParams.value.page) {
                 serverQuery.value.page = serverParams.value.page;
@@ -278,5 +291,6 @@ export function useCrud(
         handleServerQuery,
         formState,
         updateStocksPromise,
+        getSuppliers
     };
 }

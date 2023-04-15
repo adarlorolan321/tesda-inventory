@@ -1,4 +1,5 @@
 <template>
+    
     <Select2 v-model="myValue" :options="['myOptions']" :settings="{ settingOption: value, settingOption: value }"
              @change="myChangeEvent($event)" @select="mySelectEvent($event)"/>
 
@@ -411,7 +412,7 @@
 <script lang="js">
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import QuillEditor from '../Components/QuillEditor.vue';
-
+import { router } from "@inertiajs/vue3";
 export default {
     layout: AdminLayout,
     components: {

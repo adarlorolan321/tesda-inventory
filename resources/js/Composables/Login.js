@@ -18,3 +18,23 @@ export function useLogin() {
         login,
     };
 }
+
+export function useSignup() {
+    const form = useForm({
+        email: null,
+        password: null,
+        remember: false,
+    });
+
+    const signUp = async () => {
+        form.post(route("register"), {
+            onSuccess: (data) => {},
+        });
+    };
+
+    return {
+        form,
+        login,
+        signUp,
+    };
+}

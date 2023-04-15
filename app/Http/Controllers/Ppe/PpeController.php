@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Ppe;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Ppe\PpeListResource;
+
 use App\Models\Ppe\Ppe;
 use App\Http\Requests\Ppe\StorePpeRequest;
 use App\Http\Requests\Ppe\UpdatePpeRequest;
-
+use App\Http\Requests\Supply\StoreSupplyRequest;
+use App\Http\Requests\Supply\UpdateSupplyRequest;
+use App\Http\Resources\Supply\SupplyListResource;
+use App\Models\Supply\Supply;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -18,20 +21,19 @@ class PpeController extends Controller
      */
     public function index(Request $request)
     {
-
         $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
         $sort = explode('.', $request->input('sort', 'id'));
         $order = $request->input('order', 'asc');
 
-        $data = Ppe::query()
-            ->with([])
+        $data = Supply::query()
+            ->with(['supplier'])
+            ->where('type', 'Ppe')
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
-                    $query->where('label', 'like', '%' . $queryString . '%')
-                        ->orWhere('item_code', 'like', '%' . $queryString . '%')
+                    $query->where('item_code', 'like', '%' . $queryString . '%')
                         ->orWhere('type', 'like', '%' . $queryString . '%');
                 }
             })
@@ -42,7 +44,7 @@ class PpeController extends Controller
             ->withQueryString();
 
         $props = [
-            'data' => PpeListResource::collection($data),
+            'data' => SupplyListResource::collection($data),
             'params' => $request->all(),
         ];
 
@@ -68,13 +70,13 @@ class PpeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePpeRequest $request)
+    public function store(StoreSupplyRequest $request)
     {
-        $data = Ppe::create($request->validated());
+        $data = Supply::create($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return new PpeListResource($data);
+            return new SupplyListResource($data);
         }
         return redirect()->back();
     }
@@ -84,9 +86,9 @@ class PpeController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $data = Ppe::findOrFail($id);
+        $data = Supply::findOrFail($id);
         if ($request->wantsJson()) {
-            return new PpeListResource($data);
+            return new SupplyListResource($data);
         }
         return Inertia::render('Admin/Ppe/Show', [
             'data' => $data
@@ -98,9 +100,9 @@ class PpeController extends Controller
      */
     public function edit(Request $request, string $id)
     {
-        $data = Ppe::findOrFail($id);
+        $data = Supply::findOrFail($id);
         if ($request->wantsJson()) {
-            return new PpeListResource($data);
+            return new SupplyListResource($data);
         }
         return Inertia::render('Admin/Ppe/Edit', [
             'data' => $data
@@ -110,9 +112,9 @@ class PpeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePpeRequest $request, string $id)
+    public function update(UpdateSupplyRequest $request, string $id)
     {
-        $data = Ppe::findOrFail($id);
+        $data = Supply::findOrFail($id);
         $currentStocks = $data->stocks;
         $currentUnitPrice = $data->unit_price;
 
@@ -131,7 +133,7 @@ class PpeController extends Controller
         sleep(1);
 
         if ($request->wantsJson()) {
-            return (new PpeListResource($data))
+            return (new SupplyListResource($data))
                 ->response()
                 ->setStatusCode(201);
         }
@@ -145,7 +147,7 @@ class PpeController extends Controller
      */
     public function destroy(Request $request, string $id)
     {
-        $data = Ppe::findOrFail($id);
+        $data = Supply::findOrFail($id);
         $data->delete();
         sleep(1);
 

@@ -28,19 +28,19 @@ use App\Http\Controllers\User\ProfileController;
 |
 */
 
-
+Route::get('/dashboard', function () {
+    return Inertia::render('Welcome', []);
+})->name('dashboard');
+Route::get('/', function () {
+    return Inertia::render('Welcome', []);
+})->name('home');
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::middleware(['role:Client','role:Admin'])->group(function () {
+       
+    });
     Route::middleware(['role:Admin'])->group(function () {
-
-        Route::get('/', function () {
-            return Inertia::render('Welcome', []);
-        })->name('home');
-        Route::get('/dashboard', function () {
-            return Inertia::render('Welcome', []);
-        })->name('
-        ');
 
         Route::name('user.')->prefix('user')->group(function () {
             Route::resource('supplies', SupplyController::class);
@@ -51,7 +51,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::resource('students', StudentController::class);
             Route::resource('semi_expandables', SemiExpandableController::class);
 
-            
+
 
             Route::get('validate/{type}', [UserController::class, 'validateInput'])->name('validate');
 
@@ -70,13 +70,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::resource('classes', ClassController::class);
         Route::resource('email_template', PageController\Email\EmailTemplateController::class);
 
-    
+
         Route::resource('students', StudentController::class);
 
         Route::name('classes.')->prefix('classes')->group(function () {
             Route::resource('sessions', ClassSessionController::class);
         });
-        
+
         Route::name('settings.')->prefix('settings')->group(function () {
             Route::resources([
                 'services' => PageController\Setting\ServiceController::class,
