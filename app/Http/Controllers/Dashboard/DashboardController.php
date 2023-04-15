@@ -12,7 +12,12 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        //
+        if (!auth()->user()) {
+            return redirect()->route('login');
+        }
+        else{
+            return route('dashboard');
+        }
     }
 
     /**

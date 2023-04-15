@@ -11,6 +11,7 @@ use App\Http\Controllers\User\StudentController;
 use App\Http\Controllers\Class\ClassSessionController;
 use App\Http\Controllers\Class\ClassController;
 use App\Http\Controllers\Class\TabController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Ppe\PpeController;
 use App\Http\Controllers\Semiexpandable\SemiExpandableController;
 use App\Http\Controllers\Supplier\SupplierController;
@@ -34,6 +35,7 @@ Route::get('/dashboard', function () {
 Route::get('/', function () {
     return Inertia::render('Welcome', []);
 })->name('home');
+Route::resource('/', DashboardController::class);
 
 
 Route::middleware(['auth:sanctum'])->group(function () {

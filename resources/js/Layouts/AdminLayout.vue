@@ -42,7 +42,7 @@
 
            
               <inertia-link
-              v-if="menu.role && menu.role.includes($page.props.auth.user.role)"
+              v-if="menu && menu.role.includes($page.props.auth.user.role)"
                 :href="route(menu.route)"
                 class="menu-link"
                 :only="['data', 'params']"
@@ -267,3 +267,4 @@ const logout = () => {
   router.post(route("logout"));
 };
 </script>
+   
