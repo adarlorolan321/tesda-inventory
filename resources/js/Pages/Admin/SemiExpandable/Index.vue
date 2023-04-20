@@ -26,7 +26,7 @@ onMounted(() => {
 
 const formObject = {
   label: null,
-  type: "Semi Expandable",
+  type: "Semi Expendable",
   description: null,
   item_code: null,
   stocks: 0,
@@ -90,7 +90,7 @@ let {
   <div class="card card-action">
     <div class="card-header">
       <div class="card-action-title align-items-center">
-        <h5 class="card-title">PPEs</h5>
+        <h5 class="card-title">Semi Expendables</h5>
       </div>
       <div class="card-action-element">
         <button
@@ -101,7 +101,7 @@ let {
           data-bs-target="#offCanvasForm"
           aria-controls="offCanvasForm"
         >
-          Add PPE
+          Add Semi Expendable
         </button>
         <div
           class="offcanvas offcanvas-end"
@@ -113,7 +113,7 @@ let {
           <div class="offcanvas-header">
             <h5 id="offCanvasFormLabel" class="offcanvas-title">
               {{ formState == "create" ? "Add" : "Update" }}
-              PPE
+              Semi Expendable
             </h5>
             <button
               type="button"
@@ -227,28 +227,7 @@ let {
                 {{ form.errors.stock }}
               </div>
             </div>
-            <div class="form-group mb-3">
-              <label for="name">Quantity <span class="required">*</span></label>
-              <input
-                type="number"
-                id="label"
-                class="form-control"
-                v-model="form.quantity"
-                @input="
-                  ($event) => {
-                    form.clearErrors('quantity');
-                    validateForm(['required'], form, $event.target.value, 'quantity');
-                  }
-                "
-                placeholder="Enter Quantity"
-                :class="{
-                  'is-invalid': form.errors.quantity,
-                }"
-              />
-              <div class="invalid-feedback">
-                {{ form.errors.label }}
-              </div>
-            </div>
+           
             <div class="form-group mb-3">
               <label for="name">Unit Price <span class="required">*</span></label>
               <input
@@ -271,28 +250,7 @@ let {
                 {{ form.errors.unit_price }}
               </div>
             </div>
-            <div class="form-group mb-3">
-              <label for="name">Total Price <span class="required">*</span></label>
-              <input
-                type="text"
-                id="total_price"
-                class="form-control"
-                v-model="form.total_price"
-                @input="
-                  ($event) => {
-                    form.clearErrors('total_price');
-                    validateForm(['required'], form, $event.target.value, 'total_price');
-                  }
-                "
-                placeholder="Enter total_price"
-                :class="{
-                  'is-invalid': form.errors.total_price,
-                }"
-              />
-              <div class="invalid-feedback">
-                {{ form.errors.total_price }}
-              </div>
-            </div>
+            
             <div class="form-group mb-3">
               <label for="name">Date Purchased <span class="required">*</span></label>
               <input
@@ -481,21 +439,7 @@ let {
                 v-if="serverQuery.sort == 'total_price' && serverQuery.order == 'asc'"
               ></i>
             </th>
-            <th
-              style="min-width: 200px; width: 30%"
-              class="sortable"
-              @click="handleServerQuery('sort', 'quantity')"
-            >
-              Quantity
-              <i
-                class="ti ti-arrow-up"
-                v-if="serverQuery.sort == 'quantity' && serverQuery.order == 'desc'"
-              ></i>
-              <i
-                class="ti ti-arrow-down"
-                v-if="serverQuery.sort == 'quantity' && serverQuery.order == 'asc'"
-              ></i>
-            </th>
+           
             <th
               style="min-width: 200px; width: 30%"
               class="sortable"
@@ -526,8 +470,8 @@ let {
             <td>{{ tableData.item_code }}</td>
             <td>{{ tableData.stocks }}</td>
             <td>{{ tableData.unit_price }}</td>
-            <td>{{ tableData.total_price }}</td>
-            <td>{{ tableData.quantity }}</td>
+            <td>{{ tableData.unit_price * tableData.stocks }}</td>
+            
             <td>{{ tableData.date_purchased }}</td>
 
             <td>

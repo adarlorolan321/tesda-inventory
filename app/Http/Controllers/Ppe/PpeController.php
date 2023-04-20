@@ -33,7 +33,9 @@ class PpeController extends Controller
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
-                    $query->where('item_code', 'like', '%' . $queryString . '%')
+                    $query->where('label', 'like', '%' . $queryString . '%')
+                        ->orWhere('item_code', 'like', '%' . $queryString . '%')
+                        ->orWhere('stocks', 'like', '%' . $queryString . '%')
                         ->orWhere('type', 'like', '%' . $queryString . '%');
                 }
             })
@@ -114,6 +116,7 @@ class PpeController extends Controller
      */
     public function update(UpdateSupplyRequest $request, string $id)
     {
+
         $data = Supply::findOrFail($id);
         $currentStocks = $data->stocks;
         $currentUnitPrice = $data->unit_price;

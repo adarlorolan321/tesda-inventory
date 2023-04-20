@@ -27,11 +27,14 @@ class SupplyController extends Controller
 
         $data = Supply::query()
             ->with([])
+            ->where('type','!=', 'Semi Expendible')
+            ->where('type','!=', 'Ppe')
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
                     $query->where('label', 'like', '%' . $queryString . '%')
                         ->orWhere('item_code', 'like', '%' . $queryString . '%')
+                        ->orWhere('stocks', 'like', '%' . $queryString . '%')
                         ->orWhere('type', 'like', '%' . $queryString . '%');
                 }
             })
@@ -111,7 +114,8 @@ class SupplyController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateSupplyRequest $request, string $id)
-    {
+    {    
+        
         $data = Supply::findOrFail($id);
         $currentStocks = $data->stocks;
         $currentUnitPrice = $data->unit_price;

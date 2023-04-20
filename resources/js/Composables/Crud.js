@@ -159,6 +159,7 @@ export function useCrud(
     };
     const updateStocksPromise = async () => {
         form.clearErrors();
+        console.log(form.id)
         form.patch(route(`${routeName}.update`, form.id), {
             preserveState: true,
             preventScroll: true,

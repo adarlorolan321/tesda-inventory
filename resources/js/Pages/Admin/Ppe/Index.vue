@@ -24,6 +24,13 @@ onMounted(() => {
     });
 });
 
+const minValue = (val) =>{
+console.log(val)
+if(val < 50000){
+  form.errors.unit_price = 'You can`t enter value below 50000'
+}
+}
+
 const formObject = {
   label: null,
   type: "Ppe",
@@ -51,8 +58,10 @@ let {
   serverQuery,
   handleServerQuery,
   handleEdit,
+  handleEditStocks,
   formState,
   getSuppliers,
+  updateStocksPromise,
 } = useCrud(formObject, routeName);
 </script>
 
@@ -65,10 +74,11 @@ let {
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog" role="document">
+  <div class="modal-dialog" role="document">
       <div class="modal-content">
+
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Modal title{{ form.id }}</h5>
           <button
             type="button"
             class="btn-close"
@@ -76,13 +86,34 @@ let {
             aria-label="Close"
           ></button>
         </div>
-   
-
+        <div class="modal-body">
+            <div class="form-group mb-3">
+              <label for="name">Stocks <span class="required">*</span></label>
+              <input
+                type="number"
+                id="label"
+                class="form-control"
+                v-model="form.stocks"
+                placeholder="Enter stocks"
+              />
+            </div>
+            <div class="form-group mb-3">
+              <label for="name">Unit Price <span class="required">*</span></label>
+              <input
+                type="number"
+                id="label"
+                class="form-control"
+                v-model="form.unit_price"
+                placeholder="Enter stocks"
+              />
+            </div>
+        
+        </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
             Close
           </button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button"  @click="updateStocksPromise" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
@@ -227,28 +258,7 @@ let {
                 {{ form.errors.stock }}
               </div>
             </div>
-            <div class="form-group mb-3">
-              <label for="name">Quantity <span class="required">*</span></label>
-              <input
-                type="number"
-                id="label"
-                class="form-control"
-                v-model="form.quantity"
-                @input="
-                  ($event) => {
-                    form.clearErrors('quantity');
-                    validateForm(['required'], form, $event.target.value, 'quantity');
-                  }
-                "
-                placeholder="Enter Quantity"
-                :class="{
-                  'is-invalid': form.errors.quantity,
-                }"
-              />
-              <div class="invalid-feedback">
-                {{ form.errors.label }}
-              </div>
-            </div>
+            
             <div class="form-group mb-3">
               <label for="name">Unit Price <span class="required">*</span></label>
               <input
@@ -259,7 +269,7 @@ let {
                 @input="
                   ($event) => {
                     form.clearErrors('unit_price');
-                    validateForm(['required'], form, $event.target.value, 'unit_price');
+                    validateForm(['required'], form, $event.target.value, 'unit_price'),minValue($event.target.value);
                   }
                 "
                 placeholder="Enter Unit Price"
@@ -271,28 +281,7 @@ let {
                 {{ form.errors.unit_price }}
               </div>
             </div>
-            <div class="form-group mb-3">
-              <label for="name">Total Price <span class="required">*</span></label>
-              <input
-                type="text"
-                id="total_price"
-                class="form-control"
-                v-model="form.total_price"
-                @input="
-                  ($event) => {
-                    form.clearErrors('total_price');
-                    validateForm(['required'], form, $event.target.value, 'total_price');
-                  }
-                "
-                placeholder="Enter total_price"
-                :class="{
-                  'is-invalid': form.errors.total_price,
-                }"
-              />
-              <div class="invalid-feedback">
-                {{ form.errors.total_price }}
-              </div>
-            </div>
+            
             <div class="form-group mb-3">
               <label for="name">Date Purchased <span class="required">*</span></label>
               <input
@@ -481,21 +470,7 @@ let {
                 v-if="serverQuery.sort == 'total_price' && serverQuery.order == 'asc'"
               ></i>
             </th>
-            <th
-              style="min-width: 200px; width: 30%"
-              class="sortable"
-              @click="handleServerQuery('sort', 'quantity')"
-            >
-              Quantity
-              <i
-                class="ti ti-arrow-up"
-                v-if="serverQuery.sort == 'quantity' && serverQuery.order == 'desc'"
-              ></i>
-              <i
-                class="ti ti-arrow-down"
-                v-if="serverQuery.sort == 'quantity' && serverQuery.order == 'asc'"
-              ></i>
-            </th>
+           
             <th
               style="min-width: 200px; width: 30%"
               class="sortable"
@@ -526,8 +501,8 @@ let {
             <td>{{ tableData.item_code }}</td>
             <td>{{ tableData.stocks }}</td>
             <td>{{ tableData.unit_price }}</td>
-            <td>{{ tableData.total_price }}</td>
-            <td>{{ tableData.quantity }}</td>
+            <td>{{ (tableData.stocks  * tableData.unit_price ) }}</td>
+            
             <td>{{ tableData.date_purchased }}</td>
 
             <td>
@@ -537,6 +512,7 @@ let {
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
                   title="Add Stocks"
+                  @click="handleEditStocks(tableData)"
                 >
                   <i class="ti ti-plus"></i>
                 </button>

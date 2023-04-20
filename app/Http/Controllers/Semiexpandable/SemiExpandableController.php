@@ -30,7 +30,7 @@ class SemiExpandableController extends Controller
 
         $data = Supply::query()
             ->with(['supplier'])
-            ->where('type', 'Semi Expandable')
+            ->where('type', 'Semi Expendable')
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result

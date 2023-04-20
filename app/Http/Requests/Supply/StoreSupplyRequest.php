@@ -27,12 +27,22 @@ class StoreSupplyRequest extends FormRequest
             'description' => ['required'],
             'stocks' => ['nullable'],
             'quantity' => ['nullable'],
-            'unit_price' => ['nullable'],
+            'unit_price' => ['sometimes', 'required_if:type,Ppe', function ($attribute, $value, $fail) {
+                if (request('type') === 'Ppe' && $value < 50000) {
+                    $fail('You can`t enter value below 50000.');
+                }
+            }],
             'total_price' => ['nullable'],
             'date_purchased' => ['nullable'],
-             'item_code' => ['required', 'unique:supplies,item_code'],
-             'supplier_id'=> ['nullable'],
+            'item_code' => ['required', 'unique:supplies,item_code'],
+            'supplier_id' => ['nullable'],
 
+        ];
+    }
+    public function messages()
+    {
+        return [
+          
         ];
     }
 }

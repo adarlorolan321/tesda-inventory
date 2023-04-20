@@ -16,7 +16,7 @@ class DashboardController extends Controller
             return redirect()->route('login');
         }
         else{
-            return route('dashboard');
+            return redirect()->route('dashboard');
         }
     }
 

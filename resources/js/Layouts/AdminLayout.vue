@@ -29,15 +29,12 @@
         <ul class="menu-inner py-1">
           <!-- Page -->
           <template v-for="(menu, index) in menus" :key="'menu-' + index">
+          
             <li
 
               v-if="!menu.sub_menu "
               class="menu-item"
-              :class="{
-                active:
-                  route().current(menu.route) ||
-                  route().current(menu.route.replace(/[^.]*$/, '*')),
-              }"
+            
             >
 
            
@@ -249,12 +246,14 @@
 </template>
 
 <script setup>
+import { createRouter, createWebHistory } from 'vue-router'
 import { loadScript } from "vue-plugin-load-script";
 import { onMounted, ref } from "vue";
 import { useMenu } from "@/Composables/Menus";
 import { router } from "@inertiajs/vue3";
 
 const { menus } = useMenu();
+
 
 onMounted(() => {
  console.log('rolan')
