@@ -42,7 +42,7 @@ let {
     <div class="card card-action">
         <div class="card-header">
             <div class="card-action-title align-items-center">
-                <h5 class="card-title">Supplier</h5>
+                <h5 class="card-title">Employees</h5>
             </div>
             <div class="card-action-element">
                 <button
@@ -53,7 +53,7 @@ let {
                     data-bs-target="#offCanvasForm"
                     aria-controls="offCanvasForm"
                 >
-                    Add User
+                    Add Employee
                 </button>
                 <div
                     class="offcanvas offcanvas-end"

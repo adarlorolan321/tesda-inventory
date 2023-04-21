@@ -27,7 +27,7 @@ onMounted(() => {
 const minValue = (val) =>{
 console.log(val)
 if(val < 50000){
-  form.errors.unit_price = 'You can`t enter value below 50000'
+  form.errors.unit_price = 'You can`t enter value below 50,000'
 }
 }
 

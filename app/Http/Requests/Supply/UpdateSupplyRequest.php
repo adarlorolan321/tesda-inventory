@@ -29,7 +29,14 @@ class UpdateSupplyRequest extends FormRequest
         'item_code' => ['required'],
         'stocks' => ['nullable'],
         'quantity' => ['nullable'],
-        'unit_price' => ['nullable'],
+        'unit_price' => ['sometimes', 'required_if:type,Ppe', function ($attribute, $value, $fail) {
+            if (request('type') === 'Ppe' && $value < 50000) {
+                $fail('You can`t enter value below 50,000.');
+            }
+            if (request('type') === 'Semi Expendable' && $value > 50000) {
+                $fail('You can`t enter value higher 50,000');
+            }
+        }],
         'total_price' => ['nullable'],
         'date_purchased' => ['nullable'],
 

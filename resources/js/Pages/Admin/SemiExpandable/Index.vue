@@ -12,6 +12,13 @@ import { useCrud } from "@/Composables/Crud.js";
 import { useValidateForm } from "@/Composables/Validate.js";
 import { usePage, Head } from "@inertiajs/vue3";
 
+const minValue = (val) =>{
+console.log(val)
+if(val > 50000){
+  form.errors.unit_price = 'You can`t enter value higher 50,000'
+}
+}
+
 const { props } = usePage();
 let suppliers = ref([]);
 onMounted(() => {
@@ -261,7 +268,7 @@ let {
                 @input="
                   ($event) => {
                     form.clearErrors('unit_price');
-                    validateForm(['required'], form, $event.target.value, 'unit_price');
+                    validateForm(['required'], form, $event.target.value, 'unit_price'),minValue($event.target.value);
                   }
                 "
                 placeholder="Enter Unit Price"
