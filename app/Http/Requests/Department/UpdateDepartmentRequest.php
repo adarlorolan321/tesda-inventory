@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Department;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserRequest extends FormRequest
+class UpdateDepartmentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return auth()->user()->can("store user");
+        return auth()->user()->can("update department");
     }
 
     /**
@@ -22,13 +22,7 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=> ['nullable'],
-            'email'=> ['email', 'unique:users,email'],
-             'position' => ['nullable'],
-             'department' => ['nullable'],
-
-
-            
+            "name" => ["required"],
         ];
     }
 }

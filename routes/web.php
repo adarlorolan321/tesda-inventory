@@ -16,6 +16,7 @@ use App\Http\Controllers\Ppe\PpeController;
 use App\Http\Controllers\Semiexpandable\SemiExpandableController;
 use App\Http\Controllers\Supplier\SupplierController;
 use App\Http\Controllers\Supply\SupplyController;
+use App\Http\Controllers\Supplyhistory\SupplyHistoryController;
 use App\Http\Controllers\User\ProfileController;
 
 /*
@@ -46,18 +47,24 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         Route::name('user.')->prefix('user')->group(function () {
             Route::resource('supplies', SupplyController::class);
+            Route::resource('users', UserController::class);
+
             Route::resource('ppes', PpeController::class);
             Route::resource('suppliers', SupplierController::class);
             Route::resource('coaches', CoachController::class);
             Route::resource('parents', ParentController::class);
             Route::resource('students', StudentController::class);
             Route::resource('semi_expandables', SemiExpandableController::class);
-
+            Route::resource('supply_histories', SupplyHistoryController::class);
 
 
             Route::get('validate/{type}', [UserController::class, 'validateInput'])->name('validate');
 
             // Profile Controller
+
+            Route::patch('supplies/{id}/addStocks', [SupplyController::class, 'addStocks'])->name('supplies.addStocks');
+            Route::patch('ppes/{id}/addStocks', [PpeController::class, 'addStocks'])->name('ppes.addStocks');
+            Route::patch('semi_expandables/{id}/addStocks', [SemiExpandableController::class, 'addStocks'])->name('semi_expandables.addStocks');
 
             Route::patch('profile/{id}', [UserController::class, 'update'])->name('profile.update');
             Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');

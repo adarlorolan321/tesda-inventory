@@ -17,7 +17,7 @@ let suppliers = ref([]);
 onMounted(() => {
   getSuppliers()
     .then((data) => {
-      suppliers = data.data;    
+      suppliers = data.data;
     })
     .catch((error) => {
       console.error(error);
@@ -53,6 +53,9 @@ let {
   handleEdit,
   formState,
   getSuppliers,
+  handleEditStocks,
+  updateStocksPromise,
+  modalOff,
 } = useCrud(formObject, routeName);
 </script>
 
@@ -65,10 +68,11 @@ let {
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
   >
+ 
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add {{ form.label }}</h5>
           <button
             type="button"
             class="btn-close"
@@ -76,13 +80,36 @@ let {
             aria-label="Close"
           ></button>
         </div>
-   
+        <div class="modal-body">
+          <div class="form-group mb-3">
+            <label for="name">Stocks <span class="required">*</span></label>
+            <input
+              type="number"
+              id="label"
+              class="form-control"
+              v-model="form.stocks"
+              placeholder="Enter stocks"
+            />
+          </div>
 
+          <div class="form-group mb-3">
+            <label for="name">Unit Price <span class="required">*</span></label>
+            <input
+              type="number"
+              id="label"
+              class="form-control"
+              v-model="form.unit_price"
+              placeholder="Enter stocks"
+            />
+          </div>
+        </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
             Close
           </button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" @click="updateStocksPromise" data-bs-dismiss="modal" class="btn btn-primary">
+            Save changes
+          </button>
         </div>
       </div>
     </div>
@@ -125,19 +152,15 @@ let {
           </div>
           <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
             <div class="form-group mb-3">
-            <div class="form-group mb-3">
-              <label for="name">Suplier <span class="required">*</span></label>
-              <select
-                class="form-select"
-                v-model="form.supplier_id"
-             
-              >
-                <option v-for="i in suppliers" :value="i.id">
-                  {{ i.full_name }}
-                </option>
-              </select>
-              <label for="name">Label <span class="required">*</span></label>
-</div>
+              <div class="form-group mb-3">
+                <label for="name">Suplier <span class="required">*</span></label>
+                <select class="form-select" v-model="form.supplier_id">
+                  <option v-for="i in suppliers" :value="i.id">
+                    {{ i.full_name }}
+                  </option>
+                </select>
+                <label for="name">Label <span class="required">*</span></label>
+              </div>
 
               <input
                 type="text"
@@ -227,7 +250,7 @@ let {
                 {{ form.errors.stock }}
               </div>
             </div>
-           
+
             <div class="form-group mb-3">
               <label for="name">Unit Price <span class="required">*</span></label>
               <input
@@ -250,7 +273,7 @@ let {
                 {{ form.errors.unit_price }}
               </div>
             </div>
-            
+
             <div class="form-group mb-3">
               <label for="name">Date Purchased <span class="required">*</span></label>
               <input
@@ -379,133 +402,20 @@ let {
               ></i>
             </th>
 
-            <th
-              style="min-width: 200px; width: 30%"
-              class="sortable"
-              @click="handleServerQuery('sort', 'item_code')"
-            >
-              Item Code
-              <i
-                class="ti ti-arrow-up"
-                v-if="serverQuery.sort == 'item_code' && serverQuery.order == 'desc'"
-              ></i>
-              <i
-                class="ti ti-arrow-down"
-                v-if="serverQuery.sort == 'item_code' && serverQuery.order == 'asc'"
-              ></i>
-            </th>
-            <th
-              style="min-width: 200px; width: 30%"
-              class="sortable"
-              @click="handleServerQuery('sort', 'stocks')"
-            >
-              Stocks
-              <i
-                class="ti ti-arrow-up"
-                v-if="serverQuery.sort == 'stock' && serverQuery.order == 'desc'"
-              ></i>
-              <i
-                class="ti ti-arrow-down"
-                v-if="serverQuery.sort == 'stock' && serverQuery.order == 'asc'"
-              ></i>
-            </th>
-            <th
-              style="min-width: 200px; width: 30%"
-              class="sortable"
-              @click="handleServerQuery('sort', 'unit_price')"
-            >
-              Unit Price
-              <i
-                class="ti ti-arrow-up"
-                v-if="serverQuery.sort == 'unit_price' && serverQuery.order == 'desc'"
-              ></i>
-              <i
-                class="ti ti-arrow-down"
-                v-if="serverQuery.sort == 'unit_price' && serverQuery.order == 'asc'"
-              ></i>
-            </th>
-            <th
-              style="min-width: 200px; width: 30%"
-              class="sortable"
-              @click="handleServerQuery('sort', 'total_price')"
-            >
-              Total Price
-              <i
-                class="ti ti-arrow-up"
-                v-if="serverQuery.sort == 'total_price' && serverQuery.order == 'desc'"
-              ></i>
-              <i
-                class="ti ti-arrow-down"
-                v-if="serverQuery.sort == 'total_price' && serverQuery.order == 'asc'"
-              ></i>
-            </th>
-           
-            <th
-              style="min-width: 200px; width: 30%"
-              class="sortable"
-              @click="handleServerQuery('sort', 'date_purchased')"
-            >
-              Date Purchased
-              <i
-                class="ti ti-arrow-up"
-                v-if="serverQuery.sort == 'date_purchased' && serverQuery.order == 'desc'"
-              ></i>
-              <i
-                class="ti ti-arrow-down"
-                v-if="serverQuery.sort == 'date_purchased' && serverQuery.order == 'asc'"
-              ></i>
-            </th>
-            <th style="width: 150px">Actions</th>
+        
+
           </tr>
         </thead>
-        
+
         <tbody class="table-border-bottom-0">
-      
           <tr v-if="paginatedData.data.length <= 0">
             <td colspan="999999" class="text-center">No item found</td>
           </tr>
           <tr v-for="tableData in paginatedData.data" :key="tableData">
-            <td>{{ tableData.label }}</td>
-            <td>{{ tableData.supplier? tableData.supplier.full_name : '' }}</td>
-            <td>{{ tableData.item_code }}</td>
-            <td>{{ tableData.stocks }}</td>
-            <td>{{ tableData.unit_price }}</td>
-            <td>{{ tableData.unit_price * tableData.stocks }}</td>
-            
-            <td>{{ tableData.date_purchased }}</td>
+            <td>{{ tableData.quantity }}</td>
+           
 
-            <td>
-              <div class="d-flex gap-2">
-                <button
-                  class="btn btn-icon btn-label-info waves-effect"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                  title="Add Stocks"
-                >
-                  <i class="ti ti-plus"></i>
-                </button>
-                <a
-                  class="btn btn-icon btn-label-primary waves-effect"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  data-bs-custom-class="tooltip-primary"
-                  title="Edit"
-                  @click="handleEdit(tableData)"
-                  href="javascript:void(0);"
-                  ><i class="ti ti-pencil"></i>
-                </a>
-                <a
-                  class="btn btn-icon btn-label-danger waves-effect"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                  data-bs-custom-class="tooltip-danger"
-                  title="Delete"
-                  href="javascript:void(0);"
-                  @click="deletePromise(tableData.id)"
-                  ><i class="ti ti-trash"></i>
-                </a>
-              </div>
-            </td>
+          
           </tr>
         </tbody>
       </table>

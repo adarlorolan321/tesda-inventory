@@ -7,7 +7,7 @@ use App\Http\Resources\Supply\SupplyListResource;
 use App\Models\Supply\Supply;
 use App\Http\Requests\Supply\StoreSupplyRequest;
 use App\Http\Requests\Supply\UpdateSupplyRequest;
-
+use App\Models\SupplyHistory\SupplyHistory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -26,9 +26,9 @@ class SupplyController extends Controller
         $order = $request->input('order', 'asc');
 
         $data = Supply::query()
-            ->with([])
-            ->where('type','!=', 'Semi Expendible')
-            ->where('type','!=', 'Ppe')
+            ->with(['supplier'])
+            ->where('type', '!=', 'Semi Expendible')
+            ->where('type', '!=', 'Ppe')
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
@@ -56,7 +56,7 @@ class SupplyController extends Controller
         if (count($data) <= 0 && $page > 1) {
             return redirect()->route('supplies.index', ['page' => 1]);
         }
-
+  
         return Inertia::render('Admin/Supply/Index', $props);
     }
 
@@ -75,6 +75,16 @@ class SupplyController extends Controller
     {
         $data = Supply::create($request->validated());
         sleep(1);
+
+        SupplyHistory::create(
+            [
+                'user_id' => auth()->user()->id,
+                'supply_id' => $data->id,
+                'quantity' => $data->stocks,
+                'unit_price' => $data->unit_price,
+            ]
+
+        );
 
         if ($request->wantsJson()) {
             return new SupplyListResource($data);
@@ -113,12 +123,21 @@ class SupplyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSupplyRequest $request, string $id)
-    {    
-        
+    public function addStocks(UpdateSupplyRequest $request, string $id)
+    {
         $data = Supply::findOrFail($id);
         $currentStocks = $data->stocks;
         $currentUnitPrice = $data->unit_price;
+        SupplyHistory::create(
+            [
+                'user_id' => auth()->user()->id,
+                'supply_id' => $data->id,
+                'quantity' => $data->stocks,
+                'unit_price' => $request->unit_price,
+            ]
+
+        );
+
 
         $totalCurrentUnitPrice = ($currentStocks * $currentUnitPrice) + ($request->validated()['stocks'] * $request->validated()['unit_price']);
 
@@ -126,11 +145,11 @@ class SupplyController extends Controller
 
         $average = $totalCurrentUnitPrice / $updatedStocks;
 
-        // Update the supply record with the new stocks value
+        // Update the Ppe record with the new stocks value
         $data->update(['stocks' => $updatedStocks]);
         $data->update(['unit_price' => $average]);
 
-        // Update the supply record again without including the stocks field
+        // Update the Ppe record again without including the stocks field
         $data->update(collect($request->validated())->except(['stocks', 'unit_price'])->toArray());
         sleep(1);
 
@@ -143,7 +162,23 @@ class SupplyController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateSupplyRequest $request, string $id)
+    {
+        $data = Supply::findOrFail($id);
+        $data->update($request->validated());
+        sleep(1);
 
+        if ($request->wantsJson()) {
+            return (new SupplyListResource($data))
+                ->response()
+                ->setStatusCode(201);
+        }
+
+        return redirect()->back();
+    }
     /**
      * Remove the specified resource from storage.
      */

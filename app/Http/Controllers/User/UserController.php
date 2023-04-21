@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use App\Models\Media;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -45,7 +46,7 @@ class UserController extends Controller
             return json_encode($props);
         }
 
-        return Inertia::render('Admin/User', $props);
+        return Inertia::render('Admin/User/Index', $props);
     }
 
 
@@ -57,13 +58,19 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        $data = User::create($request->validated());
-        sleep(1);
 
+        $data = $request->validated();
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'position'=> $request->position,
+            'department' => $request->department,
+            'password' => bcrypt('password'),
+        ]);
         if ($request->wantsJson()) {
             return new UserListResource($data);
         }
-        return redirect()->route('users.index')->with('message', 'Record Saved');
+        return redirect()->route('user.users.index')->with('message', 'Record Saved');
     }
 
 
@@ -93,12 +100,12 @@ class UserController extends Controller
 
     public function update(Request $request, string $id)
     {
-        
+
         $data = User::findOrFail($id);
         $userArr = $request->all();
-        $userArr['name'] = $request['first_name'] . ' ' . $request['last_name'];
+        // $userArr['name'] = $request['first_name'] . ' ' . $request['last_name'];
         $data->update($userArr);
-        
+
         //Upload Profile Photo
         if (isset($request->input('profile_photo', [])['id'])) {
             if ($request->input('profile_photo', [])['model_id'] != $data->id) {
@@ -118,10 +125,7 @@ class UserController extends Controller
                 ->response()
                 ->setStatusCode(201);
         }
-      return redirect()->back();
-       
-    
-       
+        return redirect()->back();
     }
 
 

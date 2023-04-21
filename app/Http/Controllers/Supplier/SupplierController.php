@@ -110,7 +110,7 @@ class SupplierController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSupplierRequest $request, string $id)
+    public function update(UpdateSupplierRequest $request, string $id)  
     {
         $data = Supplier::findOrFail($id);
         $data->update($request->validated());

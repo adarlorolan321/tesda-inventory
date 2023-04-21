@@ -1,20 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Semiexpandable;
+namespace App\Http\Controllers\Department;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Department\DepartmentListResource;
+use App\Models\Department\Department;
+use App\Http\Requests\Department\StoreDepartmentRequest;
+use App\Http\Requests\Department\UpdateDepartmentRequest;
 
-use App\Models\Semiexpandable\SemiExpandable;
-use App\Http\Requests\Semiexpandable\StoreSemiExpandableRequest;
-use App\Http\Requests\Semiexpandable\UpdateSemiExpandableRequest;
-use App\Http\Requests\Supply\StoreSupplyRequest;
-use App\Http\Requests\Supply\UpdateSupplyRequest;
-use App\Http\Resources\Supply\SupplyListResource;
-use App\Models\Supply\Supply;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class SemiExpandableController extends Controller
+class DepartmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,9 +25,8 @@ class SemiExpandableController extends Controller
         $sort = explode('.', $request->input('sort', 'id'));
         $order = $request->input('order', 'asc');
 
-        $data = Supply::query()
-            ->with(['supplier'])
-            ->where('type', 'Semi Expendable')
+        $data = Department::query()
+            ->with([])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
@@ -45,7 +41,7 @@ class SemiExpandableController extends Controller
             ->withQueryString();
 
         $props = [
-            'data' => SupplyListResource::collection($data),
+            'data' => DepartmentListResource::collection($data),
             'params' => $request->all(),
         ];
 
@@ -55,10 +51,10 @@ class SemiExpandableController extends Controller
 
         if(count($data) <= 0 && $page > 1)
         {
-            return redirect()->route('semi_expandables.index', ['page' => 1]);
+            return redirect()->route('departments.index', ['page' => 1]);
         }
 
-        return Inertia::render('Admin/SemiExpandable/Index', $props);
+        return Inertia::render('Admin/Department', $props);
     }
 
     /**
@@ -66,19 +62,19 @@ class SemiExpandableController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/SemiExpandable/Create');
+        return Inertia::render('Admin/Department/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSupplyRequest $request)
+    public function store(StoreDepartmentRequest $request)
     {
-        $data = Supply::create($request->validated());
+        $data = Department::create($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return new SupplyListResource($data);
+            return new DepartmentListResource($data);
         }
         return redirect()->back();
     }
@@ -88,11 +84,11 @@ class SemiExpandableController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $data = Supply::findOrFail($id);
+        $data = Department::findOrFail($id);
         if ($request->wantsJson()) {
-            return new SupplyListResource($data);
+            return new DepartmentListResource($data);
         }
-        return Inertia::render('Admin/SemiExpandable/Show', [
+        return Inertia::render('Admin/Department/Show', [
             'data' => $data
         ]);
     }
@@ -102,72 +98,39 @@ class SemiExpandableController extends Controller
      */
     public function edit(Request $request, string $id)
     {
-        $data = Supply::findOrFail($id);
+        $data = Department::findOrFail($id);
         if ($request->wantsJson()) {
-            return new SupplyListResource($data);
+            return new DepartmentListResource($data);
         }
-        return Inertia::render('Admin/SemiExpandable/Edit', [
+        return Inertia::render('Admin/Department/Edit', [
             'data' => $data
         ]);
     }
 
-   
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSupplyRequest $request, string $id)
+    public function update(UpdateDepartmentRequest $request, string $id)
     {
-      
-        $data = Supply::findOrFail($id);
+        $data = Department::findOrFail($id);
         $data->update($request->validated());
         sleep(1);
 
         if ($request->wantsJson()) {
-            return (new SupplyListResource($data))
+            return (new DepartmentListResource($data))
                 ->response()
                 ->setStatusCode(201);
         }
 
         return redirect()->back();
     }
-
-    public function addStocks(UpdateSupplyRequest $request, string $id)
-    {
-    
-        $data = Supply::findOrFail($id);
-        $currentStocks = $data->stocks;
-        $currentUnitPrice = $data->unit_price;
-
-        $totalCurrentUnitPrice = ($currentStocks * $currentUnitPrice) + ($request->validated()['stocks'] * $request->validated()['unit_price']);
-
-        $updatedStocks = $request->validated()['stocks'] + $currentStocks;
-
-        $average = $totalCurrentUnitPrice / $updatedStocks;
-
-        // Update the Ppe record with the new stocks value
-        $data->update(['stocks' => $updatedStocks]);
-        $data->update(['unit_price' => $average]);
-
-        // Update the Ppe record again without including the stocks field
-        $data->update(collect($request->validated())->except(['stocks', 'unit_price'])->toArray());
-        sleep(1);
-
-        if ($request->wantsJson()) {
-            return (new SupplyListResource($data))
-                ->response()
-                ->setStatusCode(201);
-        }
-
-        return redirect()->back();
-    }
-
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Request $request, string $id)
     {
-        $data = Supply::findOrFail($id);
+        $data = Department::findOrFail($id);
         $data->delete();
         sleep(1);
 

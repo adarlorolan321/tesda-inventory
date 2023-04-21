@@ -78,7 +78,7 @@ let {
       <div class="modal-content">
 
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title{{ form.id }}</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add Stocks( {{ form.label }} )</h5>
           <button
             type="button"
             class="btn-close"
@@ -113,7 +113,7 @@ let {
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
             Close
           </button>
-          <button type="button"  @click="updateStocksPromise" class="btn btn-primary">Save changes</button>
+          <button type="button"  @click="updateStocksPromise" data-bs-dismiss="modal" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
@@ -167,7 +167,7 @@ let {
                   {{ i.full_name }}
                 </option>
               </select>
-              <label for="name">Label <span class="required">*</span></label>
+              <label for="name">Property Number <span class="required">*</span></label>
 </div>
 
               <input
@@ -387,7 +387,7 @@ let {
         <thead class="table-light" style="min-width: 200px">
           <tr>
             <th class="sortable" @click="handleServerQuery('sort', 'item_name')">
-              Label
+              Property No.
               <i
                 class="ti ti-arrow-up"
                 v-if="serverQuery.sort == 'item_name' && serverQuery.order == 'desc'"
@@ -500,8 +500,8 @@ let {
             <td>{{ tableData.supplier? tableData.supplier.full_name : '' }}</td>
             <td>{{ tableData.item_code }}</td>
             <td>{{ tableData.stocks }}</td>
-            <td>{{ tableData.unit_price }}</td>
-            <td>{{ (tableData.stocks  * tableData.unit_price ) }}</td>
+            <td>₱{{ tableData.unit_price }}</td>
+            <td>₱{{ (tableData.stocks  * tableData.unit_price ) }}</td>
             
             <td>{{ tableData.date_purchased }}</td>
 

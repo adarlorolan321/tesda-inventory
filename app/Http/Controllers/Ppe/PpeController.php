@@ -114,9 +114,8 @@ class PpeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSupplyRequest $request, string $id)
+    public function addStocks(UpdateSupplyRequest $request, string $id)
     {
-
         $data = Supply::findOrFail($id);
         $currentStocks = $data->stocks;
         $currentUnitPrice = $data->unit_price;
@@ -143,6 +142,25 @@ class PpeController extends Controller
 
         return redirect()->back();
     }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateSupplyRequest $request, string $id)
+    {
+        $data = Supply::findOrFail($id);
+        $data->update($request->validated());
+        sleep(1);
+
+        if ($request->wantsJson()) {
+            return (new SupplyListResource($data))
+                ->response()
+                ->setStatusCode(201);
+        }
+
+        return redirect()->back();
+    }
+    /**
 
 
     /**

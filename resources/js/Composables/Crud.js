@@ -12,6 +12,7 @@ export function useCrud(
     routeIndex = null,
     redirect = null
 ) {
+    const modalOff = ref(false);
     
     const form = useForm(formObject);
     const formState = ref("create");
@@ -160,13 +161,13 @@ export function useCrud(
     const updateStocksPromise = async () => {
         form.clearErrors();
         console.log(form.id)
-        form.patch(route(`${routeName}.update`, form.id), {
+        form.patch(route(`${routeName}.addStocks`, form.id), {
             preserveState: true,
             preventScroll: true,
             only: ["data", "params", "errors", "auth"],
             onSuccess: () => {
                 toastr.info("Record updated");
-                location.reload();
+                modalOff.value = false;
                 if (redirect) {
                     router.visit(route(redirect.redirectTo, redirect.id));
                 } else {
@@ -178,6 +179,7 @@ export function useCrud(
     };
     const updatePromise = async () => {
         form.clearErrors();
+       
         form.patch(route(`${routeName}.update`, form.id), {
             preserveState: true,
             preventScroll: true,
@@ -292,6 +294,7 @@ export function useCrud(
         handleServerQuery,
         formState,
         updateStocksPromise,
-        getSuppliers
+        getSuppliers,
+        
     };
 }
