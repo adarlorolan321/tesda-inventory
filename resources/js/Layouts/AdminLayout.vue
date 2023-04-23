@@ -29,17 +29,9 @@
         <ul class="menu-inner py-1">
           <!-- Page -->
           <template v-for="(menu, index) in menus" :key="'menu-' + index">
-          
-            <li
-
-              v-if="!menu.sub_menu "
-              class="menu-item"
-            
-            >
-
-           
+            <li v-if="!menu.sub_menu" class="menu-item">
               <inertia-link
-              v-if="menu && menu.role.includes($page.props.auth.user.role)"
+                v-if="menu && menu.role.includes($page.props.auth.user.role)"
                 :href="route(menu.route)"
                 class="menu-link"
                 :only="['data', 'params']"
@@ -71,7 +63,6 @@
                   <li
                     v-if="sub_menu.role == $page.props.auth.user.role"
                     class="menu-item"
-                   
                   >
                     <inertia-link
                       :href="route(sub_menu.route)"
@@ -122,6 +113,34 @@
 
             <ul class="navbar-nav flex-row align-items-center ms-auto">
               <!-- User -->
+              <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                <a
+                  class="nav-link dropdown-toggle hide-arrow"
+                  href="javascript:void(0);"
+                  data-bs-toggle="dropdown"
+                >
+                  <i class="fas fa-bell position-relative 2x">
+                    <span class="visually-hidden">Notifications</span>
+                    <span class="badge bg-danger position-absolute top-0 end-0">{{
+                      lowItems.length
+                    }}</span>
+                  </i>
+                </a>
+                <div
+                  class="dropdown-menu dropdown-menu-end"
+                  aria-labelledby="navbarDropdownMenuUser"
+                >
+                  <a class="nav-link dropdown-toggle hide-arrow">
+                    <h5 class="text-center">Low Stocks</h5>
+                    <div class="dropdown-divider"></div>
+                  </a>
+
+                  <ul v-for="data in lowItems">
+                    <li class="dropdown-item">{{ data.label }}</li>
+                  </ul>
+                </div>
+              </li>
+
               <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a
                   class="nav-link dropdown-toggle hide-arrow"
@@ -220,7 +239,8 @@
         <div class="content-wrapper">
           <!-- Content -->
           <div class="container-fluid flex-grow-1 container-p-y">
-            <slot></slot>
+            <slot> </slot>
+           
           </div>
           <!-- / Content -->
 
@@ -244,17 +264,18 @@
 </template>
 
 <script setup>
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from "vue-router";
 import { loadScript } from "vue-plugin-load-script";
 import { onMounted, ref } from "vue";
 import { useMenu } from "@/Composables/Menus";
 import { router } from "@inertiajs/vue3";
+import axios from "axios";
 
 const { menus } = useMenu();
 
-
 onMounted(() => {
- console.log('rolan')
+  getLowItems();
+  console.log("rolan");
   setTimeout(() => {
     loadScript("/assets/js/main.js");
   }, 1000);
@@ -263,5 +284,24 @@ onMounted(() => {
 const logout = () => {
   router.post(route("logout"));
 };
+const lowItems = ref([]);
+
+const getLowItems = async () => {
+  try {
+    const response = await axios.get(route("getLowItem"));
+    lowItems.value = response.data;
+  } catch (error) {
+    // Handle error
+  }
+};
 </script>
-   
+<style>
+.fa-bell {
+  font-size: 1.5rem; /* increase font size of bell icon */
+}
+
+.badge {
+  font-size: 0.35rem; /* decrease font size of badge */
+  padding: 0.25rem 0.4rem; /* adjust padding to make badge smaller */
+}
+</style>

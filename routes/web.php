@@ -34,6 +34,7 @@ use App\Http\Controllers\User\ProfileController;
 Route::get('/dashboard', function () {
     return Inertia::render('Welcome', []);
 })->name('dashboard');
+Route::get('/dashboard/getLowItem',[DashboardController::class,'getLowItem'])->name('getLowItem');
 Route::get('/', function () {
     return Inertia::render('Welcome', []);
 })->name('home');

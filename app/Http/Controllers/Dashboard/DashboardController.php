@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Supply\Supply;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -14,12 +15,17 @@ class DashboardController extends Controller
     {
         if (!auth()->user()) {
             return redirect()->route('login');
-        }
-        else{
-            return redirect()->route('dashboard');
+        } else {
+            $data = Supply::where('stocks', '<', '5')->get();
+
+            return redirect()->route('dashboard', $data);
         }
     }
-
+    public function getLowItem()
+    {
+        $data = Supply::where('stocks', '<', '5')->get();
+        return $data;
+    }
     /**
      * Show the form for creating a new resource.
      */
