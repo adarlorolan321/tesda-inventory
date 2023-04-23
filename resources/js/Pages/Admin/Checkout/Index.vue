@@ -11,31 +11,53 @@ import { router } from "@inertiajs/vue3";
 import { useCrud } from "@/Composables/Crud.js";
 import { useValidateForm } from "@/Composables/Validate.js";
 import { usePage, Head } from "@inertiajs/vue3";
+import axios from "axios";
+import Swal from "sweetalert2";
+import toastr from "toastr";
 
 const { props } = usePage();
 let toCheckout = ref([]);
-let currentSelected = ref('');
+let currentSelected = ref("");
 const quantity = ref(0);
+const error = ref([]);
 const addStocks = (item) => {
   currentSelected.value = item;
-  console.log(currentSelected.value)
+  console.log(currentSelected.value);
+};
+const deleteData = (index) => {
+  toCheckout.value.splice(index, 1);
+};
+const Checkout = async () => {
   
-
-  // const lastIndex = toCheckout.value.length - 1;
-  // toCheckout.value[lastIndex].quantity = quantity.value;
-  // console.log(toCheckout.value[lastIndex].quantity);
-  // quantity.value = 0
-  // output: 2
+  try {
+    const data = toCheckout.value.map(item => ({ id: item.id, quantity: item.quantity }))
+    const response = await axios.post(route('checkouts.store'), { data })
+    toastr.success("Record saved");
+    toCheckout.value=[];
+  
+    
+  } catch (error) {
+    console.error(error)
+    toastr.error("Error saving record")
+  }
 };
 
 const updateQuantity = () => {
-  const existingIndex = toCheckout.value.findIndex((existingItem) => existingItem.id === currentSelected.value.id);
-  if (existingIndex >= 0) {
-    const existingItem = toCheckout.value[existingIndex];
-    existingItem.quantity += parseInt(quantity.value, 10);
+  const existingIndex = toCheckout.value.findIndex(
+    (existingItem) => existingItem.id === currentSelected.value.id
+  );
+  if (currentSelected.value.stocks > quantity.value) {
+    if (existingIndex >= 0) {
+      const existingItem = toCheckout.value[existingIndex];
+      existingItem.quantity = parseInt(quantity.value, 10);
+      quantity.value = 0;
+    } else {
+      currentSelected.value.quantity = parseInt(quantity.value, 10);
+      toCheckout.value.push(currentSelected.value);
+      quantity.value = 0;
+    }
   } else {
-    currentSelected.value.quantity = parseInt(quantity.value, 10);
-    toCheckout.value.push(currentSelected.value);
+    Swal.fire("Error!", "You cant enter quantity greater than available stocks", "error");
   }
 };
 
@@ -57,8 +79,9 @@ let {
   handleEdit,
   handleEditStocks,
   formState,
-  getSuppliers,
+
   updateStocksPromise,
+  reloadPaginatedData,
 } = useCrud(formObject, routeName);
 </script>
 
@@ -74,9 +97,7 @@ let {
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">
-            Add Stocks( {{ form.label }} )
-          </h5>
+          <h5 class="modal-title" id="exampleModalLabel">Add Quantity</h5>
           <button
             type="button"
             class="btn-close"
@@ -84,18 +105,22 @@ let {
             aria-label="Close"
           ></button>
         </div>
-        <div class="form-group mb-3">
-          <label for="name">Quantity <span class="required">*</span></label>
-          <input
-            type="text"
-            id="name"
-            class="form-control"
-            v-model="quantity"
-            
-            placeholder="Enter Quantity"
-           
-          />
-          
+
+        <div class="modal-body">
+          <div class="form-group mb-3">
+            <label for="name">Quantity <span class="required">*</span></label>
+            <input
+              type="number"
+              id="name"
+              class="form-control"
+              v-model="quantity"
+              placeholder="Enter Quantity"
+            />
+
+            <div class="invalid-feedback">
+              {{ form.errors.quantity }}
+            </div>
+          </div>
         </div>
 
         <div class="modal-footer">
@@ -108,7 +133,7 @@ let {
             data-bs-dismiss="modal"
             class="btn btn-primary"
           >
-            Save changes
+            Save
           </button>
         </div>
       </div>
@@ -183,7 +208,7 @@ let {
                   class="sortable"
                   @click="handleServerQuery('sort', 'item_code')"
                 >
-                  Item Code
+                  Type
                   <i
                     class="ti ti-arrow-up"
                     v-if="serverQuery.sort == 'item_code' && serverQuery.order == 'desc'"
@@ -194,7 +219,7 @@ let {
                   ></i>
                 </th>
                 <th
-                  style="min-width: 100px; width: 10%"
+                  style="min-width: 50px; width: 10%"
                   class="sortable"
                   @click="handleServerQuery('sort', 'stocks')"
                 >
@@ -209,7 +234,7 @@ let {
                   ></i>
                 </th>
 
-                <th style="width: 150px">Actions</th>
+                <th style="width: 50px">Actions</th>
               </tr>
             </thead>
 
@@ -220,7 +245,7 @@ let {
               <tr v-for="tableData in paginatedData.data" :key="tableData">
                 <td>{{ tableData.label }}</td>
 
-                <td>{{ tableData.item_code }}</td>
+                <td>{{ tableData.type }}</td>
                 <td>{{ tableData.stocks }}</td>
 
                 <td>
@@ -279,8 +304,22 @@ let {
     <div class="col-md-6">
       <div class="card card-action">
         <div class="card-header">
-          <div class="card-action-title align-items-center"></div>
+          <div class="card-action-title align-items-center">Current Selected</div>
+
+          <div class="card-action-element">
+            <button
+              class="btn btn-primary ml-auto"
+              type="button"
+              @click="Checkout"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#offCanvasForm"
+              aria-controls="offCanvasForm"
+            >
+              Checkout
+            </button>
+          </div>
         </div>
+
         <div class="card-body"></div>
         <div class="table-responsive text-nowrap">
           <table class="table">
@@ -295,7 +334,7 @@ let {
                 </th>
 
                 <th
-                  style="min-width: 200px; width: 30%"
+                  style="min-width: 50px; width: 10%"
                   class="sortable"
                   @click="handleServerQuery('sort', 'item_code')"
                 >
@@ -310,36 +349,14 @@ let {
               <tr v-if="toCheckout.length <= 0">
                 <td colspan="999999" class="text-center">No item found</td>
               </tr>
-              <tr v-for="tableData in toCheckout" :key="tableData">
+              <tr v-for="(tableData, index) in toCheckout" :key="tableData">
                 <td>{{ tableData.label }}</td>
 
+                <td>{{ tableData.type }}</td>
                 <td>{{ tableData.quantity }}</td>
-                <td>₱{{ tableData.unit_price }}</td>
-                <td>₱{{ tableData.stocks * tableData.unit_price }}</td>
-
-                <td>{{ tableData.date_purchased }}</td>
 
                 <td>
                   <div class="d-flex gap-2">
-                    <button
-                      class="btn btn-icon btn-label-info waves-effect"
-                      data-bs-toggle="modal"
-                      data-bs-target="#exampleModal"
-                      title="Add Stocks"
-                      @click="handleEditStocks(tableData)"
-                    >
-                      <i class="ti ti-plus"></i>
-                    </button>
-                    <a
-                      class="btn btn-icon btn-label-primary waves-effect"
-                      data-bs-toggle="tooltip"
-                      data-bs-placement="top"
-                      data-bs-custom-class="tooltip-primary"
-                      title="Edit"
-                      @click="handleEdit(tableData)"
-                      href="javascript:void(0);"
-                      ><i class="ti ti-pencil"></i>
-                    </a>
                     <a
                       class="btn btn-icon btn-label-danger waves-effect"
                       data-bs-toggle="tooltip"
@@ -347,7 +364,7 @@ let {
                       data-bs-custom-class="tooltip-danger"
                       title="Delete"
                       href="javascript:void(0);"
-                      @click="deletePromise(tableData.id)"
+                      @click="deleteData(index)"
                       ><i class="ti ti-trash"></i>
                     </a>
                   </div>

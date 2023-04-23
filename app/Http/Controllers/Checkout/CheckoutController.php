@@ -19,7 +19,7 @@ class CheckoutController extends Controller
      */
     public function index(Request $request)
     {
-        
+
         $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
@@ -27,7 +27,7 @@ class CheckoutController extends Controller
         $order = $request->input('order', 'asc');
 
         $data = Supply::query()
-         
+
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
@@ -71,15 +71,24 @@ class CheckoutController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCheckoutRequest $request)
+    public function store(Request $request)
     {
-        $data = Checkout::create($request->validated());
-        sleep(1);
+        
 
-        if ($request->wantsJson()) {
-            return new CheckoutListResource($data);
+        $data = $request->input('data');
+
+        foreach ($data as $item) {
+            $checkout = new Checkout;
+            $checkout->user_id = auth()->user()->id;
+            $checkout->supply_id = $item['id'];
+            $checkout->quantity = $item['quantity'];
+            $checkout->save();
+
+            $supply = Supply::findOrFail($item['id']);
+            $supply->decrement('stocks', $item['quantity']);
         }
-        return redirect()->back();
+
+        return response()->json(['message' => 'Record saved']);
     }
 
     /**
