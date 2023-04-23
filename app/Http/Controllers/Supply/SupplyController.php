@@ -10,6 +10,7 @@ use App\Http\Requests\Supply\UpdateSupplyRequest;
 use App\Models\SupplyHistory\SupplyHistory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use PDF;
 
 class SupplyController extends Controller
 {
@@ -56,14 +57,24 @@ class SupplyController extends Controller
         if (count($data) <= 0 && $page > 1) {
             return redirect()->route('supplies.index', ['page' => 1]);
         }
-  
+
         return Inertia::render('Admin/Supply/Index', $props);
     }
- 
 
-    public function print(){
-        return Inertia::render('Admin/Supply/Index');
+
+    public function print(Request $request)
+    {
+        $data = $request->input('supplies');
+    //   dd($data[0]->label);
+        // Generate the PDF report
+        $pdf = PDF::loadView('report', compact('data'));
+        return $pdf->stream('report.pdf');
     }
+    
+    
+    
+    
+    
     /**
      * Show the form for creating a new resource.
      */

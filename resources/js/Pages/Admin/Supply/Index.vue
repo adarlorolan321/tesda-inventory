@@ -132,7 +132,8 @@ let {
           Add Supply
         </button>
         <a
-        :href="route('user.supplies.print')"
+        :href="route('user.print', { supplies: paginatedData.data })"
+        target="_blank"
           class="btn btn-primary"
           type="button"
         >

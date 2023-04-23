@@ -62,7 +62,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::get('validate/{type}', [UserController::class, 'validateInput'])->name('validate');
 
             // Profile Controller
-            Route::get('supplies/print', [SupplyController::class, 'print'])->name('supplies.print');
+            Route::get('print', [SupplyController::class, 'print'])->name('print');
             Route::patch('supplies/{id}/addStocks', [SupplyController::class, 'addStocks'])->name('supplies.addStocks');
             Route::patch('ppes/{id}/addStocks', [PpeController::class, 'addStocks'])->name('ppes.addStocks');
             Route::patch('semi_expandables/{id}/addStocks', [SemiExpandableController::class, 'addStocks'])->name('semi_expandables.addStocks');
