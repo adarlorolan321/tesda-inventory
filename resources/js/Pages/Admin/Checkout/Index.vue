@@ -22,6 +22,7 @@ const quantity = ref(0);
 const error = ref([]);
 const addStocks = (item) => {
   currentSelected.value = item;
+  quantity.value = 1;
   console.log(currentSelected.value);
 };
 const deleteData = (index) => {
@@ -34,7 +35,7 @@ const Checkout = async () => {
     const response = await axios.post(route('checkouts.store'), { data })
     toastr.success("Record saved");
     toCheckout.value=[];
-  
+    window.location.reload();
     
   } catch (error) {
     console.error(error)
@@ -46,7 +47,7 @@ const updateQuantity = () => {
   const existingIndex = toCheckout.value.findIndex(
     (existingItem) => existingItem.id === currentSelected.value.id
   );
-  if (currentSelected.value.stocks > quantity.value) {
+  if (currentSelected.value.stocks > quantity.value && quantity.value > 0 ) {
     if (existingIndex >= 0) {
       const existingItem = toCheckout.value[existingIndex];
       existingItem.quantity = parseInt(quantity.value, 10);
@@ -57,7 +58,7 @@ const updateQuantity = () => {
       quantity.value = 0;
     }
   } else {
-    Swal.fire("Error!", "You cant enter quantity greater than available stocks", "error");
+    Swal.fire("Error!", "You cant enter quantity greater than available stocks or", "error");
   }
 };
 

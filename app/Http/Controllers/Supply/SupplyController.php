@@ -19,45 +19,45 @@ class SupplyController extends Controller
     public function index(Request $request)
     {
 
-        // $page = $request->input('page', 1); // default 1
-        // $perPage = $request->input('perPage', 50); // default 50
-        // $queryString = $request->input('query', null);
-        // $sort = explode('.', $request->input('sort', 'id'));
-        // $order = $request->input('order', 'asc');
+        $page = $request->input('page', 1); // default 1
+        $perPage = $request->input('perPage', 50); // default 50
+        $queryString = $request->input('query', null);
+        $sort = explode('.', $request->input('sort', 'id'));
+        $order = $request->input('order', 'asc');
 
-        // $data = Supply::query()
-        //     ->with(['supplier'])
-        //     ->where('type', '!=', 'Semi Expendable')
-        //     ->where('type', '!=', 'Ppe')
-        //     ->where(function ($query) use ($queryString) {
-        //         if ($queryString && $queryString != '') {
-        //             // filter result
-        //             $query->where('label', 'like', '%' . $queryString . '%')
-        //                 ->orWhere('item_code', 'like', '%' . $queryString . '%')
-        //                 ->orWhere('stocks', 'like', '%' . $queryString . '%')
-        //                 ->orWhere('type', 'like', '%' . $queryString . '%');
-        //         }
-        //     })
-        //     ->when(count($sort) == 1, function ($query) use ($sort, $order) {
-        //         $query->orderBy($sort[0], $order);
-        //     })
-        //     ->paginate($perPage)
-        //     ->withQueryString();
+        $data = Supply::query()
+            ->with(['supplier'])
+            ->where('type', '!=', 'Semi Expendable')
+            ->where('type', '!=', 'Ppe')
+            ->where(function ($query) use ($queryString) {
+                if ($queryString && $queryString != '') {
+                    // filter result
+                    $query->where('label', 'like', '%' . $queryString . '%')
+                        ->orWhere('item_code', 'like', '%' . $queryString . '%')
+                        ->orWhere('stocks', 'like', '%' . $queryString . '%')
+                        ->orWhere('type', 'like', '%' . $queryString . '%');
+                }
+            })
+            ->when(count($sort) == 1, function ($query) use ($sort, $order) {
+                $query->orderBy($sort[0], $order);
+            })
+            ->paginate($perPage)
+            ->withQueryString();
 
-        // $props = [
-        //     'data' => SupplyListResource::collection($data),
-        //     'params' => $request->all(),
-        // ];
+        $props = [
+            'data' => SupplyListResource::collection($data),
+            'params' => $request->all(),
+        ];
 
-        // if ($request->wantsJson()) {
-        //     return json_encode($props);
-        // }
+        if ($request->wantsJson()) {
+            return json_encode($props);
+        }
 
-        // if (count($data) <= 0 && $page > 1) {
-        //     return redirect()->route('supplies.index', ['page' => 1]);
-        // }
+        if (count($data) <= 0 && $page > 1) {
+            return redirect()->route('supplies.index', ['page' => 1]);
+        }
   
-        return Inertia::render('Admin/Supply/Index');
+        return Inertia::render('Admin/Supply/Index', $props);
     }
  
 

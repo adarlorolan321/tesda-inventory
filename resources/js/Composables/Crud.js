@@ -17,10 +17,6 @@ export function useCrud(
     const form = useForm(formObject);
     const formState = ref("create");
     const paginatedData = computed(() => usePage().props.data);
-
-    const reloadPaginatedData = () => {
-        return usePage().component.provide('reloadPropsData');
-      };
     const serverParams = computed(() => usePage().props.params);
     const isLoadingComponents = ref(false);
     const offCanvas = ref(null);
@@ -145,10 +141,6 @@ export function useCrud(
     }, 500);
 
     // Promise
-
-   
-      
-
     const createPromise = async () => {
         form.clearErrors();
         form.post(route(`${routeName}.store`), {
@@ -303,7 +295,6 @@ export function useCrud(
         formState,
         updateStocksPromise,
         getSuppliers,
-        reloadPaginatedData,
-       
+        
     };
 }
