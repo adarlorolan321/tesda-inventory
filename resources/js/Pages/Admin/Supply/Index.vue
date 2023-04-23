@@ -120,6 +120,7 @@ let {
         <h5 class="card-title">Supplies</h5>
       </div>
       <div class="card-action-element">
+
         <button
           class="btn btn-primary"
           type="button"
@@ -130,6 +131,13 @@ let {
         >
           Add Supply
         </button>
+        <a
+        :href="route('user.supplies.print')"
+          class="btn btn-primary"
+          type="button"
+        >
+          Print Supply
+        </a>
         <div
           class="offcanvas offcanvas-end"
           tabindex="-1"
@@ -154,7 +162,7 @@ let {
             <div class="form-group mb-3">
               <div class="form-group mb-3">
                 <label for="name">Suplier <span class="required">*</span></label>
-                <select class="form-select" v-model="form.supplier_id">
+                <select placeholder="Supplier" class="form-select" v-model="form.supplier_id">
                   <option v-for="i in suppliers" :value="i.id">
                     {{ i.full_name }}
                   </option>

@@ -386,7 +386,7 @@ let {
         <thead class="table-light" style="min-width: 200px">
           <tr>
             <th class="sortable" @click="handleServerQuery('sort', 'item_name')">
-              Label
+              Item No.
               <i
                 class="ti ti-arrow-up"
                 v-if="serverQuery.sort == 'item_name' && serverQuery.order == 'desc'"
@@ -409,24 +409,138 @@ let {
               ></i>
             </th>
 
-        
-
+            <th
+              style="min-width: 200px; width: 30%"
+              class="sortable"
+              @click="handleServerQuery('sort', 'item_code')"
+            >
+              Item Code
+              <i
+                class="ti ti-arrow-up"
+                v-if="serverQuery.sort == 'item_code' && serverQuery.order == 'desc'"
+              ></i>
+              <i
+                class="ti ti-arrow-down"
+                v-if="serverQuery.sort == 'item_code' && serverQuery.order == 'asc'"
+              ></i>
+            </th>
+            <th
+              style="min-width: 200px; width: 30%"
+              class="sortable"
+              @click="handleServerQuery('sort', 'stocks')"
+            >
+              Stocks
+              <i
+                class="ti ti-arrow-up"
+                v-if="serverQuery.sort == 'stock' && serverQuery.order == 'desc'"
+              ></i>
+              <i
+                class="ti ti-arrow-down"
+                v-if="serverQuery.sort == 'stock' && serverQuery.order == 'asc'"
+              ></i>
+            </th>
+            <th
+              style="min-width: 200px; width: 30%"
+              class="sortable"
+              @click="handleServerQuery('sort', 'unit_price')"
+            >
+              Unit Price
+              <i
+                class="ti ti-arrow-up"
+                v-if="serverQuery.sort == 'unit_price' && serverQuery.order == 'desc'"
+              ></i>
+              <i
+                class="ti ti-arrow-down"
+                v-if="serverQuery.sort == 'unit_price' && serverQuery.order == 'asc'"
+              ></i>
+            </th>
+            <th
+              style="min-width: 200px; width: 30%"
+              class="sortable"
+              @click="handleServerQuery('sort', 'total_price')"
+            >
+              Total Price
+              <i
+                class="ti ti-arrow-up"
+                v-if="serverQuery.sort == 'total_price' && serverQuery.order == 'desc'"
+              ></i>
+              <i
+                class="ti ti-arrow-down"
+                v-if="serverQuery.sort == 'total_price' && serverQuery.order == 'asc'"
+              ></i>
+            </th>
+           
+            <th
+              style="min-width: 200px; width: 30%"
+              class="sortable"
+              @click="handleServerQuery('sort', 'date_purchased')"
+            >
+              Date Purchased
+              <i
+                class="ti ti-arrow-up"
+                v-if="serverQuery.sort == 'date_purchased' && serverQuery.order == 'desc'"
+              ></i>
+              <i
+                class="ti ti-arrow-down"
+                v-if="serverQuery.sort == 'date_purchased' && serverQuery.order == 'asc'"
+              ></i>
+            </th>
+            <th style="width: 150px">Actions</th>
           </tr>
         </thead>
-
+        
         <tbody class="table-border-bottom-0">
+       
           <tr v-if="paginatedData.data.length <= 0">
             <td colspan="999999" class="text-center">No item found</td>
           </tr>
           <tr v-for="tableData in paginatedData.data" :key="tableData">
-            <td>{{ tableData.quantity }}</td>
-           
+            <td>{{ tableData.label }}</td>
+            <td>{{ tableData.supplier? tableData.supplier.full_name : '' }}</td>
+            <td>{{ tableData.item_code }}</td>
+            <td>{{ tableData.stocks }}</td>
+            <td>₱{{ tableData.unit_price }}</td>
+            <td>₱{{ (tableData.stocks  * tableData.unit_price ) }}</td>
+            
+            <td>{{ tableData.date_purchased }}</td>
 
-          
+            <td>
+              <div class="d-flex gap-2">
+                <button
+                  class="btn btn-icon btn-label-info waves-effect"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  title="Add Stocks"
+                  @click="handleEditStocks(tableData)"
+                >
+                  <i class="ti ti-plus"></i>
+                </button>
+                <a
+                  class="btn btn-icon btn-label-primary waves-effect"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  data-bs-custom-class="tooltip-primary"
+                  title="Edit"
+                  @click="handleEdit(tableData)"
+                  href="javascript:void(0);"
+                  ><i class="ti ti-pencil"></i>
+                </a>
+                <a
+                  class="btn btn-icon btn-label-danger waves-effect"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  data-bs-custom-class="tooltip-danger"
+                  title="Delete"
+                  href="javascript:void(0);"
+                  @click="deletePromise(tableData.id)"
+                  ><i class="ti ti-trash"></i>
+                </a>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
-    </div>
+    </div>  
     <div
       class="card-footer py-3 border-top"
       v-if="paginatedData && paginatedData.meta.links"

@@ -155,6 +155,7 @@ return [
     */
 
     'providers' => [
+        Barryvdh\Snappy\ServiceProvider::class,
 
         /*
          * Laravel Framework Service Providers...
@@ -212,6 +213,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 

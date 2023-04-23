@@ -71,9 +71,7 @@
                   <li
                     v-if="sub_menu.role == $page.props.auth.user.role"
                     class="menu-item"
-                    :class="{
-                      active: route().current(sub_menu.route),
-                    }"
+                   
                   >
                     <inertia-link
                       :href="route(sub_menu.route)"

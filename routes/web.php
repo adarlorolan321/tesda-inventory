@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers as PageController;
+use App\Http\Controllers\Checkout\CheckoutController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -38,11 +39,8 @@ Route::get('/', function () {
 })->name('home');
 Route::resource('/', DashboardController::class);
 
-
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::middleware(['role:Client','role:Admin'])->group(function () {
-       
-    });
+
     Route::middleware(['role:Admin'])->group(function () {
 
         Route::name('user.')->prefix('user')->group(function () {
@@ -57,11 +55,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::resource('semi_expandables', SemiExpandableController::class);
             Route::resource('supply_histories', SupplyHistoryController::class);
 
+            Route::resource('checkouts', CheckoutController::class);
+
 
             Route::get('validate/{type}', [UserController::class, 'validateInput'])->name('validate');
 
             // Profile Controller
-
+            Route::get('supplies/print', [SupplyController::class, 'print'])->name('supplies.print');
             Route::patch('supplies/{id}/addStocks', [SupplyController::class, 'addStocks'])->name('supplies.addStocks');
             Route::patch('ppes/{id}/addStocks', [PpeController::class, 'addStocks'])->name('ppes.addStocks');
             Route::patch('semi_expandables/{id}/addStocks', [SemiExpandableController::class, 'addStocks'])->name('semi_expandables.addStocks');
@@ -118,15 +118,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
             return Inertia::render('Admin/account-settings/Security');
         })->name('account-settings.security.index');
     });
+    Route::middleware(['role:Client'])->group(function () {
 
-    Route::get('test-mail', function () {
-        $user = [
-            'first_name' => 'Jayvee',
-            'last_name' => 'Osapdin',
-            'email' => 'jayvee.osapdin@gmail.com',
-            'password' => '6sHsbhY8',
-        ];
-
-        return new \App\Mail\Notification\WelcomeUserNotification($user);
+        Route::resource('checkouts', CheckoutController::class);
     });
 });

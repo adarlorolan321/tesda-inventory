@@ -10,6 +10,14 @@ export function useMenu() {
         { label: "Supplier", route: "user.suppliers.index", icon: "fas fa-truck", only: ["data", "params"], role:['Admin'] },
         { label: "Stock History", route: "user.supply_histories.index", icon: "fas fa-history", only: ["data", "params"], role:['Admin'] },
         { label: "Employees", route: "user.users.index", icon: "fas fa-users", only: ["data", "params"], role:['Admin'] },
+        { label: "Checkouts", route: "checkouts.index", icon: "fas fa-users", only: ["data", "params"], role:['Client','Admin'] },
+        
+        //  {
+        //     label: 'User', route: 'users.*', icon: 'ti ti-users',
+        //     sub_menu: [
+                
+        //     ]
+        // },
        
     ];
 
