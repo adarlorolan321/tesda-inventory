@@ -100,6 +100,16 @@ class RolePermissionSeeder extends Seeder
                 'update checkout',
                 'destroy checkout',
                 'show checkout',
+
+                'access department',
+                'create department',
+                'store department',
+                'edit department',
+                'update department',
+                'destroy department',
+                'show department',
+
+                
                 
             ],
             'Coach' => [

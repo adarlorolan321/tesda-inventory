@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Department\Department;
 use App\Models\User\UserScope;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -95,5 +96,9 @@ class User extends Authenticatable implements HasMedia
     {
         $media = $this->getMedia('profile_photo')->first();
         return $media ? $media->getUrl() : 'https://ui-avatars.com/api/?name=' . $this->name . '&color=8176f2&background=F8F7FA';
+    }
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
     }
 }

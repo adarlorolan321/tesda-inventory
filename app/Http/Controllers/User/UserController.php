@@ -7,7 +7,7 @@ use App\Http\Resources\User\UserListResource;
 use App\Models\User;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
-
+use App\Models\Department\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
@@ -26,7 +26,7 @@ class UserController extends Controller
         $queryString = $request->input('query', null);
 
         $data = User::query()
-            ->with([])
+            ->with(['department'])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
@@ -38,6 +38,7 @@ class UserController extends Controller
             ->withQueryString();
 
         $props = [
+            'department'=>Department::all(),
             'data' => UserListResource::collection($data),
             'params' => $request->all(),
         ];
@@ -64,7 +65,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'position'=> $request->position,
-            'department' => $request->department,
+            'department_id' => $request->department,
             'password' => bcrypt('password'),
         ]);
         if ($request->wantsJson()) {

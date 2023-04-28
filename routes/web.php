@@ -13,6 +13,7 @@ use App\Http\Controllers\Class\ClassSessionController;
 use App\Http\Controllers\Class\ClassController;
 use App\Http\Controllers\Class\TabController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Department\DepartmentController;
 use App\Http\Controllers\Ppe\PpeController;
 use App\Http\Controllers\Semiexpandable\SemiExpandableController;
 use App\Http\Controllers\Supplier\SupplierController;
@@ -55,6 +56,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::resource('students', StudentController::class);
             Route::resource('semi_expandables', SemiExpandableController::class);
             Route::resource('supply_histories', SupplyHistoryController::class);
+            Route::resource('departments', DepartmentController::class);
 
             Route::resource('checkouts', CheckoutController::class);
 

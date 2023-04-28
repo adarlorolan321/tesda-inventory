@@ -54,7 +54,7 @@ class DepartmentController extends Controller
             return redirect()->route('departments.index', ['page' => 1]);
         }
 
-        return Inertia::render('Admin/Department', $props);
+        return Inertia::render('Admin/Department/Index', $props);
     }
 
     /**
