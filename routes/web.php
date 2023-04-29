@@ -2,6 +2,7 @@
 
 use App\Http\Controllers as PageController;
 use App\Http\Controllers\Checkout\CheckoutController;
+use App\Http\Controllers\Checkouthistory\CheckoutHistoryController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -124,5 +125,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::middleware(['role:Client'])->group(function () {
 
         Route::resource('checkouts', CheckoutController::class);
+       
     });
+    Route::resource('checkout_histories', CheckoutHistoryController::class);
 });

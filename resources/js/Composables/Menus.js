@@ -12,6 +12,8 @@ export function useMenu() {
         { label: "Employees", route: "user.users.index", icon: "fas fa-users", only: ["data", "params"], role:['Admin'] },
         { label: "Checkouts", route: "checkouts.index", icon: "fas fa-users", only: ["data", "params"], role:['Client'] },
         { label: "Departments", route: "user.departments.index", icon: "fas fa-users", only: ["data", "params"], role:['Admin'] },
+        { label: "Ckeckout History", route: "checkout_histories.index", icon: "fas fa-users", only: ["data", "params"], role:['Client', 'Admin'] },
+        
         
         //  {
         //     label: 'User', route: 'users.*', icon: 'ti ti-users',

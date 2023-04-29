@@ -80,6 +80,7 @@ class CheckoutController extends Controller
         foreach ($data as $item) {
             $checkout = new Checkout;
             $checkout->user_id = auth()->user()->id;
+            $checkout->position = auth()->user()->position;
             $checkout->supply_id = $item['id'];
             $checkout->quantity = $item['quantity'];
             $checkout->save();

@@ -13,7 +13,6 @@ import { useValidateForm } from "@/Composables/Validate.js";
 import { usePage, Head } from "@inertiajs/vue3";
 
 const minValue = (val) =>{
-console.log(val)
 if(val > 50000){
   form.errors.unit_price = 'You can`t enter value higher 50,000'
 }
