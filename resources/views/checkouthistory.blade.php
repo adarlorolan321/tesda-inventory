@@ -53,7 +53,7 @@
         <div class="title">Tesda</div>
         <div class="date">Date: {{ date('F d, Y') }}</div>
     </div>
-    <h1>Supply Report</h1>
+    <h1>Checkout History Report</h1>
     <table>
         <thead>
             <tr>
@@ -64,8 +64,8 @@
         </thead>
         @foreach($data as $item)
         <tr>
-            <td>{{ $item['label'] }}</td>
-            <td>{{ $item['stocks'] }}</td>
+            <td>{{ $item['supply']['label'] }}</td>
+            <td>{{ $item['quantity'] }}</td>
             <td>{{ (new DateTime($item['created_at']))->format('d/m/Y') }}</td>
         </tr>
         @endforeach

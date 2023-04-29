@@ -10,6 +10,8 @@ use App\Http\Requests\Supplyhistory\UpdateSupplyHistoryRequest;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use PDF;
+use Illuminate\Support\Facades\DB;
 
 class SupplyHistoryController extends Controller
 {
@@ -18,7 +20,7 @@ class SupplyHistoryController extends Controller
      */
     public function index(Request $request)
     {
-        
+
         $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
@@ -27,12 +29,16 @@ class SupplyHistoryController extends Controller
 
         $data = SupplyHistory::query()
             ->with(['supply', 'user'])
-            ->where(function ($query) use ($queryString) {
-                if ($queryString && $queryString != '') {
-                    // filter result
-                    // $query->where('column', 'like', '%' . $queryString . '%')
-                    //     ->orWhere('column', 'like', '%' . $queryString . '%');
-                }
+            ->when($queryString && $queryString != '', function ($query) use ($queryString) {
+                $query->whereHas('supply', function ($subquery) use ($queryString) {
+                    $subquery->where('label', 'like', '%' . $queryString . '%');
+                });
+                $query->whereHas('user', function ($subquery) use ($queryString) {
+                    $subquery->where('name', 'like', '%' . $queryString . '%');
+                });
+                $query->orwhere('quantity', 'like', '%' . $queryString . '%')
+                    ->orWhere('unit_price', 'like', '%' . $queryString . '%')
+                     ->orWhere(DB::raw("(DATE_FORMAT(created_at,'%d/%m/%Y'))"), 'like', '%' . $queryString . '%');
             })
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
                 $query->orderBy($sort[0], $order);
@@ -49,13 +55,12 @@ class SupplyHistoryController extends Controller
             return json_encode($props);
         }
 
-        if(count($data) <= 0 && $page > 1)
-        {
+        if (count($data) <= 0 && $page > 1) {
             return redirect()->route('supply_histories.index', ['page' => 1]);
         }
-        
 
-      
+
+
 
         return Inertia::render('Admin/SupplyHistory/Index', $props);
     }
@@ -141,5 +146,13 @@ class SupplyHistoryController extends Controller
             return response(null, 204);
         }
         return redirect()->back();
+    }
+    public function printSupplyHistory(Request $request)
+    {
+        $data = $request->input('history');
+        //   dd($data[0]);
+        // // Generate the PDF report
+        $pdf = PDF::loadView('supplyhistory', compact('data'));
+        return $pdf->stream('supplyhistory.pdf');
     }
 }

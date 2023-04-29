@@ -43,8 +43,18 @@ let {
   <div class="card card-action">
     <div class="card-header">
       <div class="card-action-title align-items-center">
+
         <h5 class="card-title">Checkout History</h5>
+       
       </div>
+      <a
+        :href="route('print_checkout', { history: paginatedData.data })"
+        target="_blank"
+          class="btn btn-primary"
+          type="button"
+        >
+          Print History
+        </a>
     </div>
     <div class="card-body">
       <div class="row justify-content-between">

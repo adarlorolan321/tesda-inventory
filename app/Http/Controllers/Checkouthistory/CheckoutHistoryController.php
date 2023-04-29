@@ -11,6 +11,8 @@ use App\Http\Resources\Checkout\CheckoutListResource;
 use App\Models\Checkout\Checkout;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use PDF;
+use Illuminate\Support\Facades\DB;
 
 class CheckoutHistoryController extends Controller
 {
@@ -19,7 +21,7 @@ class CheckoutHistoryController extends Controller
      */
     public function index(Request $request)
     {
-        
+
         $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
@@ -28,37 +30,41 @@ class CheckoutHistoryController extends Controller
 
         if (auth()->user()->role == 'Admin') {
             $data = Checkout::query()
-                ->with(['supply'])
-                ->where(function ($query) use ($queryString) {
-                    if ($queryString && $queryString != '') {
-                        // filter result
-                        // $query->where('column', 'like', '%' . $queryString . '%')
-                        //     ->orWhere('column', 'like', '%' . $queryString . '%');
-                    }
+                ->with('supply')
+                ->when($queryString && $queryString != '', function ($query) use ($queryString) {
+                    $query->whereHas('supply', function ($subquery) use ($queryString) {
+                        $subquery->where('label', 'like', '%' . $queryString . '%');
+                    });
+                    $query->orwhere('quantity', 'like', '%' . $queryString . '%')
+                        ->orWhere('position', 'like', '%' . $queryString . '%')
+                        ->orWhere(DB::raw("(DATE_FORMAT(created_at,'%d/%m/%Y'))"), 'like', '%' . $queryString . '%');
                 })
+
+
                 ->when(count($sort) == 1, function ($query) use ($sort, $order) {
                     $query->orderBy($sort[0], $order);
                 })
+                ->orderBy('created_at', 'ASC')
                 ->paginate($perPage)
                 ->withQueryString();
         } else {
             $data = Checkout::query()
-                ->with(['supply'])
-                ->where('user_id', auth()->user()->id)
-                ->where(function ($query) use ($queryString) {
-                    if ($queryString && $queryString != '') {
-                        // filter result
-                        // $query->where('column', 'like', '%' . $queryString . '%')
-                        //     ->orWhere('column', 'like', '%' . $queryString . '%');
-                    }
+                ->with('supply')
+                ->when($queryString && $queryString != '', function ($query) use ($queryString) {
+                    $query->whereHas('supply', function ($subquery) use ($queryString) {
+                        $subquery->where('label', 'like', '%' . $queryString . '%');
+                    });
+                    $query->orwhere('quantity', 'like', '%' . $queryString . '%')
+                        ->orWhere('position', 'like', '%' . $queryString . '%');
                 })
                 ->when(count($sort) == 1, function ($query) use ($sort, $order) {
                     $query->orderBy($sort[0], $order);
                 })
+                ->orderBy('created_at', 'ASC')
                 ->paginate($perPage)
                 ->withQueryString();
         }
-        
+
 
         $props = [
             'data' => CheckoutListResource::collection($data),
@@ -69,8 +75,7 @@ class CheckoutHistoryController extends Controller
             return json_encode($props);
         }
 
-        if(count($data) <= 0 && $page > 1)
-        {
+        if (count($data) <= 0 && $page > 1) {
             return redirect()->route('checkout_histories.index', ['page' => 1]);
         }
 
@@ -158,5 +163,13 @@ class CheckoutHistoryController extends Controller
             return response(null, 204);
         }
         return redirect()->back();
+    }
+    public function printCheckout(Request $request)
+    {
+        $data = $request->input('history');
+        //   dd($data[0]['supply']);
+        // Generate the PDF report
+        $pdf = PDF::loadView('checkouthistory', compact('data'));
+        return $pdf->stream('checkouthistory.pdf');
     }
 }

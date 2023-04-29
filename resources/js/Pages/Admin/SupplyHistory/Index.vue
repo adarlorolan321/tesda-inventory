@@ -68,7 +68,6 @@ let {
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
   >
- 
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -107,7 +106,12 @@ let {
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
             Close
           </button>
-          <button type="button" @click="updateStocksPromise" data-bs-dismiss="modal" class="btn btn-primary">
+          <button
+            type="button"
+            @click="updateStocksPromise"
+            data-bs-dismiss="modal"
+            class="btn btn-primary"
+          >
             Save changes
           </button>
         </div>
@@ -119,7 +123,14 @@ let {
       <div class="card-action-title align-items-center">
         <h5 class="card-title">Stock History</h5>
       </div>
-    
+      <a
+        :href="route('print_supply_history', { history: paginatedData.data })"
+        target="_blank"
+        class="btn btn-primary"
+        type="button"
+      >
+        Print History
+      </a>
     </div>
     <div class="card-body">
       <div class="row justify-content-between">
@@ -205,7 +216,7 @@ let {
                 v-if="serverQuery.sort == 'item_code' && serverQuery.order == 'asc'"
               ></i>
             </th>
-          
+
             <th
               style="min-width: 200px; width: 30%"
               class="sortable"
@@ -236,27 +247,20 @@ let {
                 v-if="serverQuery.sort == 'total_price' && serverQuery.order == 'asc'"
               ></i>
             </th>
-
-           
           </tr>
         </thead>
-       
+
         <tbody class="table-border-bottom-0">
           <tr v-if="paginatedData.data.length <= 0">
             <td colspan="999999" class="text-center">No item found</td>
           </tr>
-          
+
           <tr v-for="tableData in paginatedData.data" :key="tableData">
-            <td>{{   tableData.supply.label  }}</td>
-            <td>{{ tableData.user.name}}</td>
-            <td>{{ new Date(tableData.created_at).toLocaleDateString('en-GB') }}</td>
+            <td>{{ tableData.supply.label }}</td>
+            <td>{{ tableData.user.name }}</td>
+            <td>{{ new Date(tableData.created_at).toLocaleDateString("en-GB") }}</td>
             <td>{{ tableData.quantity }}</td>
             <td>₱{{ tableData.unit_price }}</td>
-          
-
-          
-
-            
           </tr>
         </tbody>
       </table>
