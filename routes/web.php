@@ -70,10 +70,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::patch('ppes/{id}/addStocks', [PpeController::class, 'addStocks'])->name('ppes.addStocks');
             Route::patch('semi_expandables/{id}/addStocks', [SemiExpandableController::class, 'addStocks'])->name('semi_expandables.addStocks');
 
-            Route::patch('profile/{id}', [UserController::class, 'update'])->name('profile.update');
-            Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
-            Route::get('profile/change-password', [ProfileController::class, 'changePasswordIndex'])->name('profile.change_password');
-            Route::post('profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.changePassword');
+           
         });
 
         Route::get('classes/{id}/sessions', [TabController::class, 'sessions'])->name('classes.sessions-tab');
@@ -131,5 +128,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('print_checkout', [CheckoutHistoryController::class, 'printCheckout'])->name('print_checkout');
     Route::get('print_supply_history', [SupplyHistoryController::class, 'printSupplyHistory'])->name('print_supply_history');
     
+    Route::resource('user-details', ProfileController::class);
+    Route::patch('profile/{id}', [UserController::class, 'update'])->name('profile.update');
+    Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::get('profile/change-password', [ProfileController::class, 'changePasswordIndex'])->name('profile.change_password');
+    Route::post('profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.changePassword');
     
 });

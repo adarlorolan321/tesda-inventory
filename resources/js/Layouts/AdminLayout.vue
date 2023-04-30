@@ -146,6 +146,7 @@
                   class="nav-link dropdown-toggle hide-arrow"
                   href="javascript:void(0);"
                   data-bs-toggle="dropdown"
+                  
                 >
                   <div class="avatar avatar-online">
                     <img
@@ -183,7 +184,7 @@
                     <div class="dropdown-divider"></div>
                   </li>
                   <li>
-                    <inertia-link class="dropdown-item" href="/user/profile">
+                    <inertia-link :href="route('profile.index')" class="dropdown-item" >
                       <i class="ti ti-user-check me-2 ti-sm"></i>
                       <span class="align-middle">My Profile</span>
                     </inertia-link>

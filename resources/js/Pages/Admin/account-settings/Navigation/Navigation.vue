@@ -6,16 +6,13 @@ export default {
    data(){
     return{
     
-      route_name: this.getRoutName(route().current()),
+    
      
     }
    },
     methods:{
         getRoutName(route){
-          switch(route){
-            case "account.index": return "Account";
-            case "account.security": return "Security"
-          }
+          
         }
     }
 };
@@ -24,18 +21,15 @@ export default {
       <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Account Settings /</span>{{ route_name }}</h4>
         <ul class="nav nav-pills flex-column flex-md-row mb-4">
                     <li class="nav-item">
-                      <inertia-link class="nav-link" :href="route('account.index')"
-                        :class="{
-                          'active': route().current('account.index')
-                        }" 
+                      <inertia-link :href="route('profile.index')" class="nav-link" 
+                        
                      
                       ><i class="ti-xs ti ti-users me-1"></i> Account</inertia-link
                       >
                     </li>
                     <li class="nav-item">
-                      <inertia-link class="nav-link" :href="route('account.security')" :class="{
-                          'active': route().current('account.security')
-                        }"  
+                      <inertia-link class="nav-link"  
+                      :href="route('profile.change_password')"
                        
                         ><i class="ti-xs ti ti-lock me-1"></i> Security</inertia-link
                       >
