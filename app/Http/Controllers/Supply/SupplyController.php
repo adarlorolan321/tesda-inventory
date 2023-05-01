@@ -9,6 +9,7 @@ use App\Http\Requests\Supply\StoreSupplyRequest;
 use App\Http\Requests\Supply\UpdateSupplyRequest;
 use App\Models\SupplyHistory\SupplyHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;  
 use Inertia\Inertia;
 use PDF;
 
@@ -33,10 +34,12 @@ class SupplyController extends Controller
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
-                    $query->where('label', 'like', '%' . $queryString . '%')
-                        ->orWhere('item_code', 'like', '%' . $queryString . '%')
-                        ->orWhere('stocks', 'like', '%' . $queryString . '%')
-                        ->orWhere('type', 'like', '%' . $queryString . '%');
+                    $query->where('label', 'like', '%' . $queryString . '%');
+                    $query->orWhere('item_code', 'like', '%' . $queryString . '%');
+                    $query->orWhere('stocks', 'like', '%' . $queryString . '%');
+                    $query->orWhere(DB::raw("(DATE_FORMAT(date_purchased,'%Y-%m-%d'))"), 'like', '%' . $queryString . '%');
+
+                    $query->orWhere('type', 'like', '%' . $queryString . '%');
                 }
             })
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
@@ -65,16 +68,16 @@ class SupplyController extends Controller
     public function print(Request $request)
     {
         $data = $request->input('supplies');
-    //   dd($data[0]->label);
+        //   dd($data[0]->label);
         // Generate the PDF report
         $pdf = PDF::loadView('report', compact('data'));
         return $pdf->stream('report.pdf');
     }
-    
-    
-    
-    
-    
+
+
+
+
+
     /**
      * Show the form for creating a new resource.
      */

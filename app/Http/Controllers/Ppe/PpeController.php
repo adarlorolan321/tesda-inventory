@@ -14,6 +14,8 @@ use App\Models\Supply\Supply;
 use App\Models\Supplyhistory\SupplyHistory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
+
 
 class PpeController extends Controller
 {
@@ -37,6 +39,8 @@ class PpeController extends Controller
                     $query->where('label', 'like', '%' . $queryString . '%')
                         ->orWhere('item_code', 'like', '%' . $queryString . '%')
                         ->orWhere('stocks', 'like', '%' . $queryString . '%')
+                    ->orWhere(DB::raw("(DATE_FORMAT(date_purchased,'%Y-%m-%d'))"), 'like', '%' . $queryString . '%')
+
                         ->orWhere('type', 'like', '%' . $queryString . '%');
                 }
             })

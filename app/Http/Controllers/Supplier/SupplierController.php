@@ -18,7 +18,7 @@ class SupplierController extends Controller
      */
     public function index(Request $request)
     {
-        
+
         $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
@@ -30,8 +30,11 @@ class SupplierController extends Controller
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
-                    // $query->where('column', 'like', '%' . $queryString . '%')
-                    //     ->orWhere('column', 'like', '%' . $queryString . '%');
+                    $query->where('full_name', 'like', '%' . $queryString . '%')
+                        ->orWhere('email', 'like', '%' . $queryString . '%')
+                        ->orWhere('barangay', 'like', '%' . $queryString . '%')
+                        ->orWhere('district', 'like', '%' . $queryString . '%')
+                        ->orWhere('city', 'like', '%' . $queryString . '%');
                 }
             })
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
@@ -49,8 +52,7 @@ class SupplierController extends Controller
             return json_encode($props);
         }
 
-        if(count($data) <= 0 && $page > 1)
-        {
+        if (count($data) <= 0 && $page > 1) {
             return redirect()->route('suppliers.index', ['page' => 1]);
         }
 
@@ -110,7 +112,7 @@ class SupplierController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSupplierRequest $request, string $id)  
+    public function update(UpdateSupplierRequest $request, string $id)
     {
         $data = Supplier::findOrFail($id);
         $data->update($request->validated());

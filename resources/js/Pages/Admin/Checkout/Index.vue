@@ -243,7 +243,7 @@ let {
               <tr v-if="paginatedData.data.length <= 0">
                 <td colspan="999999" class="text-center">No item found</td>
               </tr>
-              <tr v-for="tableData in paginatedData.data" :key="tableData">
+              <tr  v-for="tableData in paginatedData.data" :key="tableData" >
                 <td>{{ tableData.label }}</td>
 
                 <td>{{ tableData.type }}</td>

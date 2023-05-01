@@ -13,6 +13,7 @@ use App\Http\Resources\Supply\SupplyListResource;
 use App\Models\Supply\Supply;
 use App\Models\Supplyhistory\SupplyHistory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class SemiExpandableController extends Controller
@@ -22,7 +23,7 @@ class SemiExpandableController extends Controller
      */
     public function index(Request $request)
     {
-        
+
         $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
@@ -34,9 +35,12 @@ class SemiExpandableController extends Controller
             ->where('type', 'Semi Expendable')
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
-                    // filter result
-                    // $query->where('column', 'like', '%' . $queryString . '%')
-                    //     ->orWhere('column', 'like', '%' . $queryString . '%');
+                    $query->where('label', 'like', '%' . $queryString . '%')
+                        ->orWhere('item_code', 'like', '%' . $queryString . '%')
+                        ->orWhere('stocks', 'like', '%' . $queryString . '%')
+                        ->orWhere(DB::raw("(DATE_FORMAT(date_purchased,'%Y-%m-%d'))"), 'like', '%' . $queryString . '%')
+
+                        ->orWhere('type', 'like', '%' . $queryString . '%');
                 }
             })
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
@@ -54,8 +58,7 @@ class SemiExpandableController extends Controller
             return json_encode($props);
         }
 
-        if(count($data) <= 0 && $page > 1)
-        {
+        if (count($data) <= 0 && $page > 1) {
             return redirect()->route('semi_expandables.index', ['page' => 1]);
         }
 
@@ -120,13 +123,13 @@ class SemiExpandableController extends Controller
         ]);
     }
 
-   
+
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdateSupplyRequest $request, string $id)
     {
-      
+
         $data = Supply::findOrFail($id);
         $data->update($request->validated());
         sleep(1);
@@ -142,7 +145,7 @@ class SemiExpandableController extends Controller
 
     public function addStocks(UpdateSupplyRequest $request, string $id)
     {
-    
+
         $data = Supply::findOrFail($id);
         $currentStocks = $data->stocks;
         $currentUnitPrice = $data->unit_price;

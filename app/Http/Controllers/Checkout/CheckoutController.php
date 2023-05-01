@@ -27,7 +27,7 @@ class CheckoutController extends Controller
         $order = $request->input('order', 'asc');
 
         $data = Supply::query()
-
+        ->where('stocks','>',0)
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
@@ -37,6 +37,7 @@ class CheckoutController extends Controller
                         ->orWhere('type', 'like', '%' . $queryString . '%');
                 }
             })
+            
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
                 $query->orderBy($sort[0], $order);
             })

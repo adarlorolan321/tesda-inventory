@@ -36,9 +36,9 @@ class SupplyHistoryController extends Controller
                 $query->whereHas('user', function ($subquery) use ($queryString) {
                     $subquery->where('name', 'like', '%' . $queryString . '%');
                 });
-                $query->orwhere('quantity', 'like', '%' . $queryString . '%')
-                    ->orWhere('unit_price', 'like', '%' . $queryString . '%')
-                     ->orWhere(DB::raw("(DATE_FORMAT(created_at,'%d/%m/%Y'))"), 'like', '%' . $queryString . '%');
+                $query->orwhere('quantity', 'like', '%' . $queryString . '%');
+                $query->orWhere('unit_price', 'like', '%' . $queryString . '%');
+                $query ->orWhere(DB::raw("(DATE_FORMAT(created_at,'%d/%m/%Y'))"), 'like', '%' . $queryString . '%');
             })
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
                 $query->orderBy($sort[0], $order);
