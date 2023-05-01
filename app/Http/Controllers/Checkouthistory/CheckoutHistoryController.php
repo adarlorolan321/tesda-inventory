@@ -9,6 +9,7 @@ use App\Http\Requests\Checkouthistory\StoreCheckoutHistoryRequest;
 use App\Http\Requests\Checkouthistory\UpdateCheckoutHistoryRequest;
 use App\Http\Resources\Checkout\CheckoutListResource;
 use App\Models\Checkout\Checkout;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use PDF;
@@ -30,7 +31,7 @@ class CheckoutHistoryController extends Controller
 
         if (auth()->user()->role == 'Admin') {
             $data = Checkout::query()
-                ->with('supply')
+                ->with(['supply', 'user'])
                 ->when($queryString && $queryString != '', function ($query) use ($queryString) {
                     $query->whereHas('supply', function ($subquery) use ($queryString) {
                         $subquery->where('label', 'like', '%' . $queryString . '%');
@@ -67,6 +68,7 @@ class CheckoutHistoryController extends Controller
 
 
         $props = [
+            'user' => User::where('user_id', auth()->user()->id),
             'data' => CheckoutListResource::collection($data),
             'params' => $request->all(),
         ];
@@ -166,8 +168,9 @@ class CheckoutHistoryController extends Controller
     }
     public function printCheckout(Request $request)
     {
-        $data = $request->input('history');
-        //   dd($data[0]['supply']);
+
+        $data = $request->input('paginatedData');
+        // dd($data[0]['supply']);
         // Generate the PDF report
         $pdf = PDF::loadView('checkouthistory', compact('data'));
         return $pdf->stream('checkouthistory.pdf');

@@ -18,6 +18,34 @@ const formObject = {
   city: null,
   district: null,
 };
+const paginatedDataWithoutCircularRef = JSON.parse(JSON.stringify(props.data.data));
+const print = () => {
+  axios
+    .post(
+      "print_checkout",
+      {
+        paginatedData: paginatedDataWithoutCircularRef,
+      },
+      {
+        responseType: "blob", // set response type to blob
+      }
+    )
+    .then((response) => {
+      // Create a URL for the blob object
+      const url = URL.createObjectURL(
+        new Blob([response.data], { type: "application/pdf" })
+      );
+
+      // Open the URL in a new tab
+      window.open(url, "_blank");
+
+      // Release the URL object when it's no longer needed
+      setTimeout(() => URL.revokeObjectURL(url), 0);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 
 const { validateForm } = useValidateForm();
 
@@ -43,18 +71,11 @@ let {
   <div class="card card-action">
     <div class="card-header">
       <div class="card-action-title align-items-center">
-
         <h5 class="card-title">Checkout History</h5>
-       
       </div>
-      <a
-        :href="route('print_checkout', { history: paginatedData.data })"
-        target="_blank"
-          class="btn btn-primary"
-          type="button"
-        >
-          Print History
-        </a>
+      <a @click="print" target="_blank" class="btn btn-primary" type="button">
+        Print History
+      </a>
     </div>
     <div class="card-body">
       <div class="row justify-content-between">
@@ -112,6 +133,21 @@ let {
                 v-if="serverQuery.sort == 'full_name' && serverQuery.order == 'asc'"
               ></i>
             </th>
+            <th
+              v-if="props.auth.user.role == 'Admin'"
+              class="sortable"
+              @click="handleServerQuery('sort', 'full_name')"
+            >
+              Checkout By
+              <i
+                class="ti ti-arrow-up"
+                v-if="serverQuery.sort == 'full_name' && serverQuery.order == 'desc'"
+              ></i>
+              <i
+                class="ti ti-arrow-down"
+                v-if="serverQuery.sort == 'full_name' && serverQuery.order == 'asc'"
+              ></i>
+            </th>
             <th class="sortable" @click="handleServerQuery('sort', 'full_name')">
               Position
               <i
@@ -154,8 +190,10 @@ let {
           </tr>
           <tr v-for="tableData in paginatedData.data" :key="tableData">
             <td>{{ tableData.supply.label }}</td>
+            <td v-if="props.auth.user.role == 'Admin'">{{ tableData.user.name }}</td>
             <td>{{ tableData.position }}</td>
             <td>{{ tableData.quantity }}</td>
+
             <td>{{ new Date(tableData.created_at).toLocaleDateString("en-GB") }}</td>
           </tr>
         </tbody>

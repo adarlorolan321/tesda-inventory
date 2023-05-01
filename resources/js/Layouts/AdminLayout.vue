@@ -29,7 +29,7 @@
         <ul class="menu-inner py-1">
           <!-- Page -->
           <template v-for="(menu, index) in menus" :key="'menu-' + index">
-            <li v-if="!menu.sub_menu" class="menu-item">
+            <li v-if="!menu.sub_menu" class="menu-item" >
               <inertia-link
                 v-if="menu && menu.role.includes($page.props.auth.user.role)"
                 :href="route(menu.route)"

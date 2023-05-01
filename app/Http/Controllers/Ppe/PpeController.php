@@ -11,6 +11,7 @@ use App\Http\Requests\Supply\StoreSupplyRequest;
 use App\Http\Requests\Supply\UpdateSupplyRequest;
 use App\Http\Resources\Supply\SupplyListResource;
 use App\Models\Supply\Supply;
+use App\Models\Supplyhistory\SupplyHistory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -76,7 +77,15 @@ class PpeController extends Controller
     {
         $data = Supply::create($request->validated());
         sleep(1);
+        SupplyHistory::create(
+            [
+                'user_id' => auth()->user()->id,
+                'supply_id' => $data->id,
+                'quantity' => $data->stocks,
+                'unit_price' => $data->unit_price,
+            ]
 
+        );
         if ($request->wantsJson()) {
             return new SupplyListResource($data);
         }

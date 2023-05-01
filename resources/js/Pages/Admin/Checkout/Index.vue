@@ -47,7 +47,7 @@ const updateQuantity = () => {
   const existingIndex = toCheckout.value.findIndex(
     (existingItem) => existingItem.id === currentSelected.value.id
   );
-  if (currentSelected.value.stocks > quantity.value && quantity.value > 0 ) {
+  if (currentSelected.value.stocks >= quantity.value && quantity.value > 0 ) {
     if (existingIndex >= 0) {
       const existingItem = toCheckout.value[existingIndex];
       existingItem.quantity = parseInt(quantity.value, 10);

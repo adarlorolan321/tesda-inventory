@@ -2,6 +2,9 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import Navigation from "./Navigation/Navigation.vue";
 import axios from "axios";
+import toastr from "toastr";
+
+
 export default {
   layout: AdminLayout,
   components: {
@@ -25,6 +28,7 @@ export default {
         .then((response) => {
           // Handle successful response
           console.log(response.data);
+          toastr.success("Record saved");
           this.form = {
             current_password: null,
             password: null,

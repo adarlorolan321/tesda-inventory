@@ -424,6 +424,18 @@ let {
             </th>
 
             <th class="sortable" @click="handleServerQuery('sort', 'item_name')">
+              Description
+              <i
+                class="ti ti-arrow-up"
+                v-if="serverQuery.sort == 'item_name' && serverQuery.order == 'desc'"
+              ></i>
+              <i
+                class="ti ti-arrow-down"
+                v-if="serverQuery.sort == 'item_name' && serverQuery.order == 'asc'"
+              ></i>
+            </th>
+
+            <th class="sortable" @click="handleServerQuery('sort', 'item_name')">
               Supplier
               <i
                 class="ti ti-arrow-up"
@@ -522,6 +534,7 @@ let {
           
           <tr v-for="tableData in paginatedData.data" :key="tableData">
             <td>{{ tableData.label }}</td>
+            <td>{{ tableData.description }}</td>
             <td>{{ tableData.supplier ? tableData.supplier.full_name : "" }}</td>
             <td>{{ tableData.item_code }}</td>
             <td>{{ tableData.stocks }}</td>

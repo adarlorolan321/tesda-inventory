@@ -125,8 +125,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
        
     });
     Route::resource('checkout_histories', CheckoutHistoryController::class);
-    Route::get('print_checkout', [CheckoutHistoryController::class, 'printCheckout'])->name('print_checkout');
-    Route::get('print_supply_history', [SupplyHistoryController::class, 'printSupplyHistory'])->name('print_supply_history');
+    Route::post('print_checkout', [CheckoutHistoryController::class, 'printCheckout'])->name('print_checkout');
+    Route::post('print_supply_history', [SupplyHistoryController::class, 'printSupplyHistory'])->name('print_supply_history');
     
     Route::resource('user-details', ProfileController::class);
     Route::patch('profile/{id}', [UserController::class, 'update'])->name('profile.update');

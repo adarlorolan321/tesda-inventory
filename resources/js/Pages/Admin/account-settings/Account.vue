@@ -2,6 +2,7 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import Navigation from "./Navigation/Navigation.vue";
 import { usePage, Head } from "@inertiajs/vue3";
+import toastr from "toastr";
 import axios from "axios";
 export default {
   layout: AdminLayout,
@@ -22,6 +23,7 @@ export default {
         position: this.user ? this.user.position : "",
         department: this.user ? this.user.department : "",
         role: this.user ? this.user.role : "",
+        errors:[]
       },
     };
   },
@@ -31,10 +33,12 @@ export default {
         .patch(`/profile/${this.user.id}`, this.form)
         .then((response) => {
           // Handle successful response
+          toastr.success("Record saved");
           console.log(response.data);
         })
         .catch((error) => {
           // Handle error response
+          toastr.warning("Review feilds and try again");
           console.log(error);
         });
     },

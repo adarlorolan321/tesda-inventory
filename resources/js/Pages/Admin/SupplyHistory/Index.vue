@@ -13,16 +13,36 @@ import { useValidateForm } from "@/Composables/Validate.js";
 import { usePage, Head } from "@inertiajs/vue3";
 
 const { props } = usePage();
-let suppliers = ref([]);
-onMounted(() => {
-  getSuppliers()
-    .then((data) => {
-      suppliers = data.data;
+
+
+const paginatedDataWithoutCircularRef = JSON.parse(JSON.stringify(props.data.data));
+const print = () => {
+  axios
+    .post(
+      "/print_supply_history",
+      {
+        paginatedData: paginatedDataWithoutCircularRef,
+      },
+      {
+        responseType: "blob", // set response type to blob
+      }
+    )
+    .then((response) => {
+      // Create a URL for the blob object
+      const url = URL.createObjectURL(
+        new Blob([response.data], { type: "application/pdf" })
+      );
+
+      // Open the URL in a new tab
+      window.open(url, "_blank");
+
+      // Release the URL object when it's no longer needed
+      setTimeout(() => URL.revokeObjectURL(url), 0);
     })
     .catch((error) => {
-      console.error(error);
+      console.log(error);
     });
-});
+};
 
 const formObject = {
   label: null,
@@ -124,7 +144,7 @@ let {
         <h5 class="card-title">Stock History</h5>
       </div>
       <a
-        :href="route('print_supply_history', { history: paginatedData.data })"
+        @click="print"
         target="_blank"
         class="btn btn-primary"
         type="button"

@@ -149,7 +149,9 @@ class SupplyHistoryController extends Controller
     }
     public function printSupplyHistory(Request $request)
     {
-        $data = $request->input('history');
+
+       
+        $data = $request->input('paginatedData');
         //   dd($data[0]);
         // // Generate the PDF report
         $pdf = PDF::loadView('supplyhistory', compact('data'));
