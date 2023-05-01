@@ -3,7 +3,7 @@ import axios from 'axios'
 import { debounce } from "lodash";
 import { ref, computed, onMounted } from "vue";
 import toastr from "toastr";
-import { data } from "jquery";
+import { data, error } from "jquery";
 // import Swal from "sweetalert2";
 
 export function useCrud(
@@ -175,6 +175,9 @@ export function useCrud(
                     hideOffCanvas();
                 }
             },
+            onError: (error) => {
+                toastr.error(`An error occurred: ${error.unit_price}`);
+              }
         });
     };
     const updatePromise = async () => {
