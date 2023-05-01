@@ -78,6 +78,7 @@ class SemiExpandableController extends Controller
      */
     public function store(StoreSupplyRequest $request)
     {
+        dd($request);
         $data = Supply::create($request->validated());
         sleep(1);
         SupplyHistory::create(
@@ -145,10 +146,19 @@ class SemiExpandableController extends Controller
 
     public function addStocks(UpdateSupplyRequest $request, string $id)
     {
-
         $data = Supply::findOrFail($id);
         $currentStocks = $data->stocks;
         $currentUnitPrice = $data->unit_price;
+        SupplyHistory::create(
+            [
+                'user_id' => auth()->user()->id,
+                'supply_id' => $data->id,
+                'quantity' => $data->stocks,
+                'unit_price' => $request->unit_price,
+            ]
+
+        );
+
 
         $totalCurrentUnitPrice = ($currentStocks * $currentUnitPrice) + ($request->validated()['stocks'] * $request->validated()['unit_price']);
 

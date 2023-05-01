@@ -81,6 +81,7 @@ class PpeController extends Controller
     {
         $data = Supply::create($request->validated());
         sleep(1);
+
         SupplyHistory::create(
             [
                 'user_id' => auth()->user()->id,
@@ -90,6 +91,7 @@ class PpeController extends Controller
             ]
 
         );
+
         if ($request->wantsJson()) {
             return new SupplyListResource($data);
         }
@@ -132,6 +134,16 @@ class PpeController extends Controller
         $data = Supply::findOrFail($id);
         $currentStocks = $data->stocks;
         $currentUnitPrice = $data->unit_price;
+        SupplyHistory::create(
+            [
+                'user_id' => auth()->user()->id,
+                'supply_id' => $data->id,
+                'quantity' => $data->stocks,
+                'unit_price' => $request->unit_price,
+            ]
+
+        );
+
 
         $totalCurrentUnitPrice = ($currentStocks * $currentUnitPrice) + ($request->validated()['stocks'] * $request->validated()['unit_price']);
 
@@ -155,7 +167,6 @@ class PpeController extends Controller
 
         return redirect()->back();
     }
-
     /**
      * Update the specified resource in storage.
      */
