@@ -65,7 +65,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::get('validate/{type}', [UserController::class, 'validateInput'])->name('validate');
 
             // Profile Controller
-            Route::get('print', [SupplyController::class, 'print'])->name('print');
+           
             Route::patch('supplies/{id}/addStocks', [SupplyController::class, 'addStocks'])->name('supplies.addStocks');
             Route::patch('ppes/{id}/addStocks', [PpeController::class, 'addStocks'])->name('ppes.addStocks');
             Route::patch('semi_expandables/{id}/addStocks', [SemiExpandableController::class, 'addStocks'])->name('semi_expandables.addStocks');
@@ -127,7 +127,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::resource('checkout_histories', CheckoutHistoryController::class);
     Route::post('print_checkout', [CheckoutHistoryController::class, 'printCheckout'])->name('print_checkout');
     Route::post('print_supply_history', [SupplyHistoryController::class, 'printSupplyHistory'])->name('print_supply_history');
-    
+    Route::post('print_supplies', [SupplyController::class, 'print'])->name('print_supplies');
     Route::resource('user-details', ProfileController::class);
     Route::patch('profile/{id}', [UserController::class, 'update'])->name('profile.update');
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');

@@ -67,9 +67,12 @@ class SupplyController extends Controller
 
     public function print(Request $request)
     {
-        $data = $request->input('supplies');
-        //   dd($data[0]->label);
-        // Generate the PDF report
+       
+
+        $data = $request->input('paginatedData');
+        //   dd($data[0]);
+        // // Generate the PDF report
+        // dd($data);
         $pdf = PDF::loadView('report', compact('data'));
         return $pdf->stream('report.pdf');
     }
