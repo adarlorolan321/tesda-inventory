@@ -99,19 +99,36 @@ let {
         <div class="col-auto">
           <div class="d-flex flex-row gap-3">
             <div class="d-flex gap-2 align-items-center">
-              <div class="flex-1">
-                <div class="input-group input-group-merge">
-                  <span class="input-group-text" id="basic-addon-search31"
-                    ><i class="ti ti-search"></i
-                  ></span>
-                  <input
-                    type="search"
-                    placeholder="Search"
-                    class="form-control"
-                    :value="serverQuery.query"
-                    @input="handleServerQuery('query', $event.target.value)"
-                  />
-                </div>
+              <div class="input-group input-group-merge">
+                <input
+                  type="date"
+                  placeholder="Search"
+                  class="form-control"
+                  :value="serverQuery.query_date_from"
+                  @input="handleServerQuery('query_date_from', $event.target.value)"
+                />
+              </div>
+              -
+              <div class="input-group input-group-merge">
+                <input
+                  type="date"
+                  placeholder="Search"
+                  class="form-control"
+                  :value="serverQuery.query_date_to"
+                  @input="handleServerQuery('query_date_to', $event.target.value)"
+                />
+              </div>
+              <div class="input-group input-group-merge">
+                <span class="input-group-text" id="basic-addon-search31"
+                  ><i class="ti ti-search"></i
+                ></span>
+                <input
+                  type="search"
+                  placeholder="Search"
+                  class="form-control"
+                  :value="serverQuery.query"
+                  @input="handleServerQuery('query', $event.target.value)"
+                />
               </div>
             </div>
           </div>

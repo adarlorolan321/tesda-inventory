@@ -162,7 +162,7 @@ let {
           <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
             <div class="form-group mb-3">
               <div class="form-group mb-3">
-                <label for="name">Suplier <span class="required">*</span></label>
+                <label for="name">Supplier <span class="required">*</span></label>
                 <select placeholder="Supplier" class="form-select" v-model="form.supplier_id">
                   <option v-for="i in suppliers" :value="i.id">
                     {{ i.full_name }}

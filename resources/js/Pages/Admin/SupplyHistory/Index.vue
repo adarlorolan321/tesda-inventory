@@ -14,7 +14,6 @@ import { usePage, Head } from "@inertiajs/vue3";
 
 const { props } = usePage();
 
-
 const paginatedDataWithoutCircularRef = JSON.parse(JSON.stringify(props.data.data));
 const print = () => {
   axios
@@ -143,12 +142,7 @@ let {
       <div class="card-action-title align-items-center">
         <h5 class="card-title">Stock History</h5>
       </div>
-      <a
-        @click="print"
-        target="_blank"
-        class="btn btn-primary"
-        type="button"
-      >
+      <a @click="print" target="_blank" class="btn btn-primary" type="button">
         Print History
       </a>
     </div>
@@ -174,19 +168,36 @@ let {
         <div class="col-auto">
           <div class="d-flex flex-row gap-3">
             <div class="d-flex gap-2 align-items-center">
-              <div class="flex-1">
-                <div class="input-group input-group-merge">
-                  <span class="input-group-text" id="basic-addon-search31"
-                    ><i class="ti ti-search"></i
-                  ></span>
-                  <input
-                    type="search"
-                    placeholder="Search"
-                    class="form-control"
-                    :value="serverQuery.query"
-                    @input="handleServerQuery('query', $event.target.value)"
-                  />
-                </div>
+              <div class="input-group input-group-merge">
+                <input
+                  type="date"
+                  placeholder="Search"
+                  class="form-control"
+                  :value="serverQuery.query_date_from"
+                  @input="handleServerQuery('query_date_from', $event.target.value)"
+                />
+              </div>
+              -
+              <div class="input-group input-group-merge">
+                <input
+                  type="date"
+                  placeholder="Search"
+                  class="form-control"
+                  :value="serverQuery.query_date_to"
+                  @input="handleServerQuery('query_date_to', $event.target.value)"
+                />
+              </div>
+              <div class="input-group input-group-merge">
+                <span class="input-group-text" id="basic-addon-search31"
+                  ><i class="ti ti-search"></i
+                ></span>
+                <input
+                  type="search"
+                  placeholder="Search"
+                  class="form-control"
+                  :value="serverQuery.query"
+                  @input="handleServerQuery('query', $event.target.value)"
+                />
               </div>
             </div>
           </div>

@@ -26,6 +26,8 @@ class SupplyHistoryController extends Controller
         $queryString = $request->input('query', null);
         $sort = explode('.', $request->input('sort', 'id'));
         $order = $request->input('order', 'asc');
+        $query_date_from = $request->input('query_date_from', null);
+        $query_date_to = $request->input('query_date_to', null);
 
         $data = SupplyHistory::query()
             ->with(['supply', 'user'])
@@ -36,12 +38,15 @@ class SupplyHistoryController extends Controller
                 $query->whereHas('user', function ($subquery) use ($queryString) {
                     $subquery->where('name', 'like', '%' . $queryString . '%');
                 });
-                $query->orwhere('quantity', 'like', '%' . $queryString . '%');
+                $query->orWhere('quantity', 'like', '%' . $queryString . '%');
                 $query->orWhere('unit_price', 'like', '%' . $queryString . '%');
-                $query ->orWhere(DB::raw("(DATE_FORMAT(created_at,'%d/%m/%Y'))"), 'like', '%' . $queryString . '%');
+                $query->orWhere(DB::raw("(DATE_FORMAT(created_at,'%d/%m/%Y'))"), 'like', '%' . $queryString . '%');
             })
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
                 $query->orderBy($sort[0], $order);
+            })
+            ->when($query_date_from && $query_date_to, function ($query) use ($query_date_from, $query_date_to) {
+                $query->whereBetween('created_at', [$query_date_from, $query_date_to]);
             })
             ->paginate($perPage)
             ->withQueryString();
@@ -150,7 +155,7 @@ class SupplyHistoryController extends Controller
     public function printSupplyHistory(Request $request)
     {
 
-       
+
         $data = $request->input('paginatedData');
         //   dd($data[0]);
         // // Generate the PDF report

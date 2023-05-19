@@ -22,13 +22,16 @@ class CheckoutHistoryController extends Controller
      */
     public function index(Request $request)
     {
+       
 
         $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
         $sort = explode('.', $request->input('sort', 'id'));
         $order = $request->input('order', 'asc');
-
+        $query_date_from = $request->input('query_date_from', null);
+        $query_date_to = $request->input('query_date_to', null);
+        
         if (auth()->user()->role == 'Admin') {
             $data = Checkout::query()
                 ->with(['supply', 'user'])
@@ -44,6 +47,9 @@ class CheckoutHistoryController extends Controller
 
                 ->when(count($sort) == 1, function ($query) use ($sort, $order) {
                     $query->orderBy($sort[0], $order);
+                })
+                ->when($query_date_from && $query_date_to, function ($query) use ($query_date_from, $query_date_to) {
+                    $query->whereBetween('created_at', [$query_date_from, $query_date_to]);
                 })
                 ->orderBy('created_at', 'ASC')
                 ->paginate($perPage)

@@ -25,6 +25,8 @@ export function useCrud(
         perPage: 50,
         query: null,
         page: 1,
+        query_date_from: null,
+        query_date_to:null
     });
     const getSuppliers = async () => {
         try {
@@ -66,6 +68,14 @@ export function useCrud(
             if (serverParams.value.service_filter) {
                 serverQuery.value.service_filter =
                     serverParams.value.service_filter;
+            }
+            if (serverParams.value.query_date_from) {
+                serverQuery.value.query_date_from =
+                    serverParams.value.query_date_from;
+            }
+            if (serverParams.value.query_date_to) {
+                serverQuery.value.query_date_to =
+                    serverParams.value.query_date_to;
             }
         }
     });
