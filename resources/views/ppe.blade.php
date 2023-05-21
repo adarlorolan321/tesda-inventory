@@ -32,7 +32,8 @@
         }
 
         .header {
-            overflow: auto; /* Clear floats */
+            overflow: auto;
+            /* Clear floats */
             margin-bottom: 20px;
         }
 
@@ -57,20 +58,31 @@
             <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('img/1678411.png'))) }}" alt="Logo Left" height="120">
         </div>
     </div>
-    <h1>Supply Report</h1>
+    <h1>PPE Stock Report</h1>
     <table>
         <thead>
             <tr>
                 <th>Label</th>
+                <th>Description</th>
+                <th>Stocks</th>
+                <th>Date Purchased</th>
+                <th>Supplier Name</th>
                 <th>Quantity</th>
-                <th>Created At</th>
+                <th>Unit Price</th>
             </tr>
         </thead>
         @foreach($data as $item)
         <tr>
             <td>{{ $item['label'] }}</td>
+            <td>{{ $item['description'] }}</td>
             <td>{{ $item['stocks'] }}</td>
-            <td>{{ (new DateTime($item['created_at']))->format('d/m/Y') }}</td>
+            <td>{{ $item['date_purchased'] }}</td>
+            <td>{{ $item['supplier']['full_name'] }}</td>
+
+
+
+            <td>{{ $item['quantity']}}</td>
+            <td>{{ $item['unit_price']}}</td>
         </tr>
         @endforeach
     </table>

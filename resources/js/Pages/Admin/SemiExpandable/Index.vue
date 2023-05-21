@@ -42,7 +42,34 @@ const formObject = {
   date_purchased: null,
   supplier_id: null,
 };
+const paginatedDataWithoutCircularRef = JSON.parse(JSON.stringify(props.data.data));
+const print = () => {
+  axios
+    .post(
+      "/print_semiexpendable",
+      {
+        paginatedData: paginatedDataWithoutCircularRef,
+      },
+      {
+        responseType: "blob", // set response type to blob
+      }
+    )
+    .then((response) => {
+      // Create a URL for the blob object
+      const url = URL.createObjectURL(
+        new Blob([response.data], { type: "application/pdf" })
+      );
 
+      // Open the URL in a new tab
+      window.open(url, "_blank");
+
+      // Release the URL object when it's no longer needed
+      setTimeout(() => URL.revokeObjectURL(url), 0);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 const { validateForm } = useValidateForm();
 
 const routeName = "user.semi_expandables";
@@ -122,9 +149,13 @@ let {
   </div>
   <div class="card card-action">
     <div class="card-header">
-      <div class="card-action-title align-items-center">
+      <div class="mr-2 card-action-title align-items-center">
         <h5 class="card-title">Semi Expendables</h5>
       </div>
+      <button @click="print" target="_blank" class="me-2 btn btn-primary" type="button">
+        Print Semi Expendables
+      </button>
+      
       <div class="card-action-element">
         <button
           class="btn btn-primary"

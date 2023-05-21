@@ -32,26 +32,30 @@
         }
 
         .header {
-            display: flex;
-            justify-content: space-between;
+            overflow: auto; /* Clear floats */
             margin-bottom: 20px;
         }
 
-        .header .title {
-            font-size: 24px;
-            font-weight: bold;
+        .header .logo-left {
+            text-align: center;
         }
 
-        .header .date {
-            text-align: right;
+        .footer {
+            margin-top: 50px;
+            text-align: left;
+        }
+
+        .footer p {
+            margin: 5px 0;
         }
     </style>
 </head>
 
 <body>
     <div class="header">
-        <div class="title">Tesda</div>
-        <div class="date">Date: {{ date('F d, Y') }}</div>
+        <div class="logo-left">
+            <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('img/1678411.png'))) }}" alt="Logo Left" height="120">
+        </div>
     </div>
     <h1>Stock History Report</h1>
     <table>
@@ -74,6 +78,15 @@
         </tr>
         @endforeach
     </table>
+
+    <div class="footer">
+        <p>Received By: _________________________</p>
+        <p>Issued By: ____________________________</p>
+    </div>
 </body>
 
 </html>
+
+
+
+

@@ -15,6 +15,7 @@ use App\Models\Supplyhistory\SupplyHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use PDF;    
 
 class SemiExpandableController extends Controller
 {
@@ -197,5 +198,15 @@ class SemiExpandableController extends Controller
             return response(null, 204);
         }
         return redirect()->back();
+    }
+    public function print(Request $request)
+    {
+
+
+        $data = $request->input('paginatedData');
+        //   dd($data[0]);
+        // // Generate the PDF report
+        $pdf = PDF::loadView('semiexpendible', compact('data'));
+        return $pdf->stream('semiexpendible.pdf');
     }
 }

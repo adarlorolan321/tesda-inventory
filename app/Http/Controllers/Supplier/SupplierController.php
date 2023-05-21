@@ -10,6 +10,8 @@ use App\Http\Requests\Supplier\UpdateSupplierRequest;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use PDF;
+
 
 class SupplierController extends Controller
 {
@@ -140,5 +142,15 @@ class SupplierController extends Controller
             return response(null, 204);
         }
         return redirect()->back();
+    }
+    public function print(Request $request)
+    {
+
+
+        $data = $request->input('paginatedData');
+        //   dd($data[0]);
+        // // Generate the PDF report
+        $pdf = PDF::loadView('supplier', compact('data'));
+        return $pdf->stream('supplier.pdf');
     }
 }

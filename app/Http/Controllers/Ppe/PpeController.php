@@ -15,7 +15,7 @@ use App\Models\Supplyhistory\SupplyHistory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
-
+use PDF;
 
 class PpeController extends Controller
 {
@@ -200,5 +200,16 @@ class PpeController extends Controller
             return response(null, 204);
         }
         return redirect()->back();
+    }
+
+    public function print(Request $request)
+    {
+
+
+        $data = $request->input('paginatedData');
+        //   dd($data[0]);
+        // // Generate the PDF report
+        $pdf = PDF::loadView('ppe', compact('data'));
+        return $pdf->stream('ppe.pdf');
     }
 }

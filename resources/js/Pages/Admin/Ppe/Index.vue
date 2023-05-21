@@ -17,20 +17,47 @@ let suppliers = ref([]);
 onMounted(() => {
   getSuppliers()
     .then((data) => {
-      suppliers = data.data;    
+      suppliers = data.data;
     })
     .catch((error) => {
       console.error(error);
     });
 });
 
-const minValue = (val) =>{
-console.log(val)
-if(val < 50000){
-  form.errors.unit_price = 'You can`t enter value below 50,000'
-}
-}
+const minValue = (val) => {
+  console.log(val);
+  if (val < 50000) {
+    form.errors.unit_price = "You can`t enter value below 50,000";
+  }
+};
+const paginatedDataWithoutCircularRef = JSON.parse(JSON.stringify(props.data.data));
+const print = () => {
+  axios
+    .post(
+      "/print_ppe",
+      {
+        paginatedData: paginatedDataWithoutCircularRef,
+      },
+      {
+        responseType: "blob", // set response type to blob
+      }
+    )
+    .then((response) => {
+      // Create a URL for the blob object
+      const url = URL.createObjectURL(
+        new Blob([response.data], { type: "application/pdf" })
+      );
 
+      // Open the URL in a new tab
+      window.open(url, "_blank");
+
+      // Release the URL object when it's no longer needed
+      setTimeout(() => URL.revokeObjectURL(url), 0);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 const formObject = {
   label: null,
   type: "Ppe",
@@ -74,11 +101,12 @@ let {
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
   >
-  <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document">
       <div class="modal-content">
-
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Stocks( {{ form.label }} )</h5>
+          <h5 class="modal-title" id="exampleModalLabel">
+            Add Stocks( {{ form.label }} )
+          </h5>
           <button
             type="button"
             class="btn-close"
@@ -87,42 +115,52 @@ let {
           ></button>
         </div>
         <div class="modal-body">
-            <div class="form-group mb-3">
-              <label for="name">Stocks <span class="required">*</span></label>
-              <input
-                type="number"
-                id="label"
-                class="form-control"
-                v-model="form.stocks"
-                placeholder="Enter stocks"
-              />
-            </div>
-            <div class="form-group mb-3">
-              <label for="name">Unit Price <span class="required">*</span></label>
-              <input
-                type="number"
-                id="label"
-                class="form-control"
-                v-model="form.unit_price"
-                placeholder="Enter stocks"
-              />
-            </div>
-        
+          <div class="form-group mb-3">
+            <label for="name">Stocks <span class="required">*</span></label>
+            <input
+              type="number"
+              id="label"
+              class="form-control"
+              v-model="form.stocks"
+              placeholder="Enter stocks"
+            />
+          </div>
+          <div class="form-group mb-3">
+            <label for="name">Unit Price <span class="required">*</span></label>
+            <input
+              type="number"
+              id="label"
+              class="form-control"
+              v-model="form.unit_price"
+              placeholder="Enter stocks"
+            />
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
             Close
           </button>
-          <button type="button"  @click="updateStocksPromise" data-bs-dismiss="modal" class="btn btn-primary">Save changes</button>
+          <button
+            type="button"
+            @click="updateStocksPromise"
+            data-bs-dismiss="modal"
+            class="btn btn-primary"
+          >
+            Save changes
+          </button>
         </div>
       </div>
     </div>
   </div>
   <div class="card card-action">
     <div class="card-header">
-      <div class="card-action-title align-items-center">
+      <div class="mr-2 card-action-title align-items-center">
         <h5 class="card-title">PPEs</h5>
       </div>
+      <button @click="print" target="_blank" class="me-2 btn btn-primary" type="button">
+        Print PPe
+      </button>
+
       <div class="card-action-element">
         <button
           class="btn btn-primary"
@@ -156,19 +194,15 @@ let {
           </div>
           <div class="offcanvas-body mt-4 mx-0 flex-grow-0">
             <div class="form-group mb-3">
-            <div class="form-group mb-3">
-              <label for="name">Suplier <span class="required">*</span></label>
-              <select
-                class="form-select"
-                v-model="form.supplier_id"
-             
-              >
-                <option v-for="i in suppliers" :value="i.id">
-                  {{ i.full_name }}
-                </option>
-              </select>
-              <label for="name">Property Number <span class="required">*</span></label>
-</div>
+              <div class="form-group mb-3">
+                <label for="name">Suplier <span class="required">*</span></label>
+                <select class="form-select" v-model="form.supplier_id">
+                  <option v-for="i in suppliers" :value="i.id">
+                    {{ i.full_name }}
+                  </option>
+                </select>
+                <label for="name">Property Number <span class="required">*</span></label>
+              </div>
 
               <input
                 type="text"
@@ -258,7 +292,7 @@ let {
                 {{ form.errors.stock }}
               </div>
             </div>
-            
+
             <div class="form-group mb-3">
               <label for="name">Unit Price <span class="required">*</span></label>
               <input
@@ -269,7 +303,8 @@ let {
                 @input="
                   ($event) => {
                     form.clearErrors('unit_price');
-                    validateForm(['required'], form, $event.target.value, 'unit_price'),minValue($event.target.value);
+                    validateForm(['required'], form, $event.target.value, 'unit_price'),
+                      minValue($event.target.value);
                   }
                 "
                 placeholder="Enter Unit Price"
@@ -281,7 +316,7 @@ let {
                 {{ form.errors.unit_price }}
               </div>
             </div>
-            
+
             <div class="form-group mb-3">
               <label for="name">Date Purchased <span class="required">*</span></label>
               <input
@@ -470,7 +505,7 @@ let {
                 v-if="serverQuery.sort == 'total_price' && serverQuery.order == 'asc'"
               ></i>
             </th>
-           
+
             <th
               style="min-width: 200px; width: 30%"
               class="sortable"
@@ -489,20 +524,19 @@ let {
             <th style="width: 150px">Actions</th>
           </tr>
         </thead>
-        
+
         <tbody class="table-border-bottom-0">
-       
           <tr v-if="paginatedData.data.length <= 0">
             <td colspan="999999" class="text-center">No item found</td>
           </tr>
           <tr v-for="tableData in paginatedData.data" :key="tableData">
             <td>{{ tableData.label }}</td>
-            <td>{{ tableData.supplier? tableData.supplier.full_name : '' }}</td>
+            <td>{{ tableData.supplier ? tableData.supplier.full_name : "" }}</td>
             <td>{{ tableData.item_code }}</td>
             <td>{{ tableData.stocks }}</td>
             <td>₱{{ tableData.unit_price }}</td>
-            <td>₱{{ (tableData.stocks  * tableData.unit_price ) }}</td>
-            
+            <td>₱{{ tableData.stocks * tableData.unit_price }}</td>
+
             <td>{{ tableData.date_purchased }}</td>
 
             <td>

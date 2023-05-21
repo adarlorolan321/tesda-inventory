@@ -134,4 +134,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('profile/change-password', [ProfileController::class, 'changePasswordIndex'])->name('profile.change_password');
     Route::post('profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.changePassword');
     
+
+    Route::post('print_supplier', [SupplierController::class, 'print'])->name('print_supplier');
+    Route::post('print_ppe', [PpeController::class, 'print'])->name('print_ppe');
+    Route::post('print_semiexpendable', [SemiExpandableController::class, 'print'])->name('print_semiexpendable');
 });
