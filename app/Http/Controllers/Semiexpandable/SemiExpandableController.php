@@ -79,7 +79,6 @@ class SemiExpandableController extends Controller
      */
     public function store(StoreSupplyRequest $request)
     {
-        dd($request);
         $data = Supply::create($request->validated());
         sleep(1);
         SupplyHistory::create(
