@@ -25,7 +25,7 @@
         </div>
 
         <div class="menu-inner-shadow"></div>
-        {{ $page.props.auth.user.role }}
+  
         <ul class="menu-inner py-1">
       
           <!-- Page -->
@@ -285,7 +285,7 @@ onMounted(() => {
 
 const logout = () => {
   router.post(route("logout"));
-  
+
 };
 const lowItems = ref([]);
 
@@ -294,7 +294,7 @@ const getLowItems = async () => {
     const response = await axios.get(route("getLowItem"));
     lowItems.value = response.data;
   } catch (error) {
-    // Handle error
+   
   }
 };
 </script>
