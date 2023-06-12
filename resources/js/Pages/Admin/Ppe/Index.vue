@@ -30,34 +30,7 @@ const minValue = (val) => {
     form.errors.unit_price = "You can`t enter value below 50,000";
   }
 };
-const paginatedDataWithoutCircularRef = JSON.parse(JSON.stringify(props.data.data));
-const print = () => {
-  axios
-    .post(
-      "/print_ppe",
-      {
-        paginatedData: paginatedDataWithoutCircularRef,
-      },
-      {
-        responseType: "blob", // set response type to blob
-      }
-    )
-    .then((response) => {
-      // Create a URL for the blob object
-      const url = URL.createObjectURL(
-        new Blob([response.data], { type: "application/pdf" })
-      );
 
-      // Open the URL in a new tab
-      window.open(url, "_blank");
-
-      // Release the URL object when it's no longer needed
-      setTimeout(() => URL.revokeObjectURL(url), 0);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
 const formObject = {
   label: null,
   type: "Ppe",
@@ -72,7 +45,7 @@ const formObject = {
 };
 
 const { validateForm } = useValidateForm();
-
+const printRoute = "print_ppe";
 const routeName = "user.ppes";
 let {
   isLoadingComponents,
@@ -84,12 +57,13 @@ let {
   handleCreate,
   serverQuery,
   handleServerQuery,
+  print,
   handleEdit,
   handleEditStocks,
   formState,
   getSuppliers,
   updateStocksPromise,
-} = useCrud(formObject, routeName);
+} = useCrud(formObject, routeName,printRoute);
 </script>
 
 <template>

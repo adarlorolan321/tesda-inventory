@@ -15,33 +15,33 @@ import { usePage, Head } from "@inertiajs/vue3";
 const { props } = usePage();
 
 const paginatedDataWithoutCircularRef = JSON.parse(JSON.stringify(props.data.data));
-const print = () => {
-  axios
-    .post(
-      "/print_supply_history",
-      {
-        paginatedData: paginatedDataWithoutCircularRef,
-      },
-      {
-        responseType: "blob", // set response type to blob
-      }
-    )
-    .then((response) => {
-      // Create a URL for the blob object
-      const url = URL.createObjectURL(
-        new Blob([response.data], { type: "application/pdf" })
-      );
+// const print = () => {
+//   axios
+//     .post(
+//       "/print_supply_history",
+//       {
+//         paginatedData: paginatedDataWithoutCircularRef,
+//       },
+//       {
+//         responseType: "blob", // set response type to blob
+//       }
+//     )
+//     .then((response) => {
+//       // Create a URL for the blob object
+//       const url = URL.createObjectURL(
+//         new Blob([response.data], { type: "application/pdf" })
+//       );
 
-      // Open the URL in a new tab
-      window.open(url, "_blank");
+//       // Open the URL in a new tab
+//       window.open(url, "_blank");
 
-      // Release the URL object when it's no longer needed
-      setTimeout(() => URL.revokeObjectURL(url), 0);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
+//       // Release the URL object when it's no longer needed
+//       setTimeout(() => URL.revokeObjectURL(url), 0);
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+// };
 
 const formObject = {
   label: null,
@@ -59,6 +59,7 @@ const formObject = {
 const { validateForm } = useValidateForm();
 
 const routeName = "user.supply_histories";
+const printRoute = "print_supply_history";
 let {
   isLoadingComponents,
   paginatedData,
@@ -68,6 +69,7 @@ let {
   deletePromise,
   handleCreate,
   serverQuery,
+  print,
   handleServerQuery,
   handleEdit,
   formState,
@@ -75,7 +77,7 @@ let {
   handleEditStocks,
   updateStocksPromise,
   modalOff,
-} = useCrud(formObject, routeName);
+} = useCrud(formObject, routeName, printRoute);
 </script>
 
 <template>

@@ -9,11 +9,12 @@ import { data, error } from "jquery";
 export function useCrud(
     formObject = {},
     routeName,
+    printRoute,
     routeIndex = null,
     redirect = null
 ) {
     const modalOff = ref(false);
-    
+
     const form = useForm(formObject);
     const formState = ref("create");
     const paginatedData = computed(() => usePage().props.data);
@@ -26,7 +27,7 @@ export function useCrud(
         query: null,
         page: 1,
         query_date_from: null,
-        query_date_to:null
+        query_date_to: null
     });
     const getSuppliers = async () => {
         try {
@@ -38,8 +39,8 @@ export function useCrud(
         }
     }
     onMounted(() => {
-        getSuppliers().then((data)=>{
-              console.log(data)
+        getSuppliers().then((data) => {
+            console.log(data)
         })
         if (serverParams.value) {
             if (serverParams.value.page) {
@@ -132,6 +133,7 @@ export function useCrud(
         if (routeIndex) {
             routeValue = route(routeIndex.routeName, {
                 id: routeIndex.routeId,
+
             });
         }
 
@@ -146,9 +148,12 @@ export function useCrud(
         router.get(routeValue, params, {
             preserveState: true,
             preventScroll: true,
-            only: ["data", "params"],
+            only: ["data", "params", "props"],
+
         });
+
     }, 500);
+
 
     // Promise
     const createPromise = async () => {
@@ -187,19 +192,19 @@ export function useCrud(
             },
             onError: (error) => {
                 toastr.error(`An error occurred: ${error.unit_price}`);
-              }
+            }
         });
     };
     const updatePromise = async () => {
         form.clearErrors();
-       
+
         form.patch(route(`${routeName}.update`, form.id), {
             preserveState: true,
             preventScroll: true,
             only: ["data", "params", "errors", "auth"],
             onSuccess: () => {
                 toastr.info("Record updated");
-               
+
                 if (redirect) {
                     router.visit(route(redirect.redirectTo, redirect.id));
                 } else {
@@ -209,7 +214,36 @@ export function useCrud(
             },
         });
     };
+    const print = async () => {
+        console.log('print');
+        // const print = () => {
+        axios
+            .post(
+                `/${printRoute}`,
+                {
+                    paginatedData: usePage().props.data.data,
+                },
+                {
+                    responseType: "blob", // set response type to blob
+                }
+            )
+            .then((response) => {
+                // Create a URL for the blob object
+                const url = URL.createObjectURL(
+                    new Blob([response.data], { type: "application/pdf" })
+                );
 
+                // Open the URL in a new tab
+                window.open(url, "_blank");
+
+                // Release the URL object when it's no longer needed
+                setTimeout(() => URL.revokeObjectURL(url), 0);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    };
     const deletePromise = async (id) => {
         Swal.fire({
             icon: "warning",
@@ -256,14 +290,14 @@ export function useCrud(
 
         for (const key in item) {
             const itemValue = item[key];
-            
+
             if (key === "stocks" || key === "unit_price") {
-              form[key] = 0; // Set the value to 0
+                form[key] = 0; // Set the value to 0
             } else {
-              form[key] = itemValue; // Use the original value
+                form[key] = itemValue; // Use the original value
             }
-          }
-          
+        }
+
         isLoadingComponents.value = false;
         setTimeout(() => {
             isLoadingComponents.value = true;
@@ -306,8 +340,9 @@ export function useCrud(
         serverQuery,
         handleServerQuery,
         formState,
+        print,
         updateStocksPromise,
         getSuppliers,
-        
+
     };
 }

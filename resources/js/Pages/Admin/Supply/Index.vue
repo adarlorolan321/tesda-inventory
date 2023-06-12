@@ -23,34 +23,7 @@ onMounted(() => {
       console.error(error);
     });
 });
-const paginatedDataWithoutCircularRef = JSON.parse(JSON.stringify(props.data.data));
-const print = () => {
-  axios
-    .post(
-      "/print_supplies",
-      {
-        paginatedData: paginatedDataWithoutCircularRef,
-      },
-      {
-        responseType: "blob", // set response type to blob
-      }
-    )
-    .then((response) => {
-      // Create a URL for the blob object
-      const url = URL.createObjectURL(
-        new Blob([response.data], { type: "application/pdf" })
-      );
 
-      // Open the URL in a new tab
-      window.open(url, "_blank");
-
-      // Release the URL object when it's no longer needed
-      setTimeout(() => URL.revokeObjectURL(url), 0);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
 const formObject = {
   label: null,
   type: "",
@@ -65,7 +38,7 @@ const formObject = {
 };
 
 const { validateForm } = useValidateForm();
-
+const printRoute = "print_supplies";
 const routeName = "user.supplies";
 let {
   isLoadingComponents,
@@ -79,11 +52,12 @@ let {
   handleServerQuery,
   handleEdit,
   formState,
+  print,
   getSuppliers,
   handleEditStocks,
   updateStocksPromise,
   modalOff,
-} = useCrud(formObject, routeName);
+} = useCrud(formObject, routeName,printRoute);
 </script>
 
 <template>

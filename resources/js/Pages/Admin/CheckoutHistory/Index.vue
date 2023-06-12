@@ -18,37 +18,9 @@ const formObject = {
   city: null,
   district: null,
 };
-const paginatedDataWithoutCircularRef = JSON.parse(JSON.stringify(props.data.data));
-const print = () => {
-  axios
-    .post(
-      "print_checkout",
-      {
-        paginatedData: paginatedDataWithoutCircularRef,
-      },
-      {
-        responseType: "blob", // set response type to blob
-      }
-    )
-    .then((response) => {
-      // Create a URL for the blob object
-      const url = URL.createObjectURL(
-        new Blob([response.data], { type: "application/pdf" })
-      );
-
-      // Open the URL in a new tab
-      window.open(url, "_blank");
-
-      // Release the URL object when it's no longer needed
-      setTimeout(() => URL.revokeObjectURL(url), 0);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
 
 const { validateForm } = useValidateForm();
-
+const printRoute = "print_checkout";
 const routeName = "checkout_histories";
 let {
   isLoadingComponents,
@@ -58,11 +30,12 @@ let {
   updatePromise,
   deletePromise,
   handleCreate,
+  print,
   serverQuery,
   handleServerQuery,
   handleEdit,
   formState,
-} = useCrud(formObject, routeName);
+} = useCrud(formObject, routeName, printRoute);
 </script>
 
 <template>

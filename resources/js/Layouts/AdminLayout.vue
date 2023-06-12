@@ -25,8 +25,9 @@
         </div>
 
         <div class="menu-inner-shadow"></div>
-
+        {{ $page.props.auth.user.role }}
         <ul class="menu-inner py-1">
+      
           <!-- Page -->
           <template v-for="(menu, index) in menus" :key="'menu-' + index">
             <li v-if="!menu.sub_menu" class="menu-item" >
@@ -284,6 +285,7 @@ onMounted(() => {
 
 const logout = () => {
   router.post(route("logout"));
+  
 };
 const lowItems = ref([]);
 
